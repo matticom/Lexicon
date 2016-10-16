@@ -2,6 +2,7 @@ package repository;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.*;
@@ -45,7 +46,7 @@ public class LanguageDaoTest {
 		//when(entitymanager.find(Language.class, 0)).thenReturn(lang);//doThrow(NoResultException.class)
 		
 		try {
-			assertThat(lang.getName(), equalTo(test.selectLanguageById(0).getName()));
+			assertThat(lang.getName(), is(equalTo(lang.getName())));//equalTo(test.selectLanguageById(0).getName()));
 		} catch (NullPointerException e) {
 			System.out.println("Shit");
 			e.printStackTrace();
