@@ -78,10 +78,7 @@ private EntityManager entitymanager;
 //		if (technicalTerm != null) {
 //			tTermsList = specialty.getTechnicalTermsList();
 //			tTermsList.add(technicalTerm);
-//			tTermsList.add(technicalTerm2);
-//			tTermsList.add(technicalTerm3);
-//			tTermsList.add(technicalTerm4);
-//			
+//						
 //			technicalTerm.setSpecialty(specialty);
 //			entitymanager.persist(technicalTerm);
 //			entitymanager.persist(technicalTerm2);
