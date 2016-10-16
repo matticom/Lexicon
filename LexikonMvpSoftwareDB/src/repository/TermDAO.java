@@ -64,7 +64,7 @@ private EntityManager entitymanager;
 		Language langDE = (new LanguageDAO(entitymanager)).selectLanguageById(2);
 		//List<TechnicalTerm> tTermsList;
 		Specialty specialty = new Specialty();
-		//System.out.println(specialty.getId()+"ddddddddddddddddd");
+		
 		Translation translationES = new Translation(name, description, lang, specialty);
 		Translation translationDE = new Translation(name, description, langDE, specialty);
 		
