@@ -81,9 +81,7 @@ private EntityManager entitymanager;
 //						
 //			technicalTerm.setSpecialty(specialty);
 //			entitymanager.persist(technicalTerm);
-//			entitymanager.persist(technicalTerm2);
-//			entitymanager.persist(technicalTerm3);
-//			entitymanager.persist(technicalTerm4);
+//			
 //		}
 		
 		
