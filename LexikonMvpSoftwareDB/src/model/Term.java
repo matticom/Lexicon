@@ -25,6 +25,7 @@ public abstract class Term
 	private int id;
 	
 	@OneToMany(targetEntity = Translation.class, cascade=CascadeType.ALL, mappedBy="term")
+	@Column(name="TRANSLATION_ID")
 	private List<Translation> 	translationsList;
 		
 	

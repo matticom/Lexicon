@@ -25,10 +25,11 @@ public class Translation
 	private String description;
 	
 	@OneToOne
+	@Column(name="LANGUAGE_ID")
 	private Language language;
 	
 	@ManyToOne()
-//	@JoinColumn(name="TERM_ID", referencedColumnName="TERM_ID")
+	@Column(name="TERM_ID")
 	private Term term;
 	
 		

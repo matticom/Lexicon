@@ -25,7 +25,6 @@ public class Specialty extends Term {
 	}
 
 	
-	
 	public List<TechnicalTerm> getTechnicalTermsList() {
 		return technicalTermList;
 	}
@@ -34,6 +33,7 @@ public class Specialty extends Term {
 		this.technicalTermList = technicalTermList;
 	}
 
+	
 	@Override
 	public int hashCode() {
 		// TODO Auto-generated method stub

@@ -13,7 +13,7 @@ public class TechnicalTerm extends Term
 {
 		
 	@ManyToOne
-	@JoinColumn(name="SPECIALTY_ID")
+	
 	private Specialty 	specialty;
 
 	public Specialty getSpecialty()
