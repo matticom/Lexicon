@@ -57,7 +57,7 @@ public class Language
 
 	@Override
 	public String toString() {
-		return "Sprache : " + getName();
+		return getName().toString();
 	}
 	
 	

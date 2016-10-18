@@ -43,7 +43,7 @@ public class Specialty extends Term {
 	@Override
 	public String toString() {
 		
-		return "Fachgebiet" + getTranslationList();
+		return getTranslationList().toString();
 	}
 
 }

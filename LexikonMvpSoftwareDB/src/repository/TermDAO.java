@@ -40,10 +40,14 @@ private EntityManager entitymanager;
 		try {
 
 			termDao.insertSpecialty("Beton", "fest", langES);
-			Specialty specialty = entitymanager.find(Specialty.class, 51);
+			
+			Specialty specialty = entitymanager.find(Specialty.class, 101);
+			
+			termDao.insertTechnicalTerm("Bewaehrung", "Stahlzeugs", specialty, langES);
+			
 			System.out.println(specialty.getId());
 			System.out.println(specialty.getTranslationList().size());
-			//System.out.println("iiiiiiiiiiiiiiiiiiiiiiiinfo" + specialty);
+			System.out.println("iiiiiiiiiiiiiiiiiiiiiiiinfo" + specialty);
 			
 
 		} catch (NoResultException e) {
@@ -59,8 +63,7 @@ private EntityManager entitymanager;
 	}
 
 	public void insertSpecialty(String name, String description, Language lang) {
-		
-		
+				
 		Language langDE = (new LanguageDAO(entitymanager)).selectLanguageById(2);
 		//List<TechnicalTerm> tTermsList;
 		Specialty specialty = new Specialty();
@@ -84,28 +87,19 @@ private EntityManager entitymanager;
 //			
 //		}
 		
-		
-				
-		
-		
-		
 		//entitymanager.persist(lang); --> wenn es hinzugefügt werden muss --> BO muss vorher überprüfen, hier zu komplex
-		
-		
 		
 	}
 	
 	public void insertTechnicalTerm(String name, String description, Specialty specialty, Language lang) {
-		
+					
+		TechnicalTerm technicalTerm = new TechnicalTerm();
+				
+		Translation translationES = new Translation(name, description, lang, technicalTerm);
 		
 		List<Translation> transList;
-		Translation translation;
-		
-		TechnicalTerm technicalTerm = new TechnicalTerm();
-		
 		transList = technicalTerm.getTranslationList();
-		translation = new Translation(name, description, lang, technicalTerm);
-		transList.add(translation);
+		transList.add(translationES);
 		
 		if (specialty != null) {
 			technicalTerm.setSpecialty(specialty);
@@ -113,7 +107,7 @@ private EntityManager entitymanager;
 		}
 		
 		entitymanager.persist(technicalTerm);
-		entitymanager.persist(translation);	
+		
 		
 		//entitymanager.persist(lang); --> wenn es hinzugefügt werden muss --> BO muss vorher überprüfen, hier zu komplex
 		//vorher abprüfen: existiert schon sprache, wenn nicht anlegen; existiert schon specialty, wenn nicht anlegen 

@@ -25,11 +25,11 @@ public class Translation
 	private String description;
 	
 	@OneToOne
-	@Column(name="LANGUAGE_ID")
+//	@Column(name="LANGUAGE_ID")
 	private Language language;
 	
 	@ManyToOne()
-	@Column(name="TERM_ID")
+//	@Column(name="TERM_ID")
 	private Term term;
 	
 		
@@ -109,10 +109,15 @@ public class Translation
 	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
-		sb.append("sname : " + getName());
+		if (getTerm() instanceof Specialty) {
+			sb.append("Fachgebietsname : " + getName());
+		} else {
+			sb.append("Begriffsname : " + getName());
+		}
+		
 		sb.append("   Beschreibung : " + getDescription());
 		sb.append("   Sprache : " + getLanguage());
-		sb.append("   ID : " + getTerm());
+		//sb.append("   ID : " + getTerm());
 		return sb.toString();
 	}
 	

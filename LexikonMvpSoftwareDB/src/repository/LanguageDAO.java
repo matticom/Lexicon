@@ -38,8 +38,8 @@ public class LanguageDAO {
 		
 		try {
 			
-			langDAO.insertLanguage("Spanisch");
-			langDAO.insertLanguage("Deutsch");
+			langDAO.insertLanguage("Spanisc");
+			langDAO.insertLanguage("Deutsc");
 			//langDAO.updateLanguageById(1, "Russisch");
 			//langDAO.updateLanguageByName("Russisch", "Deutsche");
 //			System.out.println("---> selectLanguageById: " + langDAO.selectLanguageById(1).getName());
