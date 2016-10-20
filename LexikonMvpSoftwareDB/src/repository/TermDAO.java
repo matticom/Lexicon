@@ -14,11 +14,12 @@ import globals.LanguageAlreadyExists;
 import model.Language;
 import model.Specialty;
 import model.TechnicalTerm;
+import model.Term;
 import model.Translation;
 
 public class TermDAO {
 
-private EntityManager entitymanager;
+	private EntityManager entitymanager;
 	
 	public TermDAO() {}
 	
@@ -62,32 +63,28 @@ private EntityManager entitymanager;
 
 	}
 
+	public EntityManager getEntitymanager() {
+		return entitymanager;
+	}
+
+
+	public void setEntitymanager(EntityManager entitymanager) {
+		this.entitymanager = entitymanager;
+	}
+	
 	public void insertSpecialty(String name, String description, Language lang) {
 				
-		Language langDE = (new LanguageDAO(entitymanager)).selectLanguageById(2);
-		//List<TechnicalTerm> tTermsList;
 		Specialty specialty = new Specialty();
 		
-		Translation translationES = new Translation(name, description, lang, specialty);
-		Translation translationDE = new Translation(name, description, langDE, specialty);
-		
+		Translation translation = new Translation(name, description, lang, specialty);
+				
 		List<Translation> transList;
 		transList = specialty.getTranslationList();
-		transList.add(translationES);
-		transList.add(translationDE);
-		
+		transList.add(translation);
+				
 		entitymanager.persist(specialty);
 		
-//		if (technicalTerm != null) {
-//			tTermsList = specialty.getTechnicalTermsList();
-//			tTermsList.add(technicalTerm);
-//						
-//			technicalTerm.setSpecialty(specialty);
-//			entitymanager.persist(technicalTerm);
-//			
-//		}
-		
-		//entitymanager.persist(lang); --> wenn es hinzugefügt werden muss --> BO muss vorher überprüfen, hier zu komplex
+		entitymanager.persist(lang); //--> wenn es hinzugefügt werden muss --> BO muss vorher überprüfen, hier zu komplex
 		
 	}
 	
@@ -95,11 +92,11 @@ private EntityManager entitymanager;
 					
 		TechnicalTerm technicalTerm = new TechnicalTerm();
 				
-		Translation translationES = new Translation(name, description, lang, technicalTerm);
+		Translation translation = new Translation(name, description, lang, technicalTerm);
 		
 		List<Translation> transList;
 		transList = technicalTerm.getTranslationList();
-		transList.add(translationES);
+		transList.add(translation);
 		
 		if (specialty != null) {
 			technicalTerm.setSpecialty(specialty);
@@ -123,14 +120,44 @@ private EntityManager entitymanager;
 		// public void deleteLinks(specialty.getTechnicalTermsList()) aus BO --> technicalterm suchen, verweis auf Specialty entfernen
 		// --> dann diese Funktion
 		
-		
-//		Language lang = selectLanguageByName(name);
+//		Specialty specialty = selectLanguageByName(name);
 //		entitymanager.remove(lang);
+			
+	}
+	
+	public Specialty selectSpecialtyById(int id) {
 		
+		Specialty specialty = entitymanager.find(Specialty.class, id);
+		if (specialty == null) {
+			throw new NoResultException("Specialty ID ist nicht vorhanden!");
+		}
+				
+		return specialty;
 		
 	}
 	
-//	public TechnicalTermDataset selectTechnicalTerm(String name, Language language) throws NoResultException {
+	public Term selectTechnicalTermById(int id) {
+		
+		Term specialty = entitymanager.find(Term.class, id);
+		if (specialty == null) {
+			throw new NoResultException("Specialty ID ist nicht vorhanden!");
+		}
+				
+		return specialty;
+		
+	}
+		
+	public Language selectLanguageByName(String name) throws NoResultException {
+		
+		Query query = entitymanager.createQuery("Select lang " + "from Language lang " + "where lang.name LIKE '" + name + "'");
+		Language lang = (Language) query.getSingleResult();
+		
+		return lang;
+	}
+	
+//	nächsthöhere Ebene:
+	
+//	public TechnicalTermDataset selectTechnicalTerm(String name, Language language) throws NoResultException {  
 //		
 //		Query query = entitymanager.createQuery("Select translation " + "from Translation translation " + "where lang.name LIKE '" + name + "' and ");
 //		Language lang = (Language) query.getSingleResult();
