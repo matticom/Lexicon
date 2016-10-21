@@ -14,7 +14,6 @@ import globals.LanguageAlreadyExists;
 import model.Language;
 import model.Specialty;
 import model.TechnicalTerm;
-import model.Term;
 import model.Translation;
 
 public class TermDAO {
@@ -136,23 +135,33 @@ public class TermDAO {
 		
 	}
 	
-	public Term selectTechnicalTermById(int id) {
+	public TechnicalTerm selectTechnicalTermById(int id) {
 		
-		Term specialty = entitymanager.find(Term.class, id);
-		if (specialty == null) {
-			throw new NoResultException("Specialty ID ist nicht vorhanden!");
+		TechnicalTerm technicalTerm = entitymanager.find(TechnicalTerm.class, id);
+		if (technicalTerm == null) {
+			throw new NoResultException("TechnicalTerm ID ist nicht vorhanden!");
 		}
 				
-		return specialty;
+		return technicalTerm;
 		
 	}
 		
-	public Language selectLanguageByName(String name) throws NoResultException {
+	public Specialty selectSpecialtyByName(String name) throws NoResultException {
 		
-		Query query = entitymanager.createQuery("Select lang " + "from Language lang " + "where lang.name LIKE '" + name + "'");
-		Language lang = (Language) query.getSingleResult();
+		Query query = entitymanager.createQuery("Select translation " + "from Translation translation " + "where translation.name LIKE '" + name + "'");
+		Translation translation = (Translation) query.getSingleResult();
 		
-		return lang;
+		Specialty specialty = (Specialty)translation.getTerm();
+		return specialty;
+	}
+	
+	public TechnicalTerm selectTechnicalTermByName(String name) throws NoResultException {
+		
+		Query query = entitymanager.createQuery("Select translation " + "from Translation translation " + "where translation.name LIKE '" + name + "'");
+		Translation translation = (Translation) query.getSingleResult();
+		
+		TechnicalTerm technicalTerm = (TechnicalTerm)translation.getTerm();
+		return technicalTerm;
 	}
 	
 //	nächsthöhere Ebene:

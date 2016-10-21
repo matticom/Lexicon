@@ -13,7 +13,10 @@ import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import globals.LanguageAlreadyExists;
 import model.Language;
@@ -26,53 +29,96 @@ import org.mockito.MockitoAnnotations;
 
 public class TermDAOTest {
 
-	TermDAO test;
-	Specialty specialty;
-	Translation translation;
-	Language language;
+	private static TermDAO test;
+	private Specialty specialty;
+	private Translation translation;
+	private Language language;
+
+	private static EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("Eclipselink_JPA");
+	private static EntityManager entitymanager;
 	
-	EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("Eclipselink_JPA");
-	EntityManager entitymanager = emfactory.createEntityManager();	
+	@BeforeClass
+	public static void prepareForTesting() {
+		
+		entitymanager = emfactory.createEntityManager();
+		test = new TermDAO(entitymanager);
+	}
 
 	@Before
-	public void setup() {
+	public void setupById() {
+
 		
-		test = new TermDAO(entitymanager);
 		
 		language = new Language("Deutsch");
-		
-		
-						
 	}
 
 	@Test
-	public void insertAndSelectSpecialtyTest() 
-	{
+	public void insertAndSelectByIdSpecialtyTest() {
+		
 		entitymanager.getTransaction().begin();
 		test.insertSpecialty("Treppen", "hochgehen", language);
 		entitymanager.getTransaction().commit();
-				
+
 		System.out.println("Insert Done !!!!!!");
-		
+
 		Query query = entitymanager.createQuery("Select translation " + "from Translation translation " + "where translation.name LIKE 'Treppen'");
 		translation = (Translation) query.getSingleResult();
-		
+
 		int translationIdVonSpecialtyTreppe = translation.getId();
 		int specialtyIdVonSpecialtyTreppe = translation.getTerm().getId();
-		
-		specialty = (Specialty)test.selectTechnicalTermById(specialtyIdVonSpecialtyTreppe);
-		
+
+		specialty = test.selectSpecialtyById(specialtyIdVonSpecialtyTreppe);
+
 		String specialtyName = specialty.getTranslationList().get(0).getName();
 		System.out.println(specialtyName);
+
+		assertThat(specialtyName, is(equalTo("Treppen")));// equalTo(test.selectLanguageById(0).getName()));
+
+	}
+	
+	@After
+	public void finishById() {
 		
-		assertThat(specialtyName, is(equalTo("Treppen")));//equalTo(test.selectLanguageById(0).getName()));
 		
+	}
+	
+	@Before
+	public void setupByName() {
+
+		language = new Language("Deutsch");
+	}
+
+	@Test
+	public void insertAndSelectByNameSpecialtyTest() {
+		
+		entitymanager.getTransaction().begin();
+		test.insertSpecialty("Dach", "oben", language);
+		entitymanager.getTransaction().commit();
+
+		System.out.println("Insert2 Done !!!!!!");
+
+		specialty = test.selectSpecialtyByName("Dach");
+
+		String specialtyName = specialty.getTranslationList().get(0).getName();
+		for (Translation t: specialty.getTranslationList())
+			System.out.println(t.toString());
+		System.out.println("\n\n\n\n" + specialtyName);
+
+		assertThat(specialtyName, is(equalTo("Dach")));// equalTo(test.selectLanguageById(0).getName()));
+		
+	}
+
+	@After
+	public void finishByName() {
+		
+		
+	}
+	
+	@AfterClass
+	public static void cleanTesting() {
 		
 		entitymanager.close();
 		emfactory.close();
 	}
-	
-	
-	
 
 }
