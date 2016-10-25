@@ -4,8 +4,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.*;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -13,19 +14,15 @@ import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
+import org.apache.derby.tools.ij;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import globals.LanguageAlreadyExists;
 import model.Language;
 import model.Specialty;
 import model.Translation;
-
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 
 public class TermDAOTest {
 
@@ -103,8 +100,11 @@ public class TermDAOTest {
 		for (Translation t: specialty.getTranslationList())
 			System.out.println(t.toString());
 		System.out.println("\n\n\n\n" + specialtyName);
-
+		Logger log = Logger.getLogger("TermDAOTest.SecondTest");
+		log.logp(Level.FINE, "TermDAOTest", "insertAndSelectByNameSpecialtyTest", "Ist hier vorbei gekommen");
+		log.info(specialtyName);
 		assertThat(specialtyName, is(equalTo("Dach")));// equalTo(test.selectLanguageById(0).getName()));
+//		ij.startJBMS();
 		
 	}
 

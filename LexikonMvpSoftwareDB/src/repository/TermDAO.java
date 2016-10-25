@@ -41,7 +41,7 @@ public class TermDAO {
 
 			termDao.insertSpecialty("Beton", "fest", langES);
 			
-			Specialty specialty = entitymanager.find(Specialty.class, 101);
+			Specialty specialty = entitymanager.find(Specialty.class, 51);
 			
 			termDao.insertTechnicalTerm("Bewaehrung", "Stahlzeugs", specialty, langES);
 			
