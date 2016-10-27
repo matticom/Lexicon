@@ -7,24 +7,24 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Language
+public class Languages
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="LANGUAGE_ID")
+	@Column(name="LANGUAGES_ID")
 	private int id;
 	
-	@Column(name="LANGUAGE_NAME")
+	@Column(name="LANGUAGES_NAME")
 	private String name;
 	
 
-	public Language(String name)
+	public Languages(String name)
 	{
 		this();
 		this.name = name;
 	}
 	
-	public Language()
+	public Languages()
 	{
 		
 	}

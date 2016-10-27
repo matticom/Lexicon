@@ -10,7 +10,7 @@ import javax.persistence.Query;
 import javax.swing.JOptionPane;
 
 import globals.LanguageAlreadyExists;
-import model.Language;
+import model.Languages;
 
 // Probleme: Umlaute/ Groß- und Kleinschreibung egal
 
@@ -38,8 +38,8 @@ public class LanguageDAO {
 		
 		try {
 			
-			langDAO.insertLanguage("Spanisc");
-			langDAO.insertLanguage("Deutsc");
+			langDAO.insertLanguage("Spanisch");
+			langDAO.insertLanguage("Deutsch");
 			//langDAO.updateLanguageById(1, "Russisch");
 			//langDAO.updateLanguageByName("Russisch", "Deutsche");
 //			System.out.println("---> selectLanguageById: " + langDAO.selectLanguageById(1).getName());
@@ -79,7 +79,7 @@ public class LanguageDAO {
 	public void insertLanguage(String name) throws LanguageAlreadyExists {
 		
 		isLanguageAlreadyExisting(name);			
-		Language lang = new Language(name);
+		Languages lang = new Languages(name);
 		entitymanager.persist(lang);			
 			
 	}
@@ -87,13 +87,13 @@ public class LanguageDAO {
 	public void deleteLanguage(String name) throws NoResultException {
 		
 		
-		Language lang = selectLanguageByName(name);
+		Languages lang = selectLanguageByName(name);
 		entitymanager.remove(lang);
 	}
 	
-	public Language selectLanguageById(int id) {
+	public Languages selectLanguageById(int id) {
 		
-		Language lang = entitymanager.find(Language.class, id);
+		Languages lang = entitymanager.find(Languages.class, id);
 		if (lang == null) {
 			throw new NoResultException("Language ID ist nicht vorhanden!");
 		}
@@ -102,10 +102,10 @@ public class LanguageDAO {
 		
 	}
 		
-	public Language selectLanguageByName(String name) throws NoResultException {
+	public Languages selectLanguageByName(String name) throws NoResultException {
 		
 		Query query = entitymanager.createQuery("Select lang " + "from Language lang " + "where lang.name LIKE '" + name + "'");
-		Language lang = (Language) query.getSingleResult();
+		Languages lang = (Languages) query.getSingleResult();
 		
 		return lang;
 	}
@@ -115,7 +115,7 @@ public class LanguageDAO {
 		
 		isLanguageAlreadyExisting(name);
 		System.out.println("bla");
-		Language lang = selectLanguageById(id);
+		Languages lang = selectLanguageById(id);
 		lang.setName(name);
 	
 	}
@@ -123,7 +123,7 @@ public class LanguageDAO {
 	public void updateLanguageByName(String name, String newName) throws NoResultException, LanguageAlreadyExists {
 		
 		isLanguageAlreadyExisting(newName);
-		Language lang = selectLanguageByName(name);
+		Languages lang = selectLanguageByName(name);
 		lang.setName(newName);
 			
 	}

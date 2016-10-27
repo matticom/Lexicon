@@ -6,11 +6,11 @@
    
    <persistence-unit name = "Eclipselink_JPA" transaction-type = "RESOURCE_LOCAL">
             
-      <class>model.Language</class>
+      <class>model.Languages</class>
       <class>model.Specialty</class>
       <class>model.TechnicalTerm</class>
       <class>model.Term</class>
-      <class>model.Translation</class>
+      <class>model.Translations</class>
       
       <properties>
       <property name = "javax.persistence.jdbc.url" value = "jdbc:mysql://localhost:3306/lexiconjpa?serverTimezone=GMT"/>

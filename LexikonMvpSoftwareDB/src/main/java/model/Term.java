@@ -24,22 +24,22 @@ public abstract class Term
 	@Column(name="TERM_ID")
 	private int id;
 	
-	@OneToMany(targetEntity = Translation.class, cascade=CascadeType.ALL, mappedBy="term")
+	@OneToMany(targetEntity = Translations.class, cascade=CascadeType.ALL, mappedBy="term")
 //	@Column(name="TRANSLATION_ID")
-	private List<Translation> 	translationsList;
+	private List<Translations> 	translationsList;
 		
 	
 	public Term()
 	{
-		translationsList = new ArrayList<Translation>();
+		translationsList = new ArrayList<Translations>();
 	}
 	
-	public List<Translation> getTranslationList()
+	public List<Translations> getTranslationList()
 	{
 		return translationsList;
 	}
 	
-	public void setTranslationList(List<Translation> translationsList)
+	public void setTranslationList(List<Translations> translationsList)
 	{
 		this.translationsList = translationsList;
 	}

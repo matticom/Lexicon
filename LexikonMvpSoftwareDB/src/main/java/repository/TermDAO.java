@@ -11,10 +11,10 @@ import javax.swing.JOptionPane;
 
 import TransferObjects.TechnicalTermDataset;
 import globals.LanguageAlreadyExists;
-import model.Language;
+import model.Languages;
 import model.Specialty;
 import model.TechnicalTerm;
-import model.Translation;
+import model.Translations;
 
 public class TermDAO {
 
@@ -33,7 +33,7 @@ public class TermDAO {
 		
 		TermDAO termDao = new TermDAO(entitymanager);
 		
-		Language langES = (new LanguageDAO(entitymanager)).selectLanguageById(1);
+		Languages langES = (new LanguageDAO(entitymanager)).selectLanguageById(1);
 				
 		entitymanager.getTransaction().begin();
 
@@ -71,29 +71,29 @@ public class TermDAO {
 		this.entitymanager = entitymanager;
 	}
 	
-	public void insertSpecialty(String name, String description, Language lang) {
+	public void insertSpecialty(String name, String description, Languages lang) {
 				
 		Specialty specialty = new Specialty();
 		
-		Translation translation = new Translation(name, description, lang, specialty);
+		Translations translation = new Translations(name, description, lang, specialty);
 				
-		List<Translation> transList;
+		List<Translations> transList;
 		transList = specialty.getTranslationList();
 		transList.add(translation);
-				
+		System.out.println("Vor persist specialty");	
 		entitymanager.persist(specialty);
 		
 		entitymanager.persist(lang); //--> wenn es hinzugefügt werden muss --> BO muss vorher überprüfen, hier zu komplex
 		
 	}
 	
-	public void insertTechnicalTerm(String name, String description, Specialty specialty, Language lang) {
+	public void insertTechnicalTerm(String name, String description, Specialty specialty, Languages lang) {
 					
 		TechnicalTerm technicalTerm = new TechnicalTerm();
 				
-		Translation translation = new Translation(name, description, lang, technicalTerm);
+		Translations translation = new Translations(name, description, lang, technicalTerm);
 		
-		List<Translation> transList;
+		List<Translations> transList;
 		transList = technicalTerm.getTranslationList();
 		transList.add(translation);
 		
@@ -149,7 +149,7 @@ public class TermDAO {
 	public Specialty selectSpecialtyByName(String name) throws NoResultException {
 		
 		Query query = entitymanager.createQuery("Select translation " + "from Translation translation " + "where translation.name LIKE '" + name + "'");
-		Translation translation = (Translation) query.getSingleResult();
+		Translations translation = (Translations) query.getSingleResult();
 		
 		Specialty specialty = (Specialty)translation.getTerm();
 		return specialty;
@@ -158,7 +158,7 @@ public class TermDAO {
 	public TechnicalTerm selectTechnicalTermByName(String name) throws NoResultException {
 		
 		Query query = entitymanager.createQuery("Select translation " + "from Translation translation " + "where translation.name LIKE '" + name + "'");
-		Translation translation = (Translation) query.getSingleResult();
+		Translations translation = (Translations) query.getSingleResult();
 		
 		TechnicalTerm technicalTerm = (TechnicalTerm)translation.getTerm();
 		return technicalTerm;

@@ -14,7 +14,7 @@ import javax.persistence.NoResultException;
 import org.junit.Before;
 import org.junit.Test;
 import globals.LanguageAlreadyExists;
-import model.Language;
+import model.Languages;
 
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -23,7 +23,7 @@ import org.mockito.MockitoAnnotations;
 public class LanguageDaoTest {
 
 	LanguageDAO test;
-	Language lang;
+	Languages lang;
 	//@Mock EntityManager entitymanager;
 	@Mock TermDAO testDAO;
 
@@ -32,7 +32,7 @@ public class LanguageDaoTest {
 		test = new LanguageDAO();
 		MockitoAnnotations.initMocks(this);
 		//entitymanager = mock(EntityManager.class);
-		lang = new Language("Deutsch");
+		lang = new Languages("Deutsch");
 		//doThrow(NoResultException.class).when(entitymanager).find(Language.class, anyInt());
 //		doNothing().when(entitymanager).getTransaction().begin();
 //		doNothing().when(entitymanager).getTransaction().commit();

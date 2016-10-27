@@ -5,8 +5,9 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
+import java.io.UnsupportedEncodingException;
+import java.sql.Connection;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -14,31 +15,67 @@ import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
+import org.eclipse.persistence.internal.jpa.EntityManagerImpl;
+
 import org.apache.derby.tools.ij;
+import org.dbunit.database.IDatabaseConnection;
+import org.dbunit.dataset.IDataSet;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import model.Language;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import model.Languages;
 import model.Specialty;
-import model.Translation;
+import model.Translations;
 
 public class TermDAOTest {
 
 	private static TermDAO test;
 	private Specialty specialty;
-	private Translation translation;
-	private Language language;
+	private Translations translation;
+	private Languages language;
+	
+	// +++ new Parts from Tut for InMemoryDB
+	
+	public static final Logger log = LoggerFactory.getLogger(TermDAOTest.class);
+	/** Connection to the database. */
+    private static IDatabaseConnection mDBUnitConnection;
+    /** Test dataset. */
+    private static IDataSet mDataset;
 
-	private static EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("Eclipselink_JPA");
+    /** script to clean up and prepare the DB. */
+    private static String mDDLFileName = "/lexiconjpaDerby.sql";//"/createStudentsDB_DERBY.sql";//"/lexiconjpaDerby.sql";
+
+    // +++ end new Parts
+    
+	private static EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("Eclipselink_JPA_Derby");
 	private static EntityManager entitymanager;
+	
+	
 	
 	@BeforeClass
 	public static void prepareForTesting() {
 		
+		
+		
 		entitymanager = emfactory.createEntityManager();
+		Connection connection = ((EntityManagerImpl) (entitymanager.getDelegate())).getServerSession().getAccessor().getConnection();
+		
+		try {
+			ij.runScript(connection,TermDAOTest.class.getResourceAsStream(mDDLFileName),
+			        "UTF-8", System.out, "UTF-8");
+		} catch (Exception e) {
+			System.out.println("Es wurde eine Exception bei ij geworfen: "+ e.getMessage());
+			e.printStackTrace();
+		}
+		
 		test = new TermDAO(entitymanager);
+		
+		
 	}
 
 	@Before
@@ -46,7 +83,7 @@ public class TermDAOTest {
 
 		
 		
-		language = new Language("Deutsch");
+		language = new Languages("Deutsch");
 	}
 
 	@Test
@@ -59,7 +96,7 @@ public class TermDAOTest {
 		System.out.println("Insert Done !!!!!!");
 
 		Query query = entitymanager.createQuery("Select translation " + "from Translation translation " + "where translation.name LIKE 'Treppen'");
-		translation = (Translation) query.getSingleResult();
+		translation = (Translations) query.getSingleResult();
 
 		int translationIdVonSpecialtyTreppe = translation.getId();
 		int specialtyIdVonSpecialtyTreppe = translation.getTerm().getId();
@@ -82,7 +119,7 @@ public class TermDAOTest {
 	@Before
 	public void setupByName() {
 
-		language = new Language("Deutsch");
+		language = new Languages("Deutsch");
 	}
 
 	@Test
@@ -90,20 +127,25 @@ public class TermDAOTest {
 		
 		entitymanager.getTransaction().begin();
 		test.insertSpecialty("Dach", "oben", language);
-		entitymanager.getTransaction().commit();
-
+		log.debug("nach Insert!");
+//		entitymanager.getTransaction().commit();
+		
 		System.out.println("Insert2 Done !!!!!!");
 
+//		entitymanager.getTransaction().begin();
 		specialty = test.selectSpecialtyByName("Dach");
-
+		System.out.println(specialty+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		entitymanager.getTransaction().commit();
+		
 		String specialtyName = specialty.getTranslationList().get(0).getName();
-		for (Translation t: specialty.getTranslationList())
+		for (Translations t: specialty.getTranslationList())
 			System.out.println(t.toString());
 		System.out.println("\n\n\n\n" + specialtyName);
-		Logger log = Logger.getLogger("TermDAOTest.SecondTest");
-		log.logp(Level.FINE, "TermDAOTest", "insertAndSelectByNameSpecialtyTest", "Ist hier vorbei gekommen");
+		
+		
 		log.info(specialtyName);
 		assertThat(specialtyName, is(equalTo("Dach")));// equalTo(test.selectLanguageById(0).getName()));
+
 //		ij.startJBMS();
 		
 	}

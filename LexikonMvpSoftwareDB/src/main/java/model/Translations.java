@@ -11,22 +11,22 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
-public class Translation
+public class Translations
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="TRANSLATION_ID")
+	@Column(name="TRANSLATIONS_ID")
 	private int id;
 		
-	@Column(name="TRANSLATION_NAME")
+	@Column(name="TRANSLATIONS_NAME")
 	private String name;
 	
-	@Column(name="TRANSLATION_DESCRIPTION")
+	@Column(name="TRANSLATIONS_DESCRIPTION")
 	private String description;
 	
 	@OneToOne
 //	@Column(name="LANGUAGE_ID")
-	private Language language;
+	private Languages languages;
 	
 	@ManyToOne()
 //	@Column(name="TERM_ID")
@@ -35,16 +35,16 @@ public class Translation
 		
 	
 
-	public Translation(String name, String description, Language language, Term term)
+	public Translations(String name, String description, Languages languages, Term term)
 	{
 		
 		this.name = name;
 		this.description = description;
-		this.language = language;
+		this.languages = languages;
 		this.term = term;
 	}
 	
-	public Translation()
+	public Translations()
 	{
 		
 	}
@@ -82,14 +82,14 @@ public class Translation
 	}
 	
 	
-	public Language getLanguage()
+	public Languages getLanguages()
 	{
-		return language;
+		return languages;
 	}
 
-	public void setLanguage(Language language)
+	public void setLanguages(Languages languages)
 	{
-		this.language = language;
+		this.languages = languages;
 	}
 	
 	public Term getTerm() {
@@ -116,7 +116,7 @@ public class Translation
 		}
 		
 		sb.append("   Beschreibung : " + getDescription());
-		sb.append("   Sprache : " + getLanguage());
+		sb.append("   Sprache : " + getLanguages());
 		//sb.append("   ID : " + getTerm());
 		return sb.toString();
 	}
