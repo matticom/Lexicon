@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 
 import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
-import java.util.logging.Level;
+import java.sql.SQLException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -18,8 +18,11 @@ import javax.persistence.Query;
 import org.eclipse.persistence.internal.jpa.EntityManagerImpl;
 
 import org.apache.derby.tools.ij;
+import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
+import org.dbunit.dataset.DataSetUtils;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -41,12 +44,12 @@ public class TermDAOTest {
 	
 	// +++ new Parts from Tut for InMemoryDB
 	
-	public static final Logger log = LoggerFactory.getLogger(TermDAOTest.class);
+	public static final Logger log = LoggerFactory.getLogger("TermDAOTest.class");
 	/** Connection to the database. */
     private static IDatabaseConnection mDBUnitConnection;
     /** Test dataset. */
     private static IDataSet mDataset;
-
+    
     /** script to clean up and prepare the DB. */
     private static String mDDLFileName = "/lexiconjpaDerby.sql";//"/createStudentsDB_DERBY.sql";//"/lexiconjpaDerby.sql";
 
@@ -68,8 +71,20 @@ public class TermDAOTest {
 		try {
 			ij.runScript(connection,TermDAOTest.class.getResourceAsStream(mDDLFileName),
 			        "UTF-8", System.out, "UTF-8");
+			// Load the test datasets in the database
+	        
 		} catch (Exception e) {
 			System.out.println("Es wurde eine Exception bei ij geworfen: "+ e.getMessage());
+			e.printStackTrace();
+		}
+		
+		log.error("IDataConnection wird aufgebaut");
+		try {
+			// Load the test datasets in the database
+	        mDBUnitConnection = new DatabaseConnection(connection);
+	        mDataset = new FlatXmlDataSetBuilder().build(Thread.currentThread().getContextClassLoader().getResourceAsStream("test1-datasets.xml"));
+		} catch (Exception e) {
+			System.out.println("Es wurde eine Exception bei IDataConnection geworfen: "+ e.getMessage());
 			e.printStackTrace();
 		}
 		
@@ -161,6 +176,14 @@ public class TermDAOTest {
 		
 		entitymanager.close();
 		emfactory.close();
+		try {
+			mDBUnitConnection.close();
+		} catch (SQLException e) {
+			System.out.println("Es wurde eine Exception beim Schlieﬂen der IDataConnection geworfen: "+ e.getMessage());
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 }
