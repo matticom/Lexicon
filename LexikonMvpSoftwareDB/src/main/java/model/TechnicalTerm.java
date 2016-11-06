@@ -13,7 +13,6 @@ public class TechnicalTerm extends Term
 {
 		
 	@ManyToOne
-	
 	private Specialty 	specialty;
 
 	public Specialty getSpecialty()

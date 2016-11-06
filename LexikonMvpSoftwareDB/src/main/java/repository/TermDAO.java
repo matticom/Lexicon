@@ -14,14 +14,16 @@ import globals.LanguageAlreadyExists;
 import model.Languages;
 import model.Specialty;
 import model.TechnicalTerm;
+import model.Term;
 import model.Translations;
 
 public class TermDAO {
 
 	private EntityManager entitymanager;
-	
-	public TermDAO() {}
-	
+
+	public TermDAO() {
+	}
+
 	public TermDAO(EntityManager entitymanager) {
 		this.entitymanager = entitymanager;
 	}
@@ -30,25 +32,24 @@ public class TermDAO {
 
 		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("Eclipselink_JPA");
 		EntityManager entitymanager = emfactory.createEntityManager();
-		
+
 		TermDAO termDao = new TermDAO(entitymanager);
-		
+
 		Languages langES = (new LanguageDAO(entitymanager)).selectLanguageById(1);
-				
+
 		entitymanager.getTransaction().begin();
 
 		try {
 
-			termDao.insertSpecialty("Beton", "fest", langES);
-			
+//			termDao.insertSpecialty("Beton", "fest", langES);
+
 			Specialty specialty = entitymanager.find(Specialty.class, 51);
-			
-			termDao.insertTechnicalTerm("Bewaehrung", "Stahlzeugs", specialty, langES);
-			
+
+//			termDao.insertTechnicalTerm("Bewaehrung", "Stahlzeugs", specialty, langES);
+
 			System.out.println(specialty.getId());
 			System.out.println(specialty.getTranslationList().size());
 			System.out.println("iiiiiiiiiiiiiiiiiiiiiiiinfo" + specialty);
-			
 
 		} catch (NoResultException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "NoResultException", JOptionPane.ERROR_MESSAGE);
@@ -66,109 +67,194 @@ public class TermDAO {
 		return entitymanager;
 	}
 
-
 	public void setEntitymanager(EntityManager entitymanager) {
 		this.entitymanager = entitymanager;
 	}
 	
-	public void insertSpecialty(String name, String description, Languages lang) {
-				
+	
+
+	public void insertNewSpecialty(String name, String description, Languages lang) {
+
 		Specialty specialty = new Specialty();
-		
+
+		insertSpecialty(specialty, name, description, lang);
+
+	}
+
+	public void insertSpecialtyTranslation(String RefName, String RefLang, String name, String description, Languages lang) {
+
+		Specialty specialty = selectSpecialtyByName(RefName, RefLang);
+
+		insertSpecialty(specialty, name, description, lang);
+
+	}
+	
+	private void insertSpecialty(Specialty specialty, String name, String description, Languages lang) {
+
 		Translations translation = new Translations(name, description, lang, specialty);
-				
+
 		List<Translations> transList;
 		transList = specialty.getTranslationList();
 		transList.add(translation);
-		System.out.println("Vor persist specialty");	
+		System.out.println("Vor persist specialty");
 		entitymanager.persist(specialty);
+
+		// entitymanager.persist(lang); //--> wenn es hinzugefügt werden muss
+		// --> BO muss vorher überprüfen, hier zu komplex
+
+	}
+
+	public void insertNewTechnicalTerm(String name, String description, Specialty specialty, Languages lang) {
+
+		TechnicalTerm technicalTerm = new TechnicalTerm();
 		
-		entitymanager.persist(lang); //--> wenn es hinzugefügt werden muss --> BO muss vorher überprüfen, hier zu komplex
-		
+		insertTechnicalTerm(technicalTerm, name, description, specialty, lang);
+
 	}
 	
-	public void insertTechnicalTerm(String name, String description, Specialty specialty, Languages lang) {
-					
-		TechnicalTerm technicalTerm = new TechnicalTerm();
-				
-		Translations translation = new Translations(name, description, lang, technicalTerm);
+	public void insertTechnicalTermTranslation(String RefName, String RefLang, String name, String description, Languages lang) {
+
+		TechnicalTerm technicalTerm = selectTechnicalTermByName(RefName, RefLang);
 		
+		insertTechnicalTerm(technicalTerm, name, description, null, lang);
+		// Specialty immer null bei new Translation -> beziehung schon gesetzt bei Erzeugung oder extern durch entsprechende Befehle
+
+	}
+	
+	private void insertTechnicalTerm(TechnicalTerm technicalTerm, String name, String description, Specialty specialty, Languages lang) {
+
+		Translations translation = new Translations(name, description, lang, technicalTerm);
+
 		List<Translations> transList;
 		transList = technicalTerm.getTranslationList();
 		transList.add(translation);
-		
+
 		if (specialty != null) {
 			technicalTerm.setSpecialty(specialty);
-			entitymanager.persist(specialty);
+			// Specialty muss vorher schon angelegt wurden sein!!!!!
 		}
-		
+
 		entitymanager.persist(technicalTerm);
+
+		// entitymanager.persist(lang); --> wenn es hinzugefügt werden muss -->
+		// BO muss vorher überprüfen, hier zu komplex
+		// vorher abprüfen: existiert schon sprache, wenn nicht anlegen;
+		// existiert schon specialty, wenn nicht anlegen
+		// (Standard: persist muss nich, durchgeführt werden -> nur von
+		// technicalterm und translation)
+
+	}
+
+	
+	
+	public void deleteSpecialty(String name, String lang) {
+
+		Specialty specialty = selectSpecialtyByName(name, lang);
+		entitymanager.remove(specialty);
+
+	}
 		
-		
-		//entitymanager.persist(lang); --> wenn es hinzugefügt werden muss --> BO muss vorher überprüfen, hier zu komplex
-		//vorher abprüfen: existiert schon sprache, wenn nicht anlegen; existiert schon specialty, wenn nicht anlegen 
-		// (Standard: persist muss nich, durchgeführt werden -> nur von technicalterm und translation)
-		
-		
+	public void deleteTechnicalTerm(String name, String lang) {
+
+		TechnicalTerm technicalTerm = selectTechnicalTermByName(name, lang);
+		entitymanager.remove(technicalTerm);
+
+	}
+	
+	public void deleteTranslation(String name, String lang) {
+
+		Translations translation = selectTranslation(name, lang);
+		entitymanager.remove(translation);
 	}
 	
 	
 	
-	public void deleteSpecialty(String name) throws NoResultException {
+	public void updateTranslation(String name, String lang, String newName, String description) {
 		
-		// public void deleteLinks(specialty.getTechnicalTermsList()) aus BO --> technicalterm suchen, verweis auf Specialty entfernen
-		// --> dann diese Funktion
-		
-//		Specialty specialty = selectLanguageByName(name);
-//		entitymanager.remove(lang);
-			
+		Translations translation = selectTranslation(name, lang);
+		translation.setName(newName);
+		translation.setDescription(description);
 	}
 	
+	
+		
 	public Specialty selectSpecialtyById(int id) {
-		
+
 		Specialty specialty = entitymanager.find(Specialty.class, id);
 		if (specialty == null) {
 			throw new NoResultException("Specialty ID ist nicht vorhanden!");
 		}
-				
+
 		return specialty;
-		
+
 	}
-	
+
 	public TechnicalTerm selectTechnicalTermById(int id) {
-		
+
 		TechnicalTerm technicalTerm = entitymanager.find(TechnicalTerm.class, id);
 		if (technicalTerm == null) {
 			throw new NoResultException("TechnicalTerm ID ist nicht vorhanden!");
 		}
-				
+
 		return technicalTerm;
-		
+
 	}
-		
-	public Specialty selectSpecialtyByName(String name) throws NoResultException {
-		
-		Query query = entitymanager.createQuery("Select translation " + "from Translation translation " + "where translation.name LIKE '" + name + "'");
-		Translations translation = (Translations) query.getSingleResult();
-		
-		Specialty specialty = (Specialty)translation.getTerm();
+
+	
+	
+	public Specialty selectSpecialtyByName(String name, String lang) throws NoResultException {
+
+		Specialty specialty = (Specialty) selectTermByName(name, lang);
 		return specialty;
 	}
-	
-	public TechnicalTerm selectTechnicalTermByName(String name) throws NoResultException {
-		
-		Query query = entitymanager.createQuery("Select translation " + "from Translation translation " + "where translation.name LIKE '" + name + "'");
-		Translations translation = (Translations) query.getSingleResult();
-		
-		TechnicalTerm technicalTerm = (TechnicalTerm)translation.getTerm();
+
+	public TechnicalTerm selectTechnicalTermByName(String name, String lang) throws NoResultException {
+
+		TechnicalTerm technicalTerm = (TechnicalTerm) selectTermByName(name, lang);
 		return technicalTerm;
 	}
 	
-//	nächsthöhere Ebene:
+	public Translations[] selectAllTranslations(String name, String lang) throws NoResultException {
+
+		Term term = selectTermByName(name, lang);
+				
+		List<Translations> translationsList = term.getTranslationList();
+		Translations[] translations = translationsList.toArray(new Translations[translationsList.size()]);
+		return translations;
+	}
 	
-//	public TechnicalTermDataset selectTechnicalTerm(String name, Language language) throws NoResultException {  
-//		
-//		Query query = entitymanager.createQuery("Select translation " + "from Translation translation " + "where lang.name LIKE '" + name + "' and ");
-//		Language lang = (Language) query.getSingleResult();
-//	}
+	
+	
+	private Term selectTermByName(String name, String lang) throws NoResultException {
+
+		Translations translation = selectTranslation(name, lang);
+
+		Term term = translation.getTerm();
+		return term;
+	}
+	
+	public Translations selectTranslation(String name, String lang) throws NoResultException {
+
+//		Query query = entitymanager.createQuery("Select translation from Translation translation where translation.name LIKE '" + name + "'");
+		Query query = entitymanager.createQuery("Select translation FROM Translation translation JOIN translation.languages language "
+													+ "where translation.name LIKE '" + name + "' and language.name like '" + lang + "'");
+		
+		Translations translation = (Translations) query.getSingleResult();
+
+		return translation;
+	}
+	
+	
+	
+	
+	
+	// nächsthöhere Ebene:
+
+	// public TechnicalTermDataset selectTechnicalTerm(String name, Language
+	// language) throws NoResultException {
+	//
+	// Query query = entitymanager.createQuery("Select translation " + "from
+	// Translation translation " + "where lang.name LIKE '" + name + "' and ");
+	// Language lang = (Language) query.getSingleResult();
+	// }
 }

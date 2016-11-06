@@ -105,7 +105,7 @@ public class TermDAOTest {
 	public void insertAndSelectByIdSpecialtyTest() {
 		
 		entitymanager.getTransaction().begin();
-		test.insertSpecialty("Treppen", "hochgehen", language);
+//		test.insertSpecialty("Treppen", "hochgehen", language);
 		entitymanager.getTransaction().commit();
 
 		System.out.println("Insert Done !!!!!!");
@@ -141,14 +141,14 @@ public class TermDAOTest {
 	public void insertAndSelectByNameSpecialtyTest() {
 		
 		entitymanager.getTransaction().begin();
-		test.insertSpecialty("Dach", "oben", language);
+//		test.insertSpecialty("Dach", "oben", language);
 		log.debug("nach Insert!");
 //		entitymanager.getTransaction().commit();
 		
 		System.out.println("Insert2 Done !!!!!!");
 
 //		entitymanager.getTransaction().begin();
-		specialty = test.selectSpecialtyByName("Dach");
+//		specialty = test.selectSpecialtyByName("Dach");
 		System.out.println(specialty+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		entitymanager.getTransaction().commit();
 		

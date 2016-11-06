@@ -2,19 +2,19 @@ package TransferObjects;
 
 public class TechnicalTermDataset extends TermDataset {
 	
-	private int 	specialtyId;
+	private String 	specialty;
 
-	public TechnicalTermDataset(int termId, int translationId, String name, String description, int specialtyId) {
-		super(termId, translationId, name, description);
-		this.specialtyId = specialtyId;
+	public TechnicalTermDataset(String name, String description, String language, String specialty) {
+		super(name, description, language);
+		this.specialty = specialty;
 	}
 	
-	public int getSpecialtyId() {
-		return specialtyId;
+	public String getSpecialty() {
+		return specialty;
 	}
 
-	public void setSpecialtyId(int specialtyId) {
-		this.specialtyId = specialtyId;
+	public void setSpecialty(String specialty) {
+		this.specialty = specialty;
 	}
 
 	@Override

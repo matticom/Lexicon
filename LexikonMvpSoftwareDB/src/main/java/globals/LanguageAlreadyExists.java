@@ -1,7 +1,5 @@
 package globals;
 
-import javax.persistence.NoResultException;
-
 public class LanguageAlreadyExists extends RuntimeException {
 	
 	public LanguageAlreadyExists() {
