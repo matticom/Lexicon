@@ -1,4 +1,4 @@
-package TransferObjects;
+package transferObjects;
 
 
 public class TermDataset {

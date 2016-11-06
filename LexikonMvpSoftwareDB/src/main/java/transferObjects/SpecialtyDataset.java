@@ -1,4 +1,4 @@
-package TransferObjects;
+package transferObjects;
 
 public class SpecialtyDataset extends TermDataset {
 
@@ -26,5 +26,4 @@ public class SpecialtyDataset extends TermDataset {
 		return super.toString();
 	}
 
-	
 }

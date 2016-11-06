@@ -9,13 +9,13 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.swing.JOptionPane;
 
-import TransferObjects.TechnicalTermDataset;
 import globals.LanguageAlreadyExists;
 import model.Languages;
 import model.Specialty;
 import model.TechnicalTerm;
 import model.Term;
 import model.Translations;
+import transferObjects.TechnicalTermDataset;
 
 public class TermDAO {
 
