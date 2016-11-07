@@ -75,7 +75,7 @@ public class LanguageDAO {
 
 	public Languages selectLanguageByName(String name) throws NoResultException {
 
-		Query query = entitymanager.createQuery("Select lang from Language lang " + "where lang.name LIKE '" + name + "'");
+		Query query = entitymanager.createQuery("Select lang from Languages lang " + "where lang.name LIKE '" + name + "'");
 		Languages lang = (Languages) query.getSingleResult();
 
 		return lang;
@@ -84,7 +84,7 @@ public class LanguageDAO {
 	
 	public Languages[] selectAllLanguages() {
 
-		Query query = entitymanager.createQuery("Select lang from Language lang");
+		Query query = entitymanager.createQuery("Select lang from Languages lang");
 		List<Languages> langList = query.getResultList();
 		Languages[] languages = langList.toArray(new Languages[langList.size()]);
 		return languages;

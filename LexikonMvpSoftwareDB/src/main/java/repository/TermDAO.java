@@ -96,11 +96,7 @@ public class TermDAO {
 		List<Translations> transList;
 		transList = specialty.getTranslationList();
 		transList.add(translation);
-		System.out.println("Vor persist specialty");
 		entitymanager.persist(specialty);
-
-		// entitymanager.persist(lang); //--> wenn es hinzugefügt werden muss
-		// --> BO muss vorher überprüfen, hier zu komplex
 
 	}
 
@@ -131,17 +127,9 @@ public class TermDAO {
 
 		if (specialty != null) {
 			technicalTerm.setSpecialty(specialty);
-			// Specialty muss vorher schon angelegt wurden sein!!!!!
 		}
 
 		entitymanager.persist(technicalTerm);
-
-		// entitymanager.persist(lang); --> wenn es hinzugefügt werden muss -->
-		// BO muss vorher überprüfen, hier zu komplex
-		// vorher abprüfen: existiert schon sprache, wenn nicht anlegen;
-		// existiert schon specialty, wenn nicht anlegen
-		// (Standard: persist muss nich, durchgeführt werden -> nur von
-		// technicalterm und translation)
 
 	}
 
@@ -199,7 +187,6 @@ public class TermDAO {
 		return technicalTerm;
 
 	}
-
 	
 	
 	public Specialty selectSpecialtyByName(String name, String lang) throws NoResultException {
@@ -236,7 +223,7 @@ public class TermDAO {
 	public Translations selectTranslation(String name, String lang) throws NoResultException {
 
 //		Query query = entitymanager.createQuery("Select translation from Translation translation where translation.name LIKE '" + name + "'");
-		Query query = entitymanager.createQuery("Select translation FROM Translation translation JOIN translation.languages language "
+		Query query = entitymanager.createQuery("Select translation FROM Translations translation JOIN translation.languages language "
 													+ "where translation.name LIKE '" + name + "' and language.name like '" + lang + "'");
 		
 		Translations translation = (Translations) query.getSingleResult();
@@ -244,17 +231,4 @@ public class TermDAO {
 		return translation;
 	}
 	
-	
-	
-	
-	
-	// nächsthöhere Ebene:
-
-	// public TechnicalTermDataset selectTechnicalTerm(String name, Language
-	// language) throws NoResultException {
-	//
-	// Query query = entitymanager.createQuery("Select translation " + "from
-	// Translation translation " + "where lang.name LIKE '" + name + "' and ");
-	// Language lang = (Language) query.getSingleResult();
-	// }
 }
