@@ -56,9 +56,9 @@ public class LanguageBO {
 
 	}
 	
-	public void createLanguage(String language) {
+	public Languages createLanguage(String language) {
 		if (!isLanguageAlreadyExisting(language)) {
-			languageDAO.insertLanguage(language);
+			return languageDAO.insertLanguage(language);
 		} else {
 			throw new LanguageAlreadyExists();
 		}
@@ -75,14 +75,14 @@ public class LanguageBO {
 
 	}
 
-	public void updateLanguage(String language, String newName) {
+	public Languages updateLanguage(String language, String newName) {
 
 		if (!isLanguageAlreadyExisting(language)) {
 			throw new LanguageDoesNotExist();
 		} else if (isLanguageAlreadyExisting(newName)) {
 			throw new LanguageAlreadyExists("Update nicht möglich, Sprache schon vorhanden!");
 		} else {
-			languageDAO.updateLanguage(language, newName);
+			return languageDAO.updateLanguage(language, newName);
 		}
 
 	}

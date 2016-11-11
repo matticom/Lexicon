@@ -106,6 +106,11 @@ public class TermDAOTest {
 
 		entitymanager.getTransaction().begin();
 		language = langTest.selectLanguageByName("Deutsch");
+		
+		Languages[] langArr = langTest.selectAllLanguages();
+		for (Languages lang: langArr)
+			log.info(lang.getName());
+		
 		entitymanager.getTransaction().commit();
 //		Query query = entitymanager.createQuery("Select sequence from SEQUENCE sequence");
 //		Sequence seq = (Sequence) query.getSingleResult();
@@ -192,6 +197,8 @@ public class TermDAOTest {
 		entitymanager.getTransaction().begin();
 						
 		specialty = test.selectSpecialtyByName("Fenster", "Deutsch");
+		entitymanager.getTransaction().commit();
+		
 		
 		log.info("SpecialtyID : " + specialty.getId() + "    " + specialty.getTranslationList().get(0).toString());
 		log.info("TranslationsID : " + specialty.getTranslationList().get(0).getId());
@@ -205,7 +212,6 @@ public class TermDAOTest {
 				
 		log.info(Integer.valueOf(languageID).toString());
 		assertThat(specialtyName, is(equalTo("Fenster")));// equalTo(test.selectLanguageById(0).getName()));
-		entitymanager.getTransaction().commit();
 	}
 
 	@After
@@ -228,10 +234,5 @@ public class TermDAOTest {
 		
 		
 	}
-	
-	private class Sequence {
-		public String seq_name;
-		public int seq_count;
-	}
-
+		
 }

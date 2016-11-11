@@ -31,7 +31,7 @@ public class TermBO {
 	}
 	
 	
-	public void createTechnicalTerm(TechnicalTermDataset technicalTerm) {
+	public TechnicalTerm createTechnicalTerm(TechnicalTermDataset technicalTerm) {
 		
 		if (isTechnicalTermAlreadyExisting(technicalTerm)) {
 			throw new TechnicalTermAlreadyExists();
@@ -43,14 +43,13 @@ public class TermBO {
 		Languages language = languageBO.selectLanguage(technicalTerm.getLanguage());
 		
 		if (technicalTerm.getSpecialty() == null) {
-			termDAO.insertNewTechnicalTerm(technicalTerm.getName(), technicalTerm.getDescription(), null, language);
-			return;
+			return termDAO.insertNewTechnicalTerm(technicalTerm.getName(), technicalTerm.getDescription(), null, language);
 		}
 		
 		if (isSpecialtyAlreadyExisting(new SpecialtyDataset(technicalTerm.getSpecialty(), null, technicalTerm.getLanguage()))) {
 			
 			Specialty specialty = termDAO.selectSpecialtyByName(technicalTerm.getSpecialty(), technicalTerm.getLanguage());
-			termDAO.insertNewTechnicalTerm(technicalTerm.getName(), technicalTerm.getDescription(), specialty, language);
+			return termDAO.insertNewTechnicalTerm(technicalTerm.getName(), technicalTerm.getDescription(), specialty, language);
 			
 		} else {
 			throw new SpecialtyDoesNotExist("Specialty war beim erstellen einer TechnicalTerm nicht vorhanden");
@@ -60,7 +59,7 @@ public class TermBO {
 		
 	}
 	
-	public void createSpecialty(SpecialtyDataset specialty) {
+	public Specialty createSpecialty(SpecialtyDataset specialty) {
 		
 		if (isSpecialtyAlreadyExisting(specialty)) {
 			throw new SpecialtyAlreadyExists();
@@ -71,11 +70,11 @@ public class TermBO {
 		}
 		Languages language = languageBO.selectLanguage(specialty.getLanguage());
 		
-		termDAO.insertNewSpecialty(specialty.getName(), specialty.getDescription(), language);
+		return termDAO.insertNewSpecialty(specialty.getName(), specialty.getDescription(), language);
 		
 	}
 	
-	public void createTechnicalTermTranslation(TechnicalTermDataset technicalTermRef, TechnicalTermDataset technicalTerm) {
+	public TechnicalTerm createTechnicalTermTranslation(TechnicalTermDataset technicalTermRef, TechnicalTermDataset technicalTerm) {
 		
 		if (!isTechnicalTermAlreadyExisting(technicalTermRef)) {
 			throw new TechnicalTermDoesNotExist();
@@ -90,11 +89,11 @@ public class TermBO {
 		}
 		Languages language = languageBO.selectLanguage(technicalTerm.getLanguage());
 		
-		termDAO.insertTechnicalTermTranslation(technicalTermRef.getName(), technicalTermRef.getLanguage(), technicalTerm.getName(), technicalTerm.getDescription(), language);
+		return termDAO.insertTechnicalTermTranslation(technicalTermRef.getName(), technicalTermRef.getLanguage(), technicalTerm.getName(), technicalTerm.getDescription(), language);
 				
 	}
 	
-	public void createSpecialtyTranslation(SpecialtyDataset specialtyRef, SpecialtyDataset specialty) {
+	public Specialty createSpecialtyTranslation(SpecialtyDataset specialtyRef, SpecialtyDataset specialty) {
 		
 		if (!isSpecialtyAlreadyExisting(specialtyRef)) {
 			throw new SpecialtyDoesNotExist();
@@ -109,7 +108,7 @@ public class TermBO {
 		}
 		Languages language = languageBO.selectLanguage(specialty.getLanguage());
 		
-		termDAO.insertSpecialtyTranslation(specialtyRef.getName(), specialtyRef.getLanguage(), specialty.getName(), specialty.getDescription(), language);
+		return termDAO.insertSpecialtyTranslation(specialtyRef.getName(), specialtyRef.getLanguage(), specialty.getName(), specialty.getDescription(), language);
 		
 	}
 	
@@ -142,7 +141,7 @@ public class TermBO {
 		termDAO.deleteTranslation(term.getName(), term.getLanguage());
 	}
 	
-	public void updateTranslation(TermDataset termRef, TermDataset term) {
+	public Translations updateTranslation(TermDataset termRef, TermDataset term) {
 		
 		if (!isTranslationAlreadyExisting(termRef)) {
 			throw new TranslationDoesNotExist();
@@ -152,7 +151,7 @@ public class TermBO {
 			throw new TranslationAlreadyExists();
 		}
 		
-		termDAO.updateTranslation(termRef.getName(), termRef.getLanguage(), term.getName(), term.getDescription());
+		return termDAO.updateTranslation(termRef.getName(), termRef.getLanguage(), term.getName(), term.getDescription());
 		
 	}
 	
@@ -174,7 +173,7 @@ public class TermBO {
 	
 	
 		
-	public void assignTechnicalTermsToSpecialty(TechnicalTerm[] technicalTerms, SpecialtyDataset specialty) {
+	public Specialty assignTechnicalTermsToSpecialty(TechnicalTerm[] technicalTerms, SpecialtyDataset specialty) {
 		
 		if (!isSpecialtyAlreadyExisting(specialty)) {
 			throw new SpecialtyDoesNotExist();
@@ -193,6 +192,8 @@ public class TermBO {
 			// Es wird das Field Specialty überschrieben auch bei != null
 			// Muss es auf der anderen Seite auch gemacht werden?
 		}
+		
+		return specialtyEntry;
 		
 	}
 	

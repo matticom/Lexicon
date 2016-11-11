@@ -5,7 +5,7 @@
    http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
    
    <persistence-unit name = "Eclipselink_JPA" transaction-type = "RESOURCE_LOCAL">
-            
+           
       <class>model.Languages</class>
       <class>model.Specialty</class>
       <class>model.TechnicalTerm</class>

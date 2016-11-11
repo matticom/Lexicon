@@ -7,14 +7,25 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.SetJoin;
+import javax.persistence.metamodel.EntityType;
+import javax.persistence.metamodel.Metamodel;
 import javax.swing.JOptionPane;
 
 import globals.LanguageAlreadyExists;
 import model.Languages;
+import model.Languages_;
 import model.Specialty;
 import model.TechnicalTerm;
 import model.Term;
 import model.Translations;
+import model.Translations_;
 import transferObjects.TechnicalTermDataset;
 
 public class TermDAO {
@@ -73,19 +84,19 @@ public class TermDAO {
 	
 	
 
-	public void insertNewSpecialty(String name, String description, Languages lang) {
+	public Specialty insertNewSpecialty(String name, String description, Languages lang) {
 
 		Specialty specialty = new Specialty();
-
 		insertSpecialty(specialty, name, description, lang);
+		return specialty;
 
 	}
 
-	public void insertSpecialtyTranslation(String RefName, String RefLang, String name, String description, Languages lang) {
+	public Specialty insertSpecialtyTranslation(String RefName, String RefLang, String name, String description, Languages lang) {
 
 		Specialty specialty = selectSpecialtyByName(RefName, RefLang);
-
 		insertSpecialty(specialty, name, description, lang);
+		return specialty;
 
 	}
 	
@@ -100,19 +111,20 @@ public class TermDAO {
 
 	}
 
-	public void insertNewTechnicalTerm(String name, String description, Specialty specialty, Languages lang) {
+	public TechnicalTerm insertNewTechnicalTerm(String name, String description, Specialty specialty, Languages lang) {
 
 		TechnicalTerm technicalTerm = new TechnicalTerm();
-		
 		insertTechnicalTerm(technicalTerm, name, description, specialty, lang);
+		return technicalTerm;
 
 	}
 	
-	public void insertTechnicalTermTranslation(String RefName, String RefLang, String name, String description, Languages lang) {
+	public TechnicalTerm insertTechnicalTermTranslation(String RefName, String RefLang, String name, String description, Languages lang) {
 
 		TechnicalTerm technicalTerm = selectTechnicalTermByName(RefName, RefLang);
-		
 		insertTechnicalTerm(technicalTerm, name, description, null, lang);
+		return technicalTerm;
+
 		// Specialty immer null bei new Translation -> beziehung schon gesetzt bei Erzeugung oder extern durch entsprechende Befehle
 
 	}
@@ -157,11 +169,12 @@ public class TermDAO {
 	
 	
 	
-	public void updateTranslation(String name, String lang, String newName, String description) {
+	public Translations updateTranslation(String name, String lang, String newName, String description) {
 		
 		Translations translation = selectTranslation(name, lang);
 		translation.setName(newName);
 		translation.setDescription(description);
+		return translation;
 	}
 	
 	
@@ -222,13 +235,25 @@ public class TermDAO {
 	
 	public Translations selectTranslation(String name, String lang) throws NoResultException {
 
-//		Query query = entitymanager.createQuery("Select translation from Translation translation where translation.name LIKE '" + name + "'");
-		Query query = entitymanager.createQuery("Select translation FROM Translations translation JOIN translation.languages language "
-													+ "where translation.name LIKE '" + name + "' and language.name like '" + lang + "'");
+		CriteriaBuilder criteriaBuilder = entitymanager.getCriteriaBuilder();
+		CriteriaQuery<Translations> criteriaQuery = criteriaBuilder.createQuery(Translations.class);
+				
+		Root<Translations> translation = criteriaQuery.from(Translations.class);
+		Join<Translations, Languages> langJoin = translation.join(Translations_.languages);
 		
-		Translations translation = (Translations) query.getSingleResult();
+		Predicate selectLanguage = criteriaBuilder.like(langJoin.get(Languages_.name), lang);
+        Predicate selectTermName = criteriaBuilder.like(translation.get(Translations_.name), name);
+        Predicate whereFilter = criteriaBuilder.and(selectLanguage, selectTermName);
+        criteriaQuery.select(translation).where(whereFilter);
+        
+        Translations translationResult = entitymanager.createQuery(criteriaQuery).getSingleResult();
+//		
+//		Query query = entitymanager.createQuery("Select translation FROM Translations translation JOIN translation.languages language "
+//													+ "where translation.name LIKE '" + name + "' and language.name like '" + lang + "'");
+//		
+//		Translations translation = (Translations) query.getSingleResult();
 
-		return translation;
+		return translationResult;
 	}
 	
 }
