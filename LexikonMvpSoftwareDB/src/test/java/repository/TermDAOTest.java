@@ -4,6 +4,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -17,7 +20,10 @@ import org.eclipse.persistence.internal.jpa.EntityManagerImpl;
 import org.apache.derby.tools.ij;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
+import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.xml.FlatDtdDataSet;
+import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.After;
@@ -41,6 +47,7 @@ public class TermDAOTest {
 	private Languages language;
 	private int languageID;
 	
+	
 	// +++ new Parts from Tut for InMemoryDB
 	
 	public static final Logger log = LoggerFactory.getLogger("TermDAOTest.class");
@@ -49,12 +56,7 @@ public class TermDAOTest {
 	private static IDatabaseConnection mDBUnitConnection;
     /** Test dataset. */
     private static IDataSet mDataset;
-    
-    /** script to clean up and prepare the DB. */
-    private static String mDDLFileName = "/lexiconjpaDerby.sql";//"/createStudentsDB_DERBY.sql";//"/lexiconjpaDerby.sql";
-
-    // +++ end new Parts
-    
+        
 	private static EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("Eclipselink_JPA_Derby");
 	private static EntityManager entitymanager;
 	
@@ -67,17 +69,6 @@ public class TermDAOTest {
 		
 		entitymanager = emfactory.createEntityManager();
 		Connection connection = ((EntityManagerImpl) (entitymanager.getDelegate())).getServerSession().getAccessor().getConnection();
-		
-		try {
-			ij.runScript(connection,TermDAOTest.class.getResourceAsStream(mDDLFileName),
-			        "UTF-8", System.out, "UTF-8");
-			// Load the test datasets in the database
-	        
-		} catch (Exception e) {
-			System.out.println("Es wurde eine Exception bei ij geworfen: "+ e.getMessage());
-			e.printStackTrace();
-		}
-		
 		
 		try {
 			// Load the test datasets in the database
@@ -112,10 +103,7 @@ public class TermDAOTest {
 			log.info(lang.getName());
 		
 		entitymanager.getTransaction().commit();
-//		Query query = entitymanager.createQuery("Select sequence from SEQUENCE sequence");
-//		Sequence seq = (Sequence) query.getSingleResult();
-//		log.info(seq.seq_name);
-//		log.info(" " + seq.seq_count);
+
 		
 		
 	}
@@ -223,6 +211,15 @@ public class TermDAOTest {
 	@AfterClass
 	public static void cleanTesting() {
 		
+		
+		try {
+			IDataSet fullDataSet = mDBUnitConnection.createDataSet();
+			FlatXmlDataSet.write(fullDataSet, new FileOutputStream("full.xml"));
+			FlatDtdDataSet.write(mDBUnitConnection.createDataSet(), new FileOutputStream("test.dtd"));
+		} catch (Exception e) {
+			System.out.println("Es wurde eine Exception bei FullDataSetXML geworfen: "+ e.getMessage());
+			e.printStackTrace();
+		}
 		entitymanager.close();
 		emfactory.close();
 		try {
