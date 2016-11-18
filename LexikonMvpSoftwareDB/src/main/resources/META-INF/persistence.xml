@@ -13,12 +13,12 @@
       <class>model.Translations</class>
       
       <properties>
-      <property name = "javax.persistence.jdbc.url" value = "jdbc:mysql://localhost:3306/lexiconjpa?serverTimezone=GMT"/>
+      <property name = "javax.persistence.jdbc.url" value = "jdbc:mysql://localhost:3306/alexiconjpa?serverTimezone=GMT"/>
       <property name = "javax.persistence.jdbc.user" value = "root"/>
       <property name = "javax.persistence.jdbc.password" value = ""/>
       <property name = "javax.persistence.jdbc.driver" value = "com.mysql.cj.jdbc.Driver"/>
       <property name = "eclipselink.logging.level" value = "FINE"/>
-      <property name = "eclipselink.ddl-generation" value = "create-tables"/> <!-- drop-and-create-tables, create-tables, create-or-extend-tables -->
+      <property name = "eclipselink.ddl-generation" value = "drop-and-create-tables"/> <!-- drop-and-create-tables, create-tables, create-or-extend-tables -->
        </properties>
    
    </persistence-unit>

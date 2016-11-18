@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -18,24 +19,31 @@ import javax.persistence.Query;
 import org.eclipse.persistence.internal.jpa.EntityManagerImpl;
 
 import org.apache.derby.tools.ij;
+import org.dbunit.database.DatabaseConfig;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.stream.IDataSetProducer;
+import org.dbunit.dataset.stream.StreamingDataSet;
 import org.dbunit.dataset.xml.FlatDtdDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
+import org.dbunit.dataset.xml.FlatXmlProducer;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.InputSource;
 
 import model.Languages;
 import model.Specialty;
+import model.TechnicalTerm;
 import model.Translations;
 
 public class TermDAOTest {
@@ -57,7 +65,7 @@ public class TermDAOTest {
     /** Test dataset. */
     private static IDataSet mDataset;
         
-	private static EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("Eclipselink_JPA_Derby");
+	private static EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("Eclipselink_JPA_Derby"); //("Eclipselink_JPA_Derby");
 	private static EntityManager entitymanager;
 	
 	
@@ -72,8 +80,14 @@ public class TermDAOTest {
 		
 		try {
 			// Load the test datasets in the database
-	        mDBUnitConnection = new DatabaseConnection(connection);
-	        mDataset = new FlatXmlDataSetBuilder().build(Thread.currentThread().getContextClassLoader().getResourceAsStream("test1-datasets.xml"));
+			mDBUnitConnection = new DatabaseConnection(connection);
+	        mDBUnitConnection.getConfig().setProperty(DatabaseConfig.FEATURE_ALLOW_EMPTY_FIELDS, true);
+	        log.info(mDBUnitConnection.getSchema());
+//	        DataFileLoader loader = new FlatXmlDataFileLoader();
+//	        IDataSet ds = loader.load("/the/package/prepData.xml");   
+	        
+			mDataset = new FlatXmlDataSetBuilder().build(new File("./src/test/resources/testSet_FullDatabase_WithOneDescription.xml")); //testSet_FullDatabase_WithOneDescription
+			// Sequence Wert wird aus Tabelle gelesen und +1 dort weiter machen, am Ende +50
 		} catch (Exception e) {
 			System.out.println("Es wurde eine Exception bei IDataConnection geworfen: "+ e.getMessage());
 			e.printStackTrace();
@@ -85,6 +99,7 @@ public class TermDAOTest {
 		log.info("IDataConnection wird aufgebaut");
 		try {
 			DatabaseOperation.CLEAN_INSERT.execute(mDBUnitConnection, mDataset);
+		
 		} catch (Exception e) {
 			System.out.println("Es wurde eine Exception bei DatabaseOperation geworfen: "+ e.getMessage());
 			e.printStackTrace();
@@ -107,22 +122,23 @@ public class TermDAOTest {
 		
 		
 	}
-
+	
+	
 	@Test
 	public void insertAndSelectByIdSpecialtyTest() {
 		
 		entitymanager.getTransaction().begin();
 		log.info("insertAndSelectByIdSpecialtyTest():   'Treppe' wird eingefügt");
 		
-		test.insertNewSpecialty("Treppen", "hochgehen", language);
+		test.insertNewSpecialty("Treppenn", "hochgehen", language);
 		
-		specialty = test.selectSpecialtyByName("Treppen", "Deutsch");
+		specialty = test.selectSpecialtyByName("Treppenn", "Deutsch");
 		log.info("SpecialtyID : " + specialty.getId() + "    " + specialty.getTranslationList().get(0).toString());
 		log.info("TranslationsID : " + specialty.getTranslationList().get(0).getId());
 		languageID = language.getId();
 		log.info(languageID + " : " + language.toString());
 		
-		Query query = entitymanager.createQuery("Select translation " + "from Translations translation " + "where translation.name LIKE 'Treppen'");
+		Query query = entitymanager.createQuery("Select translation " + "from Translations translation " + "where translation.name LIKE 'Treppenn'");
 		translation = (Translations) query.getSingleResult();
 
 		int specialtyIdVonSpecialtyTreppe = translation.getTerm().getId();
@@ -134,7 +150,7 @@ public class TermDAOTest {
 			System.out.println(t.toString());
 		
 		log.info(Integer.valueOf(languageID).toString());
-		assertThat(specialtyName, is(equalTo("Treppen")));// equalTo(test.selectLanguageById(0).getName()));
+		assertThat(specialtyName, is(equalTo("Treppenn")));// equalTo(test.selectLanguageById(0).getName()));
 		entitymanager.getTransaction().commit();
 	}
 	
@@ -182,24 +198,54 @@ public class TermDAOTest {
 		
 		log.info("selectByNameSpecialtyFromDataSetTest():   beginnt......");
 		
+//		entitymanager.getTransaction().begin();
+//						
+//		specialty = test.selectSpecialtyByName("Fenster", "Deutsch");
+//		entitymanager.getTransaction().commit();
+//		
+//		
+//		log.info("SpecialtyID : " + specialty.getId() + "    " + specialty.getTranslationList().get(0).toString());
+//		log.info("TranslationsID : " + specialty.getTranslationList().get(0).getId());
+//		languageID = language.getId();
+//		log.info(languageID + " : " + language.toString());
+		//entitymanager.merge(specialty);
+				
+//		String specialtyName = specialty.getTranslationList().get(0).getName();
+//		for (Translations t: specialty.getTranslationList())
+//			System.out.println(t.toString());
+//				
+//		log.info(Integer.valueOf(languageID).toString());
+		
 		entitymanager.getTransaction().begin();
-						
-		specialty = test.selectSpecialtyByName("Fenster", "Deutsch");
+		Languages langDE = langTest.selectLanguageByName("Deutsch");
+		entitymanager.getTransaction().commit();
+		
+		entitymanager.getTransaction().begin();
+		Languages langES = langTest.selectLanguageByName("Spanisch");
 		entitymanager.getTransaction().commit();
 		
 		
-		log.info("SpecialtyID : " + specialty.getId() + "    " + specialty.getTranslationList().get(0).toString());
-		log.info("TranslationsID : " + specialty.getTranslationList().get(0).getId());
-		languageID = language.getId();
-		log.info(languageID + " : " + language.toString());
-		//entitymanager.merge(specialty);
-				
-		String specialtyName = specialty.getTranslationList().get(0).getName();
-		for (Translations t: specialty.getTranslationList())
-			System.out.println(t.toString());
-				
-		log.info(Integer.valueOf(languageID).toString());
-		assertThat(specialtyName, is(equalTo("Fenster")));// equalTo(test.selectLanguageById(0).getName()));
+		entitymanager.getTransaction().begin();
+		Specialty betonDE = test.insertNewSpecialty("Betonm", "fest", langDE);
+		entitymanager.getTransaction().commit();
+					
+		entitymanager.getTransaction().begin();
+		Specialty betonES = test.insertSpecialtyTranslation("Betonm", "Deutsch", "SpaBeton", "SpaDescription", langES);
+		entitymanager.getTransaction().commit();
+		
+		entitymanager.getTransaction().begin();
+		Specialty fenster = test.insertNewSpecialty("Fenster", "Glas", langDE);
+		entitymanager.getTransaction().commit();
+					
+		entitymanager.getTransaction().begin();
+		TechnicalTerm bewaehrungDE = test.insertNewTechnicalTerm("Bewaehrung", "Stahlzeugs", betonDE, langDE);
+		entitymanager.getTransaction().commit();
+		
+		entitymanager.getTransaction().begin();
+		TechnicalTerm bewaehrungES = test.insertTechnicalTermTranslation("Bewaehrung", "Deutsch", "SpaBewaehrung", "SpaStahlzeugs", langES);
+		entitymanager.getTransaction().commit();
+		
+		assertThat(betonDE, is(equalTo(betonES)));// equalTo(test.selectLanguageById(0).getName()));
 	}
 
 	@After
@@ -215,7 +261,7 @@ public class TermDAOTest {
 		try {
 			IDataSet fullDataSet = mDBUnitConnection.createDataSet();
 			FlatXmlDataSet.write(fullDataSet, new FileOutputStream("full.xml"));
-			FlatDtdDataSet.write(mDBUnitConnection.createDataSet(), new FileOutputStream("test.dtd"));
+			
 		} catch (Exception e) {
 			System.out.println("Es wurde eine Exception bei FullDataSetXML geworfen: "+ e.getMessage());
 			e.printStackTrace();

@@ -45,31 +45,46 @@ public class TermDAO {
 		EntityManager entitymanager = emfactory.createEntityManager();
 
 		TermDAO termDao = new TermDAO(entitymanager);
-
-		Languages langES = (new LanguageDAO(entitymanager)).selectLanguageById(1);
-
-		entitymanager.getTransaction().begin();
-
+		LanguageDAO langDAO = new LanguageDAO(entitymanager);
+		
 		try {
-
-//			termDao.insertSpecialty("Beton", "fest", langES);
-
-			Specialty specialty = entitymanager.find(Specialty.class, 51);
-
-//			termDao.insertTechnicalTerm("Bewaehrung", "Stahlzeugs", specialty, langES);
-
-			System.out.println(specialty.getId());
-			System.out.println(specialty.getTranslationList().size());
-			System.out.println("iiiiiiiiiiiiiiiiiiiiiiiinfo" + specialty);
+			// Sprachen
+			entitymanager.getTransaction().begin();
+			Languages langDE = langDAO.insertLanguage("Deutsch");
+			entitymanager.getTransaction().commit();
+			
+			entitymanager.getTransaction().begin();
+			Languages langES = langDAO.insertLanguage("Spanisch");
+			entitymanager.getTransaction().commit();
+			
+			
+			entitymanager.getTransaction().begin();
+			Specialty betonDE = termDao.insertNewSpecialty("Beton", "fest", langDE);
+			entitymanager.getTransaction().commit();
+						
+			entitymanager.getTransaction().begin();
+			Specialty betonES = termDao.insertSpecialtyTranslation("Beton", "Deutsch", "SpaBeton", "SpaDescription", langES);
+			entitymanager.getTransaction().commit();
+			
+			entitymanager.getTransaction().begin();
+			Specialty fenster = termDao.insertNewSpecialty("Fenster", "Glas", langDE);
+			entitymanager.getTransaction().commit();
+						
+			entitymanager.getTransaction().begin();
+			TechnicalTerm bewaehrungDE = termDao.insertNewTechnicalTerm("Bewaehrung", "Stahlzeugs", betonDE, langDE);
+			entitymanager.getTransaction().commit();
+			
+			entitymanager.getTransaction().begin();
+			TechnicalTerm bewaehrungES = termDao.insertTechnicalTermTranslation("Bewaehrung", "Deutsch", "SpaBewaehrung", "SpaStahlzeugs", langES);
+			entitymanager.getTransaction().commit();
+			
 
 		} catch (NoResultException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "NoResultException", JOptionPane.ERROR_MESSAGE);
 		} finally {
-
-			entitymanager.getTransaction().commit();
+		
 			entitymanager.close();
 			emfactory.close();
-
 		}
 
 	}
