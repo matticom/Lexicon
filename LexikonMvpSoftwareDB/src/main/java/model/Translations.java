@@ -21,7 +21,7 @@ public class Translations
 	@Column(name="TRANSLATIONS_NAME")
 	private String name;
 	
-	@Column(name="TRANSLATIONS_DESCRIPTION")//, columnDefinition="CLOB(64000)")
+	@Column(name="TRANSLATIONS_DESCRIPTION", columnDefinition="CLOB(64000)")
 	private String description;
 	
 	@OneToOne
