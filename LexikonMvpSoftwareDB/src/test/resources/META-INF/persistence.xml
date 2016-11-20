@@ -12,6 +12,7 @@
 		<class>model.TechnicalTerm</class>
 		<class>model.Term</class>
 		<class>model.Translations</class>
+		<class>model.History</class>
 
 		<properties>
 			<property name="javax.persistence.jdbc.url"
@@ -34,9 +35,10 @@
 		<class>model.TechnicalTerm</class>
 		<class>model.Term</class>
 		<class>model.Translations</class>
+		<class>model.History</class>
 
 		<properties>
-			<property name="eclipselink.ddl-generation" value="create-tables" />
+			<property name="eclipselink.ddl-generation" value="none" />
 			<property name="eclipselink.logging.level" value="FINEST" />
 
 			<property name="eclipselink.target-database" value="DERBY" />

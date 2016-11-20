@@ -19,6 +19,7 @@ import javax.persistence.metamodel.Metamodel;
 import javax.swing.JOptionPane;
 
 import globals.LanguageAlreadyExists;
+import globals.SpecialtyDoesNotExist;
 import model.Languages;
 import model.Languages_;
 import model.Specialty;
@@ -26,6 +27,7 @@ import model.TechnicalTerm;
 import model.Term;
 import model.Translations;
 import model.Translations_;
+import transferObjects.SpecialtyDataset;
 import transferObjects.TechnicalTermDataset;
 
 public class TermDAO {
@@ -39,56 +41,7 @@ public class TermDAO {
 		this.entitymanager = entitymanager;
 	}
 
-	public static void main(String[] args) {
-
-		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("Eclipselink_JPA");
-		EntityManager entitymanager = emfactory.createEntityManager();
-
-		TermDAO termDao = new TermDAO(entitymanager);
-		LanguageDAO langDAO = new LanguageDAO(entitymanager);
-		
-		try {
-			// Sprachen
-			entitymanager.getTransaction().begin();
-			Languages langDE = langDAO.insertLanguage("Deutsch");
-			entitymanager.getTransaction().commit();
-			
-			entitymanager.getTransaction().begin();
-			Languages langES = langDAO.insertLanguage("Spanisch");
-			entitymanager.getTransaction().commit();
-			
-			
-			entitymanager.getTransaction().begin();
-			Specialty betonDE = termDao.insertNewSpecialty("Beton", "fest", langDE);
-			entitymanager.getTransaction().commit();
-						
-			entitymanager.getTransaction().begin();
-			Specialty betonES = termDao.insertSpecialtyTranslation("Beton", "Deutsch", "SpaBeton", "SpaDescription", langES);
-			entitymanager.getTransaction().commit();
-			
-			entitymanager.getTransaction().begin();
-			Specialty fenster = termDao.insertNewSpecialty("Fenster", "Glas", langDE);
-			entitymanager.getTransaction().commit();
-						
-			entitymanager.getTransaction().begin();
-			TechnicalTerm bewaehrungDE = termDao.insertNewTechnicalTerm("Bewaehrung", "Stahlzeugs", betonDE, langDE);
-			entitymanager.getTransaction().commit();
-			
-			entitymanager.getTransaction().begin();
-			TechnicalTerm bewaehrungES = termDao.insertTechnicalTermTranslation("Bewaehrung", "Deutsch", "SpaBewaehrung", "SpaStahlzeugs", langES);
-			entitymanager.getTransaction().commit();
-			
-
-		} catch (NoResultException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "NoResultException", JOptionPane.ERROR_MESSAGE);
-		} finally {
-		
-			entitymanager.close();
-			emfactory.close();
-		}
-
-	}
-
+	
 	public EntityManager getEntitymanager() {
 		return entitymanager;
 	}
@@ -103,6 +56,7 @@ public class TermDAO {
 
 		Specialty specialty = new Specialty();
 		insertSpecialty(specialty, name, description, lang);
+		entitymanager.persist(specialty);
 		return specialty;
 
 	}
@@ -122,7 +76,7 @@ public class TermDAO {
 		List<Translations> transList;
 		transList = specialty.getTranslationList();
 		transList.add(translation);
-		entitymanager.persist(specialty);
+		entitymanager.persist(translation);
 
 	}
 
@@ -130,7 +84,9 @@ public class TermDAO {
 
 		TechnicalTerm technicalTerm = new TechnicalTerm();
 		insertTechnicalTerm(technicalTerm, name, description, specialty, lang);
+		entitymanager.persist(technicalTerm);
 		return technicalTerm;
+		
 
 	}
 	
@@ -155,8 +111,7 @@ public class TermDAO {
 		if (specialty != null) {
 			technicalTerm.setSpecialty(specialty);
 		}
-
-		entitymanager.persist(technicalTerm);
+		entitymanager.persist(translation);
 
 	}
 
@@ -165,15 +120,29 @@ public class TermDAO {
 	public void deleteSpecialty(String name, String lang) {
 
 		Specialty specialty = selectSpecialtyByName(name, lang);
+		removeSpecialtyForeignKeyOutOfTechnicalTerms(name, lang);
+		deleteAllTranslations(name, lang);
 		entitymanager.remove(specialty);
 
+		
 	}
 		
 	public void deleteTechnicalTerm(String name, String lang) {
 
 		TechnicalTerm technicalTerm = selectTechnicalTermByName(name, lang);
+		removeTechnicalTermForeignKeyOutOfSpecialty(name, lang);
+		deleteAllTranslations(name, lang);
 		entitymanager.remove(technicalTerm);
 
+	}
+	
+	public void deleteAllTranslations(String name, String lang) {
+
+		List<Translations> translationsList = selectAllTranslations(name, lang);
+		for (Translations translation: translationsList) {
+			entitymanager.remove(translation);
+		}
+		
 	}
 	
 	public void deleteTranslation(String name, String lang) {
@@ -182,7 +151,7 @@ public class TermDAO {
 		entitymanager.remove(translation);
 	}
 	
-	
+	// ----> kein Cascade mehr!!!! delete muss geändert werden
 	
 	public Translations updateTranslation(String name, String lang, String newName, String description) {
 		
@@ -229,13 +198,13 @@ public class TermDAO {
 		return technicalTerm;
 	}
 	
-	public Translations[] selectAllTranslations(String name, String lang) throws NoResultException {
+	public List<Translations> selectAllTranslations(String name, String lang) throws NoResultException {
 
 		Term term = selectTermByName(name, lang);
 				
 		List<Translations> translationsList = term.getTranslationList();
-		Translations[] translations = translationsList.toArray(new Translations[translationsList.size()]);
-		return translations;
+		
+		return translationsList;
 	}
 	
 	
@@ -271,4 +240,23 @@ public class TermDAO {
 		return translationResult;
 	}
 	
+	public void removeSpecialtyForeignKeyOutOfTechnicalTerms(String specialtyName, String lang) {
+
+		Specialty specialty = selectSpecialtyByName(specialtyName, lang);
+		
+		for (TechnicalTerm techTerm : specialty.getTechnicalTermsList()) {
+			techTerm.setSpecialty(null);
+		}
+		specialty.getTechnicalTermsList().clear();		
+	}
+	
+	public void removeTechnicalTermForeignKeyOutOfSpecialty(String technicalTermName, String lang) {
+
+		TechnicalTerm technicalTerm = selectTechnicalTermByName(technicalTermName, lang);
+		
+		Specialty specialty = technicalTerm.getSpecialty();
+		specialty.getTechnicalTermsList().remove(technicalTerm);
+		
+		technicalTerm.setSpecialty(null);	
+	}
 }

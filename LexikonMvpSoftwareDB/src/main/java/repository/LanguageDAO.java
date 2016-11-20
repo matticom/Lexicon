@@ -36,15 +36,11 @@ public class LanguageDAO {
 	
 
 	public EntityManager getEntitymanager() {
-		
 		return entitymanager;
-		
 	}
 
 	public void setEntitymanager(EntityManager entitymanager) {
-		
 		this.entitymanager = entitymanager;
-		
 	}
 
 	
@@ -54,14 +50,12 @@ public class LanguageDAO {
 		Languages lang = new Languages(name);
 		entitymanager.persist(lang);
 		return lang;
-		
 	}
 
 	public void deleteLanguage(String name) {
 
 		Languages lang = selectLanguageByName(name);
 		entitymanager.remove(lang);
-		
 	}
 
 	public Languages updateLanguage(String name, String newName) {
@@ -69,7 +63,6 @@ public class LanguageDAO {
 		Languages lang = selectLanguageByName(name);
 		lang.setName(newName);
 		return lang;
-
 	}
 
 	public Languages selectLanguageById(int id) {
@@ -78,9 +71,7 @@ public class LanguageDAO {
 		if (lang == null) {
 			throw new NoResultException("Language ID ist nicht vorhanden!");
 		}
-
 		return lang;
-
 	}
 
 	public Languages selectLanguageByName(String name) throws NoResultException {
@@ -102,7 +93,7 @@ public class LanguageDAO {
 		
 	}
 	
-	public Languages[] selectAllLanguages() {
+	public List<Languages> selectAllLanguages() {
 
 //		Query query = entitymanager.createQuery("Select lang from Languages lang");
 //		List<Languages> langList = query.getResultList();
@@ -114,10 +105,8 @@ public class LanguageDAO {
 		criteriaQuery.select(language);
 		
 		List<Languages> languageList = entitymanager.createQuery(criteriaQuery).getResultList();
-		
-		Languages[] languages = languageList.toArray(new Languages[languageList.size()]);
-		
-		return languages;
+						
+		return languageList;
 		
 	}
 

@@ -11,6 +11,7 @@
       <class>model.TechnicalTerm</class>
       <class>model.Term</class>
       <class>model.Translations</class>
+      <class>model.History</class>
       
       <properties>
       <property name = "javax.persistence.jdbc.url" value = "jdbc:mysql://localhost:3306/alexiconjpa?serverTimezone=GMT"/>

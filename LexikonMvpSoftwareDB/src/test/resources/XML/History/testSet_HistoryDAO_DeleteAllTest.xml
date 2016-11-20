@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <HISTORY/>
+  <SEQUENCE SEQ_NAME="SEQ_GEN" SEQ_COUNT="5"/>  
+</dataset>
+
+<!-- SEQUENCE wird gelesen und im Programm eins erhöht und weiter zugewiesen an neue Objekte -->

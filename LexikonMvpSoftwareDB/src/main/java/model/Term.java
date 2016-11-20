@@ -24,7 +24,7 @@ public abstract class Term
 	@Column(name="TERM_ID")
 	private int id;
 	
-	@OneToMany(targetEntity = Translations.class, cascade=CascadeType.ALL, mappedBy="term")
+	@OneToMany(targetEntity = Translations.class, mappedBy="term", fetch = FetchType.EAGER)
 //	@Column(name="TRANSLATION_ID")
 	private List<Translations> 	translationsList;
 		

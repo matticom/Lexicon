@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <HISTORY HISTORY_ID="1" HISTORY_WORD="erstes Wort"/>
+  <HISTORY HISTORY_ID="2" HISTORY_WORD="%"/>
+  <HISTORY HISTORY_ID="3" HISTORY_WORD=" "/>
+  <HISTORY HISTORY_ID="4" HISTORY_WORD="e%"/>
+  <HISTORY HISTORY_ID="5" HISTORY_WORD="%as"/>
+  <SEQUENCE SEQ_NAME="SEQ_GEN" SEQ_COUNT="5"/>
+  <!-- SEQUENCE wird gelesen und im Programm eins erhöht und weiter zugewiesen an neue Objekte -->
+</dataset>

@@ -1,5 +1,7 @@
 package businessOperations;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
@@ -96,7 +98,7 @@ public class LanguageBO {
 		}
 	}
 
-	public Languages[] selectAllLanguage() {
+	public List<Languages> selectAllLanguage() {
 
 		return languageDAO.selectAllLanguages();
 		

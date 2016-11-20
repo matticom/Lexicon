@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <LANGUAGES LANGUAGES_ID="1" LANGUAGES_NAME="Deutsch"/>
+  <LANGUAGES LANGUAGES_ID="2" LANGUAGES_NAME="Spanisch"/>
+  <LANGUAGES LANGUAGES_ID="3" LANGUAGES_NAME="Englisch"/>
+  <SEQUENCE SEQ_NAME="SEQ_GEN" SEQ_COUNT="3"/>  
+</dataset>
+
+<!-- SEQUENCE wird gelesen und im Programm eins erhöht und weiter zugewiesen an neue Objekte -->
