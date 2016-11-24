@@ -5,32 +5,23 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
 
 import org.eclipse.persistence.internal.jpa.EntityManagerImpl;
 
 import org.apache.derby.tools.ij;
-import org.dbunit.Assertion;
 import org.dbunit.database.DatabaseConfig;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.ITable;
-import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -38,15 +29,12 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import model.History;
 import model.Languages;
 import model.Specialty;
-import model.TechnicalTerm;
-import model.Translations;
 import transferObjects.TranslationDataset;
 import util.UtilMethods;
 
-public class TermDAOTest {
+public class TermDAOInsertTest {
 
 	public static final Logger log = LoggerFactory.getLogger("TermDAOTest.class");
 	
@@ -59,14 +47,8 @@ public class TermDAOTest {
 	private static TermDAO termDAOTest;
 	private static LanguageDAO languageDAOTest;
 	private static ITable actualTranslationsTable;
-	private static ITable actualSpecialtyTable;
 	private static ITable actualTechnicalTermTable;
-	private static ITable expectedTranslationsTable;
-	private static ITable expectedSpecialtyTable;
-	private static ITable expectedTechnicalTermTable;
-
 	private static IDataSet actualDatabaseDataSet;
-	private static IDataSet expectedDataset;
 	
 	
 	@BeforeClass
@@ -105,7 +87,6 @@ public class TermDAOTest {
 		
 		try {
 			DatabaseOperation.CLEAN_INSERT.execute(mDBUnitConnection, startDataset);
-			log.error("das sollte immer da stehnnnn!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		} catch (Exception e) {
 			log.error("Exception bei DBUnit/DatabaseOperation: " + e.getMessage());
 			e.printStackTrace();
@@ -206,71 +187,10 @@ public class TermDAOTest {
 		assertThat(spanischLanguage.getId(), is(equalTo(actualTranslationEntry.getLanguageId())));
 	}
 	
-	@Test
-	public void deleteTechnicalTermTest() throws Exception {
 		
-		entitymanager.getTransaction().begin();
-		termDAOTest.deleteSpecialty("Beton", "Deutsch");
-		entitymanager.getTransaction().commit();
-		
-		try {
-			IDataSet fullDataSet = mDBUnitConnection.createDataSet();
-			FlatXmlDataSet.write(fullDataSet, new FileOutputStream("full.xml"));
-			
-		} catch (Exception e) {
-			System.out.println("Es wurde eine Exception bei FullDataSetXML geworfen: "+ e.getMessage());
-			e.printStackTrace();
-		}
-		
-		actualDatabaseDataSet = mDBUnitConnection.createDataSet();
-		actualTranslationsTable = actualDatabaseDataSet.getTable("TRANSLATIONS");
-		actualSpecialtyTable = actualDatabaseDataSet.getTable("SPECIALTY");
-			
-		expectedDataset = new FlatXmlDataSetBuilder().build(new File("./src/test/resources/XML/Term/testSet_termDAO_DeleteSpecialtyTest.xml"));
-		expectedTranslationsTable = expectedDataset.getTable("TRANSLATIONS");
-		expectedSpecialtyTable = expectedDataset.getTable("SPECIALTY");
-				
-		Assertion.assertEquals(expectedTranslationsTable, actualTranslationsTable);	
-		Assertion.assertEquals(expectedSpecialtyTable, actualSpecialtyTable);	
-	}
-	
-	@Test
-	public void deleteSpecialtyTest() throws Exception {
-		
-		
-		try {
-			IDataSet fullDataSet = mDBUnitConnection.createDataSet();
-			FlatXmlDataSet.write(fullDataSet, new FileOutputStream("full.xml"));
-			
-		} catch (Exception e) {
-			System.out.println("Es wurde eine Exception bei FullDataSetXML geworfen: "+ e.getMessage());
-			e.printStackTrace();
-		}
-		entitymanager.getTransaction().begin();
-		termDAOTest.deleteTechnicalTerm("Bewehrung", "Deutsch");
-		entitymanager.getTransaction().commit();
-		
-		actualDatabaseDataSet = mDBUnitConnection.createDataSet();
-		actualTranslationsTable = actualDatabaseDataSet.getTable("TRANSLATIONS");
-		actualTechnicalTermTable = actualDatabaseDataSet.getTable("TECHNICALTERM");
-			
-		expectedDataset = new FlatXmlDataSetBuilder().build(new File("./src/test/resources/XML/Term/testSet_termDAO_DeleteTechnicalTermTest.xml"));
-		expectedTranslationsTable = expectedDataset.getTable("TRANSLATIONS");
-		expectedTechnicalTermTable = expectedDataset.getTable("TECHNICALTERM");
-				
-		Assertion.assertEquals(expectedTranslationsTable, actualTranslationsTable);	
-		Assertion.assertEquals(expectedTechnicalTermTable, actualTechnicalTermTable);	
-	}
-
-	
-	
-	
-	
 	@AfterClass
 	public static void cleanTesting() {
-		
-		
-		
+				
 		try {
 			mDBUnitConnection.close();
 		} catch (SQLException e) {

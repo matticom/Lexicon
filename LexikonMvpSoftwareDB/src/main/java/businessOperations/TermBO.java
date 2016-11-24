@@ -175,7 +175,7 @@ public class TermBO {
 	}
 
 	public List<Translations> selectAllTranslations(TermDataset term) throws NoResultException {
-		return termDAO.selectAllTranslations(term.getName(), term.getLanguage());
+		return termDAO.selectAllTermTranslations(term.getName(), term.getLanguage());
 	}
 
 	public Translations selectTranslation(TermDataset term) throws NoResultException {
