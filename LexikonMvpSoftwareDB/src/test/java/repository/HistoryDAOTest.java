@@ -5,7 +5,6 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 import java.io.File;
-import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -24,9 +23,8 @@ import org.dbunit.dataset.ITable;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.eclipse.persistence.internal.jpa.EntityManagerImpl;
-import org.junit.AfterClass;
+import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,8 +38,9 @@ public class HistoryDAOTest {
 
 	private static IDatabaseConnection mDBUnitConnection;
 	private static IDataSet startDataset;
+	private static Connection connection;
 
-	private static EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("Eclipselink_JPA_Derby");
+	private static EntityManagerFactory emfactory;
 	private static EntityManager entitymanager;
 
 	private static HistoryDAO historyDAOTest;
@@ -50,13 +49,15 @@ public class HistoryDAOTest {
 	private static IDataSet actualDatabaseDataSet;
 	private static IDataSet expectedDataset;
 
-	@BeforeClass
-	public static void prepareForTesting() {
-
+	
+	@Before
+	public void refreshDB() {
+		
+		emfactory = Persistence.createEntityManagerFactory("Eclipselink_JPA_Derby");
 		entitymanager = emfactory.createEntityManager();
 
-		Connection connection = ((EntityManagerImpl) (entitymanager.getDelegate())).getServerSession().getAccessor().getConnection();
-
+		connection = ((EntityManagerImpl) (entitymanager.getDelegate())).getServerSession().getAccessor().getConnection();
+		
 		try {
 			ij.runScript(connection,HistoryDAOTest.class.getResourceAsStream("/Lexicon_Database_Schema_Derby.sql"),"UTF-8", System.out, "UTF-8"); // nicht ("./Lex...
 			
@@ -75,10 +76,6 @@ public class HistoryDAOTest {
 		}
 
 		historyDAOTest = new HistoryDAO(entitymanager);
-	}
-
-	@Before
-	public void refreshDB() {
 		
 		try {
 			DatabaseOperation.CLEAN_INSERT.execute(mDBUnitConnection, startDataset);
@@ -137,11 +134,12 @@ public class HistoryDAOTest {
 	}
 		
 	
-	@AfterClass
-	public static void cleanTesting() {
+	@After
+	public void cleanTesting() {
 		
 		try {
 			mDBUnitConnection.close();
+			connection.close();
 		} catch (SQLException e) {
 			System.out.println("Es wurde eine Exception beim Schlieﬂen der IDataConnection geworfen: "+ e.getMessage());
 			e.printStackTrace();
@@ -150,4 +148,5 @@ public class HistoryDAOTest {
 		entitymanager.close();
 		emfactory.close();
 	}
+	
 }

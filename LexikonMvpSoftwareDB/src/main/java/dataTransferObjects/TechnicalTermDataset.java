@@ -1,4 +1,4 @@
-package transferObjects;
+package dataTransferObjects;
 
 public class TechnicalTermDataset extends TermDataset {
 	

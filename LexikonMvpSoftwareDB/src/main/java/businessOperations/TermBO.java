@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.persistence.NoResultException;
 
+import dataTransferObjects.SpecialtyDataset;
+import dataTransferObjects.TechnicalTermDataset;
+import dataTransferObjects.TermDataset;
 import globals.LanguageEntryInSpecialtyAlreadyExists;
 import globals.LanguageEntryInTechnicalTermAlreadyExists;
 import globals.SpecialtyAlreadyExists;
@@ -18,9 +21,6 @@ import model.TechnicalTerm;
 import model.Term;
 import model.Translations;
 import repository.TermDAO;
-import transferObjects.SpecialtyDataset;
-import transferObjects.TechnicalTermDataset;
-import transferObjects.TermDataset;
 
 public class TermBO {
 

@@ -18,6 +18,8 @@ import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.Metamodel;
 import javax.swing.JOptionPane;
 
+import dataTransferObjects.SpecialtyDataset;
+import dataTransferObjects.TechnicalTermDataset;
 import globals.LanguageAlreadyExists;
 import globals.SpecialtyDoesNotExist;
 import model.Languages;
@@ -27,8 +29,6 @@ import model.TechnicalTerm;
 import model.Term;
 import model.Translations;
 import model.Translations_;
-import transferObjects.SpecialtyDataset;
-import transferObjects.TechnicalTermDataset;
 
 public class TermDAO {
 

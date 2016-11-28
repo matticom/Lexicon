@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.dbunit.dataset.ITable;
 
-import transferObjects.TranslationDataset;
+import dataTransferObjects.TranslationDataset;
 
 public class UtilMethods {
 
