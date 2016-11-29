@@ -45,24 +45,21 @@ public class LanguageDAO {
 
 	
 	
-	public Languages insertLanguage(String name) {
+	public Languages insertLanguage(Languages language) {
 
-		Languages lang = new Languages(name);
-		entitymanager.persist(lang);
-		return lang;
+		entitymanager.persist(language);
+		return language;
 	}
 
-	public void deleteLanguage(String name) {
+	public void deleteLanguage(Languages language) {
 
-		Languages lang = selectLanguageByName(name);
-		entitymanager.remove(lang);
+		entitymanager.remove(language);
 	}
 
-	public Languages updateLanguage(String name, String newName) {
+	public Languages updateLanguage(Languages language, String newName) {
 
-		Languages lang = selectLanguageByName(name);
-		lang.setName(newName);
-		return lang;
+		language.setName(newName);
+		return language;
 	}
 
 	public Languages selectLanguageById(int id) {

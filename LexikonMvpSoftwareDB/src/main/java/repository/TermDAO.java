@@ -49,32 +49,19 @@ public class TermDAO {
 		this.entitymanager = entitymanager;
 	}
 
-	public Specialty insertNewSpecialty(String name, String description, Languages lang) {
-
-		Specialty specialty = new Specialty();
-		insertSpecialty(specialty, name, description, lang);
+	public Specialty insertNewSpecialty(Specialty specialty) {
+		
+		insertSpecialtyTranslation(specialty, specialty.getTranslationList().get(0));
 		entitymanager.persist(specialty);
 		return specialty;
-
 	}
-
-	public Specialty insertSpecialtyTranslation(String RefName, String RefLang, String name, String description, Languages lang) {
-
-		Specialty specialty = selectSpecialtyByName(RefName, RefLang);
-		insertSpecialty(specialty, name, description, lang);
-		return specialty;
-
-	}
-
-	private void insertSpecialty(Specialty specialty, String name, String description, Languages lang) {
-
-		Translations translation = new Translations(name, description, lang, specialty);
-
+	
+	private void insertSpecialtyTranslation(Specialty specialty, Translations translation) {
+		
 		List<Translations> transList;
 		transList = specialty.getTranslationList();
 		transList.add(translation);
 		entitymanager.persist(translation);
-
 	}
 
 	public TechnicalTerm insertNewTechnicalTerm(String name, String description, Specialty specialty, Languages lang) {
