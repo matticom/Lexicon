@@ -1,11 +1,11 @@
 ----------------------------------------------------------------
-Tue Nov 29 09:28:50 CET 2016:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0158-af33-648c-000004820e00 
+Wed Nov 30 21:04:29 CET 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0158-b6d6-a288-000004b9f8b8 
 on database directory memory:C:\eclipse\LexiconDB with class loader sun.misc.Launcher$AppClassLoader@3cd1a2f1 
-Loaded from file:/C:/Users/matth/.m2/repository/org/apache/derby/derby/10.12.1.1/derby-10.12.1.1.jar
+Loaded from file:/C:/Users/Matti/.m2/repository/org/apache/derby/derby/10.12.1.1/derby-10.12.1.1.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_112-b15
-user.dir=C:\Users\matth\git\Lexicon\LexikonMvpSoftwareDB
+java.runtime.version=1.8.0_92-b14
+user.dir=C:\Users\Matti\git\LexiconMvpDB\LexikonMvpSoftwareDB
 os.name=Windows 10
 os.arch=amd64
 os.version=10.0

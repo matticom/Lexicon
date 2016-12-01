@@ -8,9 +8,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 
 import org.eclipse.persistence.internal.jpa.EntityManagerImpl;
@@ -39,6 +41,7 @@ import model.History;
 import model.Languages;
 import model.Specialty;
 import model.TechnicalTerm;
+import model.Term;
 import model.Translations;
 import util.UtilMethods;
 
@@ -102,12 +105,13 @@ public class TermDAOTest {
 	@Test
 	public void insertNewSpecialtyTest() throws Exception {
 		
-		entitymanager.getTransaction().begin();
-		Languages deutschLanguage = languageDAOTest.selectLanguageByName("Deutsch");
-		entitymanager.getTransaction().commit();
+		Languages de = languageDAOTest.selectLanguageById(1);
+		Specialty werkzeuge = new Specialty();		
+		Translations translation = new Translations("Werkzeuge", "zum Arbeiten", de, werkzeuge);
+		werkzeuge.getTranslationList().add(translation);
 		
 		entitymanager.getTransaction().begin();
-		termDAOTest.insertNewSpecialty("Werkzeuge", "zum Arbeiten", deutschLanguage);
+		termDAOTest.insertNewSpecialty(werkzeuge);
 		entitymanager.getTransaction().commit();
 		
 		actualDatabaseDataSet = mDBUnitConnection.createDataSet();
@@ -117,18 +121,19 @@ public class TermDAOTest {
 				
 		assertThat("Werkzeuge", is(equalTo(actualTranslationEntry.getTranslationName())));
 		assertThat("zum Arbeiten", is(equalTo(actualTranslationEntry.getTranslationDescription())));
-		assertThat(deutschLanguage.getId(), is(equalTo(actualTranslationEntry.getLanguageId())));
+		assertThat(de.getId(), is(equalTo(actualTranslationEntry.getLanguageId())));
 	}
 	
 	@Test
 	public void insertSpecialtyTranslationTest() throws Exception {
 		
-		entitymanager.getTransaction().begin();
-		Languages spanischLanguage = languageDAOTest.selectLanguageByName("Spanisch");
-		entitymanager.getTransaction().commit();
+		Languages es = languageDAOTest.selectLanguageById(2);
+		Specialty beton = termDAOTest.selectSpecialtyById(3);
+		Translations translation = new Translations("SpaBeton", "SpaHartesZeugs", es, beton);
+		beton.getTranslationList().add(translation);
 		
 		entitymanager.getTransaction().begin();
-		termDAOTest.insertSpecialtyTranslation("Beton", "Deutsch", "SpaBeton", "SpaHartesZeugs", spanischLanguage);
+		termDAOTest.insertSpecialtyTranslation(beton, translation);
 		entitymanager.getTransaction().commit();
 				
 		actualDatabaseDataSet = mDBUnitConnection.createDataSet();
@@ -138,22 +143,25 @@ public class TermDAOTest {
 				
 		assertThat("SpaBeton", is(equalTo(actualTranslationEntry.getTranslationName())));
 		assertThat("SpaHartesZeugs", is(equalTo(actualTranslationEntry.getTranslationDescription())));
-		assertThat(spanischLanguage.getId(), is(equalTo(actualTranslationEntry.getLanguageId())));
+		assertThat(es.getId(), is(equalTo(actualTranslationEntry.getLanguageId())));
 	}
 	
 	@Test
 	public void insertNewTechnicalTermTest() throws Exception {
 		
-		entitymanager.getTransaction().begin();
-		Languages deutschLanguage = languageDAOTest.selectLanguageByName("Deutsch");
-		entitymanager.getTransaction().commit();
-		
-		entitymanager.getTransaction().begin();
+		Languages de = languageDAOTest.selectLanguageById(1);
 		Specialty betonSpecialty = termDAOTest.selectSpecialtyById(3);
+		TechnicalTerm fluessigbeton = new TechnicalTerm();
+		fluessigbeton.setSpecialty(betonSpecialty);
+		Translations translation = new Translations("Flüssigbeton", "flüssig", de, fluessigbeton);
+		fluessigbeton.getTranslationList().add(translation);
+		
+		entitymanager.getTransaction().begin();
+		
 		entitymanager.getTransaction().commit();
 		
 		entitymanager.getTransaction().begin();
-		termDAOTest.insertNewTechnicalTerm("Flüssigbeton", "flüssig", betonSpecialty, deutschLanguage);
+		termDAOTest.insertNewTechnicalTerm(fluessigbeton);
 		entitymanager.getTransaction().commit();
 		
 		actualDatabaseDataSet = mDBUnitConnection.createDataSet();
@@ -165,19 +173,20 @@ public class TermDAOTest {
 				
 		assertThat("Flüssigbeton", is(equalTo(actualTranslationEntry.getTranslationName())));
 		assertThat("flüssig", is(equalTo(actualTranslationEntry.getTranslationDescription())));
-		assertThat(deutschLanguage.getId(), is(equalTo(actualTranslationEntry.getLanguageId())));
+		assertThat(de.getId(), is(equalTo(actualTranslationEntry.getLanguageId())));
 		assertThat(3, is(equalTo(actualSpecialtyId)));
 	}
 	
 	@Test
 	public void insertTechnicalTermTranslationTest() throws Exception {
 		
-		entitymanager.getTransaction().begin();
-		Languages spanischLanguage = languageDAOTest.selectLanguageByName("Spanisch");
-		entitymanager.getTransaction().commit();
+		Languages es = languageDAOTest.selectLanguageById(2);
+		TechnicalTerm rolladen = termDAOTest.selectTechnicalTermById(14);
+		Translations translation = new Translations("SpaRolladen", "SpaZum Schutz der Fenster", es, rolladen);
+		rolladen.getTranslationList().add(translation);
 		
 		entitymanager.getTransaction().begin();
-		termDAOTest.insertTechnicalTermTranslation("Rolladen", "Deutsch", "SpaRolladen", "SpaZum Schutz der Fenster", spanischLanguage);
+		termDAOTest.insertTechnicalTermTranslation(rolladen, translation);
 		entitymanager.getTransaction().commit();
 		
 		actualDatabaseDataSet = mDBUnitConnection.createDataSet();
@@ -189,14 +198,16 @@ public class TermDAOTest {
 				
 		assertThat("SpaRolladen", is(equalTo(actualTranslationEntry.getTranslationName())));
 		assertThat("SpaZum Schutz der Fenster", is(equalTo(actualTranslationEntry.getTranslationDescription())));
-		assertThat(spanischLanguage.getId(), is(equalTo(actualTranslationEntry.getLanguageId())));
+		assertThat(es.getId(), is(equalTo(actualTranslationEntry.getLanguageId())));
 	}
 	
 	@Test
 	public void deleteSpecialtyTest() throws Exception {
 		
+		Specialty betonSpecialty = termDAOTest.selectSpecialtyById(3);
+		
 		entitymanager.getTransaction().begin();
-		termDAOTest.deleteSpecialty("Beton", "Deutsch");
+		termDAOTest.deleteSpecialty(betonSpecialty);
 		entitymanager.getTransaction().commit();
 						
 		actualDatabaseDataSet = mDBUnitConnection.createDataSet();
@@ -214,8 +225,10 @@ public class TermDAOTest {
 	@Test
 	public void deleteTechnicalTermTest() throws Exception {
 			
+		TechnicalTerm bewehrung = termDAOTest.selectTechnicalTermById(12);
+		
 		entitymanager.getTransaction().begin();
-		termDAOTest.deleteTechnicalTerm("Bewehrung", "Deutsch");
+		termDAOTest.deleteTechnicalTerm(bewehrung);
 		entitymanager.getTransaction().commit();
 		
 		actualDatabaseDataSet = mDBUnitConnection.createDataSet();
@@ -233,8 +246,11 @@ public class TermDAOTest {
 	@Test
 	public void deleteTranslationTest() throws Exception {
 		
+		Specialty betonSpecialty = termDAOTest.selectSpecialtyById(3);
+		Translations translation = betonSpecialty.getTranslationList().get(0);
+		
 		entitymanager.getTransaction().begin();
-		termDAOTest.deleteTranslation("Beton", "Deutsch");
+		termDAOTest.deleteTranslation(translation);
 		entitymanager.getTransaction().commit();
 				
 		actualDatabaseDataSet = mDBUnitConnection.createDataSet();
@@ -245,23 +261,7 @@ public class TermDAOTest {
 						
 		Assertion.assertEquals(expectedTranslationsTable, actualTranslationsTable);	
 	}
-	
-	@Test
-	public void deleteAllTermTranslationsTest() throws Exception {
 		
-		entitymanager.getTransaction().begin();
-		termDAOTest.deleteAllTranslations("Beton", "Deutsch");
-		entitymanager.getTransaction().commit();
-				
-		actualDatabaseDataSet = mDBUnitConnection.createDataSet();
-		actualTranslationsTable = actualDatabaseDataSet.getTable("TRANSLATIONS");
-					
-		expectedDataset = new FlatXmlDataSetBuilder().build(new File("./src/test/resources/XML/Term/testSet_termDAO_DeleteAllTermTranslationsTest.xml"));
-		expectedTranslationsTable = expectedDataset.getTable("TRANSLATIONS");
-						
-		Assertion.assertEquals(expectedTranslationsTable, actualTranslationsTable);	
-	}
-	
 	@Test
 	public void selectSpecialtyByNameTest() throws Exception {
 		
@@ -282,12 +282,41 @@ public class TermDAOTest {
 		String betonName = betonSpecialty.getTranslationList().get(0).getName();
 		assertThat("Beton", is(equalTo(betonName)));		
 	}
+	
+	@Test
+	public void selectTechnicalTermByNameTest() throws Exception {
 		
+		entitymanager.getTransaction().begin();
+		TechnicalTerm bindemittelSpecialty = termDAOTest.selectTechnicalTermByName("Bindemittel", "Deutsch");
+		entitymanager.getTransaction().commit();
+						
+		String bindemittelName = bindemittelSpecialty.getTranslationList().get(0).getName();
+		assertThat("Bindemittel", is(equalTo(bindemittelName)));		
+	}
+	
+		
+	@Test(expected = NoResultException.class)
+	public void selectSpecialtyByIdWithNoResultExceptionTest() {
+
+		Specialty noSuchSpecialty = termDAOTest.selectSpecialtyById(220);
+	}
+	
+	@Test(expected = NoResultException.class)
+	public void selectTechnicalTermByIdWithNoResultExceptionTest() {
+
+		TechnicalTerm noSuchTechnicalTerm = termDAOTest.selectTechnicalTermById(220);
+	}
+	
 	@Test
 	public void updateTranslationTest() throws Exception {
 		
+		Languages de = languageDAOTest.selectLanguageById(1);
+		Specialty beton = termDAOTest.selectSpecialtyById(3);
+		Translations newTranslation = new Translations("Beton updated", "description updated", de, beton);
+		Translations translation = beton.getTranslationList().get(0);
+		
 		entitymanager.getTransaction().begin();
-		termDAOTest.updateTranslation("Beton", "Deutsch", "Beton updated", "description updated");
+		termDAOTest.updateTranslation(translation, newTranslation);
 		entitymanager.getTransaction().commit();
 				
 		actualDatabaseDataSet = mDBUnitConnection.createDataSet();
@@ -297,6 +326,34 @@ public class TermDAOTest {
 		expectedTranslationsTable = expectedDataset.getTable("TRANSLATIONS");
 				
 		Assertion.assertEquals(expectedTranslationsTable, actualTranslationsTable);
+	}
+	
+	@Test
+	public void selectAllSpecialtiesTest() throws Exception {
+		
+		entitymanager.getTransaction().begin();
+		List<Specialty> specialtyList = termDAOTest.selectAllSpecialties();
+		entitymanager.getTransaction().commit();
+			
+		String[] expectedArray = new String[]{"Beton", "Hormigón", "Fassade", "Fachada"};
+		String[] actualArray = UtilMethods.extractAllSpecialtyNamesFromSpecialtyList(specialtyList);
+		
+		assertThat(expectedArray, is(equalTo(actualArray)));		
+	}
+	
+	@Test
+	public void selectAllTermTranslationsTest() throws Exception {
+		
+		Specialty beton = termDAOTest.selectSpecialtyById(3);
+		
+		entitymanager.getTransaction().begin();
+		List<Translations> termList = termDAOTest.selectAllTermTranslations(beton);
+		entitymanager.getTransaction().commit();
+			
+		String[] expectedArray = new String[]{"Beton", "Hormigón"};
+		String[] actualArray = UtilMethods.extractAllTranslationNamesFromTerm(beton);
+		
+		assertThat(expectedArray, is(equalTo(actualArray)));		
 	}
 		
 	@After

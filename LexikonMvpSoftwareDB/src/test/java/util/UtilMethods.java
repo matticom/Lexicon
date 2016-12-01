@@ -7,6 +7,9 @@ import java.util.List;
 import org.dbunit.dataset.ITable;
 
 import dataTransferObjects.TranslationDataset;
+import model.Specialty;
+import model.Term;
+import model.Translations;
 
 public class UtilMethods {
 
@@ -71,5 +74,29 @@ public class UtilMethods {
 		int lastRow = list.size()-1;
 		return (int) m.invoke(list.get(lastRow-substractFormLastRow));
 	}
-
+	
+	public static String[] extractAllSpecialtyNamesFromSpecialtyList(List<Specialty> specialtyList) {
+		// gibt alle Namen aller Specialties der Liste in DE und ES zurück
+		int rows = specialtyList.size();
+		int arrayRow = 0;
+		String[] actualArray = new String[rows*2];
+		for (int row = 0; row < rows; row++) {
+			arrayRow = row*2;
+			actualArray[arrayRow] = specialtyList.get(row).getTranslationList().get(0).getName();
+			actualArray[arrayRow+1] = specialtyList.get(row).getTranslationList().get(1).getName();
+		}
+		return actualArray;
+	}
+	
+	public static String[] extractAllTranslationNamesFromTerm(Term term) {
+		// gibt alle Namen einer Specialties/TechnicalTerms in DE und ES zurück
+		int rows = term.getTranslationList().size();
+		String[] actualArray = new String[rows];
+		int actualRow = 0;
+		for (Translations translation: term.getTranslationList()) {
+			actualArray[actualRow] = translation.getName();
+			actualRow++;
+		}
+		return actualArray;
+	}
 }

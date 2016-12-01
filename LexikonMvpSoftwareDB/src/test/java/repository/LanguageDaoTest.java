@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -21,6 +22,7 @@ import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.ITable;
+import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.eclipse.persistence.internal.jpa.EntityManagerImpl;
@@ -87,6 +89,7 @@ public class LanguageDaoTest {
 	public void insertLanguageTest() throws Exception {
 
 		Languages eng = new Languages("Englisch");
+		
 		entitymanager.getTransaction().begin();
 		languageDAOTest.insertLanguage(eng);
 		entitymanager.getTransaction().commit();
@@ -100,12 +103,13 @@ public class LanguageDaoTest {
 		Assertion.assertEquals(expectedTable, actualTable);
 	}
 
-	@Ignore
 	@Test
 	public void deleteLanguageTest() throws Exception {
 
+		Languages de = languageDAOTest.selectLanguageById(1);
+		
 		entitymanager.getTransaction().begin();
-		languageDAOTest.deleteLanguage("Deutsch");
+		languageDAOTest.deleteLanguage(de);
 		entitymanager.getTransaction().commit();
 
 		actualDatabaseDataSet = mDBUnitConnection.createDataSet();
@@ -117,14 +121,16 @@ public class LanguageDaoTest {
 		Assertion.assertEquals(expectedTable, actualTable);
 	}
 
-	@Ignore
 	@Test
 	public void updateLanguageTest() throws Exception {
 
+		Languages de = languageDAOTest.selectLanguageById(1);
+		Languages eng = new Languages("Englisch");
+		
 		entitymanager.getTransaction().begin();
-		languageDAOTest.updateLanguage("Deutsch", "Englisch");
+		languageDAOTest.updateLanguage(de, eng);
 		entitymanager.getTransaction().commit();
-
+		
 		actualDatabaseDataSet = mDBUnitConnection.createDataSet();
 		actualTable = actualDatabaseDataSet.getTable("LANGUAGES");
 
@@ -134,7 +140,6 @@ public class LanguageDaoTest {
 		Assertion.assertEquals(expectedTable, actualTable);
 	}
 
-	@Ignore
 	@Test
 	public void selectLanguageByNameTest() throws Exception {
 
@@ -145,7 +150,6 @@ public class LanguageDaoTest {
 		assertThat("Deutsch", is(equalTo(actualLanguage.getName())));
 	}
 
-	@Ignore
 	@Test(expected = NoResultException.class)
 	public void selectLanguageByNameWithNoResultExceptionTest() {
 
@@ -162,7 +166,6 @@ public class LanguageDaoTest {
 		assertThat("Maori", is(equalTo(actualLanguage.getName())));
 	}
 		
-	@Ignore
 	@Test
 	public void selectAllLanguageTest() throws Exception {
 

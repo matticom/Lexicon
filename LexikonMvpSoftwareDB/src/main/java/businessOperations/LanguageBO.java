@@ -21,78 +21,58 @@ public class LanguageBO {
 		this.languageDAO = languageDAO;
 	}
 
-	public static void main(String[] args) {
-
-		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("Eclipselink_JPA");
-		EntityManager entitymanager = emfactory.createEntityManager();
-
-		
-		LanguageDAO langDAO = new LanguageDAO(entitymanager);
-		LanguageBO langBO = new LanguageBO(langDAO);
-		entitymanager.getTransaction().begin();
-
-		try {
-
-			langDAO.insertLanguage("Spanisch");
-			langDAO.insertLanguage("Deutsch");
-			// langDAO.updateLanguageById(1, "Russisch");
-			// langDAO.updateLanguageByName("Russisch", "Deutsche");
-			// System.out.println("---> selectLanguageById: " +
-			// langDAO.selectLanguageById(1).getName());
-			// System.out.println("---> selectLanguageByName: " +
-			// langDAO.selectLanguageByName("Deutsch").getName());
-			// langDAO.deleteLanguage("Deutsch");
-			// langDAO.insertLanguage("Deutsch");
-
-		} catch (LanguageAlreadyExists e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "LanguageAlreadyExists", JOptionPane.ERROR_MESSAGE);
-		} catch (NoResultException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "NoResultException", JOptionPane.ERROR_MESSAGE);
-		} finally {
-
-			entitymanager.getTransaction().commit();
-			entitymanager.close();
-			emfactory.close();
-
-		}
-
-	}
 	
 	public Languages createLanguage(String language) {
-		if (!isLanguageAlreadyExisting(language)) {
-			return languageDAO.insertLanguage(language);
-		} else {
+		
+		try{
+			selectLanguageByName(language);
 			throw new LanguageAlreadyExists();
+		} catch (LanguageDoesNotExist e) {
+			return languageDAO.insertLanguage(new Languages(language));
 		}
-
 	}
 
-	public void deleteLanguage(String language) {
+	public void deleteLanguage(int languageId) {
 
-		if (isLanguageAlreadyExisting(language)) {
+		try {
+			Languages language = languageDAO.selectLanguageById(languageId);
 			languageDAO.deleteLanguage(language);
-		} else {
+		} catch (NoResultException e) {
 			throw new LanguageDoesNotExist();
 		}
-
 	}
 
-	public Languages updateLanguage(String language, String newName) {
+	public Languages updateLanguage(int languageId, String newName) {
 
-		if (!isLanguageAlreadyExisting(language)) {
-			throw new LanguageDoesNotExist();
-		} else if (isLanguageAlreadyExisting(newName)) {
-			throw new LanguageAlreadyExists("Update nicht möglich, Sprache schon vorhanden!");
-		} else {
-			return languageDAO.updateLanguage(language, newName);
+		try {
+			if (selectLanguageByName(newName) != null) {
+				throw new LanguageAlreadyExists("Update nicht möglich, Sprache schon vorhanden!");
+			}
+		} catch (LanguageDoesNotExist e) {	
 		}
-
+		
+		try {
+			Languages language = languageDAO.selectLanguageById(languageId);
+			Languages newLanguage = new Languages("newName");
+			return languageDAO.updateLanguage(language, newLanguage);
+		} catch (NoResultException noResultException) {
+			throw new LanguageDoesNotExist("Zu aktualisierende Sprache ist nicht vorhanden!");
+		}
 	}
 
-	public Languages selectLanguage(String language) {
+	public Languages selectLanguageByName(String language) {
 
 		try {
 			return languageDAO.selectLanguageByName(language);
+		} catch (NoResultException e) {
+			throw new LanguageDoesNotExist();
+		}
+	}
+	
+	public Languages selectLanguageById(int languageId) {
+
+		try {
+			return languageDAO.selectLanguageById(languageId);
 		} catch (NoResultException e) {
 			throw new LanguageDoesNotExist();
 		}
@@ -101,18 +81,5 @@ public class LanguageBO {
 	public List<Languages> selectAllLanguage() {
 
 		return languageDAO.selectAllLanguages();
-		
-	}
-
-	public boolean isLanguageAlreadyExisting(String language) {
-
-		try {
-			languageDAO.selectLanguageByName(language);
-			return true;
-
-		} catch (NoResultException e) {
-			return false;
-		}
-
 	}
 }

@@ -32,6 +32,9 @@ import model.Translations_;
 
 public class TermDAO {
 
+	
+	// Konzept: Id's werden später in Buttons usw integriert -> Id's können ausgelesen werden und benutzt werden für aktionen
+	
 	private EntityManager entitymanager;
 
 	public TermDAO() {
@@ -50,100 +53,69 @@ public class TermDAO {
 	}
 
 	public Specialty insertNewSpecialty(Specialty specialty) {
-		
-		insertSpecialtyTranslation(specialty, specialty.getTranslationList().get(0));
+
 		entitymanager.persist(specialty);
 		return specialty;
 	}
-	
-	private void insertSpecialtyTranslation(Specialty specialty, Translations translation) {
-		
+
+	public Translations insertSpecialtyTranslation(Specialty specialty, Translations translation) {
+
 		List<Translations> transList;
 		transList = specialty.getTranslationList();
 		transList.add(translation);
 		entitymanager.persist(translation);
+		return translation;
 	}
 
-	public TechnicalTerm insertNewTechnicalTerm(String name, String description, Specialty specialty, Languages lang) {
+	public TechnicalTerm insertNewTechnicalTerm(TechnicalTerm technicalTerm) {
 
-		TechnicalTerm technicalTerm = new TechnicalTerm();
-		insertTechnicalTerm(technicalTerm, name, description, specialty, lang);
+		// muss vorher schon eine Specialty bekommen
 		entitymanager.persist(technicalTerm);
 		return technicalTerm;
 
 	}
 
-	public TechnicalTerm insertTechnicalTermTranslation(String RefName, String RefLang, String name, String description, Languages lang) {
+	public Translations insertTechnicalTermTranslation(TechnicalTerm technicalTerm, Translations translation) {
 
-		TechnicalTerm technicalTerm = selectTechnicalTermByName(RefName, RefLang);
-		insertTechnicalTerm(technicalTerm, name, description, null, lang);
-		return technicalTerm;
+		List<Translations> transList;
+		transList = technicalTerm.getTranslationList();
+		transList.add(translation);
+
+		entitymanager.persist(translation);
+		return translation;
 
 		// Specialty immer null bei new Translation -> beziehung schon gesetzt
 		// bei Erzeugung oder extern durch entsprechende Befehle
 
 	}
 
-	private void insertTechnicalTerm(TechnicalTerm technicalTerm, String name, String description, Specialty specialty, Languages lang) {
+	public void deleteSpecialty(Specialty specialty) {
 
-		Translations translation = new Translations(name, description, lang, technicalTerm);
-
-		List<Translations> transList;
-		transList = technicalTerm.getTranslationList();
-		transList.add(translation);
-
-		if (specialty != null) {
-			technicalTerm.setSpecialty(specialty);
-		}
-		entitymanager.persist(translation);
-
-	}
-
-	public void deleteSpecialty(String name, String lang) {
-
-		Specialty specialty = selectSpecialtyByName(name, lang);
-		removeSpecialtyForeignKeyOutOfTechnicalTerms(name, lang);
-		deleteAllTranslations(name, lang);
+		removeSpecialtyForeignKeyOutOfTechnicalTerms(specialty);
 		entitymanager.remove(specialty);
 
 	}
 
-	public void deleteTechnicalTerm(String name, String lang) {
+	public void deleteTechnicalTerm(TechnicalTerm technicalTerm) {
 
-		TechnicalTerm technicalTerm = selectTechnicalTermByName(name, lang);
-		removeTechnicalTermForeignKeyOutOfSpecialty(name, lang);
-		deleteAllTranslations(name, lang);
+		removeTechnicalTermForeignKeyOutOfSpecialty(technicalTerm);
 		entitymanager.remove(technicalTerm);
 
 	}
 
-	public void deleteAllTranslations(String name, String lang) {
+	public void deleteTranslation(Translations translation) {
 
-		List<Translations> translationsList = selectAllTermTranslations(name, lang);
-		for (Translations translation : translationsList) {
-			entitymanager.remove(translation);
-		}
-
-	}
-
-	public void deleteTranslation(String name, String lang) {
-
-		Translations translation = selectTranslation(name, lang);
+		Term term = translation.getTerm();
+		term.getTranslationList().remove(translation);
 		entitymanager.remove(translation);
 	}
 
-	public Translations updateTranslation(String RefName, String RefLang, String newName, String description) {
+	public Translations updateTranslation(Translations translation, Translations newTranslation) {
 
-		Translations translation = selectTranslation(RefName, RefLang);
-
-		if (newName != null) {
-			translation.setName(newName);
-		}
-
-		if (description != null) {
-			translation.setDescription(description);
-		}
-
+		// Aus Angaben in der Maske wird ein neues Translation-Objekt gemacht
+		// (beinhaltet auch die nicht-aktualisierten Inhalte)
+		translation.setName(newTranslation.getName());
+		translation.setDescription(newTranslation.getDescription());
 		return translation;
 	}
 
@@ -153,9 +125,7 @@ public class TermDAO {
 		if (specialty == null) {
 			throw new NoResultException("Specialty ID ist nicht vorhanden!");
 		}
-
 		return specialty;
-
 	}
 
 	public TechnicalTerm selectTechnicalTermById(int id) {
@@ -164,9 +134,16 @@ public class TermDAO {
 		if (technicalTerm == null) {
 			throw new NoResultException("TechnicalTerm ID ist nicht vorhanden!");
 		}
-
 		return technicalTerm;
+	}
+	
+	public Term selectTermById(int id) {
 
+		Term term = entitymanager.find(Term.class, id);
+		if (term == null) {
+			throw new NoResultException("Term ID ist nicht vorhanden!");
+		}
+		return term;
 	}
 
 	public List<Specialty> selectAllSpecialties() {
@@ -182,36 +159,32 @@ public class TermDAO {
 		return specialtyList;
 	}
 
-	public Specialty selectSpecialtyByName(String name, String lang) throws NoResultException {
+	public Specialty selectSpecialtyByName(String name, Languages language) throws NoResultException {
 
-		Specialty specialty = (Specialty) selectTermByName(name, lang);
+		Specialty specialty = (Specialty) selectTermByName(name, language.getName());
 		return specialty;
 	}
 
-	public TechnicalTerm selectTechnicalTermByName(String name, String lang) throws NoResultException {
+	public TechnicalTerm selectTechnicalTermByName(String name, Languages language) throws NoResultException {
 
-		TechnicalTerm technicalTerm = (TechnicalTerm) selectTermByName(name, lang);
+		TechnicalTerm technicalTerm = (TechnicalTerm) selectTermByName(name, language.getName());
 		return technicalTerm;
 	}
 
-	public List<Translations> selectAllTermTranslations(String name, String lang) throws NoResultException {
-
-		Term term = selectTermByName(name, lang);
+	public List<Translations> selectAllTermTranslations(Term term) throws NoResultException {
 
 		List<Translations> translationsList = term.getTranslationList();
-
 		return translationsList;
 	}
 
 	private Term selectTermByName(String name, String lang) throws NoResultException {
 
 		Translations translation = selectTranslation(name, lang);
-
 		Term term = translation.getTerm();
 		return term;
 	}
 
-	public Translations selectTranslation(String name, String lang) throws NoResultException {
+	private Translations selectTranslation(String name, String lang) throws NoResultException {
 
 		CriteriaBuilder criteriaBuilder = entitymanager.getCriteriaBuilder();
 		CriteriaQuery<Translations> criteriaQuery = criteriaBuilder.createQuery(Translations.class);
@@ -236,9 +209,7 @@ public class TermDAO {
 		return translationResult;
 	}
 
-	public void removeSpecialtyForeignKeyOutOfTechnicalTerms(String specialtyName, String lang) {
-
-		Specialty specialty = selectSpecialtyByName(specialtyName, lang);
+	private void removeSpecialtyForeignKeyOutOfTechnicalTerms(Specialty specialty) {
 
 		for (TechnicalTerm techTerm : specialty.getTechnicalTermsList()) {
 			techTerm.setSpecialty(null);
@@ -246,23 +217,10 @@ public class TermDAO {
 		specialty.getTechnicalTermsList().clear();
 	}
 
-	public void removeTechnicalTermForeignKeyOutOfSpecialty(String technicalTermName, String lang) {
-
-		TechnicalTerm technicalTerm = selectTechnicalTermByName(technicalTermName, lang);
+	private void removeTechnicalTermForeignKeyOutOfSpecialty(TechnicalTerm technicalTerm) {
 
 		Specialty specialty = technicalTerm.getSpecialty();
 		specialty.getTechnicalTermsList().remove(technicalTerm);
-
 		technicalTerm.setSpecialty(null);
-	}
-
-	public void removeForeignKeyConstraints(List<Specialty> specialtyList) {
-		
-		for (Specialty specialty : specialtyList) {
-			for (TechnicalTerm techTerm : specialty.getTechnicalTermsList()) {
-				techTerm.setSpecialty(null);
-			}
-//			specialty.getTechnicalTermsList().clear();
-		}
 	}
 }

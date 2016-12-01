@@ -56,9 +56,9 @@ public class LanguageDAO {
 		entitymanager.remove(language);
 	}
 
-	public Languages updateLanguage(Languages language, String newName) {
+	public Languages updateLanguage(Languages language, Languages newLanguage) {
 
-		language.setName(newName);
+		language.setName(newLanguage.getName());
 		return language;
 	}
 
