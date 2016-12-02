@@ -3,25 +3,13 @@ package repository;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.persistence.criteria.SetJoin;
-import javax.persistence.metamodel.EntityType;
-import javax.persistence.metamodel.Metamodel;
-import javax.swing.JOptionPane;
 
-import dataTransferObjects.SpecialtyDataset;
-import dataTransferObjects.TechnicalTermDataset;
-import globals.LanguageAlreadyExists;
-import globals.SpecialtyDoesNotExist;
 import model.Languages;
 import model.Languages_;
 import model.Specialty;

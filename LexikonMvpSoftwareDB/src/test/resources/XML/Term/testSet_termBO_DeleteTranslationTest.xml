@@ -15,10 +15,9 @@
   <TECHNICALTERM TERM_ID="15" SPECIALTY_TERM_ID="4"/>
   
   <!-- SPECIALTIES TRANSLATIONS -->
-  
   <TRANSLATIONS TRANSLATIONS_ID="33" TRANSLATIONS_DESCRIPTION="Specialty" TRANSLATIONS_NAME="Fassade" TERM_TERM_ID="4" LANGUAGES_LANGUAGES_ID="1"/>
-   
-  <TRANSLATIONS TRANSLATIONS_ID="42" TRANSLATIONS_DESCRIPTION="Especialidad" TRANSLATIONS_NAME="Fachada" TERM_TERM_ID="4" LANGUAGES_LANGUAGES_ID="2"/>
+ 
+  <TRANSLATIONS TRANSLATIONS_ID="41" TRANSLATIONS_DESCRIPTION="Especialidad" TRANSLATIONS_NAME="Hormigón" TERM_TERM_ID="3" LANGUAGES_LANGUAGES_ID="2"/>
   
   <!-- TECHNICALTERMS TRANSLATIONS -->  
   <TRANSLATIONS TRANSLATIONS_ID="50" TRANSLATIONS_DESCRIPTION="Als Bewehrung bezeichnet man Stahl - oder Fasern, die in den Beton eingelegt sind und Zugkräfte aufnehmen können. Zur Verlegung der Bewehrung wird ein Bewehrungsplan erstellt. Die Bewehrung kann sowohl zur Aufnahme von Zugkräften Zugkräften Als Bewehrung bezeichnet man Stahl - oder Fasern, die in den Beton eingelegt sind und Zugkräfte aufnehmen können. Zur Verlegung der Bewehrung wird ein Bewehrungsplan erstellt. Die Bewehrung kann sowohl zur Aufnahme von Zugkräften Zugkräften" TRANSLATIONS_NAME="Bewehrung" TERM_TERM_ID="12" LANGUAGES_LANGUAGES_ID="1"/>
@@ -28,6 +27,5 @@
     
   <TRANSLATIONS TRANSLATIONS_ID="70" TRANSLATIONS_DESCRIPTION="Se denomina armadura al acero- o fibra, que se coloca en el hormigón  para soportar los esfuerzos de tracción. Para la instalación de la armadura se dibujará un plano de armaduras.  La armadura puede colocar tanto para soportar los esfuerzos de tracción" TRANSLATIONS_NAME="Armadura" TERM_TERM_ID="12" LANGUAGES_LANGUAGES_ID="2"/>
   <TRANSLATIONS TRANSLATIONS_ID="71" TRANSLATIONS_DESCRIPTION="" TRANSLATIONS_NAME="Conglomerante" TERM_TERM_ID="13" LANGUAGES_LANGUAGES_ID="2"/>
-  <TRANSLATIONS TRANSLATIONS_ID="72" TRANSLATIONS_DESCRIPTION="" TRANSLATIONS_NAME="Persiana" TERM_TERM_ID="14" LANGUAGES_LANGUAGES_ID="2"/>
   <TRANSLATIONS TRANSLATIONS_ID="73" TRANSLATIONS_DESCRIPTION="" TRANSLATIONS_NAME="Vidrio flotado" TERM_TERM_ID="15" LANGUAGES_LANGUAGES_ID="2"/>  
 </dataset>

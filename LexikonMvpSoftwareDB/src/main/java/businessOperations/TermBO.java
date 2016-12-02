@@ -4,19 +4,13 @@ import java.util.List;
 
 import javax.persistence.NoResultException;
 
-import dataTransferObjects.SpecialtyDataset;
-import dataTransferObjects.TechnicalTermDataset;
-import dataTransferObjects.TermDataset;
-import globals.LanguageDoesNotExist;
 import globals.LanguageEntryInSpecialtyAlreadyExists;
 import globals.LanguageEntryInTechnicalTermAlreadyExists;
-import globals.LanguageEntryInTermAlreadyExists;
 import globals.SpecialtyAlreadyExists;
 import globals.SpecialtyDoesNotExist;
 import globals.TechnicalTermAlreadyExists;
 import globals.TechnicalTermDoesNotExist;
 import globals.TermDoesNotExist;
-import globals.TranslationAlreadyExists;
 import globals.TranslationDoesNotExist;
 import model.Languages;
 import model.Specialty;
@@ -49,7 +43,7 @@ public class TermBO {
 		}
 		
 		try {
-			Specialty specialty = selectSpecialtyById(SpecialtyId);  // Specialty ist immer definiert durch Combolist, "leere" Specialty ist specialtyId = 0
+			Specialty specialty = selectSpecialtyById(SpecialtyId);  // Specialty ist immer definiert durch Combolist, "leere" Specialty ist specialtyId = 1 (vorher in DB injizieren)
 			TechnicalTerm technicalTerm = new TechnicalTerm();
 			technicalTerm.setSpecialty(specialty);
 			Translations translation = new Translations(name, description, language, technicalTerm);
@@ -191,7 +185,11 @@ public class TermBO {
 		return termDAO.selectTermById(termId);
 	}
 
-	public List<Translations> selectAllTranslations(int termId) {
+	public List<Specialty> selectAllSpecialties() {
+		return termDAO.selectAllSpecialties();
+	}
+	
+	public List<Translations> selectAllTermTranslations(int termId) {
 		
 		Term term;
 		try {
@@ -201,6 +199,7 @@ public class TermBO {
 		}
 		return termDAO.selectAllTermTranslations(term);
 	}
+		
 
 	public Specialty assignTechnicalTermsToSpecialty(int[] technicalTermIds, int specialtyId) {
 
@@ -233,7 +232,7 @@ public class TermBO {
 		return specialty;
 	}
 
-	public Translations selectTranslationWithLanguageOutOfTerm(Term term, Languages language) {
+	private Translations selectTranslationWithLanguageOutOfTerm(Term term, Languages language) {
 
 		List<Translations> translationList = term.getTranslationList();
 		for( Translations translation: translationList) {

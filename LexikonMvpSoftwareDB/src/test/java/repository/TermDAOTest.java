@@ -5,7 +5,6 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -21,13 +20,9 @@ import org.apache.derby.tools.ij;
 import org.dbunit.Assertion;
 import org.dbunit.database.DatabaseConfig;
 import org.dbunit.database.DatabaseConnection;
-import org.dbunit.database.DatabaseSequenceFilter;
 import org.dbunit.database.IDatabaseConnection;
-import org.dbunit.dataset.FilteredDataSet;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.ITable;
-import org.dbunit.dataset.filter.ITableFilter;
-import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.After;
@@ -37,7 +32,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import dataTransferObjects.TranslationDataset;
-import model.History;
 import model.Languages;
 import model.Specialty;
 import model.TechnicalTerm;
@@ -155,11 +149,7 @@ public class TermDAOTest {
 		fluessigbeton.setSpecialty(betonSpecialty);
 		Translations translation = new Translations("Flüssigbeton", "flüssig", de, fluessigbeton);
 		fluessigbeton.getTranslationList().add(translation);
-		
-		entitymanager.getTransaction().begin();
-		
-		entitymanager.getTransaction().commit();
-		
+				
 		entitymanager.getTransaction().begin();
 		termDAOTest.insertNewTechnicalTerm(fluessigbeton);
 		entitymanager.getTransaction().commit();
@@ -263,51 +253,6 @@ public class TermDAOTest {
 	}
 		
 	@Test
-	public void selectSpecialtyByNameTest() throws Exception {
-		
-		entitymanager.getTransaction().begin();
-		Specialty betonSpecialty = termDAOTest.selectSpecialtyByName("Beton", "Deutsch");
-		entitymanager.getTransaction().commit();
-		
-		try {
-			ITableFilter filter = new DatabaseSequenceFilter(mDBUnitConnection);
-			IDataSet fullDataSet = new FilteredDataSet(filter, mDBUnitConnection.createDataSet());
-			FlatXmlDataSet.write(fullDataSet, new FileOutputStream("actual.xml"));
-			
-		} catch (Exception e) {
-			System.out.println("Es wurde eine Exception bei FullDataSetXML geworfen: "+ e.getMessage());
-			e.printStackTrace();
-		}		
-		
-		String betonName = betonSpecialty.getTranslationList().get(0).getName();
-		assertThat("Beton", is(equalTo(betonName)));		
-	}
-	
-	@Test
-	public void selectTechnicalTermByNameTest() throws Exception {
-		
-		entitymanager.getTransaction().begin();
-		TechnicalTerm bindemittelSpecialty = termDAOTest.selectTechnicalTermByName("Bindemittel", "Deutsch");
-		entitymanager.getTransaction().commit();
-						
-		String bindemittelName = bindemittelSpecialty.getTranslationList().get(0).getName();
-		assertThat("Bindemittel", is(equalTo(bindemittelName)));		
-	}
-	
-		
-	@Test(expected = NoResultException.class)
-	public void selectSpecialtyByIdWithNoResultExceptionTest() {
-
-		Specialty noSuchSpecialty = termDAOTest.selectSpecialtyById(220);
-	}
-	
-	@Test(expected = NoResultException.class)
-	public void selectTechnicalTermByIdWithNoResultExceptionTest() {
-
-		TechnicalTerm noSuchTechnicalTerm = termDAOTest.selectTechnicalTermById(220);
-	}
-	
-	@Test
 	public void updateTranslationTest() throws Exception {
 		
 		Languages de = languageDAOTest.selectLanguageById(1);
@@ -328,6 +273,35 @@ public class TermDAOTest {
 		Assertion.assertEquals(expectedTranslationsTable, actualTranslationsTable);
 	}
 	
+	@Test(expected = NoResultException.class)
+	public void selectSpecialtyById_NoResultExceptionTest() {
+
+		Specialty noSuchSpecialty = termDAOTest.selectSpecialtyById(220);
+	}
+	
+	@Test(expected = NoResultException.class)
+	public void selectTechnicalTermById_NoResultExceptionTest() {
+
+		TechnicalTerm noSuchTechnicalTerm = termDAOTest.selectTechnicalTermById(220);
+	}
+	
+	@Test
+	public void selectTermByIdTest() {
+
+		entitymanager.getTransaction().begin();
+		Term bindemittel = termDAOTest.selectTermById(13);
+		entitymanager.getTransaction().commit();
+						
+		String bindemittelName = bindemittel.getTranslationList().get(0).getName();
+		assertThat("Bindemittel", is(equalTo(bindemittelName)));
+	}
+	
+	@Test(expected = NoResultException.class)
+	public void selectTermById_NoResultExceptionTest() {
+
+		Term noSuchTerm = termDAOTest.selectTermById(220);
+	}
+	
 	@Test
 	public void selectAllSpecialtiesTest() throws Exception {
 		
@@ -336,11 +310,35 @@ public class TermDAOTest {
 		entitymanager.getTransaction().commit();
 			
 		String[] expectedArray = new String[]{"Beton", "Hormigón", "Fassade", "Fachada"};
-		String[] actualArray = UtilMethods.extractAllSpecialtyNamesFromSpecialtyList(specialtyList);
+		String[] actualArray = UtilMethods.extractAllTermsNamesFromTermList(specialtyList);
 		
 		assertThat(expectedArray, is(equalTo(actualArray)));		
 	}
 	
+	@Test
+	public void selectSpecialtyByNameTest() throws Exception {
+		
+		Languages de = languageDAOTest.selectLanguageById(1);
+		entitymanager.getTransaction().begin();
+		Specialty betonSpecialty = termDAOTest.selectSpecialtyByName("Beton", de);
+		entitymanager.getTransaction().commit();
+				
+		String betonName = betonSpecialty.getTranslationList().get(0).getName();
+		assertThat("Beton", is(equalTo(betonName)));		
+	}
+	
+	@Test
+	public void selectTechnicalTermByNameTest() throws Exception {
+		
+		Languages de = languageDAOTest.selectLanguageById(1);
+		entitymanager.getTransaction().begin();
+		TechnicalTerm bindemittelSpecialty = termDAOTest.selectTechnicalTermByName("Bindemittel", de);
+		entitymanager.getTransaction().commit();
+						
+		String bindemittelName = bindemittelSpecialty.getTranslationList().get(0).getName();
+		assertThat("Bindemittel", is(equalTo(bindemittelName)));		
+	}
+				
 	@Test
 	public void selectAllTermTranslationsTest() throws Exception {
 		

@@ -1,4 +1,4 @@
-package repository;
+package businessOperations;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -11,7 +11,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 
 import org.apache.derby.tools.ij;
@@ -28,14 +27,18 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import model.Languages;
+import repository.LanguageDAO;
 import util.UtilMethods;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class LanguageDaoTest {
+import globals.LanguageAlreadyExists;
+import globals.LanguageDoesNotExist;
 
-	public static final Logger log = LoggerFactory.getLogger("LanguageDaoTest.class");
+public class LanguageBOTest {
+
+	public static final Logger log = LoggerFactory.getLogger("LanguageBOTest.class");
 
 	private static IDatabaseConnection mDBUnitConnection;
 	private static IDataSet startDataset;
@@ -43,6 +46,7 @@ public class LanguageDaoTest {
 	private static EntityManagerFactory emfactory;
 	private static EntityManager entitymanager;
 
+	private static LanguageBO languageBOTest;
 	private static LanguageDAO languageDAOTest;
 	private static ITable actualTable;
 	private static ITable expectedTable;
@@ -57,7 +61,7 @@ public class LanguageDaoTest {
 		Connection connection = ((EntityManagerImpl) (entitymanager.getDelegate())).getServerSession().getAccessor().getConnection();
 
 		try {
-			ij.runScript(connection, LanguageDaoTest.class.getResourceAsStream("/Lexicon_Database_Schema_Derby.sql"), "UTF-8", System.out, "UTF-8"); // nicht ("./Lex...
+			ij.runScript(connection, LanguageBOTest.class.getResourceAsStream("/Lexicon_Database_Schema_Derby.sql"), "UTF-8", System.out, "UTF-8"); // nicht ("./Lex...
 		} catch (Exception e) {
 			log.error("Exception bei Derby Runscript: " + e.getMessage());
 			e.printStackTrace();
@@ -66,13 +70,14 @@ public class LanguageDaoTest {
 		try {
 			mDBUnitConnection = new DatabaseConnection(connection);
 			mDBUnitConnection.getConfig().setProperty(DatabaseConfig.FEATURE_ALLOW_EMPTY_FIELDS, true);
-			startDataset = new FlatXmlDataSetBuilder().build(new File("./src/test/resources/XML/Languages/testSet_LanguageDAO_Start.xml"));
+			startDataset = new FlatXmlDataSetBuilder().build(new File("./src/test/resources/XML/Languages/testSet_LanguageBO_Start.xml"));
 		} catch (Exception e) {
 			log.error("Exception bei DBUnit/IDataConnection: " + e.getMessage());
 			e.printStackTrace();
 		}
 
 		languageDAOTest = new LanguageDAO(entitymanager);
+		languageBOTest = new LanguageBO(languageDAOTest);
 		
 		try {
 			DatabaseOperation.CLEAN_INSERT.execute(mDBUnitConnection, startDataset);
@@ -83,75 +88,101 @@ public class LanguageDaoTest {
 	}
 
 	@Test
-	public void insertLanguageTest() throws Exception {
+	public void createLanguageTest() throws Exception {
 
-		Languages eng = new Languages("Englisch");
-		
 		entitymanager.getTransaction().begin();
-		languageDAOTest.insertLanguage(eng);
+		languageBOTest.createLanguage("Englisch");
 		entitymanager.getTransaction().commit();
 
 		actualDatabaseDataSet = mDBUnitConnection.createDataSet();
 		actualTable = actualDatabaseDataSet.getTable("LANGUAGES");
 
-		expectedDataset = new FlatXmlDataSetBuilder().build(new File("./src/test/resources/XML/Languages/testSet_LanguageDAO_InsertTest.xml"));
+		expectedDataset = new FlatXmlDataSetBuilder().build(new File("./src/test/resources/XML/Languages/testSet_LanguageBO_CreateLanguageTest.xml"));
 		expectedTable = expectedDataset.getTable("LANGUAGES");
 
 		Assertion.assertEquals(expectedTable, actualTable);
 	}
+	
+	@Test(expected = LanguageAlreadyExists.class)
+	public void createLanguage_LanguageAlreadyExistsTest() {
 
+		entitymanager.getTransaction().begin();
+		languageBOTest.createLanguage("Deutsch");
+		entitymanager.getTransaction().commit();		
+	}
+	
 	@Test
 	public void deleteLanguageTest() throws Exception {
-
-		Languages de = languageDAOTest.selectLanguageById(1);
-		
+				
 		entitymanager.getTransaction().begin();
-		languageDAOTest.deleteLanguage(de);
+		languageBOTest.deleteLanguage(1);
 		entitymanager.getTransaction().commit();
 
 		actualDatabaseDataSet = mDBUnitConnection.createDataSet();
 		actualTable = actualDatabaseDataSet.getTable("LANGUAGES");
 
-		expectedDataset = new FlatXmlDataSetBuilder().build(new File("./src/test/resources/XML/Languages/testSet_LanguageDAO_DeleteTest.xml"));
+		expectedDataset = new FlatXmlDataSetBuilder().build(new File("./src/test/resources/XML/Languages/testSet_LanguageBO_DeleteLanguageTest.xml"));
 		expectedTable = expectedDataset.getTable("LANGUAGES");
 
 		Assertion.assertEquals(expectedTable, actualTable);
 	}
+	
+	@Test(expected = LanguageDoesNotExist.class)
+	public void deleteLanguage_LanguageDoesNotExistTest() {
+
+		entitymanager.getTransaction().begin();
+		languageBOTest.deleteLanguage(100);
+		entitymanager.getTransaction().commit();		
+	}
+	
 
 	@Test
 	public void updateLanguageTest() throws Exception {
-
-		Languages de = languageDAOTest.selectLanguageById(1);
-		Languages eng = new Languages("Englisch");
 		
 		entitymanager.getTransaction().begin();
-		languageDAOTest.updateLanguage(de, eng);
+		languageBOTest.updateLanguage(1, "Englisch");
 		entitymanager.getTransaction().commit();
 		
 		actualDatabaseDataSet = mDBUnitConnection.createDataSet();
 		actualTable = actualDatabaseDataSet.getTable("LANGUAGES");
 
-		expectedDataset = new FlatXmlDataSetBuilder().build(new File("./src/test/resources/XML/Languages/testSet_LanguageDAO_UpdateTest.xml"));
+		expectedDataset = new FlatXmlDataSetBuilder().build(new File("./src/test/resources/XML/Languages/testSet_LanguageBO_UpdateLanguageTest.xml"));
 		expectedTable = expectedDataset.getTable("LANGUAGES");
 
 		Assertion.assertEquals(expectedTable, actualTable);
+	}
+	
+	@Test(expected = LanguageAlreadyExists.class)
+	public void updateLanguage_LanguageAlreadyExistsTest() throws Exception {
+		
+		entitymanager.getTransaction().begin();
+		languageBOTest.updateLanguage(1, "Spanisch");
+		entitymanager.getTransaction().commit();
+	}
+	
+	@Test(expected = LanguageDoesNotExist.class)
+	public void updateLanguage_LanguageDoesNotExistTest() throws Exception {
+		
+		entitymanager.getTransaction().begin();
+		languageBOTest.updateLanguage(6, "Englisch");
+		entitymanager.getTransaction().commit();
 	}
 
 	@Test
 	public void selectLanguageByIdTest() throws Exception {
 
 		entitymanager.getTransaction().begin();
-		Languages actualLanguage = languageDAOTest.selectLanguageById(1);
+		Languages actualLanguage = languageBOTest.selectLanguageById(1);
 		entitymanager.getTransaction().commit();
 
 		assertThat("Deutsch", is(equalTo(actualLanguage.getName())));
 	}
 	
-	@Test(expected = NoResultException.class)
-	public void selectLanguageById_NoResultExceptionTest() throws Exception {
+	@Test(expected = LanguageDoesNotExist.class)
+	public void selectLanguageById_LanguageDoesNotExistTest() throws Exception {
 
 		entitymanager.getTransaction().begin();
-		Languages actualLanguage = languageDAOTest.selectLanguageById(100);
+		Languages actualLanguage = languageBOTest.selectLanguageById(100);
 		entitymanager.getTransaction().commit();
 	}
 	
@@ -159,33 +190,25 @@ public class LanguageDaoTest {
 	public void selectLanguageByNameTest() throws Exception {
 
 		entitymanager.getTransaction().begin();
-		Languages actualLanguage = languageDAOTest.selectLanguageByName("Deutsch");
+		Languages actualLanguage = languageBOTest.selectLanguageByName("Deutsch");
 		entitymanager.getTransaction().commit();
 
 		assertThat("Deutsch", is(equalTo(actualLanguage.getName())));
 	}
 
-	@Test(expected = NoResultException.class)
-	public void selectLanguageByName_NoResultExceptionTest() {
+	@Test(expected = LanguageDoesNotExist.class)
+	public void selectLanguageByName_LanguageDoesNotExistTest() {
 
 		entitymanager.getTransaction().begin();
-		Languages actualLanguage = null;
-		try {
-			actualLanguage = languageDAOTest.selectLanguageByName("Maori");
-		} catch (NoResultException e) {
-			entitymanager.getTransaction().commit();
-			throw new NoResultException();
-		}
+		Languages actualLanguage = languageBOTest.selectLanguageByName("Japanisch");
 		entitymanager.getTransaction().commit();
-
-		assertThat("Maori", is(equalTo(actualLanguage.getName())));
 	}
 		
 	@Test
 	public void selectAllLanguageTest() throws Exception {
 
 		entitymanager.getTransaction().begin();
-		List<Languages> languageList = languageDAOTest.selectAllLanguages();
+		List<Languages> languageList = languageBOTest.selectAllLanguage();
 		entitymanager.getTransaction().commit();
 
 		expectedDataset = mDBUnitConnection.createDataSet();

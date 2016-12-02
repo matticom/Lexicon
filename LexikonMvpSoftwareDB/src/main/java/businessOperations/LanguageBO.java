@@ -1,12 +1,7 @@
 package businessOperations;
 
 import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
-import javax.persistence.Persistence;
-import javax.swing.JOptionPane;
 
 import globals.LanguageAlreadyExists;
 import globals.LanguageDoesNotExist;
@@ -53,26 +48,26 @@ public class LanguageBO {
 		
 		try {
 			Languages language = languageDAO.selectLanguageById(languageId);
-			Languages newLanguage = new Languages("newName");
+			Languages newLanguage = new Languages(newName);
 			return languageDAO.updateLanguage(language, newLanguage);
 		} catch (NoResultException noResultException) {
 			throw new LanguageDoesNotExist("Zu aktualisierende Sprache ist nicht vorhanden!");
 		}
 	}
 
-	public Languages selectLanguageByName(String language) {
+	public Languages selectLanguageById(int languageId) {
 
 		try {
-			return languageDAO.selectLanguageByName(language);
+			return languageDAO.selectLanguageById(languageId);
 		} catch (NoResultException e) {
 			throw new LanguageDoesNotExist();
 		}
 	}
 	
-	public Languages selectLanguageById(int languageId) {
+	public Languages selectLanguageByName(String language) {
 
 		try {
-			return languageDAO.selectLanguageById(languageId);
+			return languageDAO.selectLanguageByName(language);
 		} catch (NoResultException e) {
 			throw new LanguageDoesNotExist();
 		}

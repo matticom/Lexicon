@@ -54,36 +54,21 @@ public class UtilMethods {
 		}
 		return actualArray;
 	}
-
-	public static String flexibleLastStringValueOfList(List list, Class className, String propertyName, int substractFormLastRow) throws Exception {
-
-		Class c = Class.forName(className.getName());
-		Class[] paramTypes = {};
-		Method m = c.getDeclaredMethod(propertyName, paramTypes);
-
-		int lastRow = list.size()-1;
-		return (String) m.invoke(list.get(lastRow-substractFormLastRow));
-	}
-
-	public static int flexibleLastIntegerValueOfList(List list, Class className, String propertyName, int substractFormLastRow) throws Exception {
-
-		Class c = Class.forName(className.getName());
-		Class[] paramTypes = {};
-		Method m = c.getDeclaredMethod(propertyName, paramTypes);
-
-		int lastRow = list.size()-1;
-		return (int) m.invoke(list.get(lastRow-substractFormLastRow));
-	}
 	
-	public static String[] extractAllSpecialtyNamesFromSpecialtyList(List<Specialty> specialtyList) {
+	public static String[] extractAllTermsNamesFromTermList(List<? extends Term> termList) {
 		// gibt alle Namen aller Specialties der Liste in DE und ES zurück
-		int rows = specialtyList.size();
+		int rows = termList.size();
 		int arrayRow = 0;
 		String[] actualArray = new String[rows*2];
 		for (int row = 0; row < rows; row++) {
 			arrayRow = row*2;
-			actualArray[arrayRow] = specialtyList.get(row).getTranslationList().get(0).getName();
-			actualArray[arrayRow+1] = specialtyList.get(row).getTranslationList().get(1).getName();
+			int listLength = termList.get(row).getTranslationList().size();
+			if (listLength > 0) {
+				actualArray[arrayRow] = termList.get(row).getTranslationList().get(0).getName();
+			}
+			if (listLength > 1) {
+				actualArray[arrayRow+1] = termList.get(row).getTranslationList().get(1).getName();
+			}
 		}
 		return actualArray;
 	}
