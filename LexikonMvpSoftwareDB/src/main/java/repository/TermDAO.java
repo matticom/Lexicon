@@ -17,6 +17,7 @@ import model.TechnicalTerm;
 import model.Term;
 import model.Translations;
 import model.Translations_;
+import utilities.PersistenceUtil;
 
 public class TermDAO {
 
@@ -103,6 +104,7 @@ public class TermDAO {
 		// Aus Angaben in der Maske wird ein neues Translation-Objekt gemacht
 		// (beinhaltet auch die nicht-aktualisierten Inhalte)
 		translation.setName(newTranslation.getName());
+		translation.setNormalName(PersistenceUtil.convertSpecialChar(newTranslation.getName()));
 		translation.setDescription(newTranslation.getDescription());
 		return translation;
 	}
@@ -181,7 +183,7 @@ public class TermDAO {
 		Join<Translations, Languages> langJoin = translation.join(Translations_.languages);
 
 		Predicate selectLanguage = criteriaBuilder.like(langJoin.get(Languages_.name), lang);
-		Predicate selectTermName = criteriaBuilder.like(translation.get(Translations_.name), name);
+		Predicate selectTermName = criteriaBuilder.like(translation.get(Translations_.normalName), name);
 		Predicate whereFilter = criteriaBuilder.and(selectLanguage, selectTermName);
 		criteriaQuery.select(translation).where(whereFilter);
 
@@ -203,7 +205,7 @@ public class TermDAO {
 		CriteriaQuery<Translations> criteriaQuery = criteriaBuilder.createQuery(Translations.class);
 
 		Root<Translations> translation = criteriaQuery.from(Translations.class);
-		Predicate whereFilter = criteriaBuilder.like(translation.get(Translations_.name), letter + "%");
+		Predicate whereFilter = criteriaBuilder.like(translation.get(Translations_.normalName), letter + "%");
 		criteriaQuery.select(translation).where(whereFilter);
 
 		return entitymanager.createQuery(criteriaQuery).getResultList();

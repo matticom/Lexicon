@@ -21,6 +21,9 @@ public class Translations
 	@Column(name="TRANSLATIONS_NAME")
 	private String name;
 	
+	@Column(name="TRANSLATIONS_NORMALNAME")
+	private String normalName;
+	
 	@Column(name="TRANSLATIONS_DESCRIPTION")//), columnDefinition="CLOB(64000)")
 	private String description;
 	
@@ -35,10 +38,10 @@ public class Translations
 		
 	
 
-	public Translations(String name, String description, Languages languages, Term term)
+	public Translations(String name, String normalName, String description, Languages languages, Term term)
 	{
-		
 		this.name = name;
+		this.normalName = normalName;
 		this.description = description;
 		this.languages = languages;
 		this.term = term;
@@ -69,6 +72,14 @@ public class Translations
 	public void setName(String name)
 	{
 		this.name = name;
+	}
+	
+	public String getNormalName() {
+		return normalName;
+	}
+
+	public void setNormalName(String normalName) {
+		this.normalName = normalName;
 	}
 
 	public String getDescription()

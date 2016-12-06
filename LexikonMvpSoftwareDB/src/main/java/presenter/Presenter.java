@@ -151,11 +151,11 @@ public class Presenter {
 		});
 		
 		headBar.setAlphabetButtonActionListener(e -> searchLetterResult(e));
-		headBar.setSearchButtonActionListener(l);
-		headBar.setDeButtonActionListener(l);
-		headBar.setEsButtonActionListener(l);
-		headBar.setSpecialtyButtonActionListener(l);
-		headBar.setNewTechnicalTermButtonActionListener(l);
+//		headBar.setSearchButtonActionListener(l);
+//		headBar.setDeButtonActionListener(l);
+//		headBar.setEsButtonActionListener(l);
+//		headBar.setSpecialtyButtonActionListener(l);
+//		headBar.setNewTechnicalTermButtonActionListener(l);
 		
 		
 	}
@@ -190,7 +190,7 @@ public class Presenter {
 	private void searchLetterResult(ActionEvent e) {
 			
 			// Buchstabenfenster wird im CENTER geöffnet
-			mainFrame.letterResults_OpenLetterWindow(((JButton) e.getSource()).getActionCommand());
+//			mainFrame.letterResults_OpenLetterWindow(((JButton) e.getSource()).getActionCommand());
 
 	}
 

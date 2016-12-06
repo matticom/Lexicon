@@ -16,7 +16,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 
 public class Specialty extends Term {
 	
-	@OneToMany(mappedBy = "specialty", targetEntity = TechnicalTerm.class, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "specialty", targetEntity = TechnicalTerm.class) //, fetch = FetchType.EAGER)
 	private List<TechnicalTerm> technicalTermList;
 
 	

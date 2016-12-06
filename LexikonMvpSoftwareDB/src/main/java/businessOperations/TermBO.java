@@ -18,6 +18,7 @@ import model.TechnicalTerm;
 import model.Term;
 import model.Translations;
 import repository.TermDAO;
+import utilities.PersistenceUtil;
 
 public class TermBO {
 
@@ -35,9 +36,10 @@ public class TermBO {
 
 		// Sprache durch GUI Combolist auswählbar -> zur Not dort ein Button für Erstellung einer neuen Sprache
 		Languages language = languageBO.selectLanguageById(languageId); // Sprache sollte da sein wegen GUI,falls nicht: wirft Exception
-				
+		String normalName = PersistenceUtil.convertSpecialChar(name);		
+		
 		try {
-			selectTechnicalTermByName(name, languageId);
+			selectTechnicalTermByName(normalName, languageId);
 			throw new TechnicalTermAlreadyExists();
 		} catch (NoResultException e) {
 		}
@@ -46,7 +48,7 @@ public class TermBO {
 			Specialty specialty = selectSpecialtyById(SpecialtyId);  // Specialty ist immer definiert durch Combolist, "leere" Specialty ist specialtyId = 1 (vorher in DB injizieren)
 			TechnicalTerm technicalTerm = new TechnicalTerm();
 			technicalTerm.setSpecialty(specialty);
-			Translations translation = new Translations(name, description, language, technicalTerm);
+			Translations translation = new Translations(name, normalName, description, language, technicalTerm);
 			technicalTerm.getTranslationList().add(translation);
 			return termDAO.insertNewTechnicalTerm(technicalTerm);
 		} catch (NoResultException e) {
@@ -57,15 +59,16 @@ public class TermBO {
 	public Specialty createSpecialty(String name, String description, int languageId) {
 
 		Languages language = languageBO.selectLanguageById(languageId);
+		String normalName = PersistenceUtil.convertSpecialChar(name);		
 		
 		try {
-			selectSpecialtyByName(name, languageId);
+			selectSpecialtyByName(normalName, languageId);
 			throw new SpecialtyAlreadyExists();
 		} catch (NoResultException e) {
 		}
 		
 		Specialty specialty = new Specialty();
-		Translations translation = new Translations(name, description, language, specialty);
+		Translations translation = new Translations(name, normalName, description, language, specialty);
 		specialty.getTranslationList().add(translation);
 		return termDAO.insertNewSpecialty(specialty);
 	}
@@ -74,6 +77,7 @@ public class TermBO {
 
 		Languages language = languageBO.selectLanguageById(languageId);
 		TechnicalTerm technicalTerm;
+		String newNormalName = PersistenceUtil.convertSpecialChar(newName);
 		
 		try {
 			technicalTerm = selectTechnicalTermById(technicalTermId);
@@ -87,7 +91,7 @@ public class TermBO {
 		} catch (TranslationDoesNotExist e) {						
 		}
 				
-		Translations translation = new Translations(newName, newDescription, language, technicalTerm);
+		Translations translation = new Translations(newName, newNormalName, newDescription, language, technicalTerm);
 		return termDAO.insertTechnicalTermTranslation(technicalTerm, translation);
 
 	}
@@ -96,6 +100,7 @@ public class TermBO {
 
 		Languages language = languageBO.selectLanguageById(languageId);
 		Specialty specialty;
+		String newNormalName = PersistenceUtil.convertSpecialChar(newName);
 		
 		try {
 			specialty = selectSpecialtyById(specialtyId);
@@ -109,7 +114,7 @@ public class TermBO {
 		} catch (TranslationDoesNotExist e) {						
 		}
 		
-		Translations translation = new Translations(newName, newDescription, language, specialty);
+		Translations translation = new Translations(newName, newNormalName, newDescription, language, specialty);
 		return termDAO.insertSpecialtyTranslation(specialty, translation);
 	}
 
@@ -152,6 +157,8 @@ public class TermBO {
 
 		Languages language = languageBO.selectLanguageById(languageId);
 		Term term;
+		String newNormalName = PersistenceUtil.convertSpecialChar(newName);
+		
 		try {
 			term = selectTermById(termId);
 		} catch (NoResultException e) {
@@ -159,18 +166,18 @@ public class TermBO {
 		}
 		
 		Translations translation = selectTranslationWithLanguageOutOfTerm(term, language);
-		Translations newTranslation = new Translations(newName, newDescription, language, term);
+		Translations newTranslation = new Translations(newName, newNormalName, newDescription, language, term);
 		return termDAO.updateTranslation(translation, newTranslation);
 	}
 
-	public Specialty selectSpecialtyByName(String name, int languageId) throws NoResultException {
+	public Specialty selectSpecialtyByName(String normalName, int languageId) throws NoResultException {
 		Languages language = languageBO.selectLanguageById(languageId);
-		return termDAO.selectSpecialtyByName(name, language);
+		return termDAO.selectSpecialtyByName(normalName, language);
 	}
 
-	public TechnicalTerm selectTechnicalTermByName(String name, int languageId) throws NoResultException {
+	public TechnicalTerm selectTechnicalTermByName(String normalName, int languageId) throws NoResultException {
 		Languages language = languageBO.selectLanguageById(languageId);
-		return termDAO.selectTechnicalTermByName(name, language);
+		return termDAO.selectTechnicalTermByName(normalName, language);
 	}
 	
 	public Specialty selectSpecialtyById(int specialtyId) throws NoResultException {

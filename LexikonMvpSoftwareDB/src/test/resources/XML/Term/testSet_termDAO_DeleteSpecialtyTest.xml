@@ -16,18 +16,18 @@
   
   <!-- SPECIALTIES TRANSLATIONS -->
   
-  <TRANSLATIONS TRANSLATIONS_ID="33" TRANSLATIONS_DESCRIPTION="Specialty" TRANSLATIONS_NAME="Fassade" TERM_TERM_ID="4" LANGUAGES_LANGUAGES_ID="1"/>
-    
-  <TRANSLATIONS TRANSLATIONS_ID="42" TRANSLATIONS_DESCRIPTION="Especialidad" TRANSLATIONS_NAME="Fachada" TERM_TERM_ID="4" LANGUAGES_LANGUAGES_ID="2"/>
+  <TRANSLATIONS TRANSLATIONS_ID="33" TRANSLATIONS_DESCRIPTION="Specialty" TRANSLATIONS_NAME="Fassade" TRANSLATIONS_NORMALNAME="Fassade" TERM_TERM_ID="4" LANGUAGES_LANGUAGES_ID="1"/>
+ 
+  <TRANSLATIONS TRANSLATIONS_ID="42" TRANSLATIONS_DESCRIPTION="Especialidad" TRANSLATIONS_NAME="Fachada" TRANSLATIONS_NORMALNAME="Fachada" TERM_TERM_ID="4" LANGUAGES_LANGUAGES_ID="2"/>
   
   <!-- TECHNICALTERMS TRANSLATIONS -->  
-  <TRANSLATIONS TRANSLATIONS_ID="50" TRANSLATIONS_DESCRIPTION="Als Bewehrung bezeichnet man Stahl - oder Fasern, die in den Beton eingelegt sind und Zugkräfte aufnehmen können. Zur Verlegung der Bewehrung wird ein Bewehrungsplan erstellt. Die Bewehrung kann sowohl zur Aufnahme von Zugkräften Zugkräften Als Bewehrung bezeichnet man Stahl - oder Fasern, die in den Beton eingelegt sind und Zugkräfte aufnehmen können. Zur Verlegung der Bewehrung wird ein Bewehrungsplan erstellt. Die Bewehrung kann sowohl zur Aufnahme von Zugkräften Zugkräften" TRANSLATIONS_NAME="Bewehrung" TERM_TERM_ID="12" LANGUAGES_LANGUAGES_ID="1"/>
-  <TRANSLATIONS TRANSLATIONS_ID="51" TRANSLATIONS_DESCRIPTION="" TRANSLATIONS_NAME="Bindemittel" TERM_TERM_ID="13" LANGUAGES_LANGUAGES_ID="1"/>
-  <TRANSLATIONS TRANSLATIONS_ID="52" TRANSLATIONS_DESCRIPTION="" TRANSLATIONS_NAME="Rolladen" TERM_TERM_ID="14" LANGUAGES_LANGUAGES_ID="1"/>
-  <TRANSLATIONS TRANSLATIONS_ID="53" TRANSLATIONS_DESCRIPTION="" TRANSLATIONS_NAME="Floatglas" TERM_TERM_ID="15" LANGUAGES_LANGUAGES_ID="1"/>
+  <TRANSLATIONS TRANSLATIONS_ID="50" TRANSLATIONS_DESCRIPTION="Als Bewehrung bezeichnet man Stahl - oder Fasern, die in den Beton eingelegt sind und Zugkräfte aufnehmen können. Zur Verlegung der Bewehrung wird ein Bewehrungsplan erstellt. Die Bewehrung kann sowohl zur Aufnahme von Zugkräften Zugkräften Als Bewehrung bezeichnet man Stahl - oder Fasern, die in den Beton eingelegt sind und Zugkräfte aufnehmen können. Zur Verlegung der Bewehrung wird ein Bewehrungsplan erstellt. Die Bewehrung kann sowohl zur Aufnahme von Zugkräften Zugkräften" TRANSLATIONS_NAME="Bewehrung" TRANSLATIONS_NORMALNAME="Bewehrung" TERM_TERM_ID="12" LANGUAGES_LANGUAGES_ID="1"/>
+  <TRANSLATIONS TRANSLATIONS_ID="51" TRANSLATIONS_DESCRIPTION="" TRANSLATIONS_NAME="Bindemittel" TRANSLATIONS_NORMALNAME="Bindemittel" TERM_TERM_ID="13" LANGUAGES_LANGUAGES_ID="1"/>
+  <TRANSLATIONS TRANSLATIONS_ID="52" TRANSLATIONS_DESCRIPTION="" TRANSLATIONS_NAME="Rolladen" TRANSLATIONS_NORMALNAME="Rolladen" TERM_TERM_ID="14" LANGUAGES_LANGUAGES_ID="1"/>
+  <TRANSLATIONS TRANSLATIONS_ID="53" TRANSLATIONS_DESCRIPTION="" TRANSLATIONS_NAME="Floatglas" TRANSLATIONS_NORMALNAME="Floatglas" TERM_TERM_ID="15" LANGUAGES_LANGUAGES_ID="1"/>
     
-  <TRANSLATIONS TRANSLATIONS_ID="70" TRANSLATIONS_DESCRIPTION="Se denomina armadura al acero- o fibra, que se coloca en el hormigón  para soportar los esfuerzos de tracción. Para la instalación de la armadura se dibujará un plano de armaduras.  La armadura puede colocar tanto para soportar los esfuerzos de tracción" TRANSLATIONS_NAME="Armadura" TERM_TERM_ID="12" LANGUAGES_LANGUAGES_ID="2"/>
-  <TRANSLATIONS TRANSLATIONS_ID="71" TRANSLATIONS_DESCRIPTION="" TRANSLATIONS_NAME="Conglomerante" TERM_TERM_ID="13" LANGUAGES_LANGUAGES_ID="2"/>
-  <TRANSLATIONS TRANSLATIONS_ID="72" TRANSLATIONS_DESCRIPTION="" TRANSLATIONS_NAME="Persiana" TERM_TERM_ID="14" LANGUAGES_LANGUAGES_ID="2"/>
-  <TRANSLATIONS TRANSLATIONS_ID="73" TRANSLATIONS_DESCRIPTION="" TRANSLATIONS_NAME="Vidrio flotado" TERM_TERM_ID="15" LANGUAGES_LANGUAGES_ID="2"/>  
+  <TRANSLATIONS TRANSLATIONS_ID="70" TRANSLATIONS_DESCRIPTION="Se denomina armadura al acero- o fibra, que se coloca en el hormigón  para soportar los esfuerzos de tracción. Para la instalación de la armadura se dibujará un plano de armaduras.  La armadura puede colocar tanto para soportar los esfuerzos de tracción" TRANSLATIONS_NAME="Armadura" TRANSLATIONS_NORMALNAME="Armadura" TERM_TERM_ID="12" LANGUAGES_LANGUAGES_ID="2"/>
+  <TRANSLATIONS TRANSLATIONS_ID="71" TRANSLATIONS_DESCRIPTION="" TRANSLATIONS_NAME="Conglomerante" TRANSLATIONS_NORMALNAME="Conglomerante" TERM_TERM_ID="13" LANGUAGES_LANGUAGES_ID="2"/>
+  <TRANSLATIONS TRANSLATIONS_ID="72" TRANSLATIONS_DESCRIPTION="" TRANSLATIONS_NAME="Persiana" TRANSLATIONS_NORMALNAME="Persiana" TERM_TERM_ID="14" LANGUAGES_LANGUAGES_ID="2"/>
+  <TRANSLATIONS TRANSLATIONS_ID="73" TRANSLATIONS_DESCRIPTION="" TRANSLATIONS_NAME="Vidrio flotado" TRANSLATIONS_NORMALNAME="Vidrio flotado" TERM_TERM_ID="15" LANGUAGES_LANGUAGES_ID="2"/>  
 </dataset>

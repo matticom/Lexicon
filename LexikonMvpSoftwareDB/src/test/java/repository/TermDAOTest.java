@@ -101,7 +101,7 @@ public class TermDAOTest {
 		
 		Languages de = languageDAOTest.selectLanguageById(1);
 		Specialty werkzeuge = new Specialty();		
-		Translations translation = new Translations("Werkzeuge", "zum Arbeiten", de, werkzeuge);
+		Translations translation = new Translations("Werkzeuge", "Werkzeuge", "zum Arbeiten", de, werkzeuge);
 		werkzeuge.getTranslationList().add(translation);
 		
 		entitymanager.getTransaction().begin();
@@ -123,7 +123,7 @@ public class TermDAOTest {
 		
 		Languages es = languageDAOTest.selectLanguageById(2);
 		Specialty beton = termDAOTest.selectSpecialtyById(3);
-		Translations translation = new Translations("SpaBeton", "SpaHartesZeugs", es, beton);
+		Translations translation = new Translations("SpaBeton", "SpaBeton", "SpaHartesZeugs", es, beton);
 		beton.getTranslationList().add(translation);
 		
 		entitymanager.getTransaction().begin();
@@ -147,7 +147,7 @@ public class TermDAOTest {
 		Specialty betonSpecialty = termDAOTest.selectSpecialtyById(3);
 		TechnicalTerm fluessigbeton = new TechnicalTerm();
 		fluessigbeton.setSpecialty(betonSpecialty);
-		Translations translation = new Translations("Flüssigbeton", "flüssig", de, fluessigbeton);
+		Translations translation = new Translations("Flüssigbeton", "Fluessigbeton", "flüssig", de, fluessigbeton);
 		fluessigbeton.getTranslationList().add(translation);
 				
 		entitymanager.getTransaction().begin();
@@ -172,7 +172,7 @@ public class TermDAOTest {
 		
 		Languages es = languageDAOTest.selectLanguageById(2);
 		TechnicalTerm rolladen = termDAOTest.selectTechnicalTermById(14);
-		Translations translation = new Translations("SpaRolladen", "SpaZum Schutz der Fenster", es, rolladen);
+		Translations translation = new Translations("SpaRolladen", "SpaRolladen", "SpaZum Schutz der Fenster", es, rolladen);
 		rolladen.getTranslationList().add(translation);
 		
 		entitymanager.getTransaction().begin();
@@ -257,7 +257,7 @@ public class TermDAOTest {
 		
 		Languages de = languageDAOTest.selectLanguageById(1);
 		Specialty beton = termDAOTest.selectSpecialtyById(3);
-		Translations newTranslation = new Translations("Beton updated", "description updated", de, beton);
+		Translations newTranslation = new Translations("Beton updated", "Beton updated", "description updated", de, beton);
 		Translations translation = beton.getTranslationList().get(0);
 		
 		entitymanager.getTransaction().begin();

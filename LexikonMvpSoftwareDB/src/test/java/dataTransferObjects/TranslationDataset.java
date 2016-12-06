@@ -3,6 +3,7 @@ package dataTransferObjects;
 public class TranslationDataset {
 
 	private String translationName;
+	private String translationNormalName;
 	private String translationDescription;
 	private int languageId;
 	private int termId;
@@ -11,9 +12,10 @@ public class TranslationDataset {
 		
 	}
 	
-	public TranslationDataset(String translationName, String translationDescription, int languageId, int termId) {
+	public TranslationDataset(String translationName, String translationNormalName, String translationDescription, int languageId, int termId) {
 		
 		this.translationName = translationName;
+		this.translationNormalName = translationNormalName;
 		this.translationDescription = translationDescription;
 		this.languageId = languageId;
 		this.termId = termId;
@@ -25,6 +27,14 @@ public class TranslationDataset {
 
 	public void setTranslationName(String translationName) {
 		this.translationName = translationName;
+	}
+	
+	public String getTranslationNormalName() {
+		return translationNormalName;
+	}
+
+	public void setTranslationNormalName(String translationNormalName) {
+		this.translationNormalName = translationNormalName;
 	}
 
 	public String getTranslationDescription() {

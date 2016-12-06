@@ -28,6 +28,7 @@ public class UtilMethods {
 		int lastRow = actualTable.getRowCount()-1;
 		
 		TranslationDataset translation = new TranslationDataset((String) actualTable.getValue(lastRow-substractFormLastRow, "TRANSLATIONS_NAME"),
+																(String) actualTable.getValue(lastRow-substractFormLastRow, "TRANSLATIONS_NORMALNAME"),
 																(String) actualTable.getValue(lastRow-substractFormLastRow, "TRANSLATIONS_DESCRIPTION"),
 																(int) actualTable.getValue(lastRow-substractFormLastRow, "LANGUAGES_LANGUAGES_ID"),
 																(int) actualTable.getValue(lastRow-substractFormLastRow, "TERM_TERM_ID"));
