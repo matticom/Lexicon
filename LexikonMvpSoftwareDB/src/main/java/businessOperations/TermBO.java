@@ -4,14 +4,14 @@ import java.util.List;
 
 import javax.persistence.NoResultException;
 
-import globals.LanguageEntryInSpecialtyAlreadyExists;
-import globals.LanguageEntryInTechnicalTermAlreadyExists;
-import globals.SpecialtyAlreadyExists;
-import globals.SpecialtyDoesNotExist;
-import globals.TechnicalTermAlreadyExists;
-import globals.TechnicalTermDoesNotExist;
-import globals.TermDoesNotExist;
-import globals.TranslationDoesNotExist;
+import exceptions.LanguageEntryInSpecialtyAlreadyExists;
+import exceptions.LanguageEntryInTechnicalTermAlreadyExists;
+import exceptions.SpecialtyAlreadyExists;
+import exceptions.SpecialtyDoesNotExist;
+import exceptions.TechnicalTermAlreadyExists;
+import exceptions.TechnicalTermDoesNotExist;
+import exceptions.TermDoesNotExist;
+import exceptions.TranslationDoesNotExist;
 import model.Languages;
 import model.Specialty;
 import model.TechnicalTerm;
@@ -200,6 +200,25 @@ public class TermBO {
 		return termDAO.selectAllTermTranslations(term);
 	}
 		
+	public boolean[] checkLetter() {
+		
+		boolean[] alphabet = new boolean[26];
+		String strLetter = null;
+		for(char letter = 'A'; letter <= 'Z'; letter++) {
+			strLetter = String.valueOf(letter);
+			if (termDAO.selectLetter(strLetter).isEmpty()) {
+				alphabet[letter-65] = false;
+			} else {
+				alphabet[letter-65] = true;
+			}
+		}
+		return alphabet;
+	}
+	
+	public List<Translations> selectLetter(String letter) {
+		
+		return termDAO.selectLetter(letter);
+	}
 
 	public Specialty assignTechnicalTermsToSpecialty(int[] technicalTermIds, int specialtyId) {
 

@@ -1,4 +1,4 @@
-package globals;
+package exceptions;
 
 import javax.persistence.NoResultException;
 

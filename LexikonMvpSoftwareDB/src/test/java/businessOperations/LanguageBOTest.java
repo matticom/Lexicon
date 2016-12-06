@@ -33,8 +33,8 @@ import util.UtilMethods;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import globals.LanguageAlreadyExists;
-import globals.LanguageDoesNotExist;
+import exceptions.LanguageAlreadyExists;
+import exceptions.LanguageDoesNotExist;
 
 public class LanguageBOTest {
 

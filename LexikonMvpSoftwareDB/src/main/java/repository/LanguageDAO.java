@@ -14,7 +14,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.swing.JOptionPane;
 
-import globals.LanguageAlreadyExists;
+import exceptions.LanguageAlreadyExists;
 import model.Languages;
 import model.Languages_;
 import model.Translations;

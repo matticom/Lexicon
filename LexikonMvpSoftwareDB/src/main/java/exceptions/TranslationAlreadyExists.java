@@ -1,4 +1,4 @@
-package globals;
+package exceptions;
 
 public class TranslationAlreadyExists extends RuntimeException {
 	

@@ -3,8 +3,8 @@ package businessOperations;
 import java.util.List;
 import javax.persistence.NoResultException;
 
-import globals.LanguageAlreadyExists;
-import globals.LanguageDoesNotExist;
+import exceptions.LanguageAlreadyExists;
+import exceptions.LanguageDoesNotExist;
 import model.Languages;
 import repository.LanguageDAO;
 

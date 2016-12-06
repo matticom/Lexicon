@@ -37,6 +37,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import dataTransferObjects.TranslationDataset;
+import exceptions.LanguageDoesNotExist;
+import exceptions.LanguageEntryInSpecialtyAlreadyExists;
+import exceptions.LanguageEntryInTechnicalTermAlreadyExists;
+import exceptions.SpecialtyAlreadyExists;
+import exceptions.SpecialtyDoesNotExist;
+import exceptions.TechnicalTermAlreadyExists;
+import exceptions.TechnicalTermDoesNotExist;
+import exceptions.TermDoesNotExist;
 import model.Languages;
 import model.Specialty;
 import model.TechnicalTerm;
@@ -45,14 +53,6 @@ import model.Translations;
 import repository.LanguageDAO;
 import repository.TermDAO;
 import util.UtilMethods;
-import globals.TechnicalTermAlreadyExists;
-import globals.SpecialtyDoesNotExist;
-import globals.LanguageEntryInSpecialtyAlreadyExists;
-import globals.LanguageEntryInTechnicalTermAlreadyExists;
-import globals.SpecialtyAlreadyExists;
-import globals.TechnicalTermDoesNotExist;
-import globals.TermDoesNotExist;
-import globals.LanguageDoesNotExist;
 
 
 public class TermBOTest {
@@ -469,6 +469,40 @@ public class TermBOTest {
 		entitymanager.getTransaction().begin();
 		List<Translations> termList = termBOTest.selectAllTermTranslations(300);
 		entitymanager.getTransaction().commit();
+	}
+	
+	@Test
+	public void selectLetterTest() throws Exception {
+						
+		entitymanager.getTransaction().begin();
+		List<Translations> termList = termBOTest.selectLetter("F");
+		entitymanager.getTransaction().commit();
+			
+		assertThat(2, is(equalTo(termList.size())));	
+		assertThat("Fassade", is(equalTo(termList.get(0).getName())));	
+		assertThat("Floatglas", is(equalTo(termList.get(1).getName())));
+	}
+	
+	@Test
+	public void checkLetterTest() throws Exception {
+		
+		boolean[] expectedAlphabet = new boolean[26];
+		for(boolean letter: expectedAlphabet) {
+			letter = false;
+		}
+		expectedAlphabet[0] = true;
+		expectedAlphabet[1] = true;
+		expectedAlphabet[2] = true;
+		expectedAlphabet[5] = true;
+		expectedAlphabet[7] = true;
+		expectedAlphabet[17] = true;
+		expectedAlphabet[21] = true;
+				
+		entitymanager.getTransaction().begin();
+		boolean[] actualAlphabet = termBOTest.checkLetter();
+		entitymanager.getTransaction().commit();
+			
+		assertThat(expectedAlphabet, is(equalTo(actualAlphabet)));
 	}
 	
 	@Test
