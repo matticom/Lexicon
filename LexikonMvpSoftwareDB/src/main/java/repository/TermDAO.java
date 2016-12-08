@@ -149,15 +149,15 @@ public class TermDAO {
 		return specialtyList;
 	}
 
-	public Specialty selectSpecialtyByName(String name, Languages language) throws NoResultException {
+	public Specialty selectSpecialtyByName(String normalName, Languages language) throws NoResultException {
 
-		Specialty specialty = (Specialty) selectTermByName(name, language.getName());
+		Specialty specialty = (Specialty) selectTermByName(normalName, language.getName());
 		return specialty;
 	}
 
-	public TechnicalTerm selectTechnicalTermByName(String name, Languages language) throws NoResultException {
+	public TechnicalTerm selectTechnicalTermByName(String normalName, Languages language) throws NoResultException {
 
-		TechnicalTerm technicalTerm = (TechnicalTerm) selectTermByName(name, language.getName());
+		TechnicalTerm technicalTerm = (TechnicalTerm) selectTermByName(normalName, language.getName());
 		return technicalTerm;
 	}
 
@@ -167,14 +167,14 @@ public class TermDAO {
 		return translationsList;
 	}
 
-	private Term selectTermByName(String name, String lang) throws NoResultException {
+	private Term selectTermByName(String normalName, String lang) throws NoResultException {
 
-		Translations translation = selectTranslation(name, lang);
+		Translations translation = selectTranslation(normalName, lang);
 		Term term = translation.getTerm();
 		return term;
 	}
 
-	private Translations selectTranslation(String name, String lang) throws NoResultException {
+	private Translations selectTranslation(String normalName, String lang) throws NoResultException {
 
 		CriteriaBuilder criteriaBuilder = entitymanager.getCriteriaBuilder();
 		CriteriaQuery<Translations> criteriaQuery = criteriaBuilder.createQuery(Translations.class);
@@ -183,7 +183,7 @@ public class TermDAO {
 		Join<Translations, Languages> langJoin = translation.join(Translations_.languages);
 
 		Predicate selectLanguage = criteriaBuilder.like(langJoin.get(Languages_.name), lang);
-		Predicate selectTermName = criteriaBuilder.like(translation.get(Translations_.normalName), name);
+		Predicate selectTermName = criteriaBuilder.like(translation.get(Translations_.normalName), normalName);
 		Predicate whereFilter = criteriaBuilder.and(selectLanguage, selectTermName);
 		criteriaQuery.select(translation).where(whereFilter);
 

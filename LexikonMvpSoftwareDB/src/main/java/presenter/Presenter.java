@@ -128,7 +128,7 @@ public class Presenter {
 		searchComboBox = (SearchComboBox) comboBoxFactory.createComboBox(ComboBoxes.SearchComboBox);
 		headBar.add(searchComboBox);
 		SearchWordChecker searchWordChecker = new SearchWordChecker();
-		
+
 		searchComboBox.setSearchComboBoxFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
@@ -137,27 +137,26 @@ public class Presenter {
 				}
 			}
 		});
-		
+
 		searchComboBox.setSearchComboBoxKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				searchWordChecker.keyPressedChecker(e, searchComboBox.getEditor().getEditorComponent());
 			}
-			
+
 			@Override
 			public void keyTyped(KeyEvent e) {
 				searchWordChecker.keyTypedChecker(e, searchComboBox.getEditor().getEditorComponent());
 			}
 		});
-		
+
 		headBar.setAlphabetButtonActionListener(e -> searchLetterResult(e));
-//		headBar.setSearchButtonActionListener(l);
-//		headBar.setDeButtonActionListener(l);
-//		headBar.setEsButtonActionListener(l);
-//		headBar.setSpecialtyButtonActionListener(l);
-//		headBar.setNewTechnicalTermButtonActionListener(l);
-		
-		
+		headBar.setSearchButtonActionListener(l);
+		headBar.setDeButtonActionListener(l);
+		headBar.setEsButtonActionListener(l);
+		headBar.setSpecialtyButtonActionListener(l);
+		headBar.setNewTechnicalTermButtonActionListener(l);
+
 	}
 
 	private void addComponents(Updatable component) {
@@ -170,15 +169,8 @@ public class Presenter {
 		componentList.remove(component);
 	}
 
-	private void updateComponents(PanelEventTransferObject e) { // welche Infos
-																// sollen
-																// übertragen
-																// werden?
-																// (Sprache,
-																// aktueller
-																// Begriff/Fachgebiet,
-																// welche Ebene)
-
+	private void updateComponents(PanelEventTransferObject e) {
+		// welche Infos sollen übertragen werden? (Sprache, aktueller Begriff/Fachgebiet, welche Ebene)
 		for (Updatable component : componentList) {
 			component.updateFrame(e);
 		}
@@ -188,9 +180,10 @@ public class Presenter {
 	}
 
 	private void searchLetterResult(ActionEvent e) {
-			
-			// Buchstabenfenster wird im CENTER geöffnet
-//			mainFrame.letterResults_OpenLetterWindow(((JButton) e.getSource()).getActionCommand());
+
+		// Buchstabenfenster wird im CENTER geöffnet
+		// mainFrame.letterResults_OpenLetterWindow(((JButton)
+		// e.getSource()).getActionCommand());
 
 	}
 

@@ -4,9 +4,9 @@ public class ListItem
 {
 
 	private int valueMember;
-	private String displayMember;
+	private Object displayMember;
 	
-	public ListItem(int valueMember, String displayMember)
+	public ListItem(int valueMember, Object displayMember)
 	{
 		
 		this.valueMember = valueMember;
@@ -19,7 +19,7 @@ public class ListItem
 		return valueMember;
 	}
 
-	public String getDisplayMember()
+	public Object getDisplayMember()
 	{
 		return displayMember;
 	}
