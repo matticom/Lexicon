@@ -182,8 +182,8 @@ public class TermDAO {
 		Root<Translations> translation = criteriaQuery.from(Translations.class);
 		Join<Translations, Languages> langJoin = translation.join(Translations_.languages);
 
-		Predicate selectLanguage = criteriaBuilder.like(langJoin.get(Languages_.name), lang);
-		Predicate selectTermName = criteriaBuilder.like(translation.get(Translations_.normalName), normalName);
+		Predicate selectLanguage = criteriaBuilder.like(criteriaBuilder.lower(langJoin.get(Languages_.name)), lang.toLowerCase());
+		Predicate selectTermName = criteriaBuilder.like(criteriaBuilder.lower(translation.get(Translations_.normalName)), normalName.toLowerCase());
 		Predicate whereFilter = criteriaBuilder.and(selectLanguage, selectTermName);
 		criteriaQuery.select(translation).where(whereFilter);
 
@@ -205,7 +205,7 @@ public class TermDAO {
 		CriteriaQuery<Translations> criteriaQuery = criteriaBuilder.createQuery(Translations.class);
 
 		Root<Translations> translation = criteriaQuery.from(Translations.class);
-		Predicate whereFilter = criteriaBuilder.like(translation.get(Translations_.normalName), letter + "%");
+		Predicate whereFilter = criteriaBuilder.like(criteriaBuilder.lower(translation.get(Translations_.normalName)), (letter + "%").toLowerCase());
 		criteriaQuery.select(translation).where(whereFilter);
 
 		return entitymanager.createQuery(criteriaQuery).getResultList();

@@ -14,13 +14,6 @@ import java.util.ResourceBundle;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JRadioButtonMenuItem;
 import javax.swing.SwingUtilities;
 import javax.swing.text.JTextComponent;
 
@@ -151,11 +144,11 @@ public class Presenter {
 		});
 
 		headBar.setAlphabetButtonActionListener(e -> searchLetterResult(e));
-		headBar.setSearchButtonActionListener(l);
-		headBar.setDeButtonActionListener(l);
-		headBar.setEsButtonActionListener(l);
-		headBar.setSpecialtyButtonActionListener(l);
-		headBar.setNewTechnicalTermButtonActionListener(l);
+//		headBar.setSearchButtonActionListener(l);
+//		headBar.setDeButtonActionListener(l);
+//		headBar.setEsButtonActionListener(l);
+//		headBar.setSpecialtyButtonActionListener(l);
+//		headBar.setNewTechnicalTermButtonActionListener(l);
 
 	}
 

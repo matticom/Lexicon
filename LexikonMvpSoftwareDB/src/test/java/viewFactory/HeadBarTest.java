@@ -7,18 +7,40 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.swing.JFrame;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingUtilities;
 
+import org.apache.derby.tools.ij;
+import org.dbunit.database.DatabaseConfig;
+import org.dbunit.database.DatabaseConnection;
+import org.dbunit.database.DatabaseSequenceFilter;
+import org.dbunit.database.IDatabaseConnection;
+import org.dbunit.dataset.FilteredDataSet;
+import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.filter.ITableFilter;
+import org.dbunit.dataset.xml.FlatXmlDataSet;
+import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
+import org.dbunit.operation.DatabaseOperation;
+import org.eclipse.persistence.internal.jpa.EntityManagerImpl;
 import org.junit.Before;
 import org.junit.Test;
 
+import businessOperations.LanguageBO;
+import businessOperations.TermBO;
+import businessOperations.TermBOTest;
 import interactElements.ComboBoxCellRenderer;
 import eventHandling.ChosenLanguage;
 import eventHandling.ComboBoxEventTransferObject;
@@ -26,6 +48,9 @@ import eventHandling.PanelEventTransferObject;
 import interactElements.ComboBoxFactory;
 import interactElements.ComboBoxes;
 import interactElements.SearchComboBox;
+import model.Translations;
+import repository.LanguageDAO;
+import repository.TermDAO;
 
 public class HeadBarTest {
 
@@ -33,6 +58,17 @@ public class HeadBarTest {
 	HeadBar headBar;
 	boolean[] expectedAlphabet;
 	List<String> history;
+	
+	private static IDatabaseConnection mDBUnitConnection;
+    private static IDataSet startDataset;
+        
+	private static EntityManagerFactory emfactory;
+	private static EntityManager entitymanager;	
+	private static Connection connection;	
+	private static TermDAO termDAOTest;
+	private static LanguageDAO languageDAOTest;
+	private static TermBO termBOTest;
+	private static LanguageBO languageBOTest;
 
 	@Before
 	public void refreshMainFrame() {
@@ -62,6 +98,8 @@ public class HeadBarTest {
 		expectedAlphabet[7] = true;
 		expectedAlphabet[17] = true;
 		expectedAlphabet[21] = true;
+		
+		initializeDB();
 
 	}
 
@@ -77,11 +115,16 @@ public class HeadBarTest {
 		peto.setMainframeWidth(mainFrame.getWidth());
 		peto.setMainframeHeight(mainFrame.getHeight());
 
+		List<Translations> translationList = termBOTest.selectLetter("f");
+		
+		closeDB();
 		
 		history = new ArrayList<String>();
-		history.add("Bewehrung");
-		history.add("Beton");
-
+		
+		for (Translations translation : translationList) {
+			history.add(translation.getName());
+		}
+		
 		peto.setEntries(history);
 
 		ComboBoxFactory comboBoxFactory = new ComboBoxFactory();
@@ -119,5 +162,64 @@ public class HeadBarTest {
 			}
 		});
 		Thread.sleep(200000);
+	}
+	
+	public void initializeDB() {
+		
+		emfactory = Persistence.createEntityManagerFactory("Eclipselink_JPA_Derby");
+		entitymanager = emfactory.createEntityManager();
+		connection = ((EntityManagerImpl) (entitymanager.getDelegate())).getServerSession().getAccessor().getConnection();
+
+		try {
+			ij.runScript(connection,TermBOTest.class.getResourceAsStream("/Lexicon_Database_Schema_Derby.sql"),"UTF-8", System.out, "UTF-8"); 
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+
+		try {
+			mDBUnitConnection = new DatabaseConnection(connection);
+			mDBUnitConnection.getConfig().setProperty(DatabaseConfig.FEATURE_ALLOW_EMPTY_FIELDS, true);
+			startDataset = new FlatXmlDataSetBuilder().build(new File("./src/test/resources/XML/Term/testSet_EntireDB.xml"));
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+			
+		
+		termDAOTest = new TermDAO(entitymanager);
+		languageDAOTest = new LanguageDAO(entitymanager);
+		languageBOTest = new LanguageBO(languageDAOTest);
+		termBOTest = new TermBO(languageBOTest, termDAOTest);
+		
+		try {
+			DatabaseOperation.CLEAN_INSERT.execute(mDBUnitConnection, startDataset);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		
+//		try {
+//			ITableFilter filter = new DatabaseSequenceFilter(mDBUnitConnection);
+//			IDataSet fullDataSet = new FilteredDataSet(filter, mDBUnitConnection.createDataSet());
+//			FlatXmlDataSet.write(fullDataSet, new FileOutputStream("actual.xml"));
+//			
+//		} catch (Exception e) {
+//			System.out.println("Es wurde eine Exception bei FullDataSetXML geworfen: "+ e.getMessage());
+//			e.printStackTrace();
+//		}	
+	}
+	
+	public void closeDB() {
+
+		try {
+			mDBUnitConnection.close();
+		} catch (SQLException e) {
+			System.out.println("Es wurde eine Exception beim Schlieﬂen der IDataConnection geworfen: "+ e.getMessage());
+			e.printStackTrace();
+		}
+		
+		entitymanager.close();
+		emfactory.close();
 	}
 }
