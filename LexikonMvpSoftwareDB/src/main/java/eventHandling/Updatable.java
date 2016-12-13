@@ -2,7 +2,7 @@ package eventHandling;
 
 public interface Updatable {
 
-	public void updateFrame(PanelEventTransferObject e);
+	public void updatePanel(PanelEventTransferObject e);
 	
 	
 }

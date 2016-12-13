@@ -20,7 +20,7 @@ public class MainFrame extends JFrame  implements Updatable {
 	}
 	
 	@Override
-	public void updateFrame(PanelEventTransferObject e) {
+	public void updatePanel(PanelEventTransferObject e) {
 		// TODO Auto-generated method stub
 		
 	}

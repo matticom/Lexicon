@@ -14,7 +14,7 @@ public class WindowCreator {
 	public MyWindow createWindow(WindowUpdateObjects window, ResourceBundle languageBundle) {
 		
 		MyWindow myWindow = windowFactory(window, languageBundle);
-		myWindow.updateFrame(new PanelEventTransferObject());
+		myWindow.updatePanel(new PanelEventTransferObject());
 		return myWindow;
 	}
 	

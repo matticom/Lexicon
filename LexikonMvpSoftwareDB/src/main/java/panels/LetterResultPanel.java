@@ -16,7 +16,7 @@ public class LetterResultPanel extends MyPanel {
 	}
 
 	@Override
-	public void updateFrame(PanelEventTransferObject e) {
+	public void updatePanel(PanelEventTransferObject e) {
 	
 	}
 

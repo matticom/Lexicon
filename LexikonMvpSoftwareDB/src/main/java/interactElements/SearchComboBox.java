@@ -21,8 +21,8 @@ import utilities.WinUtil;
 public class SearchComboBox extends MyComboBox {
 
 	private DefaultComboBoxModel<ListItem> searchComboBoxDefaultModel;
-
-	private Locale currentLocale;
+	
+	private final double HEADPANEL_MAINFRAME_RATIO = 0.125;
 
 	public SearchComboBox() {
 
@@ -41,24 +41,17 @@ public class SearchComboBox extends MyComboBox {
 
 		((JTextComponent) this.getEditor().getEditorComponent()).setText("");
 	}
-
-	public void setSearchComboBoxKeyListener(KeyListener l) {
-		this.getEditor().getEditorComponent().addKeyListener(l);
-	}
-
-	public void setSearchComboBoxFocusListener(FocusListener l) {
-		this.getEditor().getEditorComponent().addFocusListener(l);
-	}
 	
 	@Override
-	public void updateFrame(PanelEventTransferObject e) {
+	public void updatePanel(PanelEventTransferObject e) {
 		
-		int height = e.getMainframeHeight()/8;
-		int width = e.getMainframeWidth();
-		this.setBounds((int)(0.031*width), (int)(0.22*height), (int)(0.2*width), (int)(0.25*height));
-		int fontResize = (int) (0.14 * height - 14);
+		int headPanelHeight = (int)(e.getMainFrameHeight() * HEADPANEL_MAINFRAME_RATIO);
+		int headPanelWidth = e.getMainFrameWidth();
+		this.setBounds((int)(0.031*headPanelWidth), (int)(0.22*headPanelHeight), (int)(0.2*headPanelWidth), (int)(0.25*headPanelHeight));
+		int fontResize = (int) (0.14 * headPanelHeight - 14);
 		this.getEditor().getEditorComponent().setFont(this.getEditor().getEditorComponent().getFont().deriveFont(Font.BOLD, 13 + fontResize));
-		writeSearchWordsFromDbToHistory(e.getEntries(), fontResize);
+		writeSearchWordsFromDbToHistory(e.getHistory(), fontResize);
+		((JTextComponent) this.getEditor().getEditorComponent()).setText("");
 	}
 
 	private void writeSearchWordsFromDbToHistory(List<String> history, int fontResize) {
@@ -76,5 +69,12 @@ public class SearchComboBox extends MyComboBox {
 		}
 
 	}
+	
+	public void setSearchComboBoxKeyListener(KeyListener l) {
+		this.getEditor().getEditorComponent().addKeyListener(l);
+	}
 
+	public void setSearchComboBoxFocusListener(FocusListener l) {
+		this.getEditor().getEditorComponent().addFocusListener(l);
+	}
 }

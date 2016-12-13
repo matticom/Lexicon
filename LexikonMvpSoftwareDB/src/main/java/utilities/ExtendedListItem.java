@@ -7,7 +7,7 @@ public class ExtendedListItem {
 	
 	
 	public ExtendedListItem(String name, int fontsize) {
-		super();
+	
 		this.itemText = name;
 		this.fontsize = fontsize;
 	}

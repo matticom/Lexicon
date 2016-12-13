@@ -16,7 +16,7 @@ public class PanelCreator {
 	public MyPanel createPanel(PanelUpdateObjects panel, ResourceBundle languageBundle) {
 		
 		MyPanel myPanel = panelFactory(panel, languageBundle);
-		myPanel.updateFrame(new PanelEventTransferObject());
+		myPanel.updatePanel(new PanelEventTransferObject());
 		return myPanel;
 	}
 	

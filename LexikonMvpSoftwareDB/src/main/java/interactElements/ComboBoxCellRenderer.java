@@ -43,7 +43,7 @@ public class ComboBoxCellRenderer implements ListCellRenderer<Object>
 				cboItem = (ExtendedListItem)listItem.getDisplayMember();
 				
 				// Aufbereiten der der Daten aus dem ComboBoxItem 
-				itemLabel.setFont(list.getFont().deriveFont(Font.PLAIN, cboItem.getFontsize()));   
+				itemLabel.setFont(list.getFont().deriveFont(Font.BOLD, cboItem.getFontsize()));   
 				newText = cboItem.getItemText();
 			}
 		}

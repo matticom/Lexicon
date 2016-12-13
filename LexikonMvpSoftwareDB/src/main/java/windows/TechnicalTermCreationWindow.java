@@ -16,7 +16,7 @@ public class TechnicalTermCreationWindow extends MyWindow {
 	}
 
 	@Override
-	public void updateFrame(PanelEventTransferObject e) {
+	public void updatePanel(PanelEventTransferObject e) {
 	
 	}
 

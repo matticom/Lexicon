@@ -16,7 +16,7 @@ public class SearchResultPanel extends MyPanel {
 	}
 
 	@Override
-	public void updateFrame(PanelEventTransferObject e) {
+	public void updatePanel(PanelEventTransferObject e) {
 	
 	}
 

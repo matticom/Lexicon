@@ -3,28 +3,59 @@ package eventHandling;
 import java.awt.Component;
 import java.util.List;
 
+import model.Specialty;
+import model.TechnicalTerm;
+import panels.MyPanel;
+
 public class PanelEventTransferObject {
 	
+	MyPanel source;
+	MyPanel destination;
+		
+	int mainFrameWidth;
+	int mainFrameHeight;
+	
+	List<String> history;
 	ChosenLanguage currentLanguage;
 	boolean[] availableLetters;
-	int mainframeWidth;
-	int mainframeHeight;
-	List<String> entries;
+	List<Specialty> specialtyList;
+	
+	Specialty currentSpecialty;
+	TechnicalTerm currentTechnicalTerm;
+	
 		
-	public int getMainframeWidth() {
-		return mainframeWidth;
+	
+
+	public MyPanel getSource() {
+		return source;
 	}
 
-	public void setMainframeWidth(int mainframeWidth) {
-		this.mainframeWidth = mainframeWidth;
+	public void setSource(MyPanel source) {
+		this.source = source;
 	}
 
-	public int getMainframeHeight() {
-		return mainframeHeight;
+	public MyPanel getDestination() {
+		return destination;
 	}
 
-	public void setMainframeHeight(int mainframeHeight) {
-		this.mainframeHeight = mainframeHeight;
+	public void setDestination(MyPanel destination) {
+		this.destination = destination;
+	}
+
+	public int getMainFrameWidth() {
+		return mainFrameWidth;
+	}
+
+	public void setMainFrameWidth(int mainframeWidth) {
+		this.mainFrameWidth = mainframeWidth;
+	}
+
+	public int getMainFrameHeight() {
+		return mainFrameHeight;
+	}
+
+	public void setMainFrameHeight(int mainframeHeight) {
+		this.mainFrameHeight = mainframeHeight;
 	}
 
 	public boolean[] getAvailableLetters() {
@@ -42,14 +73,41 @@ public class PanelEventTransferObject {
 	public void setCurrentLanguage(ChosenLanguage currentLanguage) {
 		this.currentLanguage = currentLanguage;
 	}
-	
-	public List<String> getEntries() {
-		return entries;
+
+	public List<String> getHistory() {
+		return history;
 	}
 
-	public void setEntries(List<String> entries) {
-		this.entries = entries;
+	public void setHistory(List<String> history) {
+		this.history = history;
 	}
 	
+	public List<Specialty> getSpecialtyList() {
+		return specialtyList;
+	}
+
+	public void setSpecialtyList(List<Specialty> specialtyList) {
+		this.specialtyList = specialtyList;
+	}
+
+	public Specialty getCurrentSpecialty() {
+		return currentSpecialty;
+	}
+
+	public void setCurrentSpecialty(Specialty currentSpecialty) {
+		this.currentSpecialty = currentSpecialty;
+	}
+
+	public TechnicalTerm getCurrentTechnicalTerm() {
+		return currentTechnicalTerm;
+	}
+
+	public void setCurrentTechnicalTerm(TechnicalTerm currentTechnicalTerm) {
+		this.currentTechnicalTerm = currentTechnicalTerm;
+	}
+
+
 	
+
+		
 }

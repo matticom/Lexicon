@@ -20,6 +20,8 @@ public class WinUtil
 	public static final Color ULTRA_LIGHT_GRAY = createColor(200, 200, 200);
 	public static final Color DARKER_GRAY = createColor(80, 80, 80);
 	public static final Color ULTRA_DARK_GRAY = createColor(50, 50, 50);
+	public static final Color LIGHT_BLACK = createColor(30, 30, 30);
+	public static final Color COOL_BLUE = createColor(0, 178, 238);
 
 	// Verhinder, dass eine Instanz dieser Klasse erstellt werden kann.
 	// Diese Klasse enthält nur öffentliche und statische Methoden.
@@ -181,7 +183,7 @@ public class WinUtil
 	 * <li><b><i>createButton</i></b> <br>
 	 * <br>
 	 * public JButton createButton(String buttonText, int x, int y, int width, int height, Border border, Color background, <br>
-	 * &nbsp ActionListener listener, String deutsch, String spanisch, boolean setOpaque, boolean setFocusPainted, Color foreground) <br>
+	 * &nbsp ActionListener listener, String btnName, String btnToolTip, boolean setOpaque, boolean setFocusPainted, Color foreground) <br>
 	 * <br>
 	 * Erstellt einen Button. <br>
 	 * <br>
@@ -258,7 +260,7 @@ public class WinUtil
 	 * <li><b><i>createLabel</i></b> <br>
 	 * <br>
 	 * public JLabel createLabel(String LblText, int x, int y, int width, int height, Border border, Color background,<br>
-	 * &nbsp String deutsch, String spanisch, Color foreground) <br>
+	 * &nbsp String lblName, String lblToolTip, Color foreground) <br>
 	 * <br>
 	 * Erstellt einen Button. <br>
 	 * <br>

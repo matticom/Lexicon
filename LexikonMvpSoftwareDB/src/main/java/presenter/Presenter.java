@@ -165,7 +165,7 @@ public class Presenter {
 	private void updateComponents(PanelEventTransferObject e) {
 		// welche Infos sollen übertragen werden? (Sprache, aktueller Begriff/Fachgebiet, welche Ebene)
 		for (Updatable component : componentList) {
-			component.updateFrame(e);
+			component.updatePanel(e);
 		}
 		// es müssen nicht alle aktualisiert werden: zwingend MenuBar, HeadBar,
 		// StatusBar; Abhängig welches Panel als nächstes zu sehen ist: die

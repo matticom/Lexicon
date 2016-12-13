@@ -16,7 +16,7 @@ public class MyComboBox extends JComboBox implements Refillable, Updatable {
 	}
 
 	@Override
-	public void updateFrame(PanelEventTransferObject e) {
+	public void updatePanel(PanelEventTransferObject e) {
 		// TODO Auto-generated method stub
 		
 	}

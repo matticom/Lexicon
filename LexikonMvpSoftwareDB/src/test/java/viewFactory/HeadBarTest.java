@@ -2,7 +2,9 @@ package viewFactory;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Toolkit;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
@@ -49,13 +51,15 @@ import interactElements.ComboBoxFactory;
 import interactElements.ComboBoxes;
 import interactElements.SearchComboBox;
 import model.Translations;
+import panels.PanelTest;
+import panels.SpecialtyPanel;
 import repository.LanguageDAO;
 import repository.TermDAO;
 
 public class HeadBarTest {
 
 	JFrame mainFrame;
-	HeadBar headBar;
+	
 	boolean[] expectedAlphabet;
 	List<String> history;
 	
@@ -69,6 +73,12 @@ public class HeadBarTest {
 	private static LanguageDAO languageDAOTest;
 	private static TermBO termBOTest;
 	private static LanguageBO languageBOTest;
+	
+	int mainFrameWidth;
+	int mainFrameHeight;
+	private final double MAINFRAME_DISPLAY_RATIO = 1;
+	
+	private int counter = 0;
 
 	@Before
 	public void refreshMainFrame() {
@@ -76,28 +86,23 @@ public class HeadBarTest {
 		mainFrame = new JFrame();
 
 		mainFrame.setTitle("TestFrame");
-		mainFrame.setSize(1300, 800);
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		mainFrameWidth = (int)(dim.getWidth() * MAINFRAME_DISPLAY_RATIO);
+		mainFrameHeight = (int)(dim.getHeight() * MAINFRAME_DISPLAY_RATIO);
+			
+		mainFrame.setSize(mainFrameWidth, mainFrameHeight);
+		System.out.println(mainFrame.getSize());	
 		mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		mainFrame.setResizable(true);
 		mainFrame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				mainFrame.dispose();
+				closeDB();
+				System.exit(0);
 			}
 		});
 		mainFrame.setLocationRelativeTo(null);
-
-		expectedAlphabet = new boolean[26];
-		for (boolean letter : expectedAlphabet) {
-			letter = false;
-		}
-		expectedAlphabet[0] = true;
-		expectedAlphabet[1] = true;
-		expectedAlphabet[2] = true;
-		expectedAlphabet[5] = true;
-		expectedAlphabet[7] = true;
-		expectedAlphabet[17] = true;
-		expectedAlphabet[21] = true;
 		
 		initializeDB();
 
@@ -106,18 +111,34 @@ public class HeadBarTest {
 	@Test
 	public void createTechnicalTermTest() throws Exception {
 
-		HeadBar headBar = new HeadBar(ResourceBundle.getBundle("languageBundles.lexikon", new Locale("es")));
-		HeadBar headBar2 = new HeadBar(ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")));
+		StatusBar statusBar = new StatusBar(ResourceBundle.getBundle("languageBundles.lexikon", new Locale("es")));
+		mainFrame.add(statusBar, BorderLayout.PAGE_END);
+		
+		MenuBar menuBar = new MenuBar(ResourceBundle.getBundle("languageBundles.lexikon", new Locale("es")));
+		mainFrame.setJMenuBar(menuBar);
+		
+		HeadBar headBar = new HeadBar(mainFrameWidth, mainFrameHeight, ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")));
+//		HeadBar headBar2 = new HeadBar(mainFrameWidth, mainFrameHeight, ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")));
+//		PanelTest test = new PanelTest();
+		SpecialtyPanel specialtyPanel = new SpecialtyPanel(ResourceBundle.getBundle("languageBundles.lexikon", new Locale("es")));
 
 		PanelEventTransferObject peto = new PanelEventTransferObject();
 		peto.setAvailableLetters(expectedAlphabet);
 		peto.setCurrentLanguage(ChosenLanguage.Spanish);
-		peto.setMainframeWidth(mainFrame.getWidth());
-		peto.setMainframeHeight(mainFrame.getHeight());
+		peto.setMainFrameWidth(mainFrameWidth);
+		peto.setMainFrameHeight(mainFrameHeight);
+		peto.setCurrentSpecialty(termBOTest.selectSpecialtyById(6));
+		peto.setCurrentTechnicalTerm(termBOTest.selectTechnicalTermById(19));
 
 		List<Translations> translationList = termBOTest.selectLetter("f");
 		
-		closeDB();
+		expectedAlphabet = new boolean[26];
+		for (boolean letter : expectedAlphabet) {
+			letter = false;
+		}
+		expectedAlphabet = termBOTest.checkLetter();
+		
+		
 		
 		history = new ArrayList<String>();
 		
@@ -125,7 +146,7 @@ public class HeadBarTest {
 			history.add(translation.getName());
 		}
 		
-		peto.setEntries(history);
+		peto.setHistory(history);
 
 		ComboBoxFactory comboBoxFactory = new ComboBoxFactory();
 		SearchComboBox searchComboBox = (SearchComboBox) comboBoxFactory.createComboBox(ComboBoxes.SearchComboBox);
@@ -137,10 +158,10 @@ public class HeadBarTest {
 		searchComboBox2.setRenderer(cboFontSizeRenderer);
 		
 		headBar.add(searchComboBox);
-		headBar2.add(searchComboBox2);
+//		headBar2.add(searchComboBox2);
 
 		mainFrame.add(headBar, BorderLayout.PAGE_START);
-		mainFrame.add(headBar2, BorderLayout.CENTER);
+		mainFrame.add(specialtyPanel, BorderLayout.CENTER);
 		mainFrame.setVisible(true);
 		
 		mainFrame.addComponentListener(new ComponentAdapter() {
@@ -149,19 +170,35 @@ public class HeadBarTest {
 				
 				Component c = e.getComponent();
 				PanelEventTransferObject peto = new PanelEventTransferObject();
-				peto.setMainframeWidth(c.getWidth());
-				peto.setMainframeHeight(c.getHeight());
+				peto.setMainFrameWidth(c.getWidth());
+				peto.setMainFrameHeight(c.getHeight());
 				peto.setAvailableLetters(expectedAlphabet);
 				peto.setCurrentLanguage(ChosenLanguage.Spanish);
-				peto.setEntries(history);
+				peto.setHistory(history);
 				
-				headBar.updateFrame(peto);
-				headBar2.updateFrame(peto);
-				searchComboBox.updateFrame(peto);
-				searchComboBox2.updateFrame(peto);
+				if (counter > 9 && counter < 19 || counter > 39 && counter < 49 ) {
+					peto.setCurrentLanguage(ChosenLanguage.German);
+					peto.setCurrentSpecialty(termBOTest.selectSpecialtyById(6));
+					peto.setCurrentTechnicalTerm(termBOTest.selectTechnicalTermById(19));
+				}
+				
+				if (counter > 20 && counter < 29 || counter > 49 && counter < 109 ) {
+					peto.setCurrentSpecialty(termBOTest.selectSpecialtyById(9));
+				}
+																
+				headBar.updatePanel(peto);
+//				headBar2.updatePanel(peto);
+				searchComboBox.updatePanel(peto);
+				searchComboBox2.updatePanel(peto);
+				menuBar.updatePanel(peto);
+				statusBar.updatePanel(peto);
+				counter++;
+				System.out.println("Framegröße: " + mainFrame.getWidth() + " x " + mainFrame.getHeight());
+				
 			}
 		});
 		Thread.sleep(200000);
+		closeDB();
 	}
 	
 	public void initializeDB() {

@@ -1,0 +1,40 @@
+package panels;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+
+import javax.swing.JPanel;
+
+public class PanelTest extends MyPanel {
+
+	private JPanel 	container, start, links, rechts;
+	
+	
+	
+	public PanelTest() {
+		test();
+	}
+
+	public void test() {
+		container = new JPanel(new BorderLayout());
+		
+		start = new JPanel(); 
+		start.setPreferredSize(new Dimension(1900, 200));
+		start.setBackground(Color.CYAN);
+		container.add(start, BorderLayout.PAGE_START);
+		
+		links = new JPanel();
+		links.setPreferredSize(new Dimension(200, 400));
+		links.setBackground(Color.YELLOW);
+		container.add(links, BorderLayout.LINE_START);
+		
+		rechts = new JPanel(); 
+		rechts.setPreferredSize(new Dimension(600, 2000));
+		rechts.setBackground(Color.GREEN);
+		container.add(rechts, BorderLayout.LINE_END);
+		
+		this.getViewport().add(container);
+	}
+	
+}
