@@ -63,6 +63,7 @@ public class HeadBarTest {
 	boolean[] expectedAlphabet;
 	List<String> history;
 	
+	
 	private static IDatabaseConnection mDBUnitConnection;
     private static IDataSet startDataset;
         
@@ -76,7 +77,8 @@ public class HeadBarTest {
 	
 	int mainFrameWidth;
 	int mainFrameHeight;
-	private final double MAINFRAME_DISPLAY_RATIO = 1;
+	Dimension displaySize;
+	private final double MAINFRAME_DISPLAY_RATIO = 0.6;
 	
 	private int counter = 0;
 
@@ -86,9 +88,9 @@ public class HeadBarTest {
 		mainFrame = new JFrame();
 
 		mainFrame.setTitle("TestFrame");
-		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		mainFrameWidth = (int)(dim.getWidth() * MAINFRAME_DISPLAY_RATIO);
-		mainFrameHeight = (int)(dim.getHeight() * MAINFRAME_DISPLAY_RATIO);
+		displaySize = Toolkit.getDefaultToolkit().getScreenSize();
+		mainFrameWidth = (int)(displaySize.getWidth() * MAINFRAME_DISPLAY_RATIO);
+		mainFrameHeight = (int)(displaySize.getHeight() * MAINFRAME_DISPLAY_RATIO);
 			
 		mainFrame.setSize(mainFrameWidth, mainFrameHeight);
 		System.out.println(mainFrame.getSize());	
@@ -117,9 +119,10 @@ public class HeadBarTest {
 		MenuBar menuBar = new MenuBar(ResourceBundle.getBundle("languageBundles.lexikon", new Locale("es")));
 		mainFrame.setJMenuBar(menuBar);
 		
-		HeadBar headBar = new HeadBar(mainFrameWidth, mainFrameHeight, ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")));
+		HeadBar headBar = new HeadBar(displaySize, mainFrameWidth, ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")));
+		mainFrame.setMinimumSize(new Dimension(1200, 400));
 //		HeadBar headBar2 = new HeadBar(mainFrameWidth, mainFrameHeight, ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")));
-//		PanelTest test = new PanelTest();
+		PanelTest test = new PanelTest();
 		SpecialtyPanel specialtyPanel = new SpecialtyPanel(ResourceBundle.getBundle("languageBundles.lexikon", new Locale("es")));
 
 		PanelEventTransferObject peto = new PanelEventTransferObject();
@@ -129,6 +132,7 @@ public class HeadBarTest {
 		peto.setMainFrameHeight(mainFrameHeight);
 		peto.setCurrentSpecialty(termBOTest.selectSpecialtyById(6));
 		peto.setCurrentTechnicalTerm(termBOTest.selectTechnicalTermById(19));
+		peto.setDisplaySize(displaySize);
 
 		List<Translations> translationList = termBOTest.selectLetter("f");
 		
@@ -157,11 +161,11 @@ public class HeadBarTest {
 		searchComboBox.setRenderer(cboFontSizeRenderer);
 		searchComboBox2.setRenderer(cboFontSizeRenderer);
 		
-		headBar.add(searchComboBox);
+		headBar.getLeftPanel().add(searchComboBox);
 //		headBar2.add(searchComboBox2);
 
 		mainFrame.add(headBar, BorderLayout.PAGE_START);
-		mainFrame.add(specialtyPanel, BorderLayout.CENTER);
+		mainFrame.add(test, BorderLayout.CENTER);
 		mainFrame.setVisible(true);
 		
 		mainFrame.addComponentListener(new ComponentAdapter() {
@@ -175,6 +179,7 @@ public class HeadBarTest {
 				peto.setAvailableLetters(expectedAlphabet);
 				peto.setCurrentLanguage(ChosenLanguage.Spanish);
 				peto.setHistory(history);
+				peto.setDisplaySize(displaySize);
 				
 				if (counter > 9 && counter < 19 || counter > 39 && counter < 49 ) {
 					peto.setCurrentLanguage(ChosenLanguage.German);
@@ -193,7 +198,7 @@ public class HeadBarTest {
 				menuBar.updatePanel(peto);
 				statusBar.updatePanel(peto);
 				counter++;
-				System.out.println("Framegröße: " + mainFrame.getWidth() + " x " + mainFrame.getHeight());
+				System.out.println("HeadBarGröße: " + headBar.getWidth() + " x " + headBar.getHeight());
 				
 			}
 		});

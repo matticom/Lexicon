@@ -1,5 +1,6 @@
 package viewFactory;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -17,6 +18,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -36,25 +38,32 @@ import eventHandling.ChosenLanguage;
 import eventHandling.PanelEventTransferObject;
 import eventHandling.Updatable;
 
-public class HeadBar extends JMenuBar implements Updatable {
+public class HeadBar extends JPanel implements Updatable {
 
 	private JButton[] alphabetButtons = new JButton[26];
 	private JLabel headDescriptionLabel, separatorLabel;
+	private JPanel leftPanel, middlePanel, rightPanel, centerPanel; 
+	
+
 	private JPanel backgroundPanel;
 
 	private JButton specialtyButton, deButton, esButton, newTechnicalTermButton, searchButton;
 
-	private int panelWidth = 0;
-	private int panelHeight = 0;
+	private int panelWidth;
+	private int panelHeight;
+	private double widthRatio;
+	private int sidePanelWidth;
 
 	private final double HEADPANEL_MAINFRAME_RATIO = 0.125;
 
 	private ResourceBundle languageBundle;
 
-	public HeadBar(int mainFrameWidth, int mainFrameHeight, ResourceBundle languageBundle) {
+	public HeadBar(Dimension displaySize, int mainFrameWidth, ResourceBundle languageBundle) {
 
+		
 		panelWidth = mainFrameWidth;
-		panelHeight = (int) (mainFrameHeight * HEADPANEL_MAINFRAME_RATIO);
+		panelHeight = (int) (displaySize.getHeight() * 0.0833);
+//		widthRatio = 
 		this.languageBundle = languageBundle;
 
 		initialize();
@@ -62,64 +71,81 @@ public class HeadBar extends JMenuBar implements Updatable {
 
 	private void initialize() {
 
-		this.setLayout(null);
+		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		
 		this.setPreferredSize(new Dimension(panelWidth, panelHeight));
 		this.setBackground(Color.DARK_GRAY);
+		sidePanelWidth = panelWidth/4;
+		
+		leftPanel = new JPanel(null);
+		leftPanel.setPreferredSize(new Dimension(sidePanelWidth, panelHeight));
+		leftPanel.setBackground(Color.DARK_GRAY);
+		centerPanel = new JPanel(null);
+		centerPanel.setPreferredSize(new Dimension(sidePanelWidth*2, panelHeight));
+		centerPanel.setBackground(Color.DARK_GRAY);
+		rightPanel = new JPanel(null);
+		rightPanel.setPreferredSize(new Dimension(sidePanelWidth, panelHeight));
+		rightPanel.setBackground(Color.DARK_GRAY);
 
 		// Such-Button
-		searchButton = WinUtil.createButton(languageBundle.getString("searchBtn"), 40, 57, 260, 26, BorderFactory.createLineBorder(Color.BLACK),
+		searchButton = WinUtil.createButton(languageBundle.getString("searchBtn"), 20, 57, 260, 26, BorderFactory.createLineBorder(Color.BLACK),
 				Color.DARK_GRAY, null, null, null, false, false, Color.WHITE);
-		this.add(searchButton);
+		leftPanel.add(searchButton);//40, 22, 260, 25
 
 		// Beschreibungslabel
-		headDescriptionLabel = WinUtil.createLabel(languageBundle.getString("headDescriptionLabel"), 401, 10, 500, 25, new EmptyBorder(0, 0, 0, 0),
+		headDescriptionLabel = WinUtil.createLabel(languageBundle.getString("headDescriptionLabel"), panelWidth/4 - 250, 10, 500, 25, new EmptyBorder(0, 0, 0, 0),
 				Color.DARK_GRAY, null, null, Color.WHITE);
 		headDescriptionLabel.setFont(headDescriptionLabel.getFont().deriveFont(Font.BOLD, 13));
 		headDescriptionLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		this.add(headDescriptionLabel);
+		centerPanel.add(headDescriptionLabel);
 
 		// Fachgebiete darstellen
-		specialtyButton = WinUtil.createButton(languageBundle.getString("subjectsBtn"), panelWidth / 2 - 100, 68, 200, 20,
+		specialtyButton = WinUtil.createButton(languageBundle.getString("subjectsBtn"), panelWidth/4 - 100, 68, 200, 20,
 				BorderFactory.createLineBorder(Color.GRAY), Color.DARK_GRAY, null, null, null, false, false, WinUtil.ULTRA_LIGHT_GRAY);
-		this.add(specialtyButton);
+		centerPanel.add(specialtyButton);
 
 		// HintergrundPanel
 		backgroundPanel = new JPanel();
-		backgroundPanel.setBounds(390, 36, 520, 28);
+		backgroundPanel.setBounds(panelWidth/4 - 260, 36, 520, 28);
 		backgroundPanel.setBackground(WinUtil.DARKER_GRAY);
 
 		// Sprachauswahlbuttons
-		deButton = WinUtil.createButton("DE", 1200, 10, 25, 25, new EmptyBorder(0, 0, 0, 0), Color.BLACK, null, "DE", null, false, false,
+		deButton = WinUtil.createButton("DE", panelWidth/4-83, 10, 25, 25, new EmptyBorder(0, 0, 0, 0), Color.BLACK, null, "DE", null, false, false,
 				Color.WHITE);
-		this.add(deButton);
+		rightPanel.add(deButton);
 
-		separatorLabel = WinUtil.createLabel("/", 1230, 10, 5, 25, new EmptyBorder(0, 0, 0, 0), Color.DARK_GRAY, "separator", null, Color.WHITE);
-		this.add(separatorLabel);
+		separatorLabel = WinUtil.createLabel("/", panelWidth/4-53, 10, 5, 25, new EmptyBorder(0, 0, 0, 0), Color.DARK_GRAY, "separator", null, Color.WHITE);
+		rightPanel.add(separatorLabel);
 
-		esButton = WinUtil.createButton("ES", 1238, 10, 25, 25, new EmptyBorder(0, 0, 0, 0), Color.DARK_GRAY, null, "ES", null, false, false,
+		esButton = WinUtil.createButton("ES", panelWidth/4-45, 10, 25, 25, new EmptyBorder(0, 0, 0, 0), Color.DARK_GRAY, null, "ES", null, false, false,
 				Color.WHITE);
-		this.add(esButton);
+		rightPanel.add(esButton);
 
 		// Neuer Eintrag Button
-		newTechnicalTermButton = WinUtil.createButton(languageBundle.getString("newEntryBtn"), 1000, 50, 260, 30,
+		newTechnicalTermButton = WinUtil.createButton(languageBundle.getString("newEntryBtn"), panelWidth/4-280, 50, 260, 30,
 				BorderFactory.createLineBorder(Color.BLACK), Color.DARK_GRAY, null, null, null, false, false, Color.WHITE);
-		this.add(newTechnicalTermButton);
+		rightPanel.add(newTechnicalTermButton);
 
 		drawAlphabet(panelWidth, panelHeight);
-		this.add(backgroundPanel);
+		centerPanel.add(backgroundPanel);
+		
+		this.add(leftPanel);
+		this.add(centerPanel);
+		this.add(rightPanel);
+		
 	}
 
 	private void drawAlphabet(int PANEL_WIDTH, int PANEL_HEIGHT) {
 
 		for (char letter = 'A'; letter <= 'Z'; letter++) {
 			int arrayPosition = letter - 65;
-			int xLetterOffSet = (int) (arrayPosition * 0.015 * PANEL_WIDTH);
+			int xLetterOffSet = (int) (arrayPosition * 18);
 			
-			alphabetButtons[arrayPosition] = WinUtil.createButton(String.valueOf(letter), (int) (0.3 * PANEL_WIDTH + xLetterOffSet),
-											 (int) (0.4 * PANEL_HEIGHT), (int) (0.013 * PANEL_WIDTH), (int) (0.2 * PANEL_HEIGHT), BorderFactory.createLineBorder(Color.GRAY),
+			alphabetButtons[arrayPosition] = WinUtil.createButton(String.valueOf(letter), (int) (panelWidth/4-234 + xLetterOffSet),
+											 (int) (40), (int) (14), (int) (20), BorderFactory.createLineBorder(Color.GRAY),
 											 Color.DARK_GRAY, null, String.valueOf(letter), String.valueOf(letter), false, false, WinUtil.ULTRA_LIGHT_GRAY);
 			alphabetButtons[arrayPosition].setActionCommand(String.valueOf(letter) + "%");
-			this.add(alphabetButtons[arrayPosition]);
+			centerPanel.add(alphabetButtons[arrayPosition]);
 		}
 	}
 
@@ -133,8 +159,16 @@ public class HeadBar extends JMenuBar implements Updatable {
 			esButton.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 			languageBundle = ResourceBundle.getBundle("languageBundles.lexikon", new Locale("es"));
 		}
-
-		changeComponentsSizeOnResize(e.getMainFrameWidth(), e.getMainFrameHeight());
+		int centerPanelHalfWidth = (e.getMainFrameWidth()-2*sidePanelWidth)/2;
+		centerPanel.setPreferredSize(new Dimension(centerPanelHalfWidth*2, panelHeight));
+		headDescriptionLabel.setBounds(centerPanelHalfWidth - 250, 10, 500, 25);
+		specialtyButton.setBounds(centerPanelHalfWidth - 100, 68, 200, 20);
+		backgroundPanel.setBounds(centerPanelHalfWidth - 260, 36, 520, 28);
+		for (int arrayPosition = 0; arrayPosition < 26; arrayPosition++) {
+			int xLetterOffSet = (int) (arrayPosition * 18);
+			alphabetButtons[arrayPosition].setBounds((int) (centerPanelHalfWidth-234 + xLetterOffSet), (int) (40), (int) (14), (int) (20));
+		}
+//		changeComponentsSizeOnResize(e.getMainFrameWidth(), e.getMainFrameHeight());
 		changeGuiTextLanguage();
 		checkAvailabilityLetters(e.getAvailableLetters());
 	}
@@ -145,7 +179,7 @@ public class HeadBar extends JMenuBar implements Updatable {
 		panelHeight = (int) (mainFrameHeight * HEADPANEL_MAINFRAME_RATIO);
 
 		this.setPreferredSize(new Dimension(panelWidth, panelHeight));
-
+		
 		resizeOtherGuiElements();
 		resizeAlphabet();
 	}
@@ -242,4 +276,7 @@ public class HeadBar extends JMenuBar implements Updatable {
 
 	}
 
+	public JPanel getLeftPanel() {
+		return leftPanel;
+	}
 }

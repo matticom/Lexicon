@@ -32,7 +32,7 @@ public class SearchComboBox extends MyComboBox {
 	private void initialize() {
 		searchComboBoxDefaultModel = new DefaultComboBoxModel<ListItem>();
 		this.setModel(searchComboBoxDefaultModel);
-		this.setBounds(40, 22, 260, 25);
+		this.setBounds(20, 22, 260, 25);
 		this.setEditable(true);
 		this.getEditor().getEditorComponent().setBackground(Color.LIGHT_GRAY);
 		this.getEditor().getEditorComponent().setForeground(WinUtil.ULTRA_DARK_GRAY);
@@ -47,10 +47,10 @@ public class SearchComboBox extends MyComboBox {
 		
 		int headPanelHeight = (int)(e.getMainFrameHeight() * HEADPANEL_MAINFRAME_RATIO);
 		int headPanelWidth = e.getMainFrameWidth();
-		this.setBounds((int)(0.031*headPanelWidth), (int)(0.22*headPanelHeight), (int)(0.2*headPanelWidth), (int)(0.25*headPanelHeight));
-		int fontResize = (int) (0.14 * headPanelHeight - 14);
-		this.getEditor().getEditorComponent().setFont(this.getEditor().getEditorComponent().getFont().deriveFont(Font.BOLD, 13 + fontResize));
-		writeSearchWordsFromDbToHistory(e.getHistory(), fontResize);
+//		this.setBounds((int)(0.031*headPanelWidth), (int)(0.22*headPanelHeight), (int)(0.2*headPanelWidth), (int)(0.25*headPanelHeight));
+//		int fontResize = (int) (0.14 * headPanelHeight - 14);
+//		this.getEditor().getEditorComponent().setFont(this.getEditor().getEditorComponent().getFont().deriveFont(Font.BOLD, 13 + fontResize));
+		writeSearchWordsFromDbToHistory(e.getHistory(), 12);
 		((JTextComponent) this.getEditor().getEditorComponent()).setText("");
 	}
 

@@ -1,6 +1,7 @@
 package eventHandling;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.util.List;
 
 import model.Specialty;
@@ -14,6 +15,7 @@ public class PanelEventTransferObject {
 		
 	int mainFrameWidth;
 	int mainFrameHeight;
+	Dimension displaySize;
 	
 	List<String> history;
 	ChosenLanguage currentLanguage;
@@ -56,6 +58,14 @@ public class PanelEventTransferObject {
 
 	public void setMainFrameHeight(int mainframeHeight) {
 		this.mainFrameHeight = mainframeHeight;
+	}
+
+	public Dimension getDisplaySize() {
+		return displaySize;
+	}
+
+	public void setDisplaySize(Dimension displaySize) {
+		this.displaySize = displaySize;
 	}
 
 	public boolean[] getAvailableLetters() {

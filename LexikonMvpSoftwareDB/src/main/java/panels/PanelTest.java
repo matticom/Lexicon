@@ -20,8 +20,9 @@ public class PanelTest extends MyPanel {
 		container = new JPanel(new BorderLayout());
 		
 		start = new JPanel(); 
-		start.setPreferredSize(new Dimension(1900, 200));
+		start.setPreferredSize(new Dimension(1300, 200));
 		start.setBackground(Color.CYAN);
+		container.setMinimumSize(new Dimension(300, 100));
 		container.add(start, BorderLayout.PAGE_START);
 		
 		links = new JPanel();

@@ -73,39 +73,8 @@ public class MenuBar extends JMenuBar implements Updatable {
 			refButtonWidth = esButtonsWidth;
 		}
 		changeGuiTextLanguage();
-		changeComponentsSizeOnResize(e.getMainFrameHeight());
 	}
 	
-	private void changeComponentsSizeOnResize(int mainFrameHeight) {
-
-		int buttonHeight = (int) (mainFrameHeight * 0.026);
-		resizeMenuElements(buttonHeight);
-	}
-	
-	private void resizeMenuElements(int buttonHeight) {
-		
-		int fontResize = (int) (0.696 * buttonHeight - 15.063);
-		menuFile.setFont(menuFile.getFont().deriveFont(Font.BOLD, 12 + fontResize));
-		menuFile.setPreferredSize(new Dimension((int)(refButtonWidth[0]*(buttonHeight/20.0)), buttonHeight));
-		menuEdit.setFont(menuEdit.getFont().deriveFont(Font.BOLD, 12 + fontResize));
-		menuEdit.setPreferredSize(new Dimension((int)(refButtonWidth[1]*(buttonHeight/20.0)), buttonHeight));
-		menuView.setFont(menuView.getFont().deriveFont(Font.BOLD, 12 + fontResize));
-		menuView.setPreferredSize(new Dimension((int)(refButtonWidth[2]*(buttonHeight/20.0)), buttonHeight));
-		menuExtras.setFont(menuExtras.getFont().deriveFont(Font.BOLD, 12 + fontResize));
-		menuExtras.setPreferredSize(new Dimension((int)(refButtonWidth[3]*(buttonHeight/20.0)), buttonHeight));
-		miExit.setFont(miExit.getFont().deriveFont(Font.BOLD, 12 + fontResize));
-		miExit.setPreferredSize(new Dimension((int)(refButtonWidth[4]*(buttonHeight/20.0)), buttonHeight));
-		miNew.setFont(miNew.getFont().deriveFont(Font.BOLD, 12 + fontResize));
-		miNew.setPreferredSize(new Dimension((int)(refButtonWidth[5]*(buttonHeight/20.0)), buttonHeight));
-		miChooseLanguage.setFont(miChooseLanguage.getFont().deriveFont(Font.BOLD, 12 + fontResize));
-		miChooseLanguage.setPreferredSize(new Dimension((int)(refButtonWidth[6]*(buttonHeight/20.0)), buttonHeight));
-		miHistory.setFont(miHistory.getFont().deriveFont(Font.BOLD, 12 + fontResize));
-		miHistory.setPreferredSize(new Dimension((int)(refButtonWidth[7]*(buttonHeight/20.0)), buttonHeight));
-		miGerman.setFont(miGerman.getFont().deriveFont(Font.BOLD, 12 + fontResize));
-		miGerman.setPreferredSize(new Dimension((int)(refButtonWidth[8]*(buttonHeight/20.0)), buttonHeight));
-		miSpanish.setFont(miSpanish.getFont().deriveFont(Font.BOLD, 12 + fontResize));
-		miSpanish.setPreferredSize(new Dimension((int)(refButtonWidth[9]*(buttonHeight/20.0)), buttonHeight));
-	}
 	
 	private void changeGuiTextLanguage() {
 
