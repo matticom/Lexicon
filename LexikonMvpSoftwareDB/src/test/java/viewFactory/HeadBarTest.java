@@ -78,7 +78,7 @@ public class HeadBarTest {
 	int mainFrameWidth;
 	int mainFrameHeight;
 	Dimension displaySize;
-	private final double MAINFRAME_DISPLAY_RATIO = 0.6;
+	private final double MAINFRAME_DISPLAY_RATIO = 0.8;
 	
 	private int counter = 0;
 
@@ -88,7 +88,7 @@ public class HeadBarTest {
 		mainFrame = new JFrame();
 
 		mainFrame.setTitle("TestFrame");
-		displaySize = Toolkit.getDefaultToolkit().getScreenSize();
+		displaySize = Toolkit.getDefaultToolkit().getScreenSize(); //new Dimension(1024, 768);
 		mainFrameWidth = (int)(displaySize.getWidth() * MAINFRAME_DISPLAY_RATIO);
 		mainFrameHeight = (int)(displaySize.getHeight() * MAINFRAME_DISPLAY_RATIO);
 			
@@ -120,7 +120,7 @@ public class HeadBarTest {
 		mainFrame.setJMenuBar(menuBar);
 		
 		HeadBar headBar = new HeadBar(displaySize, mainFrameWidth, ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")));
-		mainFrame.setMinimumSize(new Dimension(1200, 400));
+		mainFrame.setMinimumSize(new Dimension((int)(displaySize.width*0.6850), (int)(displaySize.height*0.3333)));
 //		HeadBar headBar2 = new HeadBar(mainFrameWidth, mainFrameHeight, ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")));
 		PanelTest test = new PanelTest();
 		SpecialtyPanel specialtyPanel = new SpecialtyPanel(ResourceBundle.getBundle("languageBundles.lexikon", new Locale("es")));

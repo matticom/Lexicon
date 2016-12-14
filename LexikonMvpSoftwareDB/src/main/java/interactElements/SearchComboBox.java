@@ -21,8 +21,6 @@ import utilities.WinUtil;
 public class SearchComboBox extends MyComboBox {
 
 	private DefaultComboBoxModel<ListItem> searchComboBoxDefaultModel;
-	
-	private final double HEADPANEL_MAINFRAME_RATIO = 0.125;
 
 	public SearchComboBox() {
 
@@ -45,8 +43,7 @@ public class SearchComboBox extends MyComboBox {
 	@Override
 	public void updatePanel(PanelEventTransferObject e) {
 		
-		int headPanelHeight = (int)(e.getMainFrameHeight() * HEADPANEL_MAINFRAME_RATIO);
-		int headPanelWidth = e.getMainFrameWidth();
+		this.setBounds((int)(e.getDisplaySize().width*0.0104), (int) (e.getDisplaySize().height*0.0183), (int) (e.getDisplaySize().width*0.1354), (int) (e.getDisplaySize().height*0.0208));
 //		this.setBounds((int)(0.031*headPanelWidth), (int)(0.22*headPanelHeight), (int)(0.2*headPanelWidth), (int)(0.25*headPanelHeight));
 //		int fontResize = (int) (0.14 * headPanelHeight - 14);
 //		this.getEditor().getEditorComponent().setFont(this.getEditor().getEditorComponent().getFont().deriveFont(Font.BOLD, 13 + fontResize));
@@ -77,4 +74,8 @@ public class SearchComboBox extends MyComboBox {
 	public void setSearchComboBoxFocusListener(FocusListener l) {
 		this.getEditor().getEditorComponent().addFocusListener(l);
 	}
+
+	
+	
+	
 }

@@ -1,5 +1,7 @@
 package interactElements;
 
+import java.awt.Dimension;
+
 import javax.swing.JComboBox;
 
 import eventHandling.ComboBoxEventTransferObject;
@@ -8,7 +10,7 @@ import eventHandling.Refillable;
 import eventHandling.Updatable;
 
 public class MyComboBox extends JComboBox implements Refillable, Updatable {
-
+		
 	@Override
 	public void refillComboBox(ComboBoxEventTransferObject e) {
 		// TODO Auto-generated method stub
@@ -20,5 +22,4 @@ public class MyComboBox extends JComboBox implements Refillable, Updatable {
 		// TODO Auto-generated method stub
 		
 	}
-
 }

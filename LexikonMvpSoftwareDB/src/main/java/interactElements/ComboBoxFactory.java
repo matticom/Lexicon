@@ -1,12 +1,14 @@
 package interactElements;
 
-import eventHandling.ComboBoxEventTransferObject;
+import java.awt.Dimension;
 
 public class ComboBoxFactory {
 
 	public MyComboBox createComboBox(ComboBoxes comboBox) {
 		
 		MyComboBox myComboBox = comboBoxFactory(comboBox);
+
+		
 		return myComboBox;
 	}
 	

@@ -42,29 +42,25 @@ public class HeadBar extends JPanel implements Updatable {
 
 	private JButton[] alphabetButtons = new JButton[26];
 	private JLabel headDescriptionLabel, separatorLabel;
-	private JPanel leftPanel, middlePanel, rightPanel, centerPanel; 
-	
-
-	private JPanel backgroundPanel;
-
+	private JPanel leftPanel, rightPanel, centerPanel;
+	private JPanel alphabetBackgroundPanel;
 	private JButton specialtyButton, deButton, esButton, newTechnicalTermButton, searchButton;
 
 	private int panelWidth;
 	private int panelHeight;
-	private double widthRatio;
 	private int sidePanelWidth;
-
-	private final double HEADPANEL_MAINFRAME_RATIO = 0.125;
+	private Dimension displaySize;
 
 	private ResourceBundle languageBundle;
+	
 
 	public HeadBar(Dimension displaySize, int mainFrameWidth, ResourceBundle languageBundle) {
 
-		
+		this.displaySize = displaySize;
 		panelWidth = mainFrameWidth;
 		panelHeight = (int) (displaySize.getHeight() * 0.0833);
-//		widthRatio = 
 		this.languageBundle = languageBundle;
+		sidePanelWidth = panelWidth/4;
 
 		initialize();
 	}
@@ -72,10 +68,21 @@ public class HeadBar extends JPanel implements Updatable {
 	private void initialize() {
 
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		
 		this.setPreferredSize(new Dimension(panelWidth, panelHeight));
 		this.setBackground(Color.DARK_GRAY);
-		sidePanelWidth = panelWidth/4;
+		
+		createPanelArchitecture();
+		createGuiElementsOfLeftPanel();
+		createGuiElementsOfCenterPanel();
+		createGuiElementsOfRightPanel();
+		
+		this.add(leftPanel);
+		this.add(centerPanel);
+		this.add(rightPanel);
+		
+	}
+	
+	private void createPanelArchitecture() {
 		
 		leftPanel = new JPanel(null);
 		leftPanel.setPreferredSize(new Dimension(sidePanelWidth, panelHeight));
@@ -86,63 +93,65 @@ public class HeadBar extends JPanel implements Updatable {
 		rightPanel = new JPanel(null);
 		rightPanel.setPreferredSize(new Dimension(sidePanelWidth, panelHeight));
 		rightPanel.setBackground(Color.DARK_GRAY);
-
-		// Such-Button
-		searchButton = WinUtil.createButton(languageBundle.getString("searchBtn"), 20, 57, 260, 26, BorderFactory.createLineBorder(Color.BLACK),
+	}
+	
+	private void createGuiElementsOfLeftPanel() {
+		
+		searchButton = WinUtil.createButton(languageBundle.getString("searchBtn"), (int)(displaySize.width*0.0104),
+				 (int) (displaySize.height*0.0475), (int) (displaySize.width*0.1354), (int) (displaySize.height*0.0217), BorderFactory.createLineBorder(Color.BLACK),
 				Color.DARK_GRAY, null, null, null, false, false, Color.WHITE);
-		leftPanel.add(searchButton);//40, 22, 260, 25
+		leftPanel.add(searchButton);
+	}
+	
+	private void createGuiElementsOfCenterPanel() {
 
-		// Beschreibungslabel
-		headDescriptionLabel = WinUtil.createLabel(languageBundle.getString("headDescriptionLabel"), panelWidth/4 - 250, 10, 500, 25, new EmptyBorder(0, 0, 0, 0),
+		headDescriptionLabel = WinUtil.createLabel(languageBundle.getString("headDescriptionLabel"), (int)(sidePanelWidth - displaySize.width*0.1302),
+				 (int) (displaySize.height*0.0083), (int) (displaySize.width*0.2604), (int) (displaySize.height*0.0208), new EmptyBorder(0, 0, 0, 0),
 				Color.DARK_GRAY, null, null, Color.WHITE);
 		headDescriptionLabel.setFont(headDescriptionLabel.getFont().deriveFont(Font.BOLD, 13));
 		headDescriptionLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		centerPanel.add(headDescriptionLabel);
-
-		// Fachgebiete darstellen
-		specialtyButton = WinUtil.createButton(languageBundle.getString("subjectsBtn"), panelWidth/4 - 100, 68, 200, 20,
+		
+		drawAlphabet(panelWidth, panelHeight);
+		alphabetBackgroundPanel = new JPanel();
+		alphabetBackgroundPanel.setBounds((int)(sidePanelWidth - displaySize.width*0.1354),
+				 (int) (displaySize.height*0.0300), (int) (displaySize.width*0.2708), (int) (displaySize.height*0.0233));
+		alphabetBackgroundPanel.setBackground(WinUtil.DARKER_GRAY);
+		centerPanel.add(alphabetBackgroundPanel);
+		
+		specialtyButton = WinUtil.createButton(languageBundle.getString("subjectsBtn"), (int) (sidePanelWidth - displaySize.width*0.0521),
+				 (int) (displaySize.height*0.0600), (int) (displaySize.width*0.1042), (int) (displaySize.height*0.0167),
 				BorderFactory.createLineBorder(Color.GRAY), Color.DARK_GRAY, null, null, null, false, false, WinUtil.ULTRA_LIGHT_GRAY);
 		centerPanel.add(specialtyButton);
+	}
+	
+	private void createGuiElementsOfRightPanel() {
 
-		// HintergrundPanel
-		backgroundPanel = new JPanel();
-		backgroundPanel.setBounds(panelWidth/4 - 260, 36, 520, 28);
-		backgroundPanel.setBackground(WinUtil.DARKER_GRAY);
-
-		// Sprachauswahlbuttons
-		deButton = WinUtil.createButton("DE", panelWidth/4-83, 10, 25, 25, new EmptyBorder(0, 0, 0, 0), Color.BLACK, null, "DE", null, false, false,
-				Color.WHITE);
+		deButton = WinUtil.createButton("DE", (int) (sidePanelWidth - displaySize.width*0.0432),
+				 (int) (displaySize.height*0.0083), (int) (displaySize.width*0.0130), (int) (displaySize.height*0.0208), new EmptyBorder(0, 0, 0, 0), Color.BLACK, null, "DE", null, false, false, Color.WHITE);
 		rightPanel.add(deButton);
 
-		separatorLabel = WinUtil.createLabel("/", panelWidth/4-53, 10, 5, 25, new EmptyBorder(0, 0, 0, 0), Color.DARK_GRAY, "separator", null, Color.WHITE);
+		separatorLabel = WinUtil.createLabel("/", (int) (sidePanelWidth - displaySize.width*0.0276),
+				 (int) (displaySize.height*0.0083), (int) (displaySize.width*0.0026), (int) (displaySize.height*0.0208), new EmptyBorder(0, 0, 0, 0), Color.DARK_GRAY, "separator", null, Color.WHITE);
 		rightPanel.add(separatorLabel);
 
-		esButton = WinUtil.createButton("ES", panelWidth/4-45, 10, 25, 25, new EmptyBorder(0, 0, 0, 0), Color.DARK_GRAY, null, "ES", null, false, false,
-				Color.WHITE);
+		esButton = WinUtil.createButton("ES", (int) (sidePanelWidth - displaySize.width*0.0234), (int) (displaySize.height*0.0083), (int) (displaySize.width*0.0130), (int) (displaySize.height*0.0208), new EmptyBorder(0, 0, 0, 0), Color.DARK_GRAY, null, "ES", null, false, false, Color.WHITE);
 		rightPanel.add(esButton);
-
-		// Neuer Eintrag Button
-		newTechnicalTermButton = WinUtil.createButton(languageBundle.getString("newEntryBtn"), panelWidth/4-280, 50, 260, 30,
+		
+		newTechnicalTermButton = WinUtil.createButton(languageBundle.getString("newEntryBtn"), (int) (sidePanelWidth - displaySize.width*0.1458),
+				 (int) (displaySize.height*0.0417), (int) (displaySize.width*0.1354), (int) (displaySize.height*0.0250),
 				BorderFactory.createLineBorder(Color.BLACK), Color.DARK_GRAY, null, null, null, false, false, Color.WHITE);
 		rightPanel.add(newTechnicalTermButton);
-
-		drawAlphabet(panelWidth, panelHeight);
-		centerPanel.add(backgroundPanel);
-		
-		this.add(leftPanel);
-		this.add(centerPanel);
-		this.add(rightPanel);
-		
 	}
-
+	
 	private void drawAlphabet(int PANEL_WIDTH, int PANEL_HEIGHT) {
 
 		for (char letter = 'A'; letter <= 'Z'; letter++) {
 			int arrayPosition = letter - 65;
-			int xLetterOffSet = (int) (arrayPosition * 18);
+			int xLetterOffSet = (int) (arrayPosition * 0.0094 * displaySize.width);
 			
-			alphabetButtons[arrayPosition] = WinUtil.createButton(String.valueOf(letter), (int) (panelWidth/4-234 + xLetterOffSet),
-											 (int) (40), (int) (14), (int) (20), BorderFactory.createLineBorder(Color.GRAY),
+			alphabetButtons[arrayPosition] = WinUtil.createButton(String.valueOf(letter), (int) (sidePanelWidth - displaySize.width*0.1219 + xLetterOffSet),
+											 (int) (displaySize.height*0.0333), (int) (displaySize.width*0.0073), (int) (displaySize.height*0.0167), BorderFactory.createLineBorder(Color.GRAY),
 											 Color.DARK_GRAY, null, String.valueOf(letter), String.valueOf(letter), false, false, WinUtil.ULTRA_LIGHT_GRAY);
 			alphabetButtons[arrayPosition].setActionCommand(String.valueOf(letter) + "%");
 			centerPanel.add(alphabetButtons[arrayPosition]);
@@ -151,76 +160,42 @@ public class HeadBar extends JPanel implements Updatable {
 
 	@Override
 	public void updatePanel(PanelEventTransferObject e) {
-
-		if (e.getCurrentLanguage() == ChosenLanguage.German) {
-			deButton.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-			languageBundle = ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de"));
-		} else {
-			esButton.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-			languageBundle = ResourceBundle.getBundle("languageBundles.lexikon", new Locale("es"));
-		}
-		int centerPanelHalfWidth = (e.getMainFrameWidth()-2*sidePanelWidth)/2;
-		centerPanel.setPreferredSize(new Dimension(centerPanelHalfWidth*2, panelHeight));
-		headDescriptionLabel.setBounds(centerPanelHalfWidth - 250, 10, 500, 25);
-		specialtyButton.setBounds(centerPanelHalfWidth - 100, 68, 200, 20);
-		backgroundPanel.setBounds(centerPanelHalfWidth - 260, 36, 520, 28);
-		for (int arrayPosition = 0; arrayPosition < 26; arrayPosition++) {
-			int xLetterOffSet = (int) (arrayPosition * 18);
-			alphabetButtons[arrayPosition].setBounds((int) (centerPanelHalfWidth-234 + xLetterOffSet), (int) (40), (int) (14), (int) (20));
-		}
-//		changeComponentsSizeOnResize(e.getMainFrameWidth(), e.getMainFrameHeight());
+		
+		setLanguage(e.getCurrentLanguage());
+		changeComponentsSizeOnResize(e.getMainFrameWidth(), e.getMainFrameHeight());
 		changeGuiTextLanguage();
 		checkAvailabilityLetters(e.getAvailableLetters());
 	}
 
+	private void setLanguage(ChosenLanguage currentLanguage) {
+		
+		if (currentLanguage == ChosenLanguage.German) {
+			deButton.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+			esButton.setBorder( new EmptyBorder(0, 0, 0, 0));
+			languageBundle = ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de"));
+		} else {
+			esButton.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+			deButton.setBorder( new EmptyBorder(0, 0, 0, 0));
+			languageBundle = ResourceBundle.getBundle("languageBundles.lexikon", new Locale("es"));
+		}
+	}
+	
 	private void changeComponentsSizeOnResize(int mainFrameWidth, int mainFrameHeight) {
 
-		panelWidth = mainFrameWidth;
-		panelHeight = (int) (mainFrameHeight * HEADPANEL_MAINFRAME_RATIO);
-
-		this.setPreferredSize(new Dimension(panelWidth, panelHeight));
+		int centerPanelHalfWidth = (mainFrameWidth - 2*sidePanelWidth) / 2;
+		centerPanel.setPreferredSize(new Dimension(centerPanelHalfWidth*2, panelHeight));
 		
-		resizeOtherGuiElements();
-		resizeAlphabet();
-	}
-
-	private void resizeOtherGuiElements() {
-
-		int fontResize = (int) (0.14 * panelHeight - 14);
-
-		searchButton.setFont(searchButton.getFont().deriveFont(Font.BOLD, 13 + fontResize));
-		searchButton.setBounds((int) (0.031 * panelWidth), (int) (0.57 * panelHeight), (int) (0.2 * panelWidth), (int) (0.26 * panelHeight));
-
-		headDescriptionLabel.setFont(headDescriptionLabel.getFont().deriveFont(Font.BOLD, 13 + fontResize));
-		headDescriptionLabel.setBounds((int) (0.308 * panelWidth), (int) (0.1 * panelHeight), (int) (0.385 * panelWidth), (int) (0.25 * panelHeight));
-
-		specialtyButton.setFont(specialtyButton.getFont().deriveFont(Font.BOLD, 13 + fontResize));
-		specialtyButton.setBounds((int) (0.423 * panelWidth), (int) (0.71 * panelHeight), (int) (0.154 * panelWidth), (int) (0.2 * panelHeight));
-
-		backgroundPanel.setBounds((int) (0.3 * panelWidth), (int) (0.36 * panelHeight), (int) (0.4 * panelWidth), (int) (0.28 * panelHeight));
-
-		deButton.setFont(deButton.getFont().deriveFont(Font.BOLD, 13 + fontResize));
-		deButton.setBounds((int) (0.923 * panelWidth), (int) (0.1 * panelHeight), (int) (0.019 * panelWidth), (int) (0.25 * panelHeight));
-
-		separatorLabel.setFont(separatorLabel.getFont().deriveFont(Font.BOLD, 13 + fontResize));
-		separatorLabel.setBounds((int) (0.946 * panelWidth), (int) (0.1 * panelHeight), (int) (0.004 * panelWidth), (int) (0.25 * panelHeight));
-
-		esButton.setFont(esButton.getFont().deriveFont(Font.BOLD, 13 + fontResize));
-		esButton.setBounds((int) (0.952 * panelWidth), (int) (0.1 * panelHeight), (int) (0.019 * panelWidth), (int) (0.25 * panelHeight));
-
-		newTechnicalTermButton.setFont(newTechnicalTermButton.getFont().deriveFont(Font.BOLD, 13 + fontResize));
-		newTechnicalTermButton.setBounds((int) (0.769 * panelWidth), (int) (0.5 * panelHeight), (int) (0.2 * panelWidth), (int) (0.3 * panelHeight));
-	}
-
-	private void resizeAlphabet() {
-
-		int fontResize = (int) (0.14 * panelHeight - 14);
-
+		headDescriptionLabel.setBounds((int)(centerPanelHalfWidth - displaySize.width*0.1302),
+				 (int) (displaySize.height*0.0083), (int) (displaySize.width*0.2604), (int) (displaySize.height*0.0208));
+		specialtyButton.setBounds((int) (centerPanelHalfWidth - displaySize.width*0.0521),
+				 (int) (displaySize.height*0.0600), (int) (displaySize.width*0.1042), (int) (displaySize.height*0.0167));
+		alphabetBackgroundPanel.setBounds((int)(centerPanelHalfWidth - displaySize.width*0.1354),
+				 (int) (displaySize.height*0.0300), (int) (displaySize.width*0.2708), (int) (displaySize.height*0.0233));
+		
 		for (int arrayPosition = 0; arrayPosition < 26; arrayPosition++) {
-			int xLetterOffSet = (int) (arrayPosition * 0.014 * panelWidth);
-			alphabetButtons[arrayPosition].setFont(alphabetButtons[arrayPosition].getFont().deriveFont(Font.BOLD, 11 + fontResize));
-			alphabetButtons[arrayPosition].setBounds((int) (0.32 * panelWidth + xLetterOffSet), (int) (0.4 * panelHeight), (int) (0.013 * panelWidth),
-					(int) (0.2 * panelHeight));
+			int xLetterOffSet = (int) (arrayPosition * 0.0094 * displaySize.width);
+			alphabetButtons[arrayPosition].setBounds((int) (centerPanelHalfWidth - displaySize.width*0.1219 + xLetterOffSet), 
+					(int) (displaySize.height*0.0338), (int) (displaySize.width*0.0073), (int) (displaySize.height*0.0167));
 		}
 	}
 

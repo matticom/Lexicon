@@ -1,5 +1,7 @@
 package interactElements;
 
-public class ChooseSpecialtyComboBox extends MyComboBox {
+import java.awt.Dimension;
 
+public class ChooseSpecialtyComboBox extends MyComboBox {
+	
 }
