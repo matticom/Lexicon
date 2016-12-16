@@ -37,6 +37,7 @@ import utilities.WinUtil;
 import eventHandling.ChosenLanguage;
 import eventHandling.PanelEventTransferObject;
 import eventHandling.Updatable;
+import interactElements.SearchComboBox;
 
 public class HeadBar extends JPanel implements Updatable {
 
@@ -45,6 +46,7 @@ public class HeadBar extends JPanel implements Updatable {
 	private JPanel leftPanel, rightPanel, centerPanel;
 	private JPanel alphabetBackgroundPanel;
 	private JButton specialtyButton, deButton, esButton, newTechnicalTermButton, searchButton;
+	SearchComboBox searchComboBox;
 
 	private int panelWidth;
 	private int panelHeight;
@@ -54,13 +56,14 @@ public class HeadBar extends JPanel implements Updatable {
 	private ResourceBundle languageBundle;
 	
 
-	public HeadBar(Dimension displaySize, int mainFrameWidth, ResourceBundle languageBundle) {
+	public HeadBar(Dimension displaySize, int mainFrameWidth, ResourceBundle languageBundle, SearchComboBox searchComboBox) {
 
 		this.displaySize = displaySize;
 		panelWidth = mainFrameWidth;
 		panelHeight = (int) (displaySize.getHeight() * 0.0833);
 		this.languageBundle = languageBundle;
 		sidePanelWidth = panelWidth/4;
+		this.searchComboBox = searchComboBox;
 
 		initialize();
 	}
@@ -75,6 +78,7 @@ public class HeadBar extends JPanel implements Updatable {
 		createGuiElementsOfLeftPanel();
 		createGuiElementsOfCenterPanel();
 		createGuiElementsOfRightPanel();
+		leftPanel.add(searchComboBox);
 		
 		this.add(leftPanel);
 		this.add(centerPanel);
