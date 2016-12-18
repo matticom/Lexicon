@@ -10,32 +10,41 @@ public class GridBagLayoutUtilities {
 	private GridBagLayoutUtilities() {
 	}
 	
-	private static void addGB(Container parentContainer, Component guiElement, int gridx, int gridy) {
+	public static void addGB(Container parentContainer, Component guiElement, int gridx, int gridy) {
         addGB(parentContainer, guiElement, gridx, gridy, 1, 1, GridBagConstraints.NONE, 0.0, 0.0, GridBagConstraints.CENTER, new Insets(0, 0, 0, 0), 0, 0);
     }
-    private static void addGB(Container parentContainer, Component guiElement, int gridx, int gridy, int gridwidth) {
+	public static void addGB(Container parentContainer, Component guiElement, int gridx, int gridy, int gridwidth) {
         addGB(parentContainer, guiElement, gridx, gridy, gridwidth, 1, GridBagConstraints.NONE, 0.0, 0.0, GridBagConstraints.CENTER, new Insets(0, 0, 0, 0), 0, 0);
     }
-    private static void addGB(Container parentContainer, Component guiElement, int gridx, int gridy, int gridwidth, int gridheight) {
+	public static void addGB(Container parentContainer, Component guiElement, int gridx, int gridy, int gridwidth, int gridheight) {
         addGB(parentContainer, guiElement, gridx, gridy, gridwidth, gridheight, GridBagConstraints.NONE, 0.0, 0.0, GridBagConstraints.CENTER, new Insets(0, 0, 0, 0), 0, 0);
     }
-    private static void addGB(Container parentContainer, Component guiElement, int gridx, int gridy, int gridwidth, int gridheight, int fill) {
+	public static void addGB(Container parentContainer, Component guiElement, int gridx, int gridy, int gridwidth, int gridheight, Insets insets) {
+        addGB(parentContainer, guiElement, gridx, gridy, gridwidth, gridheight, GridBagConstraints.NONE, 0.0, 0.0, GridBagConstraints.CENTER, insets, 0, 0);
+    }
+	public static void addGB(Container parentContainer, Component guiElement, int gridx, int gridy, int gridwidth, int gridheight, double weightx, double weighty, Insets insets) {
+        addGB(parentContainer, guiElement, gridx, gridy, gridwidth, gridheight, GridBagConstraints.NONE, weightx, weighty, GridBagConstraints.CENTER, insets, 0, 0);
+    }
+	public static void addGB(Container parentContainer, Component guiElement, int gridx, int gridy, int gridwidth, int gridheight, int fill, double weightx, double weighty, Insets insets) {
+        addGB(parentContainer, guiElement, gridx, gridy, gridwidth, gridheight, fill, weightx, weighty, GridBagConstraints.CENTER, insets, 0, 0);
+    }
+	public static void addGB(Container parentContainer, Component guiElement, int gridx, int gridy, int gridwidth, int gridheight, int fill) {
         addGB(parentContainer, guiElement, gridx, gridy, gridwidth, gridheight, fill, 0.0, 0.0, GridBagConstraints.CENTER, new Insets(0, 0, 0, 0), 0, 0);
     }
-    private static void addGB(Container parentContainer, Component guiElement, int gridx, int gridy, double weightx, double weighty) {
+	public static void addGB(Container parentContainer, Component guiElement, int gridx, int gridy, double weightx, double weighty) {
         addGB(parentContainer, guiElement, gridx, gridy, 1, 1, GridBagConstraints.NONE, weightx, weighty, GridBagConstraints.CENTER, new Insets(0, 0, 0, 0), 0, 0);
     } 
-    private static void addGB(Container parentContainer, Component guiElement, int gridx, int gridy, double weightx, double weighty, int ipadx, int ipady) {
+	public static void addGB(Container parentContainer, Component guiElement, int gridx, int gridy, double weightx, double weighty, int ipadx, int ipady) {
         addGB(parentContainer, guiElement, gridx, gridy, 1, 1, GridBagConstraints.NONE, weightx, weighty, GridBagConstraints.CENTER, new Insets(0, 0, 0, 0), ipadx, ipady);
     }
-    private static void addGB(Container parentContainer, Component guiElement, int gridx, int gridy, double weightx, double weighty, int anchor) {
+	public static void addGB(Container parentContainer, Component guiElement, int gridx, int gridy, double weightx, double weighty, int anchor) {
         addGB(parentContainer, guiElement, gridx, gridy, 1, 1, GridBagConstraints.NONE, weightx, weighty, anchor, new Insets(0, 0, 0, 0), 0, 0);
     }
-    private static void addGB(Container parentContainer, Component guiElement, int gridx, int gridy, double weightx, double weighty, int anchor, Insets insets) {
+	public static void addGB(Container parentContainer, Component guiElement, int gridx, int gridy, double weightx, double weighty, int anchor, Insets insets) {
         addGB(parentContainer, guiElement, gridx, gridy, 1, 1, GridBagConstraints.NONE, weightx, weighty, anchor, insets, 0, 0);
     }
  
-    private static void addGB(Container parentContainer, Component guiElement, int gridx, int gridy, int gridwidth, int gridheight,
+	public static void addGB(Container parentContainer, Component guiElement, int gridx, int gridy, int gridwidth, int gridheight,
             int fill, double weightx, double weighty, int anchor, Insets insets,
             int ipadx, int ipady) {
         GridBagConstraints constraints = new GridBagConstraints();

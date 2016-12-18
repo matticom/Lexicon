@@ -13,6 +13,8 @@ public class PanelTest extends MyPanel {
 	
 	
 	public PanelTest() {
+		
+		super(null, 0.8);
 		test();
 	}
 

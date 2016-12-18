@@ -32,7 +32,7 @@ public class GridBagLayoutExample extends JPanel {
         setDefaultValuesGB();// default values for all GridBagConstraints
         addGB(new JLabel("Registration form"), gridx = 1, gridy = 1,
                 gridwidth = 2, gridheight, fill,
-                weightx = 1.0, weighty, anchor,
+                weightx = 0, weighty, anchor,
                 insets = insetsTop);
         //name row (label):
         setDefaultValuesGB();// default values for all GridBagConstraints
@@ -51,14 +51,14 @@ public class GridBagLayoutExample extends JPanel {
         setDefaultValuesGB();// default values for all GridBagConstraints
         addGB(new JLabel("Age"), gridx = 1, gridy = 3,
                 gridwidth, gridheight, fill,
-                weightx, weighty, anchor = LINE_START,
+                weightx = 0, weighty, anchor = LINE_START,
                 insets = insetsLabel);
         //age row (textfield):
         age = new JTextField(3);
         age.setMinimumSize(age.getPreferredSize());
         setDefaultValuesGB();// default values for all GridBagConstraints
         addGB(age, gridx = 2, gridy = 3,
-                gridwidth, gridheight, fill,
+                gridwidth, gridheight, fill = HORIZONTAL,
                 weightx, weighty, anchor = LINE_START,
                 insets = insetsText);
         //comment row (label):
@@ -72,7 +72,7 @@ public class GridBagLayoutExample extends JPanel {
         setDefaultValuesGB();// default values for all GridBagConstraints
         addGB(new JScrollPane(comment), gridx = 2, gridy = 4,
                 gridwidth, gridheight, fill = BOTH,
-                weightx = 1.0, weighty = 1.0, anchor,
+                weightx = 0, weighty = 1.0, anchor,
                 insets = insetsText);
         //trailer row:
         btOK = new JButton("OK");

@@ -1,38 +1,20 @@
 package viewFactory;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.KeyboardFocusManager;
-import java.awt.Toolkit;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.FocusListener;
-import java.awt.event.KeyListener;
-import java.sql.ResultSet;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JMenuBar;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.JTextComponent;
 
-import utilities.ListItem;
 import utilities.WinUtil;
 import eventHandling.ChosenLanguage;
 import eventHandling.PanelEventTransferObject;
@@ -46,7 +28,7 @@ public class HeadBar extends JPanel implements Updatable {
 	private JPanel leftPanel, rightPanel, centerPanel;
 	private JPanel alphabetBackgroundPanel;
 	private JButton specialtyButton, deButton, esButton, newTechnicalTermButton, searchButton;
-	SearchComboBox searchComboBox;
+	private SearchComboBox searchComboBox;
 
 	private int panelWidth;
 	private int panelHeight;
@@ -97,6 +79,7 @@ public class HeadBar extends JPanel implements Updatable {
 		rightPanel = new JPanel(null);
 		rightPanel.setPreferredSize(new Dimension(sidePanelWidth, panelHeight));
 		rightPanel.setBackground(Color.DARK_GRAY);
+		
 	}
 	
 	private void createGuiElementsOfLeftPanel() {
@@ -255,7 +238,4 @@ public class HeadBar extends JPanel implements Updatable {
 
 	}
 
-	public JPanel getLeftPanel() {
-		return leftPanel;
-	}
 }

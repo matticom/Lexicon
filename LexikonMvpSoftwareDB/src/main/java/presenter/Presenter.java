@@ -110,13 +110,13 @@ public class Presenter {
 	private void initializeStatusBar() {
 
 		statusBar = new StatusBar(languageBundle);
-		statusBar.setSpecialtyPanelBtnActionListener(e -> displaySpecialtyPanel());
+		statusBar.setStatusBarSpecialtyButtonActionListener(e -> displaySpecialtyPanel());
 		// updateStatusBar(); -> updateComponents
 	}
 
 	private void initializeHeadBar() {
 
-		headBar = new HeadBar(languageBundle);
+//		headBar = new HeadBar(languageBundle);
 		comboBoxFactory = new ComboBoxFactory();
 		searchComboBox = (SearchComboBox) comboBoxFactory.createComboBox(ComboBoxes.SearchComboBox);
 		headBar.add(searchComboBox);
@@ -143,7 +143,7 @@ public class Presenter {
 			}
 		});
 
-		headBar.setAlphabetButtonActionListener(e -> searchLetterResult(e));
+//		headBar.setAlphabetButtonActionListener(e -> searchLetterResult(e));
 //		headBar.setSearchButtonActionListener(l);
 //		headBar.setDeButtonActionListener(l);
 //		headBar.setEsButtonActionListener(l);

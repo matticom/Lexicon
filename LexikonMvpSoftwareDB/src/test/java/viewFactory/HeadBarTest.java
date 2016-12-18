@@ -123,7 +123,7 @@ public class HeadBarTest {
 		mainFrame.setMinimumSize(new Dimension((int)(displaySize.width*0.6850), (int)(displaySize.height*0.3333)));
 //		HeadBar headBar2 = new HeadBar(mainFrameWidth, mainFrameHeight, ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")));
 		PanelTest test = new PanelTest();
-		SpecialtyPanel specialtyPanel = new SpecialtyPanel(ResourceBundle.getBundle("languageBundles.lexikon", new Locale("es")));
+		SpecialtyPanel specialtyPanel = new SpecialtyPanel(ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")), MAINFRAME_DISPLAY_RATIO);
 
 		PanelEventTransferObject peto = new PanelEventTransferObject();
 		peto.setAvailableLetters(expectedAlphabet);
@@ -166,7 +166,7 @@ public class HeadBarTest {
 //		headBar2.add(searchComboBox2);
 
 		mainFrame.add(headBar, BorderLayout.PAGE_START);
-		mainFrame.add(test, BorderLayout.CENTER);
+		mainFrame.add(specialtyPanel, BorderLayout.CENTER);
 		mainFrame.setVisible(true);
 		
 		mainFrame.addComponentListener(new ComponentAdapter() {

@@ -6,6 +6,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -14,11 +18,14 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
+import javax.swing.JSeparator;
 import javax.swing.JViewport;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
@@ -28,11 +35,12 @@ import eventHandling.PanelEventTransferObject;
 import interactElements.SpecialtyButton;
 import model.Specialty;
 import model.Translations;
+import utilities.GridBagLayoutUtilities;
 import utilities.WinUtil;
 
 public class SpecialtyPanel extends MyPanel {
 
-	private JPanel 							contentPanel, startPagePanel, lineStartPanel, lineEndPanel;
+	private JPanel 							contentPanel, staticElementsPanel, dynamicElementsPanel;
 	private JLabel 							welcomeLabel, introductionLabel, specialtyLabelDE, specialtyLabelES;
 	
 	private ArrayList<SpecialtyButton>		specialtyButtonsDE = new ArrayList<SpecialtyButton>();
@@ -44,61 +52,82 @@ public class SpecialtyPanel extends MyPanel {
 	private JViewport						scrollPaneViewPort;
 	private final int						BAR_POSITION = 125;
 	private int								barYPosition = BAR_POSITION;
-	
-	private int panelWidth = 0;
-	private int panelHeight = 0;
-	
-	private ResourceBundle 	languageBundle;
-	
-	
-	public SpecialtyPanel(ResourceBundle languageBundle) {
 
-		this.languageBundle = languageBundle;
+	
+	public SpecialtyPanel(ResourceBundle languageBundle, double MAINFRAME_DISPLAY_RATIO) {
+
+		super(languageBundle, MAINFRAME_DISPLAY_RATIO);
 		initialize();
 	}
 	
 	
 	private void initialize()
 	{
-		contentPanel = new JPanel();		
-		contentPanel.setLayout(new BorderLayout());
-		contentPanel.setBackground(WinUtil.LIGHT_BLACK);
+		this.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		this.setBorder(new EmptyBorder(1, 0, 0, 0));
 		
-		startPagePanel = new JPanel(); 
-		startPagePanel.setPreferredSize(new Dimension(1300, 200));
-		startPagePanel.setBackground(WinUtil.LIGHT_BLACK);
-		contentPanel.add(startPagePanel, BorderLayout.PAGE_START);
 		
-		lineStartPanel = new JPanel(); 
-		lineStartPanel.setPreferredSize(new Dimension(650, 600));
-		lineStartPanel.setBackground(WinUtil.LIGHT_BLACK);
-		contentPanel.add(lineStartPanel, BorderLayout.LINE_START);
+		contentPanel = new JPanel();
+		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+		contentPanel.setPreferredSize(new Dimension((int)(displaySize.width*0.6), 1000));
 		
-		lineEndPanel = new JPanel(); 
-		lineEndPanel.setPreferredSize(new Dimension(650, 600));
-		lineEndPanel.setBackground(WinUtil.LIGHT_BLACK);
-		contentPanel.add(lineEndPanel, BorderLayout.LINE_END);
+		staticElementsPanel = new JPanel();
+		staticElementsPanel.setBackground(Color.DARK_GRAY);
+		staticElementsPanel.setLayout(new GridBagLayout());
+		staticElementsPanel.setPreferredSize(new Dimension((int)(displaySize.width*0.6), 265));
 		
-		welcomeLabel = WinUtil.createLabel(languageBundle.getString("welcomeLbl"), 150, 30, 1000, 100, new EmptyBorder(0, 0, 0, 0), Color.DARK_GRAY, null, null, Color.WHITE);
-		welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		dynamicElementsPanel = new JPanel();
+		dynamicElementsPanel.setBackground(Color.GREEN);
+		dynamicElementsPanel.setLayout(new GridBagLayout());
+		dynamicElementsPanel.setPreferredSize(new Dimension((int)(displaySize.width*0.6), 900));
+		
+		
+		welcomeLabel = new JLabel();
+		welcomeLabel.setText(languageBundle.getString("welcomeLbl"));
+		welcomeLabel.setBackground(Color.ORANGE);
+		welcomeLabel.setForeground(Color.WHITE);
 		welcomeLabel.setFont(welcomeLabel.getFont().deriveFont(Font.BOLD, 30));
-		startPagePanel.add(welcomeLabel);
+		welcomeLabel.setOpaque(true);
+		welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		welcomeLabel.setPreferredSize(new Dimension(800, 39));
+		GridBagLayoutUtilities.addGB(staticElementsPanel, welcomeLabel, 1, 1, 2, 1, new Insets(30, 0, 10, 0));
 		
-		introductionLabel = WinUtil.createLabel(languageBundle.getString("introductionLbl"), 100, 150, 1100, 100, new EmptyBorder(0, 18, 0, 5), 
-												WinUtil.DARKER_GRAY, null, null, WinUtil.ULTRA_LIGHT_GRAY);
-		introductionLabel.setOpaque(true);
+		JSeparator jSeparator = new JSeparator(SwingConstants.HORIZONTAL);
+		jSeparator.setForeground(Color.MAGENTA);
+		jSeparator.setBackground(Color.DARK_GRAY);
+		jSeparator.setPreferredSize(new Dimension(1000, 5));
+		jSeparator.setOpaque(true);
+		GridBagLayoutUtilities.addGB(staticElementsPanel, jSeparator, 1, 2, 2, 1);
+		
+		introductionLabel = new JLabel();
+		introductionLabel.setPreferredSize(new Dimension(1100, 100));
+		introductionLabel.setText(languageBundle.getString("introductionLbl"));
+		introductionLabel.setBackground(WinUtil.COOL_BLUE);
+		introductionLabel.setForeground(WinUtil.ULTRA_LIGHT_GRAY);
 		introductionLabel.setFont(introductionLabel.getFont().deriveFont(Font.PLAIN,18));
-		startPagePanel.add(introductionLabel);
+		introductionLabel.setOpaque(true);
+	
 		
-		specialtyLabelDE = WinUtil.createLabel(languageBundle.getString("subjectLbl"), 650/2-115, 300, 200, 25, new EmptyBorder(0, 0, 0, 0), Color.DARK_GRAY, null, null, Color.WHITE);
-		specialtyLabelDE.setFont(introductionLabel.getFont().deriveFont(Font.BOLD,18));
+		GridBagLayoutUtilities.addGB(staticElementsPanel, introductionLabel, 1, 3, 2, 1, new Insets(10, 0, 20, 0));
+	
+		specialtyLabelDE = new JLabel();
+		specialtyLabelDE.setText(languageBundle.getString("subjectLbl"));
+		specialtyLabelDE.setBackground(Color.BLUE);
+		specialtyLabelDE.setForeground(Color.WHITE);
+		specialtyLabelDE.setFont(specialtyLabelDE.getFont().deriveFont(Font.PLAIN,18));
 		specialtyLabelDE.setHorizontalAlignment(SwingConstants.CENTER);
-		lineStartPanel.add(specialtyLabelDE);
+		GridBagLayoutUtilities.addGB(staticElementsPanel, specialtyLabelDE, 1, 4, 1, 1, GridBagConstraints.BOTH, 1, 1, new Insets(0, 0, 20, 0));
+		specialtyLabelDE.setOpaque(true);
 		
-		specialtyLabelES = WinUtil.createLabel(languageBundle.getString("subjectLbl"), 650/2-115, 300, 200, 25, new EmptyBorder(0, 0, 0, 0), Color.DARK_GRAY, null, null, Color.WHITE);
-		specialtyLabelES.setFont(introductionLabel.getFont().deriveFont(Font.BOLD,18));
+		specialtyLabelES = new JLabel();
+		specialtyLabelES.setText(languageBundle.getString("subjectLbl"));
+		specialtyLabelES.setBackground(Color.CYAN);
+		specialtyLabelES.setForeground(Color.WHITE);
+		specialtyLabelES.setFont(specialtyLabelES.getFont().deriveFont(Font.PLAIN,18));
 		specialtyLabelES.setHorizontalAlignment(SwingConstants.CENTER);
-		lineEndPanel.add(specialtyLabelES);
+		GridBagLayoutUtilities.addGB(staticElementsPanel, specialtyLabelES, 2, 4, 1, 1, GridBagConstraints.BOTH, 1, 1, new Insets(0, 0, 20, 0));
+		specialtyLabelES.setOpaque(true);
+	
 		
 		// Auflistung der Fachbegebiete
 //		createSubjects();
@@ -109,6 +138,9 @@ public class SpecialtyPanel extends MyPanel {
 		
 		// Größe des AnzeigePanels entsprechend der Anzahl der Begriffseinträge einstellen (ScrollPane richtet sich nach PreferredSize) 			
 //		contentPanel.setPreferredSize(new Dimension(panelWidth, lengthSite));
+	
+		contentPanel.add(staticElementsPanel);
+		contentPanel.add(dynamicElementsPanel);
 		
 		// AnzeigePanels der ScrollPane hinzufügen
 		this.getViewport().add(contentPanel);
@@ -129,8 +161,8 @@ public class SpecialtyPanel extends MyPanel {
 	public void paint(Graphics g)
 	{
 		super.paint(g);
-		g.setColor(Color.MAGENTA);
-		g.drawLine(150, barYPosition, 1150, barYPosition);
+//		g.setColor(Color.MAGENTA);
+//		g.drawLine(150, barYPosition, 1150, barYPosition);
 	}
 	
 	public void switchLang()
@@ -170,7 +202,7 @@ public class SpecialtyPanel extends MyPanel {
 		panelWidth = mainFrameWidth;
 		panelHeight = mainFrameHeight;
 
-		contentPanel.setPreferredSize(new Dimension(panelWidth, lengthSite));
+//		contentPanel.setPreferredSize(new Dimension(panelWidth, lengthSite));
 		
 		createSpecialtyButtons(specialtyList);
 		calculateNeededSpace(10, panelWidth, lengthSite);

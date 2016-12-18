@@ -69,31 +69,31 @@ public class StatusBar extends JPanel implements Updatable {
 		technicalTermTierLbl = WinUtil.createLabel(" >> ", 0, 0, 0, 0, new EmptyBorder(0, 0, 0, 0), Color.DARK_GRAY, " >> ", " >> ", WinUtil.ULTRA_LIGHT_GRAY);
 		
 		p1 = new JPanel(new BorderLayout(), true);
-		p1.setPreferredSize(new Dimension(200, 23));
+		p1.setPreferredSize(new Dimension(200, 21));
 		p1.setBackground(Color.DARK_GRAY);
 		
 		p2 = new JPanel(new BorderLayout(), true);
-		p2.setPreferredSize(new Dimension(286, 23));
+		p2.setPreferredSize(new Dimension(286, 21));
 		p2.setBackground(Color.DARK_GRAY);
 		
 		p3 = new JPanel(new BorderLayout(), true);
-		p3.setPreferredSize(new Dimension(21, 23));
+		p3.setPreferredSize(new Dimension(21, 21));
 		p3.setBackground(Color.DARK_GRAY);
 		
 		p4 = new JPanel(new BorderLayout(), true);
-		p4.setPreferredSize(new Dimension(286, 23));
+		p4.setPreferredSize(new Dimension(286, 21));
 		p4.setBackground(Color.DARK_GRAY);
 		
 		p5 = new JPanel(new BorderLayout(), true);
-		p5.setPreferredSize(new Dimension(21, 23));
+		p5.setPreferredSize(new Dimension(21, 21));
 		p5.setBackground(Color.DARK_GRAY);
 		
 		p6 = new JPanel(new BorderLayout(), true);
-		p6.setPreferredSize(new Dimension(286, 23));
+		p6.setPreferredSize(new Dimension(286, 21));
 		p6.setBackground(Color.DARK_GRAY);
 		
 		p7 = new JPanel(new BorderLayout(), true);
-		p7.setPreferredSize(new Dimension(200, 23));
+		p7.setPreferredSize(new Dimension(200, 21));
 		p7.setBackground(Color.DARK_GRAY);
 		
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -149,8 +149,7 @@ public class StatusBar extends JPanel implements Updatable {
 		int namePanelWidth = (int)(e.getMainFrameWidth() * 0.220);
 		int separatorPanelWidth = (int)(e.getMainFrameWidth() * 0.019);
 					
-		int panelsHeight = (int) (e.getMainFrameHeight() * 0.026);
-		int fontResize = (int) (0.018 * e.getMainFrameHeight() - 15.063);
+		int panelsHeight = (int) (e.getDisplaySize().getHeight() * 0.0175);
 				
 		if (e.getCurrentSpecialty() == null && e.getCurrentTechnicalTerm() == null) {
 			// nur Startbutton
@@ -183,8 +182,6 @@ public class StatusBar extends JPanel implements Updatable {
 		}
 		
 		setPreferredSize(spacePanelWidth, namePanelWidth, separatorPanelWidth, panelsHeight);
-		setFont(fontResize);
-		
 	
 		System.out.println("Statusbar counter: "+ counter);
 		counter++;
@@ -210,15 +207,6 @@ public class StatusBar extends JPanel implements Updatable {
 		p5.setPreferredSize(new Dimension(separatorPanelWidth, panelsHeight));
 		p6.setPreferredSize(new Dimension(namePanelWidth, panelsHeight));
 		p7.setPreferredSize(new Dimension(spacePanelWidth, panelsHeight));
-	}
-	
-	private void setFont(int fontsize) {
-
-		startpageBtn.setFont(startpageBtn.getFont().deriveFont(Font.BOLD, 12 + fontsize));
-		specialtyBtn.setFont(specialtyBtn.getFont().deriveFont(Font.BOLD, 12 + fontsize));
-		technicalTermBtn.setFont(technicalTermBtn.getFont().deriveFont(Font.BOLD, 12 + fontsize));
-		specialtyTierLbl.setFont(specialtyTierLbl.getFont().deriveFont(Font.BOLD, 12 + fontsize));
-		technicalTermTierLbl.setFont(technicalTermTierLbl.getFont().deriveFont(Font.BOLD, 12 + fontsize));
 	}
 	
 	public void setStatusBarStartpageButtonActionListener(ActionListener l) {

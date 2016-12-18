@@ -6,13 +6,10 @@ import java.util.ResourceBundle;
 import eventHandling.PanelEventTransferObject;
 
 public class SearchResultPanel extends MyPanel {
-
-	private ResourceBundle 	languageBundle;
-	private Locale 			currentLocale;
 	
-	public SearchResultPanel(ResourceBundle languageBundle) {
+	public SearchResultPanel(ResourceBundle languageBundle, double MAINFRAME_DISPLAY_RATIO) {
 
-		this.languageBundle = languageBundle;
+		super(languageBundle, MAINFRAME_DISPLAY_RATIO);
 	}
 
 	@Override

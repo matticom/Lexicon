@@ -1,18 +1,15 @@
 package panels;
 
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import eventHandling.PanelEventTransferObject;
 
 public class LetterResultPanel extends MyPanel {
 
-	private ResourceBundle 	languageBundle;
-	private Locale 			currentLocale;
 	
-	public LetterResultPanel(ResourceBundle languageBundle) {
+	public LetterResultPanel(ResourceBundle languageBundle, double MAINFRAME_DISPLAY_RATIO) {
 
-		this.languageBundle = languageBundle;
+		super(languageBundle, MAINFRAME_DISPLAY_RATIO);
 	}
 
 	@Override

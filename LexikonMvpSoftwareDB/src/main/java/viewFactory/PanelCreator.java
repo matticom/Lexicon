@@ -13,28 +13,28 @@ import panels.TechnicalTermPanel;
 
 public class PanelCreator {
 		
-	public MyPanel createPanel(PanelUpdateObjects panel, ResourceBundle languageBundle) {
+	public MyPanel createPanel(PanelUpdateObjects panel, ResourceBundle languageBundle, double MAINFRAME_DISPLAY_RATIO) {
 		
-		MyPanel myPanel = panelFactory(panel, languageBundle);
+		MyPanel myPanel = panelFactory(panel, languageBundle, MAINFRAME_DISPLAY_RATIO);
 		myPanel.updatePanel(new PanelEventTransferObject());
 		return myPanel;
 	}
 	
-	protected MyPanel panelFactory(PanelUpdateObjects panel, ResourceBundle languageBundle) {
+	protected MyPanel panelFactory(PanelUpdateObjects panel, ResourceBundle languageBundle, double MAINFRAME_DISPLAY_RATIO) {
 		
 		MyPanel myPanel = null;
 		
 		if (panel == PanelUpdateObjects.LetterResultPanel) {
-			myPanel = new LetterResultPanel(languageBundle);
+			myPanel = new LetterResultPanel(languageBundle, MAINFRAME_DISPLAY_RATIO);
 		}
 		if (panel == PanelUpdateObjects.SearchResultPanel) {
-			myPanel = new SearchResultPanel(languageBundle);
+			myPanel = new SearchResultPanel(languageBundle, MAINFRAME_DISPLAY_RATIO);
 		}
 		if (panel == PanelUpdateObjects.SpecialtyPanel) {
-			myPanel = new SpecialtyPanel(languageBundle);
+			myPanel = new SpecialtyPanel(languageBundle, MAINFRAME_DISPLAY_RATIO);
 		}
 		if (panel == PanelUpdateObjects.TechnicalTermPanel) {
-			myPanel = new TechnicalTermPanel(languageBundle);
+			myPanel = new TechnicalTermPanel(languageBundle, MAINFRAME_DISPLAY_RATIO);
 		}
 		return myPanel;
 	}
