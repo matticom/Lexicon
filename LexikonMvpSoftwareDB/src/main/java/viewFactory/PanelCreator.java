@@ -2,6 +2,8 @@ package viewFactory;
 
 import java.util.ResourceBundle;
 
+import javax.swing.JPanel;
+
 import eventHandling.PanelEventTransferObject;
 import eventHandling.PanelUpdateObjects;
 import panels.LetterResultPanel;
@@ -13,14 +15,14 @@ import panels.TechnicalTermPanel;
 
 public class PanelCreator {
 		
-	public MyPanel createPanel(PanelUpdateObjects panel, ResourceBundle languageBundle, double MAINFRAME_DISPLAY_RATIO) {
+	public MyPanel createPanel(PanelUpdateObjects panel, ResourceBundle languageBundle, double MAINFRAME_DISPLAY_RATIO, JPanel dynamicTestPanel) {
 		
-		MyPanel myPanel = panelFactory(panel, languageBundle, MAINFRAME_DISPLAY_RATIO);
+		MyPanel myPanel = panelFactory(panel, languageBundle, MAINFRAME_DISPLAY_RATIO, dynamicTestPanel);
 		myPanel.updatePanel(new PanelEventTransferObject());
 		return myPanel;
 	}
 	
-	protected MyPanel panelFactory(PanelUpdateObjects panel, ResourceBundle languageBundle, double MAINFRAME_DISPLAY_RATIO) {
+	protected MyPanel panelFactory(PanelUpdateObjects panel, ResourceBundle languageBundle, double MAINFRAME_DISPLAY_RATIO, JPanel dynamicTestPanel) {
 		
 		MyPanel myPanel = null;
 		
@@ -31,7 +33,7 @@ public class PanelCreator {
 			myPanel = new SearchResultPanel(languageBundle, MAINFRAME_DISPLAY_RATIO);
 		}
 		if (panel == PanelUpdateObjects.SpecialtyPanel) {
-			myPanel = new SpecialtyPanel(languageBundle, MAINFRAME_DISPLAY_RATIO);
+			myPanel = new SpecialtyPanel(languageBundle, MAINFRAME_DISPLAY_RATIO, dynamicTestPanel);
 		}
 		if (panel == PanelUpdateObjects.TechnicalTermPanel) {
 			myPanel = new TechnicalTermPanel(languageBundle, MAINFRAME_DISPLAY_RATIO);

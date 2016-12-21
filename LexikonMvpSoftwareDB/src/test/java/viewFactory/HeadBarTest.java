@@ -51,6 +51,7 @@ import interactElements.ComboBoxFactory;
 import interactElements.ComboBoxes;
 import interactElements.SearchComboBox;
 import model.Translations;
+import panels.DynamicTestPanel;
 import panels.PanelTest;
 import panels.SpecialtyPanel;
 import repository.LanguageDAO;
@@ -123,7 +124,8 @@ public class HeadBarTest {
 		mainFrame.setMinimumSize(new Dimension((int)(displaySize.width*0.6850), (int)(displaySize.height*0.3333)));
 //		HeadBar headBar2 = new HeadBar(mainFrameWidth, mainFrameHeight, ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")));
 		PanelTest test = new PanelTest();
-		SpecialtyPanel specialtyPanel = new SpecialtyPanel(ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")), MAINFRAME_DISPLAY_RATIO);
+		DynamicTestPanel dynamicTestPanel = new DynamicTestPanel(mainFrameWidth, mainFrameHeight, termBOTest.selectAllSpecialties());
+		SpecialtyPanel specialtyPanel = new SpecialtyPanel(ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")), MAINFRAME_DISPLAY_RATIO, dynamicTestPanel);
 
 		PanelEventTransferObject peto = new PanelEventTransferObject();
 		peto.setAvailableLetters(expectedAlphabet);
@@ -163,8 +165,9 @@ public class HeadBarTest {
 		
 		HeadBar headBar = new HeadBar(displaySize, mainFrameWidth, ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")), searchComboBox);
 
+		peto.setSpecialtyList(termBOTest.selectAllSpecialties());
 //		headBar2.add(searchComboBox2);
-
+//		specialtyPanel.updatePanel(peto);
 		mainFrame.add(headBar, BorderLayout.PAGE_START);
 		mainFrame.add(specialtyPanel, BorderLayout.CENTER);
 		mainFrame.setVisible(true);
@@ -181,6 +184,9 @@ public class HeadBarTest {
 				peto.setCurrentLanguage(ChosenLanguage.Spanish);
 				peto.setHistory(history);
 				peto.setDisplaySize(displaySize);
+//				peto.setSpecialtyList(termBOTest.selectAllSpecialties());
+				DynamicTestPanel dynamicTestPanel = new DynamicTestPanel(c.getWidth(), c.getHeight(), termBOTest.selectAllSpecialties());
+				peto.setDynamicTestPanel(dynamicTestPanel);
 				
 				if (counter > 9 && counter < 19 || counter > 39 && counter < 49 ) {
 					peto.setCurrentLanguage(ChosenLanguage.German);
@@ -198,6 +204,7 @@ public class HeadBarTest {
 				searchComboBox2.updatePanel(peto);
 				menuBar.updatePanel(peto);
 				statusBar.updatePanel(peto);
+				specialtyPanel.updatePanel(peto);
 				counter++;
 				System.out.println("HeadBarGröße: " + headBar.getWidth() + " x " + headBar.getHeight());
 				

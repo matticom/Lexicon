@@ -4,6 +4,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.util.List;
 
+import javax.swing.JPanel;
+
 import model.Specialty;
 import model.TechnicalTerm;
 import panels.MyPanel;
@@ -25,9 +27,19 @@ public class PanelEventTransferObject {
 	Specialty currentSpecialty;
 	TechnicalTerm currentTechnicalTerm;
 	
-		
+	JPanel DynamicTestPanel;
 	
+	public JPanel getDynamicTestPanel() {
+		return DynamicTestPanel;
+	}
 
+	public void setDynamicTestPanel(JPanel dynamicTestPanel) {
+		DynamicTestPanel = dynamicTestPanel;
+	}
+
+	
+	
+	
 	public MyPanel getSource() {
 		return source;
 	}
