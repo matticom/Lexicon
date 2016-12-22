@@ -60,27 +60,28 @@ import repository.TermDAO;
 public class HeadBarTest {
 
 	JFrame mainFrame;
-	
+
 	boolean[] expectedAlphabet;
 	List<String> history;
-	
-	
+
 	private static IDatabaseConnection mDBUnitConnection;
-    private static IDataSet startDataset;
-        
+	private static IDataSet startDataset;
+
 	private static EntityManagerFactory emfactory;
-	private static EntityManager entitymanager;	
-	private static Connection connection;	
+	private static EntityManager entitymanager;
+	private static Connection connection;
 	private static TermDAO termDAOTest;
 	private static LanguageDAO languageDAOTest;
 	private static TermBO termBOTest;
 	private static LanguageBO languageBOTest;
-	
+
+	private DynamicTestPanel dynamicTestPanel;
+
 	int mainFrameWidth;
 	int mainFrameHeight;
 	Dimension displaySize;
 	private final double MAINFRAME_DISPLAY_RATIO = 0.8;
-	
+
 	private int counter = 0;
 
 	@Before
@@ -89,12 +90,14 @@ public class HeadBarTest {
 		mainFrame = new JFrame();
 
 		mainFrame.setTitle("TestFrame");
-		displaySize = Toolkit.getDefaultToolkit().getScreenSize(); //new Dimension(1024, 768);
-		mainFrameWidth = (int)(displaySize.getWidth() * MAINFRAME_DISPLAY_RATIO);
-		mainFrameHeight = (int)(displaySize.getHeight() * MAINFRAME_DISPLAY_RATIO);
-			
+		displaySize = Toolkit.getDefaultToolkit().getScreenSize(); // new
+																	// Dimension(1024,
+																	// 768);
+		mainFrameWidth = (int) (displaySize.getWidth() * MAINFRAME_DISPLAY_RATIO);
+		mainFrameHeight = (int) (displaySize.getHeight() * MAINFRAME_DISPLAY_RATIO);
+
 		mainFrame.setSize(mainFrameWidth, mainFrameHeight);
-		System.out.println(mainFrame.getSize());	
+		System.out.println(mainFrame.getSize());
 		mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		mainFrame.setResizable(true);
 		mainFrame.addWindowListener(new WindowAdapter() {
@@ -106,7 +109,7 @@ public class HeadBarTest {
 			}
 		});
 		mainFrame.setLocationRelativeTo(null);
-		
+
 		initializeDB();
 
 	}
@@ -116,16 +119,18 @@ public class HeadBarTest {
 
 		StatusBar statusBar = new StatusBar(ResourceBundle.getBundle("languageBundles.lexikon", new Locale("es")));
 		mainFrame.add(statusBar, BorderLayout.PAGE_END);
-		
+
 		MenuBar menuBar = new MenuBar(ResourceBundle.getBundle("languageBundles.lexikon", new Locale("es")));
 		mainFrame.setJMenuBar(menuBar);
-		
-		
-		mainFrame.setMinimumSize(new Dimension((int)(displaySize.width*0.6850), (int)(displaySize.height*0.3333)));
-//		HeadBar headBar2 = new HeadBar(mainFrameWidth, mainFrameHeight, ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")));
+
+		mainFrame.setMinimumSize(new Dimension((int) (displaySize.width * 0.6850), (int) (displaySize.height * 0.3333)));
+		// HeadBar headBar2 = new HeadBar(mainFrameWidth, mainFrameHeight,
+		// ResourceBundle.getBundle("languageBundles.lexikon", new
+		// Locale("de")));
 		PanelTest test = new PanelTest();
-		DynamicTestPanel dynamicTestPanel = new DynamicTestPanel(mainFrameWidth, mainFrameHeight, termBOTest.selectAllSpecialties());
-		SpecialtyPanel specialtyPanel = new SpecialtyPanel(ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")), MAINFRAME_DISPLAY_RATIO, dynamicTestPanel);
+		dynamicTestPanel = new DynamicTestPanel(mainFrameWidth, mainFrameHeight, termBOTest.selectAllSpecialties());
+		SpecialtyPanel specialtyPanel = new SpecialtyPanel(ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")),
+				MAINFRAME_DISPLAY_RATIO, dynamicTestPanel);
 
 		PanelEventTransferObject peto = new PanelEventTransferObject();
 		peto.setAvailableLetters(expectedAlphabet);
@@ -137,45 +142,43 @@ public class HeadBarTest {
 		peto.setDisplaySize(displaySize);
 
 		List<Translations> translationList = termBOTest.selectLetter("f");
-		
+
 		expectedAlphabet = new boolean[26];
 		for (boolean letter : expectedAlphabet) {
 			letter = false;
 		}
 		expectedAlphabet = termBOTest.checkLetter();
-		
-		
-		
+
 		history = new ArrayList<String>();
-		
+
 		for (Translations translation : translationList) {
 			history.add(translation.getName());
 		}
-		
+
 		peto.setHistory(history);
 
 		ComboBoxFactory comboBoxFactory = new ComboBoxFactory();
 		SearchComboBox searchComboBox = (SearchComboBox) comboBoxFactory.createComboBox(ComboBoxes.SearchComboBox);
 		SearchComboBox searchComboBox2 = (SearchComboBox) comboBoxFactory.createComboBox(ComboBoxes.SearchComboBox);
-		
-		
+
 		ListCellRenderer<Object> cboFontSizeRenderer = new ComboBoxCellRenderer();
 		searchComboBox.setRenderer(cboFontSizeRenderer);
 		searchComboBox2.setRenderer(cboFontSizeRenderer);
-		
-		HeadBar headBar = new HeadBar(displaySize, mainFrameWidth, ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")), searchComboBox);
+
+		HeadBar headBar = new HeadBar(displaySize, mainFrameWidth, ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")),
+				searchComboBox);
 
 		peto.setSpecialtyList(termBOTest.selectAllSpecialties());
-//		headBar2.add(searchComboBox2);
-//		specialtyPanel.updatePanel(peto);
+		// headBar2.add(searchComboBox2);
+		// specialtyPanel.updatePanel(peto);
 		mainFrame.add(headBar, BorderLayout.PAGE_START);
 		mainFrame.add(specialtyPanel, BorderLayout.CENTER);
 		mainFrame.setVisible(true);
-		
+
 		mainFrame.addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
-				
+
 				Component c = e.getComponent();
 				PanelEventTransferObject peto = new PanelEventTransferObject();
 				peto.setMainFrameWidth(c.getWidth());
@@ -184,22 +187,24 @@ public class HeadBarTest {
 				peto.setCurrentLanguage(ChosenLanguage.Spanish);
 				peto.setHistory(history);
 				peto.setDisplaySize(displaySize);
-//				peto.setSpecialtyList(termBOTest.selectAllSpecialties());
-				DynamicTestPanel dynamicTestPanel = new DynamicTestPanel(c.getWidth(), c.getHeight(), termBOTest.selectAllSpecialties());
-				peto.setDynamicTestPanel(dynamicTestPanel);
-				
-				if (counter > 9 && counter < 19 || counter > 39 && counter < 49 ) {
+				// peto.setSpecialtyList(termBOTest.selectAllSpecialties());
+//				if (counter < 9) {
+					DynamicTestPanel dynamicTestPanel = new DynamicTestPanel(c.getWidth(), c.getHeight(), termBOTest.selectAllSpecialties());
+					peto.setDynamicTestPanel(dynamicTestPanel);
+//				}
+
+				if (counter > 9 && counter < 19 || counter > 39 && counter < 49) {
 					peto.setCurrentLanguage(ChosenLanguage.German);
 					peto.setCurrentSpecialty(termBOTest.selectSpecialtyById(6));
 					peto.setCurrentTechnicalTerm(termBOTest.selectTechnicalTermById(19));
 				}
-				
-				if (counter > 20 && counter < 29 || counter > 49 && counter < 109 ) {
+
+				if (counter > 20 && counter < 29 || counter > 49 && counter < 109) {
 					peto.setCurrentSpecialty(termBOTest.selectSpecialtyById(9));
 				}
-																
+
 				headBar.updatePanel(peto);
-//				headBar2.updatePanel(peto);
+				// headBar2.updatePanel(peto);
 				searchComboBox.updatePanel(peto);
 				searchComboBox2.updatePanel(peto);
 				menuBar.updatePanel(peto);
@@ -207,23 +212,23 @@ public class HeadBarTest {
 				specialtyPanel.updatePanel(peto);
 				counter++;
 				System.out.println("HeadBarGröße: " + headBar.getWidth() + " x " + headBar.getHeight());
-				
+
 			}
 		});
 		Thread.sleep(200000);
 		closeDB();
 	}
-	
+
 	public void initializeDB() {
-		
+
 		emfactory = Persistence.createEntityManagerFactory("Eclipselink_JPA_Derby");
 		entitymanager = emfactory.createEntityManager();
 		connection = ((EntityManagerImpl) (entitymanager.getDelegate())).getServerSession().getAccessor().getConnection();
 
 		try {
-			ij.runScript(connection,TermBOTest.class.getResourceAsStream("/Lexicon_Database_Schema_Derby.sql"),"UTF-8", System.out, "UTF-8"); 
+			ij.runScript(connection, TermBOTest.class.getResourceAsStream("/Lexicon_Database_Schema_Derby.sql"), "UTF-8", System.out, "UTF-8");
 		} catch (Exception e) {
-			
+
 			e.printStackTrace();
 		}
 
@@ -232,43 +237,45 @@ public class HeadBarTest {
 			mDBUnitConnection.getConfig().setProperty(DatabaseConfig.FEATURE_ALLOW_EMPTY_FIELDS, true);
 			startDataset = new FlatXmlDataSetBuilder().build(new File("./src/test/resources/XML/Term/testSet_EntireDB.xml"));
 		} catch (Exception e) {
-			
+
 			e.printStackTrace();
 		}
-			
-		
+
 		termDAOTest = new TermDAO(entitymanager);
 		languageDAOTest = new LanguageDAO(entitymanager);
 		languageBOTest = new LanguageBO(languageDAOTest);
 		termBOTest = new TermBO(languageBOTest, termDAOTest);
-		
+
 		try {
 			DatabaseOperation.CLEAN_INSERT.execute(mDBUnitConnection, startDataset);
 		} catch (Exception e) {
-			
+
 			e.printStackTrace();
 		}
-		
-//		try {
-//			ITableFilter filter = new DatabaseSequenceFilter(mDBUnitConnection);
-//			IDataSet fullDataSet = new FilteredDataSet(filter, mDBUnitConnection.createDataSet());
-//			FlatXmlDataSet.write(fullDataSet, new FileOutputStream("actual.xml"));
-//			
-//		} catch (Exception e) {
-//			System.out.println("Es wurde eine Exception bei FullDataSetXML geworfen: "+ e.getMessage());
-//			e.printStackTrace();
-//		}	
+
+		// try {
+		// ITableFilter filter = new DatabaseSequenceFilter(mDBUnitConnection);
+		// IDataSet fullDataSet = new FilteredDataSet(filter,
+		// mDBUnitConnection.createDataSet());
+		// FlatXmlDataSet.write(fullDataSet, new
+		// FileOutputStream("actual.xml"));
+		//
+		// } catch (Exception e) {
+		// System.out.println("Es wurde eine Exception bei FullDataSetXML
+		// geworfen: "+ e.getMessage());
+		// e.printStackTrace();
+		// }
 	}
-	
+
 	public void closeDB() {
 
 		try {
 			mDBUnitConnection.close();
 		} catch (SQLException e) {
-			System.out.println("Es wurde eine Exception beim Schließen der IDataConnection geworfen: "+ e.getMessage());
+			System.out.println("Es wurde eine Exception beim Schließen der IDataConnection geworfen: " + e.getMessage());
 			e.printStackTrace();
 		}
-		
+
 		entitymanager.close();
 		emfactory.close();
 	}

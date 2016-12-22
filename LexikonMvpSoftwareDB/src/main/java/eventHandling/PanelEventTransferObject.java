@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import model.Specialty;
 import model.TechnicalTerm;
+import panels.DynamicTestPanel;
 import panels.MyPanel;
 
 public class PanelEventTransferObject {
@@ -27,14 +28,14 @@ public class PanelEventTransferObject {
 	Specialty currentSpecialty;
 	TechnicalTerm currentTechnicalTerm;
 	
-	JPanel DynamicTestPanel;
+	DynamicTestPanel dynamicTestPanel;
 	
-	public JPanel getDynamicTestPanel() {
-		return DynamicTestPanel;
+	public DynamicTestPanel getDynamicTestPanel() {
+		return dynamicTestPanel;
 	}
 
-	public void setDynamicTestPanel(JPanel dynamicTestPanel) {
-		DynamicTestPanel = dynamicTestPanel;
+	public void setDynamicTestPanel(DynamicTestPanel dynamicTestPanel) {
+		this.dynamicTestPanel = dynamicTestPanel;
 	}
 
 	

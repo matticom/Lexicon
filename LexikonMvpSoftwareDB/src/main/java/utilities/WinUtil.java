@@ -2,6 +2,7 @@ package utilities;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 
@@ -22,6 +23,7 @@ public class WinUtil
 	public static final Color ULTRA_DARK_GRAY = createColor(50, 50, 50);
 	public static final Color LIGHT_BLACK = createColor(30, 30, 30);
 	public static final Color COOL_BLUE = createColor(0, 178, 238);
+	public static final Color STRONG_ORANGE = createColor(255, 140, 0);
 
 	// Verhinder, dass eine Instanz dieser Klasse erstellt werden kann.
 	// Diese Klasse enthält nur öffentliche und statische Methoden.
@@ -254,6 +256,23 @@ public class WinUtil
 		
 		return btn;
 
+	}
+	
+	public static void configButton(JButton button, int width, int height, Border border, Color foreground, Color background) {
+		
+		if (border != null)
+			button.setBorder(border);
+		
+		if (background != null)
+			button.setBackground(background);
+		
+		button.setOpaque(true);
+		button.setFocusPainted(false);
+		
+		if (foreground != null)
+			button.setForeground(foreground);
+
+		button.setPreferredSize(new Dimension(width, height));
 	}
 
 	/**

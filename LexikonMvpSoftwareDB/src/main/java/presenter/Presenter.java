@@ -33,6 +33,7 @@ import inputChecker.SearchWordChecker;
 import interactElements.ComboBoxFactory;
 import interactElements.ComboBoxes;
 import interactElements.SearchComboBox;
+import interactElements.SpecialtyButton;
 import panels.LetterResultPanel;
 import panels.SearchResultPanel;
 import panels.SpecialtyPanel;
@@ -173,7 +174,7 @@ public class Presenter {
 	}
 
 	private void searchLetterResult(ActionEvent e) {
-
+		int id = ((SpecialtyButton)(e.getSource())).getTranlationId(); // Beispiel für Zugriff auf SpecialtyButton
 		// Buchstabenfenster wird im CENTER geöffnet
 		// mainFrame.letterResults_OpenLetterWindow(((JButton)
 		// e.getSource()).getActionCommand());
