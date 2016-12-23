@@ -10,6 +10,7 @@ import java.awt.Insets;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -28,13 +29,15 @@ public class SearchResultPanelStatic extends MyPanel {
 	private JPanel contentPanel;
 	private JPanel staticElementsPanel;
 	private JLabel resultLabel, germanLabel, spanishLabel, germanResultTechnicalTerm, germanResultSpecialty, spanishResultTechnicalTerm, spanishResultSpecialty;
+	private String labelTitle;
 
 	private SearchResultPanelDynamic dynamicPanel;
 	
 	
-	public SearchResultPanelStatic(ResourceBundle languageBundle, double MAINFRAME_DISPLAY_RATIO, SearchResultPanelDynamic dynamicPanel) {
+	public SearchResultPanelStatic(ResourceBundle languageBundle, double MAINFRAME_DISPLAY_RATIO, SearchResultPanelDynamic dynamicPanel, String labelTitle) {
 
 		super(languageBundle, MAINFRAME_DISPLAY_RATIO);
+		this.labelTitle = labelTitle;
 		this.dynamicPanel = dynamicPanel;
 		initialize();
 	}
@@ -65,7 +68,7 @@ public class SearchResultPanelStatic extends MyPanel {
 	}
 	
 	private void createLabels() {
-		resultLabel = new JLabel(languageBundle.getString("resultsLbl") + "  ' " + dynamicPanel.getSearchWord() + " '");
+		resultLabel = new JLabel(languageBundle.getString(labelTitle) + "  ' " + dynamicPanel.getSearchWord() + " '");
 		WinUtil.configLabel(resultLabel, (int)(displaySize.getWidth() * 1200/1920), (int)(displaySize.getHeight() * 40/1200), Color.WHITE, Color.DARK_GRAY, 25, Font.BOLD);
 		GridBagLayoutUtilities.addGB(staticElementsPanel, resultLabel, 1, 1, 4, 1, new Insets((int)(displaySize.getHeight() * 30/1200), 0, (int)(displaySize.getHeight() * 10/1200), 0));
 		
@@ -86,10 +89,12 @@ public class SearchResultPanelStatic extends MyPanel {
 		GridBagLayoutUtilities.addGB(staticElementsPanel, germanResultTechnicalTerm, 1, 4, 1, 1, GridBagConstraints.BOTH, 1, 1, new Insets(0, 0, 0, 0));
 		
 		germanResultSpecialty = new JLabel(languageBundle.getString("resultsSubject"));
+		germanResultSpecialty.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.LIGHT_GRAY));
 		WinUtil.configLabel(germanResultSpecialty, (int)(displaySize.getWidth() * 200/1920), (int)(displaySize.getHeight() * 30/1200), Color.WHITE, Color.GREEN, 15, Font.BOLD);
 		GridBagLayoutUtilities.addGB(staticElementsPanel, germanResultSpecialty, 2, 4, 1, 1, GridBagConstraints.BOTH, 1, 1, new Insets(0, 0, 0, 0));
 		
 		spanishResultTechnicalTerm = new JLabel(languageBundle.getString("resultsTerm"));
+		spanishResultTechnicalTerm.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.LIGHT_GRAY));
 		WinUtil.configLabel(spanishResultTechnicalTerm, (int)(displaySize.getWidth() * 200/1920), (int)(displaySize.getHeight() * 30/1200), Color.WHITE, Color.BLUE, 15, Font.BOLD);
 		GridBagLayoutUtilities.addGB(staticElementsPanel, spanishResultTechnicalTerm, 3, 4, 1, 1, GridBagConstraints.BOTH, 1, 1, new Insets(0, 0, 0, 0));
 		
@@ -112,7 +117,7 @@ public class SearchResultPanelStatic extends MyPanel {
 	
 	private void changeLanguage() {
 		
-		resultLabel.setText(languageBundle.getString("resultsLbl") + "  ' " + dynamicPanel.getSearchWord() + " '");
+		resultLabel.setText(languageBundle.getString(labelTitle) + "  ' " + dynamicPanel.getSearchWord() + " '");
 		germanLabel.setText(languageBundle.getString("miDeutsch"));
 		spanishLabel.setText(languageBundle.getString("miSpanisch"));
 		germanResultTechnicalTerm.setText(languageBundle.getString("resultsTerm"));

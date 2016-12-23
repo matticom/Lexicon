@@ -47,6 +47,7 @@ import interactElements.ComboBoxCellRenderer;
 import eventHandling.ChosenLanguage;
 import eventHandling.ComboBoxEventTransferObject;
 import eventHandling.PanelEventTransferObject;
+import eventHandling.PanelUpdateObjects;
 import interactElements.ComboBoxFactory;
 import interactElements.ComboBoxes;
 import interactElements.SearchComboBox;
@@ -77,8 +78,6 @@ public class HeadBarTest {
 	private static TermBO termBOTest;
 	private static LanguageBO languageBOTest;
 
-	private SpecialtyPanelDynamic dynamicTestPanelSpecialty;
-	private SearchResultPanelDynamic dynamicTestPanelSearch;
 
 	int mainFrameWidth;
 	int mainFrameHeight;
@@ -130,12 +129,7 @@ public class HeadBarTest {
 		// ResourceBundle.getBundle("languageBundles.lexikon", new
 		// Locale("de")));
 //		PanelTest test = new PanelTest();
-		dynamicTestPanelSpecialty = new SpecialtyPanelDynamic(mainFrameWidth, mainFrameHeight, termBOTest.selectAllSpecialties());
-		dynamicTestPanelSearch = new SearchResultPanelDynamic(mainFrameWidth, mainFrameHeight, termBOTest.searchTechnicalTerms("a%"), "Hallo Suche"); 
-		SpecialtyPanelStatic specialtyPanel = new SpecialtyPanelStatic(ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")),	
-				MAINFRAME_DISPLAY_RATIO, dynamicTestPanelSpecialty);
-		SearchResultPanelStatic searchPanel = new SearchResultPanelStatic(ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")), MAINFRAME_DISPLAY_RATIO, dynamicTestPanelSearch);
-
+		
 		PanelEventTransferObject peto = new PanelEventTransferObject();
 		peto.setAvailableLetters(expectedAlphabet);
 		peto.setCurrentLanguage(ChosenLanguage.Spanish);
@@ -144,7 +138,20 @@ public class HeadBarTest {
 		peto.setCurrentSpecialty(termBOTest.selectSpecialtyById(6));
 		peto.setCurrentTechnicalTerm(termBOTest.selectTechnicalTermById(19));
 		peto.setDisplaySize(displaySize);
-
+		
+		PanelCreator panelCreator = new PanelCreator();
+		
+				
+		SpecialtyPanelDynamic specialtyDynamicPanel = new SpecialtyPanelDynamic(mainFrameWidth, mainFrameHeight, termBOTest.selectAllSpecialties());
+		SearchResultPanelDynamic searchDynamicPanel = new SearchResultPanelDynamic(mainFrameWidth, mainFrameHeight, termBOTest.searchTechnicalTerms("a%"), "Hallo Suche");
+		SearchResultPanelDynamic letterDynamicPanel = new SearchResultPanelDynamic(mainFrameWidth, mainFrameHeight, termBOTest.searchTechnicalTerms("A%"), ".A%");
+		
+		
+		SpecialtyPanelStatic specialtyPanel = (SpecialtyPanelStatic)panelCreator.createPanel(PanelUpdateObjects.SpecialtyPanel, ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")), MAINFRAME_DISPLAY_RATIO, specialtyDynamicPanel);
+		SearchResultPanelStatic searchPanel = (SearchResultPanelStatic)panelCreator.createPanel(PanelUpdateObjects.SearchResultPanel, ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")), MAINFRAME_DISPLAY_RATIO, searchDynamicPanel);
+		SearchResultPanelStatic letterPanel = (SearchResultPanelStatic)panelCreator.createPanel(PanelUpdateObjects.LetterResultPanel, ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")), MAINFRAME_DISPLAY_RATIO, letterDynamicPanel);
+		
+		
 		List<Translations> translationList = termBOTest.selectLetter("f");
 
 		expectedAlphabet = new boolean[26];
@@ -175,8 +182,10 @@ public class HeadBarTest {
 		// headBar2.add(searchComboBox2);
 		// specialtyPanel.updatePanel(peto);
 		mainFrame.add(headBar, BorderLayout.PAGE_START);
-//		mainFrame.add(specialtyPanel, BorderLayout.CENTER);
-		mainFrame.add(searchPanel, BorderLayout.CENTER);
+//--->	
+		mainFrame.add(specialtyPanel, BorderLayout.CENTER);
+//		mainFrame.add(searchPanel, BorderLayout.CENTER);
+//		mainFrame.add(letterPanel, BorderLayout.CENTER);
 		mainFrame.setVisible(true);
 
 		mainFrame.addComponentListener(new ComponentAdapter() {
@@ -193,9 +202,10 @@ public class HeadBarTest {
 				peto.setDisplaySize(displaySize);
 				// peto.setSpecialtyList(termBOTest.selectAllSpecialties());
 //				if (counter < 9) {
-				
-//					SpecialtyPanelDynamic dynamicPanel = new SpecialtyPanelDynamic(c.getWidth(), c.getHeight(), termBOTest.selectAllSpecialties());
-					SearchResultPanelDynamic dynamicPanel = new SearchResultPanelDynamic(mainFrameWidth, mainFrameHeight, termBOTest.searchTechnicalTerms("a%"), "Hallo Suche");
+//--->			
+					SpecialtyPanelDynamic dynamicPanel = new SpecialtyPanelDynamic(c.getWidth(), c.getHeight(), termBOTest.selectAllSpecialties());
+//					SearchResultPanelDynamic dynamicPanel = new SearchResultPanelDynamic(mainFrameWidth, mainFrameHeight, termBOTest.searchTechnicalTerms("a%"), "Hallo Suche");
+//					SearchResultPanelDynamic dynamicPanel = new SearchResultPanelDynamic(mainFrameWidth, mainFrameHeight, termBOTest.searchTechnicalTerms("A%"), ".A%");
 					peto.setDynamicPanel(dynamicPanel);
 //				}
 
@@ -215,8 +225,10 @@ public class HeadBarTest {
 				searchComboBox2.updatePanel(peto);
 				menuBar.updatePanel(peto);
 				statusBar.updatePanel(peto);
-//				specialtyPanel.updatePanel(peto);
-				searchPanel.updatePanel(peto);
+//--->
+//				letterPanel.updatePanel(peto);
+				specialtyPanel.updatePanel(peto);
+//				searchPanel.updatePanel(peto);
 				counter++;
 				System.out.println("HeadBarGröße: " + headBar.getWidth() + " x " + headBar.getHeight());
 

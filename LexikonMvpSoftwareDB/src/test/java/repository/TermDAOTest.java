@@ -348,10 +348,22 @@ public class TermDAOTest {
 		List<Translations> termList = termDAOTest.selectAllTermTranslations(beton);
 		entitymanager.getTransaction().commit();
 			
-		String[] expectedArray = new String[]{"Beton", "Hormigón"};
-		String[] actualArray = UtilMethods.extractAllTranslationNamesFromTerm(beton);
+		assertThat(2, is(equalTo(termList.size())));	
+		assertThat("Beton", is(equalTo(termList.get(0).getName())));	
+		assertThat("Hormigón", is(equalTo(termList.get(1).getName())));
+	}
+	
+	@Test
+	public void selectTranslationsTest() throws Exception {
 		
-		assertThat(expectedArray, is(equalTo(actualArray)));		
+		entitymanager.getTransaction().begin();
+		List<Translations> termList = termDAOTest.selectTranslations("%on%");
+		entitymanager.getTransaction().commit();
+			
+		assertThat(3, is(equalTo(termList.size())));	
+		assertThat("Beton", is(equalTo(termList.get(0).getName())));	
+		assertThat("Hormigón", is(equalTo(termList.get(1).getName())));
+		assertThat("Conglomerante", is(equalTo(termList.get(2).getName())));
 	}
 	
 	@Test

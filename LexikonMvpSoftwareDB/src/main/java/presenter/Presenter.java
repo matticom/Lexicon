@@ -34,7 +34,6 @@ import interactElements.ComboBoxFactory;
 import interactElements.ComboBoxes;
 import interactElements.SearchComboBox;
 import interactElements.SpecialtyButton;
-import panels.LetterResultPanel;
 import panels.SearchResultPanelStatic;
 import panels.SpecialtyPanelStatic;
 import panels.TechnicalTermPanel;
@@ -52,7 +51,6 @@ public class Presenter {
 	private HeadBar headBar;
 	private StatusBar statusBar;
 
-	private LetterResultPanel letterResultPanel;
 	private SearchResultPanelStatic searchResultPanel;
 	private SpecialtyPanelStatic specialtyPanel;
 	private TechnicalTermPanel technicalTermPanel;

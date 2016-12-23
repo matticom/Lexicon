@@ -13,6 +13,7 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 import interactElements.SpecialtyButton;
 import interactElements.TechnicalTermButton;
@@ -39,7 +40,7 @@ public class SearchResultPanelDynamic extends JPanel {
 	
 	public SearchResultPanelDynamic(int mainFrameWidth, int mainFrameHeight, List<Translations> technicalTermTranslationList, String searchWord) {
 		
-		this.searchWord = searchWord;
+		this.searchWord = distinguishBetweenLetterSearchAndNormalSearch(searchWord);
 		specialtyButtonsDE = new ArrayList<SpecialtyButton>();
 		specialtyButtonsES = new ArrayList<SpecialtyButton>();
 		technicalTermButtonsDE = new ArrayList<TechnicalTermButton>();
@@ -47,19 +48,29 @@ public class SearchResultPanelDynamic extends JPanel {
 		buildUp(mainFrameWidth, mainFrameHeight, technicalTermTranslationList);
 	}
 
+	private String distinguishBetweenLetterSearchAndNormalSearch(String searchWord) {
+		if (searchWord.charAt(0) == '.') {
+			return String.valueOf(searchWord.charAt(1));
+		} else {
+			return searchWord;
+		}
+	}
+	
 	private void buildUp(int mainFrameWidth, int mainFrameHeight, List<Translations> technicalTermTranslationList) {
 		this.setBackground(Color.RED);
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		
 		germanPanel = new JPanel();
-		germanPanel.setBackground(Color.WHITE);
+		germanPanel.setBackground(Color.CYAN);
 		germanPanel.setLayout(new GridBagLayout());
 		germanPanel.setPreferredSize(new Dimension(mainFrameWidth/2, 900));
+		germanPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.LIGHT_GRAY));
 
 		spanishPanel = new JPanel();
 		spanishPanel.setBackground(Color.GRAY);
 		spanishPanel.setLayout(new GridBagLayout());
 		spanishPanel.setPreferredSize(new Dimension(mainFrameWidth/2, 900));
+		spanishPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.LIGHT_GRAY));
 
 		this.add(germanPanel);
 		this.add(spanishPanel);
@@ -83,30 +94,32 @@ public class SearchResultPanelDynamic extends JPanel {
 		for(Translations translation: technicalTermTranslationList) {
 			int languageId = translation.getLanguages().getId();
 			if (languageId == GERMAN) {
-				technicalTermButtonsDE.add(createTechnicalTermButton(translation, GERMAN, buttonWidth, buttonHeight));
-				specialtyButtonsDE.add(createSpecialtyButton(translation, GERMAN, buttonWidth, buttonHeight));
+				Color buttonColor = WinUtil.COOL_BLUE;
+				technicalTermButtonsDE.add(createTechnicalTermButton(translation, GERMAN, buttonWidth, buttonHeight, buttonColor));
+				specialtyButtonsDE.add(createSpecialtyButton(translation, GERMAN, buttonWidth, buttonHeight, buttonColor));
 			}
 			if (languageId == SPANISH) {
-				technicalTermButtonsES.add(createTechnicalTermButton(translation, SPANISH, buttonWidth, buttonHeight));
-				specialtyButtonsES.add(createSpecialtyButton(translation, SPANISH, buttonWidth, buttonHeight));
+				Color buttonColor = WinUtil.STRONG_ORANGE;
+				technicalTermButtonsES.add(createTechnicalTermButton(translation, SPANISH, buttonWidth, buttonHeight, buttonColor));
+				specialtyButtonsES.add(createSpecialtyButton(translation, SPANISH, buttonWidth, buttonHeight, buttonColor));
 			}
 		}
 	}
 	
-	private TechnicalTermButton createTechnicalTermButton(Translations translation, int LanguageId, int buttonWidth, int buttonHeight) {
+	private TechnicalTermButton createTechnicalTermButton(Translations translation, int LanguageId, int buttonWidth, int buttonHeight, Color buttonColor) {
 		
 		TechnicalTermButton technicalTermButton = new TechnicalTermButton(translation.getTerm().getId(), translation.getId(), LanguageId, translation.getName());
-		WinUtil.configButton(technicalTermButton, buttonWidth, buttonHeight, BorderFactory.createLineBorder(WinUtil.COOL_BLUE), WinUtil.COOL_BLUE, WinUtil.LIGHT_BLACK);
+		WinUtil.configButton(technicalTermButton, buttonWidth, buttonHeight, BorderFactory.createLineBorder(buttonColor), buttonColor, WinUtil.LIGHT_BLACK);
 		return technicalTermButton;
 	}
 	
-	private SpecialtyButton createSpecialtyButton(Translations translation, int LanguageId, int buttonWidth, int buttonHeight) {
+	private SpecialtyButton createSpecialtyButton(Translations translation, int LanguageId, int buttonWidth, int buttonHeight, Color buttonColor) {
 		
 		Specialty specialty = ((TechnicalTerm)(translation.getTerm())).getSpecialty();
 		Translations specialtyTranslation = specialty.getTranslationList().get(LanguageId-1);
 		
 		SpecialtyButton specialtyButton = new SpecialtyButton(specialty.getId(), specialtyTranslation.getId(), GERMAN, specialtyTranslation.getName());
-		WinUtil.configButton(specialtyButton, buttonWidth, buttonHeight, BorderFactory.createLineBorder(WinUtil.COOL_BLUE), WinUtil.COOL_BLUE, WinUtil.LIGHT_BLACK);
+		WinUtil.configButton(specialtyButton, buttonWidth, buttonHeight, BorderFactory.createLineBorder(buttonColor), buttonColor, WinUtil.LIGHT_BLACK);
 		return specialtyButton;
 	}
 	

@@ -45,11 +45,13 @@ public class SpecialtyPanelDynamic extends JPanel {
 		germanSpecialtyPanel.setBackground(Color.WHITE);
 		germanSpecialtyPanel.setLayout(new GridBagLayout());
 		germanSpecialtyPanel.setPreferredSize(new Dimension(mainFrameWidth/2, 900));
+		germanSpecialtyPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.LIGHT_GRAY));
 
 		spanishSpecialtyPanel = new JPanel();
 		spanishSpecialtyPanel.setBackground(Color.GRAY);
 		spanishSpecialtyPanel.setLayout(new GridBagLayout());
 		spanishSpecialtyPanel.setPreferredSize(new Dimension(mainFrameWidth/2, 900));
+		spanishSpecialtyPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.LIGHT_GRAY));
 
 		this.add(germanSpecialtyPanel);
 		this.add(spanishSpecialtyPanel);
