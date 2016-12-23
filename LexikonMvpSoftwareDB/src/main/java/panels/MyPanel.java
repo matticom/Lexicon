@@ -4,35 +4,38 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.ResourceBundle;
 
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.border.EmptyBorder;
 
-import eventHandling.PanelEventTransferObject;
 import eventHandling.Updatable;
+import interactElements.MyScrollBarUI;
 
-public class MyPanel  extends JScrollPane implements Updatable {
+public abstract class MyPanel  extends JScrollPane implements Updatable {
 
-	protected int panelWidth;
-	protected int panelHeight;
+	protected int mainFrameWidth;
+	protected int mainFrameHeight;
 	
 	protected ResourceBundle 	languageBundle;
 	
 	protected Dimension displaySize;
-	
-	
+	private JScrollBar scrollbar;	
 	
 	public MyPanel(ResourceBundle languageBundle, double MAINFRAME_DISPLAY_RATIO) {
 		
 		this.displaySize = Toolkit.getDefaultToolkit().getScreenSize();
-		panelWidth = (int)(displaySize.getWidth() * MAINFRAME_DISPLAY_RATIO);
+		mainFrameWidth = (int)(displaySize.getWidth() * MAINFRAME_DISPLAY_RATIO);
+		mainFrameHeight = (int)(displaySize.getHeight() * MAINFRAME_DISPLAY_RATIO);
 		this.languageBundle = languageBundle;
-	}
-
-
-
-	@Override
-	public void updatePanel(PanelEventTransferObject e) {
-		// TODO Auto-generated method stub
 		
+		scrollbar = new JScrollBar(ScrollBar.VERTICAL);
+		scrollbar.setUI(new MyScrollBarUI());
+		this.setVerticalScrollBar(scrollbar);
+		
+		this.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		this.setBorder(new EmptyBorder(1, 0, 0, 0));
 	}
+
 
 }

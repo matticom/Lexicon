@@ -1,5 +1,6 @@
 package businessOperations;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.NoResultException;
@@ -22,8 +23,9 @@ import utilities.PersistenceUtil;
 
 public class TermBO {
 
-	// Konzept: Id's werden später in Buttons usw integriert -> Id's können ausgelesen werden und benutzt werden für aktionen
-		
+	// Konzept: Id's werden später in Buttons usw integriert -> Id's können
+	// ausgelesen werden und benutzt werden für aktionen
+
 	LanguageBO languageBO;
 	TermDAO termDAO;
 
@@ -34,18 +36,39 @@ public class TermBO {
 
 	public TechnicalTerm createTechnicalTerm(String name, String description, int languageId, int SpecialtyId) {
 
-		// Sprache durch GUI Combolist auswählbar -> zur Not dort ein Button für Erstellung einer neuen Sprache
-		Languages language = languageBO.selectLanguageById(languageId); // Sprache sollte da sein wegen GUI,falls nicht: wirft Exception
-		String normalName = PersistenceUtil.convertSpecialChar(name);		
-		
+		// Sprache durch GUI Combolist auswählbar -> zur Not dort ein Button für
+		// Erstellung einer neuen Sprache
+		Languages language = languageBO.selectLanguageById(languageId); // Sprache
+																		// sollte
+																		// da
+																		// sein
+																		// wegen
+																		// GUI,falls
+																		// nicht:
+																		// wirft
+																		// Exception
+		String normalName = PersistenceUtil.convertSpecialChar(name);
+
 		try {
 			selectTechnicalTermByName(normalName, languageId);
 			throw new TechnicalTermAlreadyExists();
 		} catch (NoResultException e) {
 		}
-		
+
 		try {
-			Specialty specialty = selectSpecialtyById(SpecialtyId);  // Specialty ist immer definiert durch Combolist, "leere" Specialty ist specialtyId = 1 (vorher in DB injizieren)
+			Specialty specialty = selectSpecialtyById(SpecialtyId); // Specialty
+																	// ist immer
+																	// definiert
+																	// durch
+																	// Combolist,
+																	// "leere"
+																	// Specialty
+																	// ist
+																	// specialtyId
+																	// = 1
+																	// (vorher
+																	// in DB
+																	// injizieren)
 			TechnicalTerm technicalTerm = new TechnicalTerm();
 			technicalTerm.setSpecialty(specialty);
 			Translations translation = new Translations(name, normalName, description, language, technicalTerm);
@@ -59,14 +82,14 @@ public class TermBO {
 	public Specialty createSpecialty(String name, String description, int languageId) {
 
 		Languages language = languageBO.selectLanguageById(languageId);
-		String normalName = PersistenceUtil.convertSpecialChar(name);		
-		
+		String normalName = PersistenceUtil.convertSpecialChar(name);
+
 		try {
 			selectSpecialtyByName(normalName, languageId);
 			throw new SpecialtyAlreadyExists();
 		} catch (NoResultException e) {
 		}
-		
+
 		Specialty specialty = new Specialty();
 		Translations translation = new Translations(name, normalName, description, language, specialty);
 		specialty.getTranslationList().add(translation);
@@ -78,19 +101,19 @@ public class TermBO {
 		Languages language = languageBO.selectLanguageById(languageId);
 		TechnicalTerm technicalTerm;
 		String newNormalName = PersistenceUtil.convertSpecialChar(newName);
-		
+
 		try {
 			technicalTerm = selectTechnicalTermById(technicalTermId);
 		} catch (NoResultException e) {
 			throw new TechnicalTermDoesNotExist();
 		}
-							
+
 		try {
 			selectTranslationWithLanguageOutOfTerm(technicalTerm, language);
 			throw new LanguageEntryInTechnicalTermAlreadyExists();
-		} catch (TranslationDoesNotExist e) {						
+		} catch (TranslationDoesNotExist e) {
 		}
-				
+
 		Translations translation = new Translations(newName, newNormalName, newDescription, language, technicalTerm);
 		return termDAO.insertTechnicalTermTranslation(technicalTerm, translation);
 
@@ -101,19 +124,19 @@ public class TermBO {
 		Languages language = languageBO.selectLanguageById(languageId);
 		Specialty specialty;
 		String newNormalName = PersistenceUtil.convertSpecialChar(newName);
-		
+
 		try {
 			specialty = selectSpecialtyById(specialtyId);
 		} catch (NoResultException e) {
 			throw new SpecialtyDoesNotExist();
 		}
-					
+
 		try {
 			selectTranslationWithLanguageOutOfTerm(specialty, language);
 			throw new LanguageEntryInSpecialtyAlreadyExists();
-		} catch (TranslationDoesNotExist e) {						
+		} catch (TranslationDoesNotExist e) {
 		}
-		
+
 		Translations translation = new Translations(newName, newNormalName, newDescription, language, specialty);
 		return termDAO.insertSpecialtyTranslation(specialty, translation);
 	}
@@ -149,7 +172,7 @@ public class TermBO {
 		} catch (NoResultException e) {
 			throw new TermDoesNotExist();
 		}
-		Translations translation = selectTranslationWithLanguageOutOfTerm(term, language);		
+		Translations translation = selectTranslationWithLanguageOutOfTerm(term, language);
 		termDAO.deleteTranslation(translation);
 	}
 
@@ -158,28 +181,30 @@ public class TermBO {
 		Languages language = languageBO.selectLanguageById(languageId);
 		Term term;
 		String newNormalName = PersistenceUtil.convertSpecialChar(newName);
-		
+
 		try {
 			term = selectTermById(termId);
 		} catch (NoResultException e) {
 			throw new TermDoesNotExist();
 		}
-		
+
 		Translations translation = selectTranslationWithLanguageOutOfTerm(term, language);
 		Translations newTranslation = new Translations(newName, newNormalName, newDescription, language, term);
 		return termDAO.updateTranslation(translation, newTranslation);
 	}
 
-	public Specialty selectSpecialtyByName(String normalName, int languageId) throws NoResultException {
+	public Specialty selectSpecialtyByName(String name, int languageId) throws NoResultException {
+		String normalName = PersistenceUtil.convertSpecialChar(name);
 		Languages language = languageBO.selectLanguageById(languageId);
 		return termDAO.selectSpecialtyByName(normalName, language);
 	}
 
-	public TechnicalTerm selectTechnicalTermByName(String normalName, int languageId) throws NoResultException {
+	public TechnicalTerm selectTechnicalTermByName(String name, int languageId) throws NoResultException {
+		String normalName = PersistenceUtil.convertSpecialChar(name);
 		Languages language = languageBO.selectLanguageById(languageId);
 		return termDAO.selectTechnicalTermByName(normalName, language);
 	}
-	
+
 	public Specialty selectSpecialtyById(int specialtyId) throws NoResultException {
 		return termDAO.selectSpecialtyById(specialtyId);
 	}
@@ -187,7 +212,7 @@ public class TermBO {
 	public TechnicalTerm selectTechnicalTermById(int specialtyId) throws NoResultException {
 		return termDAO.selectTechnicalTermById(specialtyId);
 	}
-	
+
 	public Term selectTermById(int termId) throws NoResultException {
 		return termDAO.selectTermById(termId);
 	}
@@ -195,9 +220,9 @@ public class TermBO {
 	public List<Specialty> selectAllSpecialties() {
 		return termDAO.selectAllSpecialties();
 	}
-	
+
 	public List<Translations> selectAllTermTranslations(int termId) {
-		
+
 		Term term;
 		try {
 			term = selectTermById(termId);
@@ -206,24 +231,40 @@ public class TermBO {
 		}
 		return termDAO.selectAllTermTranslations(term);
 	}
-		
+
+	public List<Translations> searchTechnicalTerms(String name) {
+
+		String normalName = PersistenceUtil.convertSpecialChar(name);
+		List<Translations> translationList = termDAO.selectTranslations(normalName);
+		List<Translations> onlyTechnicalTermTranslationList = new ArrayList<Translations>();
+		for (Translations translation : translationList) {
+			try {
+				if (selectTechnicalTermById(translation.getTerm().getId()) != null) {
+					onlyTechnicalTermTranslationList.add(translation);
+				}
+			} catch (NoResultException e) {
+			}
+		}
+		return onlyTechnicalTermTranslationList;
+	}
+
 	public boolean[] checkLetter() {
-		
+
 		boolean[] alphabet = new boolean[26];
 		String strLetter = null;
-		for(char letter = 'A'; letter <= 'Z'; letter++) {
+		for (char letter = 'A'; letter <= 'Z'; letter++) {
 			strLetter = String.valueOf(letter);
 			if (termDAO.selectLetter(strLetter).isEmpty()) {
-				alphabet[letter-65] = false;
+				alphabet[letter - 65] = false;
 			} else {
-				alphabet[letter-65] = true;
+				alphabet[letter - 65] = true;
 			}
 		}
 		return alphabet;
 	}
-	
+
 	public List<Translations> selectLetter(String letter) {
-		
+
 		return termDAO.selectLetter(letter);
 	}
 
@@ -235,16 +276,16 @@ public class TermBO {
 		} catch (NoResultException e) {
 			throw new SpecialtyDoesNotExist();
 		}
-		
+
 		TechnicalTerm technicalTerm;
 		for (int technicalTermId : technicalTermIds) {
-						
+
 			try {
 				technicalTerm = selectTechnicalTermById(technicalTermId);
 			} catch (NoResultException e) {
 				throw new TechnicalTermDoesNotExist();
 			}
-			
+
 			if (technicalTerm.getSpecialty() != null) {
 				technicalTerm.getSpecialty().getTechnicalTermsList().remove(technicalTerm);
 				// Testen ob das funktioniert!!!!!!!!!!!!
@@ -261,7 +302,7 @@ public class TermBO {
 	private Translations selectTranslationWithLanguageOutOfTerm(Term term, Languages language) {
 
 		List<Translations> translationList = term.getTranslationList();
-		for( Translations translation: translationList) {
+		for (Translations translation : translationList) {
 			if (translation.getLanguages().getId() == language.getId()) {
 				return translation;
 			}

@@ -35,8 +35,8 @@ import interactElements.ComboBoxes;
 import interactElements.SearchComboBox;
 import interactElements.SpecialtyButton;
 import panels.LetterResultPanel;
-import panels.SearchResultPanel;
-import panels.SpecialtyPanel;
+import panels.SearchResultPanelStatic;
+import panels.SpecialtyPanelStatic;
 import panels.TechnicalTermPanel;
 import repository.HistoryDAO;
 import repository.LanguageDAO;
@@ -53,8 +53,8 @@ public class Presenter {
 	private StatusBar statusBar;
 
 	private LetterResultPanel letterResultPanel;
-	private SearchResultPanel searchResultPanel;
-	private SpecialtyPanel specialtyPanel;
+	private SearchResultPanelStatic searchResultPanel;
+	private SpecialtyPanelStatic specialtyPanel;
 	private TechnicalTermPanel technicalTermPanel;
 
 	private AssignTechnicalTermToSpecialtyWindow assignTechnicalTermToSpecialtyWindow;

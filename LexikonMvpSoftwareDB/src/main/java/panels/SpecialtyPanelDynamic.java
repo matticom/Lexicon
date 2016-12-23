@@ -20,17 +20,19 @@ import model.Translations;
 import utilities.GridBagLayoutUtilities;
 import utilities.WinUtil;
 
-public class DynamicTestPanel extends JPanel {
+public class SpecialtyPanelDynamic extends JPanel {
 
 	private JPanel germanSpecialtyPanel, spanishSpecialtyPanel;
 	private int gridX, gridY;
-	private ArrayList<SpecialtyButton> specialtyButtonsDE = new ArrayList<SpecialtyButton>();
-	private ArrayList<SpecialtyButton> specialtyButtonsES = new ArrayList<SpecialtyButton>();
+	private ArrayList<SpecialtyButton> specialtyButtonsDE;
+	private ArrayList<SpecialtyButton> specialtyButtonsES;
 	private int numbersOfSpecialties;
 	private int dynamicPanelHeight;
 
-	public DynamicTestPanel(int mainFrameWidth, int mainFrameHeight, List<Specialty> specialtyList) {
+	public SpecialtyPanelDynamic(int mainFrameWidth, int mainFrameHeight, List<Specialty> specialtyList) {
 	
+		specialtyButtonsDE = new ArrayList<SpecialtyButton>();
+		specialtyButtonsES = new ArrayList<SpecialtyButton>();
 		buildUp(mainFrameWidth, mainFrameHeight, specialtyList);
 	}
 	
@@ -56,14 +58,14 @@ public class DynamicTestPanel extends JPanel {
 		numbersOfSpecialties = specialtyList.size();
 		int buttonWidth = (int) (displaySize.getWidth() * 200/1920);
 		int buttonHeight = (int) (displaySize.getHeight() * 30/1200);
-		int insetX = (int) (displaySize.getWidth() * 20/1920);
+		int inset = (int) (displaySize.getWidth() * 20/1920);
 		
 		createSpecialtyButtons(specialtyList, buttonWidth, buttonHeight);
-		calculateGrid(numbersOfSpecialties, mainFrameWidth/2, insetX, buttonWidth, buttonHeight);
-		resizeSpecialtyButton(numbersOfSpecialties, insetX);
+		calculateGrid(numbersOfSpecialties, mainFrameWidth/2, inset, buttonWidth, buttonHeight);
+		arrangeSpecialtyButton(numbersOfSpecialties, inset);
 		
 		this.setPreferredSize(new Dimension(mainFrameWidth, dynamicPanelHeight));
-		this.setMinimumSize(new Dimension(400, dynamicPanelHeight));
+		this.setMinimumSize(new Dimension(0, dynamicPanelHeight));
 		this.setMaximumSize(new Dimension((int) displaySize.getWidth(), dynamicPanelHeight));
 	}
 	
@@ -88,28 +90,27 @@ public class DynamicTestPanel extends JPanel {
 		}
 	}
 
-	private void calculateGrid(int numbersOfButtons, int panelWidth, int insetX, int buttonWidth, int buttonHeight) {
+	private void calculateGrid(int numbersOfButtons, int panelWidth, int inset, int buttonWidth, int buttonHeight) {
 		
-		gridX = panelWidth / (buttonWidth + 2*insetX) ;
+		gridX = panelWidth / (buttonWidth + 2*inset) ;
 		gridY = numbersOfButtons / gridX;
 		
 		if (numbersOfButtons % gridX != 0) {
 			gridY++;
 		}
-		dynamicPanelHeight = gridY*buttonHeight + gridY*2*insetX;
+		dynamicPanelHeight = gridY*buttonHeight + gridY*2*inset;
 	}
 
-	private void resizeSpecialtyButton(int numbersOfSpecialties, int StdInset) {
+	private void arrangeSpecialtyButton(int numbersOfSpecialties, int inset) {
 		
 		int posX = 1;
 		int posY = 1;
 		int weightY = 0;
 		
-		
 		for (int i = 0; i < numbersOfSpecialties; i++) {
 			
-			GridBagLayoutUtilities.addGB(germanSpecialtyPanel, specialtyButtonsDE.get(i), posX, posY, 0, weightY, GridBagConstraints.NORTH, new Insets(StdInset, StdInset, StdInset, StdInset));
-			GridBagLayoutUtilities.addGB(spanishSpecialtyPanel, specialtyButtonsES.get(i), posX, posY, 0, weightY, GridBagConstraints.NORTH, new Insets(StdInset, StdInset, StdInset, StdInset));
+			GridBagLayoutUtilities.addGB(germanSpecialtyPanel, specialtyButtonsDE.get(i), posX, posY, 0, weightY, GridBagConstraints.NORTH, new Insets(inset, inset, inset, inset));
+			GridBagLayoutUtilities.addGB(spanishSpecialtyPanel, specialtyButtonsES.get(i), posX, posY, 0, weightY, GridBagConstraints.NORTH, new Insets(inset, inset, inset, inset));
 			posX++;
 			
 			if (posX > gridX) {
@@ -131,7 +132,6 @@ public class DynamicTestPanel extends JPanel {
 			specialtyButtonsDE.get(i).addActionListener(l);
 			specialtyButtonsES.get(i).addActionListener(l);
 		}
-
 	}
 	
 	public int getDynamicPanelHeight() {

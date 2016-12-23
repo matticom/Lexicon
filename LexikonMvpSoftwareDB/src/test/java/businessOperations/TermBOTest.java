@@ -410,7 +410,7 @@ public class TermBOTest {
 	}
 	
 	@Test(expected = NoResultException.class)
-	public void selectTechnicalTermByIdWithNoResultExceptionTest() {
+	public void selectTechnicalTermById_NoResultExceptionTest() {
 
 		entitymanager.getTransaction().begin();
 		TechnicalTerm noSuchTechnicalTerm = termBOTest.selectTechnicalTermById(220);
@@ -470,6 +470,17 @@ public class TermBOTest {
 		List<Translations> termList = termBOTest.selectAllTermTranslations(300);
 		entitymanager.getTransaction().commit();
 	}
+	
+	@Test
+	public void searchTechnicalTermsTest() throws Exception {
+		entitymanager.getTransaction().begin();
+		List<Translations> technicalTermTranslationList = termBOTest.searchTechnicalTerms("%on%");
+		entitymanager.getTransaction().commit();
+		
+		assertThat(1, is(equalTo(technicalTermTranslationList.size())));
+		assertThat("Conglomerante", is(equalTo(technicalTermTranslationList.get(0).getNormalName())));	
+	}
+	
 	
 	@Test
 	public void selectLetterTest() throws Exception {

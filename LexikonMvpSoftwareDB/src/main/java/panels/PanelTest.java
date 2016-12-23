@@ -6,6 +6,8 @@ import java.awt.Dimension;
 
 import javax.swing.JPanel;
 
+import eventHandling.PanelEventTransferObject;
+
 public class PanelTest extends MyPanel {
 
 	private JPanel 	container, start, links, rechts;
@@ -38,6 +40,12 @@ public class PanelTest extends MyPanel {
 		container.add(rechts, BorderLayout.LINE_END);
 		
 		this.getViewport().add(container);
+	}
+
+	@Override
+	public void updatePanel(PanelEventTransferObject e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

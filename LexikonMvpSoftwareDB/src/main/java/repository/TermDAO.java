@@ -198,6 +198,18 @@ public class TermDAO {
 
 		return translationResult;
 	}
+		
+	public List<Translations> selectTranslations(String normalName) {
+
+		CriteriaBuilder criteriaBuilder = entitymanager.getCriteriaBuilder();
+		CriteriaQuery<Translations> criteriaQuery = criteriaBuilder.createQuery(Translations.class);
+
+		Root<Translations> translation = criteriaQuery.from(Translations.class);
+		Predicate whereFilter = criteriaBuilder.like(criteriaBuilder.lower(translation.get(Translations_.normalName)), normalName.toLowerCase());
+		criteriaQuery.select(translation).where(whereFilter);
+
+		return entitymanager.createQuery(criteriaQuery).getResultList();
+	}
 	
 	public List<Translations> selectLetter(String letter) {
 

@@ -10,32 +10,30 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
-public class WinUtil
-{
+public class WinUtil {
 
-	public static enum MenuItemType
-	{
+	public static enum MenuItemType {
 		ITEM_PLAIN, ITEM_CHECK, ITEM_RADIO
 	}
-	
-	public static final Color ULTRA_LIGHT_GRAY = createColor(200, 200, 200);
-	public static final Color DARKER_GRAY = createColor(80, 80, 80);
-	public static final Color ULTRA_DARK_GRAY = createColor(50, 50, 50);
-	public static final Color LIGHT_BLACK = createColor(30, 30, 30);
-	public static final Color COOL_BLUE = createColor(0, 178, 238);
-	public static final Color STRONG_ORANGE = createColor(255, 140, 0);
+
+	public static final Color ULTRA_LIGHT_GRAY = new Color(200, 200, 200);
+	public static final Color DARKER_GRAY = new Color(80, 80, 80);
+	public static final Color ULTRA_DARK_GRAY = new Color(50, 50, 50);
+	public static final Color LIGHT_BLACK = new Color(30, 30, 30);
+	public static final Color COOL_BLUE = new Color(0, 178, 238);
+	public static final Color STRONG_ORANGE = new Color(255, 140, 0);
 
 	// Verhinder, dass eine Instanz dieser Klasse erstellt werden kann.
 	// Diese Klasse enthält nur öffentliche und statische Methoden.
-	private WinUtil()
-	{
+	private WinUtil() {
 
 	}
 
 	/**
 	 * <li><b><i>createMenu</i></b> <br>
 	 * <br>
-	 * public JMenu createMenu(JMenuBar menuBar, String menuText, String menuName, int shortKey) <br>
+	 * public JMenu createMenu(JMenuBar menuBar, String menuText, String
+	 * menuName, int shortKey) <br>
 	 * <br>
 	 * Erstellt einen Menü. <br>
 	 * <br>
@@ -51,8 +49,7 @@ public class WinUtil
 	 * @return Menü.
 	 */
 
-	public static JMenu createMenu(JMenuBar menuBar, String menuText, String menuName, int shortKey)
-	{
+	public static JMenu createMenu(JMenuBar menuBar, String menuText, String menuName, int shortKey) {
 
 		JMenu menu = null;
 
@@ -72,11 +69,11 @@ public class WinUtil
 		return menu;
 	}
 
-	
 	/**
 	 * <li><b><i>createMenuItem</i></b> <br>
 	 * <br>
-	 * public JMenuItem createMenuItem(JMenu menu, String miName, MenuItemType miType, ActionListener actionListener,<br>
+	 * public JMenuItem createMenuItem(JMenu menu, String miName, MenuItemType
+	 * miType, ActionListener actionListener,<br>
 	 * &nbsp String miText, ImageIcon icon, int shortKey, String miToolTip) <br>
 	 * <br>
 	 * Erstellt einen Menüeintrag. <br>
@@ -89,26 +86,26 @@ public class WinUtil
 	 * @param miType
 	 *            - Der Typ des Menüeintrags <b>MenuItemType</b>.
 	 * @param actionListener
-	 *            - Der ActionListener, der verwendet werden soll, wenn der Menüeintrag ausgewählt wurde oder <b>null</b>.
+	 *            - Der ActionListener, der verwendet werden soll, wenn der
+	 *            Menüeintrag ausgewählt wurde oder <b>null</b>.
 	 * @param miText
 	 *            - Der Text des Menüeintrags.
 	 * @param icon
-	 *            - Symbol, welches links vor dem Text angezeigt werden soll oder <b>null</b>.
+	 *            - Symbol, welches links vor dem Text angezeigt werden soll
+	 *            oder <b>null</b>.
 	 * @param shortKey
 	 *            - Optionales Tastaturkürzel oder <b>0</b>.
 	 * @param miToolTip
 	 *            - Optionaler Text für den Tooltip oder <b>null</b>.
 	 * @return Menüeintrag.
 	 */
-	public static JMenuItem createMenuItem(JMenu menu, String miName, MenuItemType miType, ActionListener actionListener, String miText, ImageIcon icon,
-			int shortKey, String miToolTip)
-	{
+	public static JMenuItem createMenuItem(JMenu menu, String miName, MenuItemType miType, ActionListener actionListener, String miText,
+			ImageIcon icon, int shortKey, String miToolTip) {
 
 		// Menü Item erstellen
 		JMenuItem menuItem = new JMenuItem();
 
-		switch (miType)
-		{
+		switch (miType) {
 		case ITEM_RADIO:
 			menuItem = new JRadioButtonMenuItem();
 			break;
@@ -147,7 +144,8 @@ public class WinUtil
 	/**
 	 * <li><b><i>createSubMenu</i></b> <br>
 	 * <br>
-	 * public JMenu createSubMenu(JMenu mainMenu, String menuText, String menuName, int shortKey) <br>
+	 * public JMenu createSubMenu(JMenu mainMenu, String menuText, String
+	 * menuName, int shortKey) <br>
 	 * <br>
 	 * Erstellt ein Untermenü. <br>
 	 * <br>
@@ -162,8 +160,7 @@ public class WinUtil
 	 *            - Optionales Tastaturkürzel oder <b>0</b>.
 	 * @return - Untermenü.
 	 */
-	public static JMenu createSubMenu(JMenu mainMenu, String menuText, String menuName, int shortKey)
-	{
+	public static JMenu createSubMenu(JMenu mainMenu, String menuText, String menuName, int shortKey) {
 
 		// Hinzufügen des Menüs als Untermenü des Hauptmenüs
 		JMenu menu = new JMenu();
@@ -180,12 +177,13 @@ public class WinUtil
 
 	}
 
-	
 	/**
 	 * <li><b><i>createButton</i></b> <br>
 	 * <br>
-	 * public JButton createButton(String buttonText, int x, int y, int width, int height, Border border, Color background, <br>
-	 * &nbsp ActionListener listener, String btnName, String btnToolTip, boolean setOpaque, boolean setFocusPainted, Color foreground) <br>
+	 * public JButton createButton(String buttonText, int x, int y, int width,
+	 * int height, Border border, Color background, <br>
+	 * &nbsp ActionListener listener, String btnName, String btnToolTip, boolean
+	 * setOpaque, boolean setFocusPainted, Color foreground) <br>
 	 * <br>
 	 * Erstellt einen Button. <br>
 	 * <br>
@@ -203,7 +201,7 @@ public class WinUtil
 	 * @param border
 	 *            - Optionale Umrahmung des Buttons <b>null</b>.
 	 * @param background
-	 *            - Optionale Setzt Hintergrundfarbe <b>null</b>.      
+	 *            - Optionale Setzt Hintergrundfarbe <b>null</b>.
 	 * @param shortKey
 	 *            - Optionale Hintergrundfarbe des Buttons <b>null</b>.
 	 * @param actionListener
@@ -217,12 +215,11 @@ public class WinUtil
 	 * @param setFocusPainted
 	 *            - Soll der Focus angezeigt werden
 	 * @param foreground
-	 *            - Optionale Setzt Schriftfarbe <b>null</b>.     
+	 *            - Optionale Setzt Schriftfarbe <b>null</b>.
 	 * @return - JButton.
 	 */
-	public static JButton createButton(String buttonText, int x, int y, int width, int height, Border border, Color background, ActionListener actionListener,
-			String btnName, String btnToolTip, boolean setOpaque, boolean setFocusPainted, Color foreground)
-	{
+	public static JButton createButton(String buttonText, int x, int y, int width, int height, Border border, Color background,
+			ActionListener actionListener, String btnName, String btnToolTip, boolean setOpaque, boolean setFocusPainted, Color foreground) {
 
 		// Weitere Formatierungen
 		//
@@ -235,50 +232,68 @@ public class WinUtil
 		// new EmptyBorder(0, 5, 0, 5)
 
 		JButton btn = new JButton(buttonText);
-		
-		if(x != 0 && y != 0 && width != 0 && height != 0)
+
+		if (x != 0 && y != 0 && width != 0 && height != 0)
 			btn.setBounds(x, y, width, height);
-		
+
 		if (border != null)
 			btn.setBorder(border);
-		
+
 		if (background != null)
 			btn.setBackground(background);
-		
+
 		btn.addActionListener(actionListener);
 		btn.setName(btnName);
 		btn.setToolTipText(btnToolTip);
 		btn.setOpaque(setOpaque);
 		btn.setFocusPainted(setFocusPainted);
-		
+
 		if (foreground != null)
 			btn.setForeground(foreground);
-		
+
 		return btn;
 
 	}
-	
+
 	public static void configButton(JButton button, int width, int height, Border border, Color foreground, Color background) {
-		
+
 		if (border != null)
 			button.setBorder(border);
-		
+
 		if (background != null)
 			button.setBackground(background);
-		
+
 		button.setOpaque(true);
 		button.setFocusPainted(false);
-		
+
 		if (foreground != null)
 			button.setForeground(foreground);
 
 		button.setPreferredSize(new Dimension(width, height));
 	}
+	
+	public static void configStaticButton(JButton button, int x, int y, int width, int height, Border border, Color foreground, Color background) {
+
+		if (border != null)
+			button.setBorder(border);
+
+		if (background != null)
+			button.setBackground(background);
+
+		button.setOpaque(true);
+		button.setFocusPainted(false);
+
+		if (foreground != null)
+			button.setForeground(foreground);
+
+		button.setBounds(x, y, width, height);
+	}
 
 	/**
 	 * <li><b><i>createLabel</i></b> <br>
 	 * <br>
-	 * public JLabel createLabel(String LblText, int x, int y, int width, int height, Border border, Color background,<br>
+	 * public JLabel createLabel(String LblText, int x, int y, int width, int
+	 * height, Border border, Color background,<br>
 	 * &nbsp String lblName, String lblToolTip, Color foreground) <br>
 	 * <br>
 	 * Erstellt einen Button. <br>
@@ -297,7 +312,7 @@ public class WinUtil
 	 * @param border
 	 *            - Optionale Umrahmung des Labels <b>null</b>.
 	 * @param background
-	 *            - Optionale Setzt Hintergrundfarbe <b>null</b>.     
+	 *            - Optionale Setzt Hintergrundfarbe <b>null</b>.
 	 * @param shortKey
 	 *            - Optionale Hintergrundfarbe des Labels <b>null</b>.
 	 * @param lblName
@@ -308,32 +323,73 @@ public class WinUtil
 	 *            - Optionale Setzt Schriftfarbe <b>null</b>.
 	 * @return - JLabel.
 	 */
-	public static JLabel createLabel(String LblText, int x, int y, int width, int height, Border border, Color background, 
-										String lblName, String lblToolTip, Color foreground)
-	{
+	public static JLabel createLabel(String LblText, int x, int y, int width, int height, Border border, Color background, String lblName,
+			String lblToolTip, Color foreground) {
 
 		JLabel lbl = new JLabel(LblText);
-		
-		if(x != 0 && y != 0 && width != 0 && height != 0)
-		lbl.setBounds(x, y, width, height);
-		
+
+		if (x != 0 && y != 0 && width != 0 && height != 0)
+			lbl.setBounds(x, y, width, height);
+
 		if (border != null)
 			lbl.setBorder(border);
-		
+
 		if (background != null)
 			lbl.setBackground(background);
-		
+
 		lbl.setName(lblName);
 		lbl.setToolTipText(lblToolTip);
-		
+
 		if (foreground != null)
 			lbl.setForeground(foreground);
-		
+
 		return lbl;
 
 	}
+
+	public static void configLabel(JLabel label, int width, int height, Color foreground, Color background, int fontSize, int fontStyle) {
+
+		if (background != null)
+			label.setBackground(background);
+
+		label.setOpaque(true);
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setFont(label.getFont().deriveFont(fontStyle, fontSize));
+
+		if (foreground != null)
+			label.setForeground(foreground);
+		if (width != 0 && height != 0) {
+			label.setPreferredSize(new Dimension(width, height));
+		}
+	}
 	
-	
+	public static void configStaticLabel(JLabel label, int x, int y, int width, int height, Color foreground, Color background, int fontSize, int fontStyle) {
+
+		if (background != null)
+			label.setBackground(background);
+
+		label.setOpaque(true);
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setFont(label.getFont().deriveFont(fontStyle, fontSize));
+
+		if (foreground != null)
+			label.setForeground(foreground);
+		label.setBounds(x, y, width, height);
+	}
+
+	public static void configSeparator(JSeparator jSeparator, int width, int height, Color foreground, Color background) {
+
+		if (background != null)
+			jSeparator.setBackground(background);
+
+		jSeparator.setOpaque(true);
+
+		if (foreground != null)
+			jSeparator.setForeground(foreground);
+
+		jSeparator.setPreferredSize(new Dimension(width, height));
+	}
+
 	/**
 	 * <li><b><i>createColor</i></b> <br>
 	 * <br>
@@ -350,11 +406,5 @@ public class WinUtil
 	 *            - Blau-Anteil der Farbe. <b>0-255</b>.
 	 * @return Farbe als Color-Objekt.
 	 */
-	public static Color createColor(int R, int G, int B)
-	{
-		float[] HSBArray = new float[3];
-		
-		Color.RGBtoHSB(R,G,B,HSBArray);
-		return Color.getHSBColor(HSBArray[0], HSBArray[1], HSBArray[2]);
-	}
+
 }

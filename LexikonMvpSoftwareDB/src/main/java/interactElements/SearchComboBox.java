@@ -44,22 +44,18 @@ public class SearchComboBox extends MyComboBox {
 	public void updatePanel(PanelEventTransferObject e) {
 		
 		this.setBounds((int)(e.getDisplaySize().width*0.0104), (int) (e.getDisplaySize().height*0.0183), (int) (e.getDisplaySize().width*0.1354), (int) (e.getDisplaySize().height*0.0208));
-//		this.setBounds((int)(0.031*headPanelWidth), (int)(0.22*headPanelHeight), (int)(0.2*headPanelWidth), (int)(0.25*headPanelHeight));
-//		int fontResize = (int) (0.14 * headPanelHeight - 14);
-//		this.getEditor().getEditorComponent().setFont(this.getEditor().getEditorComponent().getFont().deriveFont(Font.BOLD, 13 + fontResize));
 		writeSearchWordsFromDbToHistory(e.getHistory(), 12);
 		((JTextComponent) this.getEditor().getEditorComponent()).setText("");
 	}
 
 	private void writeSearchWordsFromDbToHistory(List<String> history, int fontResize) {
-		// bei Programmstart wird Suchhistory aus der DB ausgelesen und in
-		// Combobox eingefügt
+		
 		int rows = history.size();
 		searchComboBoxDefaultModel.removeAllElements();
 
 		try {
 			for (int row = 0; row < rows; row++) {
-				searchComboBoxDefaultModel.addElement(new ListItem(row, new ExtendedListItem(history.get(row), 13 + fontResize)));
+				searchComboBoxDefaultModel.addElement(new ListItem(row, new ExtendedListItem(history.get(row), fontResize)));
 			}
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null, "getHistoryStrings: " + ex.getMessage(), "Fehler", JOptionPane.ERROR_MESSAGE);
@@ -74,8 +70,4 @@ public class SearchComboBox extends MyComboBox {
 	public void setSearchComboBoxFocusListener(FocusListener l) {
 		this.getEditor().getEditorComponent().addFocusListener(l);
 	}
-
-	
-	
-	
 }

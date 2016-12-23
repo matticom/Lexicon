@@ -1,6 +1,5 @@
 package eventHandling;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.util.List;
 
@@ -8,7 +7,7 @@ import javax.swing.JPanel;
 
 import model.Specialty;
 import model.TechnicalTerm;
-import panels.DynamicTestPanel;
+import panels.SpecialtyPanelDynamic;
 import panels.MyPanel;
 
 public class PanelEventTransferObject {
@@ -23,23 +22,13 @@ public class PanelEventTransferObject {
 	List<String> history;
 	ChosenLanguage currentLanguage;
 	boolean[] availableLetters;
-	List<Specialty> specialtyList;
 	
 	Specialty currentSpecialty;
 	TechnicalTerm currentTechnicalTerm;
 	
-	DynamicTestPanel dynamicTestPanel;
+	JPanel dynamicPanel;
 	
-	public DynamicTestPanel getDynamicTestPanel() {
-		return dynamicTestPanel;
-	}
 
-	public void setDynamicTestPanel(DynamicTestPanel dynamicTestPanel) {
-		this.dynamicTestPanel = dynamicTestPanel;
-	}
-
-	
-	
 	
 	public MyPanel getSource() {
 		return source;
@@ -104,14 +93,6 @@ public class PanelEventTransferObject {
 	public void setHistory(List<String> history) {
 		this.history = history;
 	}
-	
-	public List<Specialty> getSpecialtyList() {
-		return specialtyList;
-	}
-
-	public void setSpecialtyList(List<Specialty> specialtyList) {
-		this.specialtyList = specialtyList;
-	}
 
 	public Specialty getCurrentSpecialty() {
 		return currentSpecialty;
@@ -129,7 +110,15 @@ public class PanelEventTransferObject {
 		this.currentTechnicalTerm = currentTechnicalTerm;
 	}
 
+	public JPanel getDynamicPanel() {
+		return dynamicPanel;
+	}
 
+	public void setDynamicPanel(JPanel dynamicPanel) {
+		this.dynamicPanel = dynamicPanel;
+	}
+
+	
 	
 
 		

@@ -56,18 +56,24 @@ public class StatusBar extends JPanel implements Updatable {
 	private void initialize() {
 				
 		// Buttons
-		startpageBtn = WinUtil.createButton(languageBundle.getString("startpageBtn"), 0, 0, 0, 0, new EmptyBorder(0, 5, 0, 5), Color.DARK_GRAY, null, null, null, false,
-				false, Color.WHITE);
-		specialtyBtn = WinUtil.createButton(specialtyDE, 0, 0, 0, 0, new EmptyBorder(0, 5, 0, 5), Color.DARK_GRAY, null, null, null, false, false, Color.WHITE);
+		startpageBtn = new JButton(languageBundle.getString("startpageBtn"));
+		WinUtil.configStaticButton(startpageBtn, 0, 0, 0, 0, new EmptyBorder(0, 5, 0, 5), Color.WHITE, Color.DARK_GRAY);
+		
+		specialtyBtn = new JButton(specialtyDE);
+		WinUtil.configStaticButton(specialtyBtn, 0, 0, 0, 0, new EmptyBorder(0, 5, 0, 5), Color.WHITE, Color.DARK_GRAY);
 		specialtyBtn.setEnabled(false);
 		specialtyBtn.setFocusable(false);
-		technicalTermBtn = WinUtil.createButton(technicalTermDE, 0, 0, 0, 0, new EmptyBorder(0, 5, 0, 5), Color.DARK_GRAY, null, null, null, false, false, Color.WHITE);
+		
+		technicalTermBtn = new JButton(technicalTermDE);
+		WinUtil.configStaticButton(technicalTermBtn, 0, 0, 0, 0, new EmptyBorder(0, 5, 0, 5), Color.WHITE, Color.DARK_GRAY);
 		technicalTermBtn.setEnabled(false);
 		technicalTermBtn.setFocusable(false);
-		// Labels
-		specialtyTierLbl = WinUtil.createLabel(" >> ", 0, 0, 0, 0, new EmptyBorder(0, 0, 0, 0), Color.DARK_GRAY, " >> ", " >> ", WinUtil.ULTRA_LIGHT_GRAY);
-		technicalTermTierLbl = WinUtil.createLabel(" >> ", 0, 0, 0, 0, new EmptyBorder(0, 0, 0, 0), Color.DARK_GRAY, " >> ", " >> ", WinUtil.ULTRA_LIGHT_GRAY);
 		
+		specialtyTierLbl = new JLabel(" >> ");
+		WinUtil.configStaticLabel(specialtyTierLbl, 0, 0, 0, 0, WinUtil.ULTRA_LIGHT_GRAY, Color.DARK_GRAY, 12, Font.PLAIN);
+		technicalTermTierLbl = new JLabel(" >> ");
+		WinUtil.configStaticLabel(technicalTermTierLbl, 0, 0, 0, 0, WinUtil.ULTRA_LIGHT_GRAY, Color.DARK_GRAY, 12, Font.PLAIN);
+				
 		p1 = new JPanel(new BorderLayout(), true);
 		p1.setPreferredSize(new Dimension(200, 21));
 		p1.setBackground(Color.DARK_GRAY);
