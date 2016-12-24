@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 
 import model.Specialty;
 import model.TechnicalTerm;
-import panels.SpecialtyPanelDynamic;
+import panels.TermPanelDynamic;
 import panels.MyPanel;
 
 public class PanelEventTransferObject {

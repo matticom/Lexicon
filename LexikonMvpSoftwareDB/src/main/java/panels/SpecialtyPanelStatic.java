@@ -29,10 +29,10 @@ public class SpecialtyPanelStatic extends MyPanel {
 	private JPanel staticElementsPanel;
 	private JLabel welcomeLabel, introductionLabel, specialtyLabelDE, specialtyLabelES;
 
-	private SpecialtyPanelDynamic dynamicPanel;
+	private TermPanelDynamic dynamicPanel;
 
 	
-	public SpecialtyPanelStatic(ResourceBundle languageBundle, double MAINFRAME_DISPLAY_RATIO, SpecialtyPanelDynamic dynamicPanel) {
+	public SpecialtyPanelStatic(ResourceBundle languageBundle, double MAINFRAME_DISPLAY_RATIO, TermPanelDynamic dynamicPanel) {
 
 		super(languageBundle, MAINFRAME_DISPLAY_RATIO);
 		this.dynamicPanel = dynamicPanel;
@@ -95,7 +95,7 @@ public class SpecialtyPanelStatic extends MyPanel {
 			languageBundle = ResourceBundle.getBundle("languageBundles.lexikon", new Locale("es"));
 		}
 		changeLanguage();
-		resizePanelStructur((SpecialtyPanelDynamic)e.getDynamicPanel(), e.getMainFrameWidth());	
+		resizePanelStructur((TermPanelDynamic)e.getDynamicPanel(), e.getMainFrameWidth());	
 	}
 	
 	private void changeLanguage() {
@@ -106,7 +106,7 @@ public class SpecialtyPanelStatic extends MyPanel {
 		specialtyLabelES.setText(languageBundle.getString("subjectLblES"));
 	}
 	
-	private void resizePanelStructur(SpecialtyPanelDynamic newDynamicPanel, int mainFrameWidth) {
+	private void resizePanelStructur(TermPanelDynamic newDynamicPanel, int mainFrameWidth) {
 		
 		contentPanel.remove(staticElementsPanel);
 		contentPanel.remove(dynamicPanel);

@@ -23,7 +23,7 @@ import model.Translations;
 import utilities.GridBagLayoutUtilities;
 import utilities.WinUtil;
 
-public class SearchResultPanelDynamic extends JPanel {
+public class SearchResultPanelDynamic extends JPanel implements DynamicPanel {
 	
 	private JPanel germanPanel, spanishPanel;
 	
