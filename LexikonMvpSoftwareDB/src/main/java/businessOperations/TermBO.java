@@ -232,6 +232,13 @@ public class TermBO {
 		return termDAO.selectAllTermTranslations(term);
 	}
 
+	public List<TechnicalTerm> selectAllTechnicalTermsOfSpecialty(int specialtyId) {
+		Specialty specialty = selectSpecialtyById(specialtyId);
+		return specialty.getTechnicalTermsList();
+		
+	}
+
+	
 	public List<Translations> searchTechnicalTerms(String name) {
 
 		String normalName = PersistenceUtil.convertSpecialChar(name);

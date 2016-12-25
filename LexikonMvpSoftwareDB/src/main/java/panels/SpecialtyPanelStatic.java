@@ -52,6 +52,7 @@ public class SpecialtyPanelStatic extends MyPanel {
 	
 	private void initializePanels() {
 		contentPanel = new JPanel();
+		contentPanel.setBackground(Color.DARK_GRAY);
 		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 		contentPanel.setPreferredSize(new Dimension((int) (mainFrameWidth), 500));
 
@@ -73,15 +74,16 @@ public class SpecialtyPanelStatic extends MyPanel {
 		GridBagLayoutUtilities.addGB(staticElementsPanel, jSeparator, 1, 2, 2, 1);
 
 		introductionLabel = new JLabel(languageBundle.getString("introductionLbl"));
-		WinUtil.configLabel(introductionLabel, (int) (displaySize.getWidth() * 1100/1920), (int) (displaySize.getHeight() * 100/1200), WinUtil.ULTRA_LIGHT_GRAY, WinUtil.COOL_BLUE, 18, Font.PLAIN);
+		WinUtil.configLabel(introductionLabel, (int) (displaySize.getWidth() * 1100/1920), (int) (displaySize.getHeight() * 100/1200), WinUtil.ULTRA_LIGHT_GRAY, Color.GRAY, 18, Font.PLAIN);
 		GridBagLayoutUtilities.addGB(staticElementsPanel, introductionLabel, 1, 3, 2, 1, new Insets((int) (displaySize.getHeight() * 10/1200), 0, (int) (displaySize.getHeight() * 20/1200), 0));
-
+		introductionLabel.setBorder(new EmptyBorder(5, 80, 5, 80));
+		
 		specialtyLabelDE = new JLabel(languageBundle.getString("subjectLblDE"));
-		WinUtil.configLabel(specialtyLabelDE, (int)(displaySize.getWidth() * 200/1920), (int)(displaySize.getHeight() * 30/1200), Color.WHITE, Color.BLUE, 18, Font.PLAIN);
+		WinUtil.configLabel(specialtyLabelDE, (int)(displaySize.getWidth() * 200/1920), (int)(displaySize.getHeight() * 30/1200), Color.WHITE, Color.DARK_GRAY, 18, Font.PLAIN);
 		GridBagLayoutUtilities.addGB(staticElementsPanel, specialtyLabelDE, 1, 4, 1, 1, GridBagConstraints.BOTH, 1, 1, new Insets(0, 0, 0, 0));
 
 		specialtyLabelES = new JLabel(languageBundle.getString("subjectLblES"));
-		WinUtil.configLabel(specialtyLabelES, (int)(displaySize.getWidth() * 200/1920), (int)(displaySize.getHeight() * 30/1200), Color.WHITE, Color.CYAN, 18, Font.PLAIN);
+		WinUtil.configLabel(specialtyLabelES, (int)(displaySize.getWidth() * 200/1920), (int)(displaySize.getHeight() * 30/1200), Color.WHITE, Color.DARK_GRAY, 18, Font.PLAIN);
 		GridBagLayoutUtilities.addGB(staticElementsPanel, specialtyLabelES, 2, 4, 1, 1, GridBagConstraints.BOTH, 1, 1, new Insets(0, 0, 0, 0));
 	}
 

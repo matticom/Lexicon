@@ -58,6 +58,7 @@ public class TechnicalTermPanelStatic extends MyPanel {
 	
 	private void initializePanels() {
 		contentPanel = new JPanel();
+		contentPanel.setBackground(Color.DARK_GRAY);
 		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 		contentPanel.setPreferredSize(new Dimension((int)(mainFrameWidth), 500));
 
@@ -82,11 +83,11 @@ public class TechnicalTermPanelStatic extends MyPanel {
 	protected void createLabelsExtends() {
 		
 		germanLabel = new JLabel(languageBundle.getString("miDeutsch"));
-		WinUtil.configLabel(germanLabel, (int)(displaySize.getWidth() * 300/1920), (int)(displaySize.getHeight() * 30/1200), WinUtil.COOL_BLUE, Color.MAGENTA, 18, Font.BOLD);
+		WinUtil.configLabel(germanLabel, (int)(displaySize.getWidth() * 300/1920), (int)(displaySize.getHeight() * 30/1200), WinUtil.COOL_BLUE, Color.DARK_GRAY, 18, Font.BOLD);
 		GridBagLayoutUtilities.addGB(staticElementsPanel, germanLabel, 1, 3, 2, 1, GridBagConstraints.BOTH, 1, 1, new Insets((int)(displaySize.getHeight() * 20/1200), 0, 0, 0));
 		
 		spanishLabel = new JLabel(languageBundle.getString("miSpanisch"));
-		WinUtil.configLabel(spanishLabel, (int)(displaySize.getWidth() * 300/1920), (int)(displaySize.getHeight() * 30/1200), WinUtil.STRONG_ORANGE, Color.YELLOW, 18, Font.BOLD);
+		WinUtil.configLabel(spanishLabel, (int)(displaySize.getWidth() * 300/1920), (int)(displaySize.getHeight() * 30/1200), WinUtil.STRONG_ORANGE, Color.DARK_GRAY, 18, Font.BOLD);
 		GridBagLayoutUtilities.addGB(staticElementsPanel, spanishLabel, 3, 3, 2, 1, GridBagConstraints.BOTH, 1, 1, new Insets((int)(displaySize.getHeight() * 20/1200), 0, 0, 0));
 	}
 	

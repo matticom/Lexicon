@@ -56,6 +56,7 @@ import model.Term;
 import panels.TermPanelDynamic;
 import panels.PanelTest;
 import panels.SearchResultPanelDynamic;
+import panels.SearchResultPanelStatic;
 import panels.TechnicalTermPanelStatic;
 import panels.SpecialtyPanelStatic;
 import repository.LanguageDAO;
@@ -111,7 +112,7 @@ public class HeadBarTest {
 				System.exit(0);
 			}
 		});
-		mainFrame.setLocationRelativeTo(null);
+		mainFrame.setLocationByPlatform(true);
 
 		initializeDB();
 	}
@@ -142,15 +143,15 @@ public class HeadBarTest {
 		
 		PanelCreator panelCreator = new PanelCreator();
 		
-		TermPanelDynamic technicalTermDynamicPanel = new TermPanelDynamic(mainFrameWidth, mainFrameHeight, termBOTest.selectAllSpecialties(), "SpecialtyName");		
-		TermPanelDynamic specialtyDynamicPanel = new TermPanelDynamic(mainFrameWidth, mainFrameHeight, termBOTest.selectAllSpecialties(), null);
+		TermPanelDynamic technicalTermDynamicPanel = new TermPanelDynamic(mainFrameWidth, mainFrameHeight, termBOTest.selectAllTechnicalTermsOfSpecialty(3), "SpecialtyName");		
+		TermPanelDynamic specialtyDynamicPanel = new TermPanelDynamic(mainFrameWidth, mainFrameHeight, termBOTest.selectAllSpecialties());
 		SearchResultPanelDynamic searchDynamicPanel = new SearchResultPanelDynamic(mainFrameWidth, mainFrameHeight, termBOTest.searchTechnicalTerms("a%"), "Hallo Suche");
 		SearchResultPanelDynamic letterDynamicPanel = new SearchResultPanelDynamic(mainFrameWidth, mainFrameHeight, termBOTest.searchTechnicalTerms("A%"), ".A%");
 		
 		TechnicalTermPanelStatic technicalTermPanel = (TechnicalTermPanelStatic)panelCreator.createPanel(PanelUpdateObjects.TechnicalTermPanel, ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")), MAINFRAME_DISPLAY_RATIO, technicalTermDynamicPanel);
 		SpecialtyPanelStatic specialtyPanel = (SpecialtyPanelStatic)panelCreator.createPanel(PanelUpdateObjects.SpecialtyPanel, ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")), MAINFRAME_DISPLAY_RATIO, specialtyDynamicPanel);
-		TechnicalTermPanelStatic searchPanel = (TechnicalTermPanelStatic)panelCreator.createPanel(PanelUpdateObjects.SearchResultPanel, ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")), MAINFRAME_DISPLAY_RATIO, searchDynamicPanel);
-		TechnicalTermPanelStatic letterPanel = (TechnicalTermPanelStatic)panelCreator.createPanel(PanelUpdateObjects.LetterResultPanel, ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")), MAINFRAME_DISPLAY_RATIO, letterDynamicPanel);
+		SearchResultPanelStatic searchPanel = (SearchResultPanelStatic)panelCreator.createPanel(PanelUpdateObjects.SearchResultPanel, ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")), MAINFRAME_DISPLAY_RATIO, searchDynamicPanel);
+		SearchResultPanelStatic letterPanel = (SearchResultPanelStatic)panelCreator.createPanel(PanelUpdateObjects.LetterResultPanel, ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")), MAINFRAME_DISPLAY_RATIO, letterDynamicPanel);
 		
 		
 		List<Translations> translationList = termBOTest.selectLetter("f");
@@ -186,8 +187,8 @@ public class HeadBarTest {
 //--->	
 //		mainFrame.add(technicalTermPanel, BorderLayout.CENTER);
 //		mainFrame.add(specialtyPanel, BorderLayout.CENTER);
-		mainFrame.add(searchPanel, BorderLayout.CENTER);
-//		mainFrame.add(letterPanel, BorderLayout.CENTER);
+//		mainFrame.add(searchPanel, BorderLayout.CENTER);
+		mainFrame.add(letterPanel, BorderLayout.CENTER);
 		mainFrame.setVisible(true);
 
 		mainFrame.addComponentListener(new ComponentAdapter() {
@@ -205,10 +206,10 @@ public class HeadBarTest {
 				// peto.setSpecialtyList(termBOTest.selectAllSpecialties());
 //				if (counter < 9) {
 //--->			
-//					TermPanelDynamic dynamicPanel = new TermPanelDynamic(c.getWidth(), c.getHeight(), termBOTest.selectAllSpecialties(), "Specialtyname");
+//					TermPanelDynamic dynamicPanel = new TermPanelDynamic(c.getWidth(), c.getHeight(), termBOTest.selectAllTechnicalTermsOfSpecialty(3), "Specialtyname");
 //					TermPanelDynamic dynamicPanel = new TermPanelDynamic(c.getWidth(), c.getHeight(), termBOTest.selectAllSpecialties(), null);
-					SearchResultPanelDynamic dynamicPanel = new SearchResultPanelDynamic(mainFrameWidth, mainFrameHeight, termBOTest.searchTechnicalTerms("a%"), "Hallo Suche");
-//					SearchResultPanelDynamic dynamicPanel = new SearchResultPanelDynamic(mainFrameWidth, mainFrameHeight, termBOTest.searchTechnicalTerms("A%"), ".A%");
+//					SearchResultPanelDynamic dynamicPanel = new SearchResultPanelDynamic(mainFrameWidth, mainFrameHeight, termBOTest.searchTechnicalTerms("a%"), "Hallo Suche");
+					SearchResultPanelDynamic dynamicPanel = new SearchResultPanelDynamic(mainFrameWidth, mainFrameHeight, termBOTest.searchTechnicalTerms("A%"), ".A%");
 					peto.setDynamicPanel(dynamicPanel);
 //				}
 
@@ -231,8 +232,8 @@ public class HeadBarTest {
 //--->
 //				technicalTermPanel.updatePanel(peto);
 //				specialtyPanel.updatePanel(peto);
-				searchPanel.updatePanel(peto);
-//				letterPanel.updatePanel(peto);
+//				searchPanel.updatePanel(peto);
+				letterPanel.updatePanel(peto);
 				counter++;
 				System.out.println("HeadBarGröße: " + headBar.getWidth() + " x " + headBar.getHeight());
 
