@@ -2,6 +2,7 @@ package eventHandling;
 
 import java.awt.Dimension;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.swing.JPanel;
 
@@ -19,9 +20,11 @@ public class PanelEventTransferObject {
 	int mainFrameHeight;
 	Dimension displaySize;
 	
-	List<String> history;
+	List<String> historyList;
+	List<Specialty> specialtyList;
 	ChosenLanguage currentLanguage;
 	boolean[] availableLetters;
+	ResourceBundle currentLanguageBundle;
 	
 	Specialty currentSpecialty;
 	TechnicalTerm currentTechnicalTerm;
@@ -77,6 +80,14 @@ public class PanelEventTransferObject {
 	public void setAvailableLetters(boolean[] availableLetters) {
 		this.availableLetters = availableLetters;
 	}
+	
+	public ResourceBundle getCurrentLanguageBundle() {
+		return currentLanguageBundle;
+	}
+
+	public void setCurrentLanguageBundle(ResourceBundle currentLanguageBundle) {
+		this.currentLanguageBundle = currentLanguageBundle;
+	}
 
 	public ChosenLanguage getCurrentLanguage() {
 		return currentLanguage;
@@ -86,12 +97,20 @@ public class PanelEventTransferObject {
 		this.currentLanguage = currentLanguage;
 	}
 
-	public List<String> getHistory() {
-		return history;
+	public List<String> getHistoryList() {
+		return historyList;
 	}
 
-	public void setHistory(List<String> history) {
-		this.history = history;
+	public void setHistoryList(List<String> historyList) {
+		this.historyList = historyList;
+	}
+
+	public List<Specialty> getSpecialtyList() {
+		return specialtyList;
+	}
+
+	public void setSpecialtyList(List<Specialty> specialtyList) {
+		this.specialtyList = specialtyList;
 	}
 
 	public Specialty getCurrentSpecialty() {

@@ -1,26 +1,35 @@
 package interactElements;
 
-import java.awt.Dimension;
+import java.util.List;
+import java.util.ResourceBundle;
+
+import model.Specialty;
 
 public class ComboBoxFactory {
 
-	public MyComboBox createComboBox(ComboBoxes comboBox) {
+	public MyComboBox createComboBox(ComboBoxes comboBox, ResourceBundle languageBundle, List<Specialty> specialtyList) {
 		
-		MyComboBox myComboBox = comboBoxFactory(comboBox);
+		MyComboBox myComboBox = comboBoxFactory(comboBox, languageBundle, specialtyList, null);
 
-		
 		return myComboBox;
 	}
 	
-	protected MyComboBox comboBoxFactory(ComboBoxes comboBox) {
+	public MyComboBox createComboBox(ComboBoxes comboBox, List<String> historyList) {
+		
+		MyComboBox myComboBox = comboBoxFactory(comboBox, null, null, historyList);
+
+		return myComboBox;
+	}
+	
+	protected MyComboBox comboBoxFactory(ComboBoxes comboBox, ResourceBundle languageBundle, List<Specialty> specialtyList, List<String> historyList) {
 		
 		MyComboBox myComboBox = null;
 		
 		if (comboBox == ComboBoxes.SearchComboBox) {
-			myComboBox = new SearchComboBox();
+			myComboBox = new SearchComboBox(historyList);
 		}
 		if (comboBox == ComboBoxes.ChooseSpecialtyComboBox) {
-			myComboBox = new ChooseSpecialtyComboBox();
+			myComboBox = new ChooseSpecialtyComboBox(languageBundle, specialtyList);
 		}
 		
 		return myComboBox;

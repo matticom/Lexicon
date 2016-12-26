@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
@@ -390,21 +391,14 @@ public class WinUtil {
 		jSeparator.setPreferredSize(new Dimension(width, height));
 	}
 
-	/**
-	 * <li><b><i>createColor</i></b> <br>
-	 * <br>
-	 * public static Color createColor(int R, int G, int B) <br>
-	 * <br>
-	 * Erstellt eine Farbe aus RGB ins Java Color Format (HSB). <br>
-	 * <br>
-	 * 
-	 * @param R
-	 *            - Rot-Anteil der Farbe. <b>0-255</b>.
-	 * @param G
-	 *            - Gelb-Anteil der Farbe. <b>0-255</b>.
-	 * @param B
-	 *            - Blau-Anteil der Farbe. <b>0-255</b>.
-	 * @return Farbe als Color-Objekt.
-	 */
+	public static int relH(int Height) {
+		Dimension displaySize = Toolkit.getDefaultToolkit().getScreenSize();
+		return (int)(displaySize.getHeight() * Height / 1200);
+	}
+	
+	public static int relW(int Width) {
+		Dimension displaySize = Toolkit.getDefaultToolkit().getScreenSize();
+		return (int)(displaySize.getWidth() * Width / 1920);
+	}
 
 }

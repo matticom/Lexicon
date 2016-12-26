@@ -43,6 +43,7 @@ import org.junit.Test;
 import businessOperations.LanguageBO;
 import businessOperations.TermBO;
 import businessOperations.TermBOTest;
+import interactElements.ChooseSpecialtyComboBox;
 import interactElements.ComboBoxCellRenderer;
 import eventHandling.ChosenLanguage;
 import eventHandling.ComboBoxEventTransferObject;
@@ -50,8 +51,10 @@ import eventHandling.PanelEventTransferObject;
 import eventHandling.PanelUpdateObjects;
 import interactElements.ComboBoxFactory;
 import interactElements.ComboBoxes;
+import interactElements.MyComboBox;
 import interactElements.SearchComboBox;
 import model.Translations;
+import model.Specialty;
 import model.Term;
 import panels.TermPanelDynamic;
 import panels.PanelTest;
@@ -61,6 +64,7 @@ import panels.TechnicalTermPanelStatic;
 import panels.SpecialtyPanelStatic;
 import repository.LanguageDAO;
 import repository.TermDAO;
+import windows.TechnicalTermCreationWindow;
 
 public class HeadBarTest {
 
@@ -142,9 +146,9 @@ public class HeadBarTest {
 		peto.setDisplaySize(displaySize);
 		
 		PanelCreator panelCreator = new PanelCreator();
-		
+		List<Specialty> allSpecialtyList = termBOTest.selectAllSpecialties();
 		TermPanelDynamic technicalTermDynamicPanel = new TermPanelDynamic(mainFrameWidth, mainFrameHeight, termBOTest.selectAllTechnicalTermsOfSpecialty(3), "SpecialtyName");		
-		TermPanelDynamic specialtyDynamicPanel = new TermPanelDynamic(mainFrameWidth, mainFrameHeight, termBOTest.selectAllSpecialties());
+		TermPanelDynamic specialtyDynamicPanel = new TermPanelDynamic(mainFrameWidth, mainFrameHeight, allSpecialtyList);
 		SearchResultPanelDynamic searchDynamicPanel = new SearchResultPanelDynamic(mainFrameWidth, mainFrameHeight, termBOTest.searchTechnicalTerms("a%"), "Hallo Suche");
 		SearchResultPanelDynamic letterDynamicPanel = new SearchResultPanelDynamic(mainFrameWidth, mainFrameHeight, termBOTest.searchTechnicalTerms("A%"), ".A%");
 		
@@ -168,11 +172,13 @@ public class HeadBarTest {
 			history.add(translation.getName());
 		}
 
-		peto.setHistory(history);
+		peto.setHistoryList(history);
 
 		ComboBoxFactory comboBoxFactory = new ComboBoxFactory();
-		SearchComboBox searchComboBox = (SearchComboBox) comboBoxFactory.createComboBox(ComboBoxes.SearchComboBox);
-		SearchComboBox searchComboBox2 = (SearchComboBox) comboBoxFactory.createComboBox(ComboBoxes.SearchComboBox);
+		SearchComboBox searchComboBox = (SearchComboBox) comboBoxFactory.createComboBox(ComboBoxes.SearchComboBox, history);
+		SearchComboBox searchComboBox2 = (SearchComboBox) comboBoxFactory.createComboBox(ComboBoxes.SearchComboBox, history);
+		ChooseSpecialtyComboBox chooseSpecialtyComboBox = (ChooseSpecialtyComboBox) comboBoxFactory.createComboBox(ComboBoxes.ChooseSpecialtyComboBox, ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")), allSpecialtyList);
+		ChooseSpecialtyComboBox chooseSpecialtyComboBox2 = (ChooseSpecialtyComboBox) comboBoxFactory.createComboBox(ComboBoxes.ChooseSpecialtyComboBox, ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")), allSpecialtyList);
 
 		ListCellRenderer<Object> cboFontSizeRenderer = new ComboBoxCellRenderer();
 		searchComboBox.setRenderer(cboFontSizeRenderer);
@@ -184,11 +190,13 @@ public class HeadBarTest {
 		// headBar2.add(searchComboBox2);
 		// specialtyPanel.updatePanel(peto);
 		mainFrame.add(headBar, BorderLayout.PAGE_START);
+		
+		headBar.setNewTechnicalTermButtonActionListener(e -> openNewTechnicalTermDialog(ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")), chooseSpecialtyComboBox, chooseSpecialtyComboBox2));
 //--->	
 //		mainFrame.add(technicalTermPanel, BorderLayout.CENTER);
-//		mainFrame.add(specialtyPanel, BorderLayout.CENTER);
+		mainFrame.add(specialtyPanel, BorderLayout.CENTER);
 //		mainFrame.add(searchPanel, BorderLayout.CENTER);
-		mainFrame.add(letterPanel, BorderLayout.CENTER);
+//		mainFrame.add(letterPanel, BorderLayout.CENTER);
 		mainFrame.setVisible(true);
 
 		mainFrame.addComponentListener(new ComponentAdapter() {
@@ -201,15 +209,15 @@ public class HeadBarTest {
 				peto.setMainFrameHeight(c.getHeight());
 				peto.setAvailableLetters(expectedAlphabet);
 				peto.setCurrentLanguage(ChosenLanguage.Spanish);
-				peto.setHistory(history);
+				peto.setHistoryList(history);
 				peto.setDisplaySize(displaySize);
 				// peto.setSpecialtyList(termBOTest.selectAllSpecialties());
 //				if (counter < 9) {
 //--->			
 //					TermPanelDynamic dynamicPanel = new TermPanelDynamic(c.getWidth(), c.getHeight(), termBOTest.selectAllTechnicalTermsOfSpecialty(3), "Specialtyname");
-//					TermPanelDynamic dynamicPanel = new TermPanelDynamic(c.getWidth(), c.getHeight(), termBOTest.selectAllSpecialties(), null);
+					TermPanelDynamic dynamicPanel = new TermPanelDynamic(c.getWidth(), c.getHeight(), termBOTest.selectAllSpecialties());
 //					SearchResultPanelDynamic dynamicPanel = new SearchResultPanelDynamic(mainFrameWidth, mainFrameHeight, termBOTest.searchTechnicalTerms("a%"), "Hallo Suche");
-					SearchResultPanelDynamic dynamicPanel = new SearchResultPanelDynamic(mainFrameWidth, mainFrameHeight, termBOTest.searchTechnicalTerms("A%"), ".A%");
+//					SearchResultPanelDynamic dynamicPanel = new SearchResultPanelDynamic(mainFrameWidth, mainFrameHeight, termBOTest.searchTechnicalTerms("A%"), ".A%");
 					peto.setDynamicPanel(dynamicPanel);
 //				}
 
@@ -231,9 +239,9 @@ public class HeadBarTest {
 				statusBar.updatePanel(peto);
 //--->
 //				technicalTermPanel.updatePanel(peto);
-//				specialtyPanel.updatePanel(peto);
+				specialtyPanel.updatePanel(peto);
 //				searchPanel.updatePanel(peto);
-				letterPanel.updatePanel(peto);
+//				letterPanel.updatePanel(peto);
 				counter++;
 				System.out.println("HeadBarGröße: " + headBar.getWidth() + " x " + headBar.getHeight());
 
@@ -302,5 +310,9 @@ public class HeadBarTest {
 
 		entitymanager.close();
 		emfactory.close();
+	}
+	
+	public void openNewTechnicalTermDialog(ResourceBundle languageBundle, ChooseSpecialtyComboBox germanSpecialtyComboBox, ChooseSpecialtyComboBox spanishSpecialtyComboBox) {
+		TechnicalTermCreationWindow newTTDialog = new TechnicalTermCreationWindow(languageBundle, germanSpecialtyComboBox, spanishSpecialtyComboBox);
 	}
 }

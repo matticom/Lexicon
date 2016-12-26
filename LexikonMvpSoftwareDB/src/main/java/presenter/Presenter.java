@@ -8,6 +8,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -34,9 +35,9 @@ import interactElements.ComboBoxFactory;
 import interactElements.ComboBoxes;
 import interactElements.SearchComboBox;
 import interactElements.SpecialtyButton;
+import model.Translations;
 import panels.TechnicalTermPanelStatic;
 import panels.SpecialtyPanelStatic;
-import panels.TechnicalTermPanel;
 import repository.HistoryDAO;
 import repository.LanguageDAO;
 import repository.TermDAO;
@@ -53,7 +54,6 @@ public class Presenter {
 
 	private TechnicalTermPanelStatic searchResultPanel;
 	private SpecialtyPanelStatic specialtyPanel;
-	private TechnicalTermPanel technicalTermPanel;
 
 	private AssignTechnicalTermToSpecialtyWindow assignTechnicalTermToSpecialtyWindow;
 	private TechnicalTermContentWindow technicalTermContentWindow;
@@ -115,9 +115,17 @@ public class Presenter {
 
 	private void initializeHeadBar() {
 
+		List<Translations> translationList = termBO.selectLetter("f");
+		List<String> history = new ArrayList<String>();
+
+		for (Translations translation : translationList) {
+			history.add(translation.getName());
+		}
+		
+		
 //		headBar = new HeadBar(languageBundle);
 		comboBoxFactory = new ComboBoxFactory();
-		searchComboBox = (SearchComboBox) comboBoxFactory.createComboBox(ComboBoxes.SearchComboBox);
+		searchComboBox = (SearchComboBox) comboBoxFactory.createComboBox(ComboBoxes.SearchComboBox, history);
 		headBar.add(searchComboBox);
 		SearchWordChecker searchWordChecker = new SearchWordChecker();
 

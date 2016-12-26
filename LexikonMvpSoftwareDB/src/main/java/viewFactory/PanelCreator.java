@@ -1,8 +1,6 @@
 package viewFactory;
 
 import java.util.ResourceBundle;
-
-import javax.swing.JPanel;
 import eventHandling.PanelUpdateObjects;
 import panels.TermPanelDynamic;
 import panels.DynamicPanel;
@@ -11,8 +9,6 @@ import panels.SearchResultPanelDynamic;
 import panels.SearchResultPanelStatic;
 import panels.TechnicalTermPanelStatic;
 import panels.SpecialtyPanelStatic;
-import panels.TechnicalTermPanel;
-
 
 public class PanelCreator {
 		

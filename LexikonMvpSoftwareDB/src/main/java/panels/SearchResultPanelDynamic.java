@@ -126,7 +126,7 @@ public class SearchResultPanelDynamic extends JPanel implements DynamicPanel {
 	private void calculateDynamicPanelHeight(int buttonHeight, int inset) {
 		
 		int numbersOfElements = Math.max(technicalTermButtonsDE.size(), technicalTermButtonsES.size());
-		dynamicPanelHeight = numbersOfElements*buttonHeight + numbersOfElements*inset - inset/2;
+		dynamicPanelHeight = numbersOfElements*buttonHeight + numbersOfElements*inset;
 	}
 	
 	private void arrangeButtons(int inset) {
@@ -143,11 +143,18 @@ public class SearchResultPanelDynamic extends JPanel implements DynamicPanel {
 		int posY = 1;
 		int weightY = 0;
 		int bottomInsert = inset;
+		int topInset = 0;
 		
 		for (int i = 0; i < numbersOfEntries; i++) {
 			
-			GridBagLayoutUtilities.addGB(panel, technicalTermButtons.get(i), 1, posY, 1, weightY, GridBagConstraints.NORTH, new Insets(0, 0, bottomInsert, 0));
-			GridBagLayoutUtilities.addGB(panel, specialtyButtons.get(i), 2, posY, 1, weightY, GridBagConstraints.NORTH, new Insets(0, 0, bottomInsert, 0));
+			if ( i == 0) {
+				topInset = inset / 2;
+			} else {
+				topInset = 0;
+			}
+			
+			GridBagLayoutUtilities.addGB(panel, technicalTermButtons.get(i), 1, posY, 1, weightY, GridBagConstraints.NORTH, new Insets(topInset, 0, bottomInsert, 0));
+			GridBagLayoutUtilities.addGB(panel, specialtyButtons.get(i), 2, posY, 1, weightY, GridBagConstraints.NORTH, new Insets(topInset, 0, bottomInsert, 0));
 			posY++;
 			
 			if (posY == numbersOfEntries) {

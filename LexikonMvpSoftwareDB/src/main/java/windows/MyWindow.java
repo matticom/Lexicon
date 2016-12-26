@@ -1,16 +1,20 @@
 package windows;
 
+import java.util.ResourceBundle;
+
 import javax.swing.JDialog;
 
 import eventHandling.PanelEventTransferObject;
 import eventHandling.Updatable;
 
-public class MyWindow extends JDialog implements Updatable {
+public abstract class MyWindow extends JDialog implements Updatable {
 
-	@Override
-	public void updatePanel(PanelEventTransferObject e) {
-		// TODO Auto-generated method stub
-		
+	protected ResourceBundle 	languageBundle;
+	
+	
+	public MyWindow(ResourceBundle languageBundle) {
+
+		this.languageBundle = languageBundle;
 	}
 
 }
