@@ -85,7 +85,7 @@ public class HeadBar extends JPanel implements Updatable {
 	private void createGuiElementsOfLeftPanel() {
 		
 		searchButton = new JButton(languageBundle.getString("searchBtn"));
-		WinUtil.configStaticButton(searchButton, (int)(displaySize.width*0.0104), (int)(displaySize.height*0.0475), (int)(displaySize.width*0.1354), (int)(displaySize.height*0.0217), 
+		WinUtil.configStaticButton(searchButton, WinUtil.relW(20), WinUtil.relH(57), WinUtil.relW(260), WinUtil.relH(26), 
 									BorderFactory.createLineBorder(Color.BLACK), Color.WHITE, Color.DARK_GRAY);
 		leftPanel.add(searchButton);
 	}

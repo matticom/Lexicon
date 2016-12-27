@@ -57,17 +57,17 @@ public class SearchResultPanelDynamic extends JPanel implements DynamicPanel {
 	}
 	
 	private void buildUp(int mainFrameWidth, int mainFrameHeight, List<Translations> technicalTermTranslationList) {
-		this.setBackground(Color.DARK_GRAY);
+		this.setBackground(WinUtil.LIGHT_BLACK);
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		
 		germanPanel = new JPanel();
-		germanPanel.setBackground(Color.DARK_GRAY);
+		germanPanel.setBackground(WinUtil.LIGHT_BLACK);
 		germanPanel.setLayout(new GridBagLayout());
 		germanPanel.setPreferredSize(new Dimension(mainFrameWidth/2, 900));
 		germanPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.LIGHT_GRAY));
 
 		spanishPanel = new JPanel();
-		spanishPanel.setBackground(Color.DARK_GRAY);
+		spanishPanel.setBackground(WinUtil.LIGHT_BLACK);
 		spanishPanel.setLayout(new GridBagLayout());
 		spanishPanel.setPreferredSize(new Dimension(mainFrameWidth/2, 900));
 		spanishPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.LIGHT_GRAY));

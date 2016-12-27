@@ -47,17 +47,17 @@ public class TermPanelDynamic extends JPanel implements DynamicPanel {
 	
 	private void buildUp(int mainFrameWidth, int mainFrameHeight, List<? extends Term> termList) {
 		
-		this.setBackground(Color.DARK_GRAY);
+		this.setBackground(WinUtil.LIGHT_BLACK);
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		
 		germanTermPanel = new JPanel();
-		germanTermPanel.setBackground(Color.DARK_GRAY);
+		germanTermPanel.setBackground(WinUtil.LIGHT_BLACK);
 		germanTermPanel.setLayout(new GridBagLayout());
 		germanTermPanel.setPreferredSize(new Dimension(mainFrameWidth/2, 900));
 		germanTermPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.LIGHT_GRAY));
 
 		spanishTermPanel = new JPanel();
-		spanishTermPanel.setBackground(Color.DARK_GRAY);
+		spanishTermPanel.setBackground(WinUtil.LIGHT_BLACK);
 		spanishTermPanel.setLayout(new GridBagLayout());
 		spanishTermPanel.setPreferredSize(new Dimension(mainFrameWidth/2, 900));
 		spanishTermPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.LIGHT_GRAY));

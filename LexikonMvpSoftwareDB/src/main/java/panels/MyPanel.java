@@ -34,7 +34,7 @@ public abstract class MyPanel  extends JScrollPane implements Updatable {
 		this.setVerticalScrollBar(scrollbar);
 		
 		this.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		this.setBorder(new EmptyBorder(1, 0, 0, 0));
+		this.setBorder(new EmptyBorder(0, 0, 0, 0));
 	}
 
 

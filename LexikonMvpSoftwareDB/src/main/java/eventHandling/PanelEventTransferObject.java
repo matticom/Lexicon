@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import javax.swing.JPanel;
 
+import interactElements.ChooseSpecialtyComboBox;
 import model.Specialty;
 import model.TechnicalTerm;
 import panels.TermPanelDynamic;
@@ -28,6 +29,9 @@ public class PanelEventTransferObject {
 	
 	Specialty currentSpecialty;
 	TechnicalTerm currentTechnicalTerm;
+	
+	ChooseSpecialtyComboBox germanSpecialtyComboBox;
+	ChooseSpecialtyComboBox spanishSpecialtyComboBox;
 	
 	JPanel dynamicPanel;
 	
@@ -127,6 +131,23 @@ public class PanelEventTransferObject {
 
 	public void setCurrentTechnicalTerm(TechnicalTerm currentTechnicalTerm) {
 		this.currentTechnicalTerm = currentTechnicalTerm;
+	}
+
+	
+	public ChooseSpecialtyComboBox getGermanSpecialtyComboBox() {
+		return germanSpecialtyComboBox;
+	}
+
+	public void setGermanSpecialtyComboBox(ChooseSpecialtyComboBox germanSpecialtyComboBox) {
+		this.germanSpecialtyComboBox = germanSpecialtyComboBox;
+	}
+
+	public ChooseSpecialtyComboBox getSpanishSpecialtyComboBox() {
+		return spanishSpecialtyComboBox;
+	}
+
+	public void setSpanishSpecialtyComboBox(ChooseSpecialtyComboBox spanishSpecialtyComboBox) {
+		this.spanishSpecialtyComboBox = spanishSpecialtyComboBox;
 	}
 
 	public JPanel getDynamicPanel() {

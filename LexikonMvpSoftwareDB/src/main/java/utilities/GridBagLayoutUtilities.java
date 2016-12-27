@@ -28,6 +28,9 @@ public class GridBagLayoutUtilities {
 	public static void addGB(Container parentContainer, Component guiElement, int gridx, int gridy, int gridwidth, int gridheight, int fill, double weightx, double weighty, Insets insets) {
         addGB(parentContainer, guiElement, gridx, gridy, gridwidth, gridheight, fill, weightx, weighty, GridBagConstraints.CENTER, insets, 0, 0);
     }
+	public static void addGB(Container parentContainer, Component guiElement, int gridx, int gridy, int gridwidth, int gridheight, int fill, double weightx, double weighty, Insets insets, int anchor) {
+        addGB(parentContainer, guiElement, gridx, gridy, gridwidth, gridheight, fill, weightx, weighty, anchor, insets, 0, 0);
+    }
 	public static void addGB(Container parentContainer, Component guiElement, int gridx, int gridy, int gridwidth, int gridheight, int fill) {
         addGB(parentContainer, guiElement, gridx, gridy, gridwidth, gridheight, fill, 0.0, 0.0, GridBagConstraints.CENTER, new Insets(0, 0, 0, 0), 0, 0);
     }

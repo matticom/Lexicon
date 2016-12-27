@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 
@@ -17,12 +18,15 @@ public class WinUtil {
 		ITEM_PLAIN, ITEM_CHECK, ITEM_RADIO
 	}
 
+	public static final Color DARK_WHITE = new Color(230, 230, 230);
 	public static final Color ULTRA_LIGHT_GRAY = new Color(200, 200, 200);
 	public static final Color DARKER_GRAY = new Color(80, 80, 80);
 	public static final Color ULTRA_DARK_GRAY = new Color(50, 50, 50);
 	public static final Color LIGHT_BLACK = new Color(30, 30, 30);
 	public static final Color COOL_BLUE = new Color(0, 178, 238);
 	public static final Color STRONG_ORANGE = new Color(255, 140, 0);
+	public static final Color GRASS_GREEN = new Color(127, 255, 0);
+	
 
 	// Verhinder, dass eine Instanz dieser Klasse erstellt werden kann.
 	// Diese Klasse enthält nur öffentliche und statische Methoden.
@@ -400,5 +404,24 @@ public class WinUtil {
 		Dimension displaySize = Toolkit.getDefaultToolkit().getScreenSize();
 		return (int)(displaySize.getWidth() * Width / 1920);
 	}
+	
+	public static void configScrollPane(JScrollPane scrollPane, JTextArea textArea, int width, int height) {
+		textArea.setMargin(new Insets(3, 3, 3, 3));
+		textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);
+//		textArea.setPreferredSize(new Dimension(width, height));
+		scrollPane.setPreferredSize(new Dimension(width, height));
+	}
 
+	
+	// deutsche Inhaltstextarea
+//	taTextDE = new JTextArea();
+//	taTextDE.setMargin(new Insets(3, 3, 3, 3));
+//	taTextDE.setLineWrap(true);
+//	taTextDE.setWrapStyleWord(true);
+//
+//	// deutsche ScrollPane für deutsche Inhaltstextarea
+//	spDE = new JScrollPane(taTextDE);
+//	spDE.setBounds(50, 280, 350, 360);
+//	this.getContentPane().add(spDE);
 }

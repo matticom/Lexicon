@@ -7,7 +7,7 @@ import javax.swing.JDialog;
 import eventHandling.PanelEventTransferObject;
 import eventHandling.Updatable;
 
-public abstract class MyWindow extends JDialog implements Updatable {
+public abstract class MyWindow extends JDialog {
 
 	protected ResourceBundle 	languageBundle;
 	

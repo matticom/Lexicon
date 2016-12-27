@@ -93,13 +93,4 @@ public class AssignTechnicalTermToSpecialtyWindow extends MyWindow {
 		
 		
 	}
-
-	@Override
-	public void updatePanel(PanelEventTransferObject e) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
-
 }

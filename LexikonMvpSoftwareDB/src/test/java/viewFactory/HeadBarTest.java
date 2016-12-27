@@ -177,8 +177,8 @@ public class HeadBarTest {
 		ComboBoxFactory comboBoxFactory = new ComboBoxFactory();
 		SearchComboBox searchComboBox = (SearchComboBox) comboBoxFactory.createComboBox(ComboBoxes.SearchComboBox, history);
 		SearchComboBox searchComboBox2 = (SearchComboBox) comboBoxFactory.createComboBox(ComboBoxes.SearchComboBox, history);
-		ChooseSpecialtyComboBox chooseSpecialtyComboBox = (ChooseSpecialtyComboBox) comboBoxFactory.createComboBox(ComboBoxes.ChooseSpecialtyComboBox, ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")), allSpecialtyList);
-		ChooseSpecialtyComboBox chooseSpecialtyComboBox2 = (ChooseSpecialtyComboBox) comboBoxFactory.createComboBox(ComboBoxes.ChooseSpecialtyComboBox, ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")), allSpecialtyList);
+		ChooseSpecialtyComboBox chooseSpecialtyComboBox = (ChooseSpecialtyComboBox) comboBoxFactory.createComboBox(ComboBoxes.GermanSpecialtyComboBox, ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")), allSpecialtyList);
+		ChooseSpecialtyComboBox chooseSpecialtyComboBox2 = (ChooseSpecialtyComboBox) comboBoxFactory.createComboBox(ComboBoxes.SpanishSpecialtyComboBox, ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")), allSpecialtyList);
 
 		ListCellRenderer<Object> cboFontSizeRenderer = new ComboBoxCellRenderer();
 		searchComboBox.setRenderer(cboFontSizeRenderer);
@@ -313,6 +313,6 @@ public class HeadBarTest {
 	}
 	
 	public void openNewTechnicalTermDialog(ResourceBundle languageBundle, ChooseSpecialtyComboBox germanSpecialtyComboBox, ChooseSpecialtyComboBox spanishSpecialtyComboBox) {
-		TechnicalTermCreationWindow newTTDialog = new TechnicalTermCreationWindow(languageBundle, germanSpecialtyComboBox, spanishSpecialtyComboBox);
+		TechnicalTermCreationWindow newTTDialog = new TechnicalTermCreationWindow(ResourceBundle.getBundle("languageBundles.lexikon", new Locale("es")), germanSpecialtyComboBox, spanishSpecialtyComboBox);
 	}
 }

@@ -58,12 +58,12 @@ public class TechnicalTermPanelStatic extends MyPanel {
 	
 	private void initializePanels() {
 		contentPanel = new JPanel();
-		contentPanel.setBackground(Color.DARK_GRAY);
+		contentPanel.setBackground(WinUtil.LIGHT_BLACK);
 		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 		contentPanel.setPreferredSize(new Dimension((int)(mainFrameWidth), 500));
 
 		staticElementsPanel = new JPanel();
-		staticElementsPanel.setBackground(Color.DARK_GRAY);
+		staticElementsPanel.setBackground(WinUtil.LIGHT_BLACK);
 		staticElementsPanel.setLayout(new GridBagLayout());
 		staticElementsPanel.setPreferredSize(new Dimension((int)(mainFrameWidth), (int)(displaySize.getHeight() * staticPanelHeight/1200)));
 		staticElementsPanel.setMinimumSize(new Dimension(displaySize.width, (int)(displaySize.getHeight() * staticPanelHeight/1200)));
@@ -72,22 +72,22 @@ public class TechnicalTermPanelStatic extends MyPanel {
 	
 	private void createLabels() {
 		resultLabel = new JLabel(languageBundle.getString(labelTitle) + "  ' " + dynamicPanel.getSearchWord() + " '");
-		WinUtil.configLabel(resultLabel, (int)(displaySize.getWidth() * 1200/1920), (int)(displaySize.getHeight() * 40/1200), Color.WHITE, Color.DARK_GRAY, 25, Font.BOLD);
+		WinUtil.configLabel(resultLabel, (int)(displaySize.getWidth() * 1200/1920), (int)(displaySize.getHeight() * 40/1200), Color.WHITE, WinUtil.LIGHT_BLACK, 25, Font.BOLD);
 		GridBagLayoutUtilities.addGB(staticElementsPanel, resultLabel, 1, 1, 4, 1, new Insets((int)(displaySize.getHeight() * 30/1200), 0, (int)(displaySize.getHeight() * 10/1200), 0));
 		
 		JSeparator jSeparator = new JSeparator(SwingConstants.HORIZONTAL);
-		WinUtil.configSeparator(jSeparator, (int)(displaySize.getWidth() * 1000/1920), (int)(displaySize.getHeight() * 5/1200), Color.MAGENTA, Color.DARK_GRAY);
+		WinUtil.configSeparator(jSeparator, (int)(displaySize.getWidth() * 1000/1920), (int)(displaySize.getHeight() * 5/1200), Color.MAGENTA, WinUtil.LIGHT_BLACK);
 		GridBagLayoutUtilities.addGB(staticElementsPanel, jSeparator, 1, 2, 4, 1);		
 	}
 	
 	protected void createLabelsExtends() {
 		
 		germanLabel = new JLabel(languageBundle.getString("miDeutsch"));
-		WinUtil.configLabel(germanLabel, (int)(displaySize.getWidth() * 300/1920), (int)(displaySize.getHeight() * 30/1200), WinUtil.COOL_BLUE, Color.DARK_GRAY, 18, Font.BOLD);
+		WinUtil.configLabel(germanLabel, (int)(displaySize.getWidth() * 300/1920), (int)(displaySize.getHeight() * 30/1200), WinUtil.COOL_BLUE, WinUtil.LIGHT_BLACK, 18, Font.BOLD);
 		GridBagLayoutUtilities.addGB(staticElementsPanel, germanLabel, 1, 3, 2, 1, GridBagConstraints.BOTH, 1, 1, new Insets((int)(displaySize.getHeight() * 20/1200), 0, 0, 0));
 		
 		spanishLabel = new JLabel(languageBundle.getString("miSpanisch"));
-		WinUtil.configLabel(spanishLabel, (int)(displaySize.getWidth() * 300/1920), (int)(displaySize.getHeight() * 30/1200), WinUtil.STRONG_ORANGE, Color.DARK_GRAY, 18, Font.BOLD);
+		WinUtil.configLabel(spanishLabel, (int)(displaySize.getWidth() * 300/1920), (int)(displaySize.getHeight() * 30/1200), WinUtil.STRONG_ORANGE, WinUtil.LIGHT_BLACK, 18, Font.BOLD);
 		GridBagLayoutUtilities.addGB(staticElementsPanel, spanishLabel, 3, 3, 2, 1, GridBagConstraints.BOTH, 1, 1, new Insets((int)(displaySize.getHeight() * 20/1200), 0, 0, 0));
 	}
 	
