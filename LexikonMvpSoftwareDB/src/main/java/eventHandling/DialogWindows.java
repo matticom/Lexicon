@@ -1,5 +1,5 @@
 package eventHandling;
 
-public enum WindowUpdateObjects {
+public enum DialogWindows {
 	TechnicalTermContentWindow, TechnicalTermCreationWindow, AssignTechnicalTermToSpecialtyWindow
 }

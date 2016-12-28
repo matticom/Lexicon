@@ -47,6 +47,7 @@ import interactElements.ChooseSpecialtyComboBox;
 import interactElements.ComboBoxCellRenderer;
 import eventHandling.ChosenLanguage;
 import eventHandling.ComboBoxEventTransferObject;
+import eventHandling.DialogWindows;
 import eventHandling.PanelEventTransferObject;
 import eventHandling.PanelUpdateObjects;
 import interactElements.ComboBoxFactory;
@@ -55,6 +56,7 @@ import interactElements.MyComboBox;
 import interactElements.SearchComboBox;
 import model.Translations;
 import model.Specialty;
+import model.TechnicalTerm;
 import model.Term;
 import panels.TermPanelDynamic;
 import panels.PanelTest;
@@ -64,6 +66,7 @@ import panels.TechnicalTermPanelStatic;
 import panels.SpecialtyPanelStatic;
 import repository.LanguageDAO;
 import repository.TermDAO;
+import windows.AssignTechnicalTermToSpecialtyWindow;
 import windows.TechnicalTermCreationWindow;
 
 public class HeadBarTest {
@@ -83,6 +86,8 @@ public class HeadBarTest {
 	private static LanguageDAO languageDAOTest;
 	private static TermBO termBOTest;
 	private static LanguageBO languageBOTest;
+	
+	DialogWindowCreator windowCreator;
 
 
 	int mainFrameWidth;
@@ -129,12 +134,16 @@ public class HeadBarTest {
 
 		MenuBar menuBar = new MenuBar(ResourceBundle.getBundle("languageBundles.lexikon", new Locale("es")));
 		mainFrame.setJMenuBar(menuBar);
+		
+		menuBar.setMiAssignActionListener(e -> openAssignmentDialog(ResourceBundle.getBundle("languageBundles.lexikon", new Locale("es")), termBOTest.selectAllTechnicalTerms()));
 
 		mainFrame.setMinimumSize(new Dimension((int) (displaySize.width * 0.6850), (int) (displaySize.height * 0.3333)));
 		// HeadBar headBar2 = new HeadBar(mainFrameWidth, mainFrameHeight,
 		// ResourceBundle.getBundle("languageBundles.lexikon", new
 		// Locale("de")));
 //		PanelTest test = new PanelTest();
+		
+		windowCreator = new DialogWindowCreator();
 		
 		PanelEventTransferObject peto = new PanelEventTransferObject();
 		peto.setAvailableLetters(expectedAlphabet);
@@ -313,6 +322,10 @@ public class HeadBarTest {
 	}
 	
 	public void openNewTechnicalTermDialog(ResourceBundle languageBundle, ChooseSpecialtyComboBox germanSpecialtyComboBox, ChooseSpecialtyComboBox spanishSpecialtyComboBox) {
-		TechnicalTermCreationWindow newTTDialog = new TechnicalTermCreationWindow(ResourceBundle.getBundle("languageBundles.lexikon", new Locale("es")), germanSpecialtyComboBox, spanishSpecialtyComboBox);
+		TechnicalTermCreationWindow newTTDialog = (TechnicalTermCreationWindow)windowCreator.createWindow(DialogWindows.TechnicalTermCreationWindow, languageBundle, germanSpecialtyComboBox, spanishSpecialtyComboBox);
+	}
+	
+	public void openAssignmentDialog(ResourceBundle languageBundle, List<TechnicalTerm> technicalTermList) {
+		AssignTechnicalTermToSpecialtyWindow newAssignDialog = (AssignTechnicalTermToSpecialtyWindow)windowCreator.createWindow(DialogWindows.AssignTechnicalTermToSpecialtyWindow, languageBundle, technicalTermList);
 	}
 }

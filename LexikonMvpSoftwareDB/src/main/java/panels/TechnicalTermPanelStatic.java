@@ -60,35 +60,35 @@ public class TechnicalTermPanelStatic extends MyPanel {
 		contentPanel = new JPanel();
 		contentPanel.setBackground(WinUtil.LIGHT_BLACK);
 		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
-		contentPanel.setPreferredSize(new Dimension((int)(mainFrameWidth), 500));
+		contentPanel.setPreferredSize(new Dimension(mainFrameWidth, 500));
 
 		staticElementsPanel = new JPanel();
 		staticElementsPanel.setBackground(WinUtil.LIGHT_BLACK);
 		staticElementsPanel.setLayout(new GridBagLayout());
-		staticElementsPanel.setPreferredSize(new Dimension((int)(mainFrameWidth), (int)(displaySize.getHeight() * staticPanelHeight/1200)));
-		staticElementsPanel.setMinimumSize(new Dimension(displaySize.width, (int)(displaySize.getHeight() * staticPanelHeight/1200)));
-		staticElementsPanel.setMaximumSize(new Dimension(displaySize.width, (int)(displaySize.getHeight() * staticPanelHeight/1200)));
+		staticElementsPanel.setPreferredSize(new Dimension(mainFrameWidth, WinUtil.relH(staticPanelHeight)));
+		staticElementsPanel.setMinimumSize(new Dimension(displaySize.width, WinUtil.relH(staticPanelHeight)));
+		staticElementsPanel.setMaximumSize(new Dimension(displaySize.width, WinUtil.relH(staticPanelHeight)));
 	}
 	
 	private void createLabels() {
 		resultLabel = new JLabel(languageBundle.getString(labelTitle) + "  ' " + dynamicPanel.getSearchWord() + " '");
-		WinUtil.configLabel(resultLabel, (int)(displaySize.getWidth() * 1200/1920), (int)(displaySize.getHeight() * 40/1200), Color.WHITE, WinUtil.LIGHT_BLACK, 25, Font.BOLD);
-		GridBagLayoutUtilities.addGB(staticElementsPanel, resultLabel, 1, 1, 4, 1, new Insets((int)(displaySize.getHeight() * 30/1200), 0, (int)(displaySize.getHeight() * 10/1200), 0));
+		WinUtil.configLabel(resultLabel, WinUtil.relW(1200),  WinUtil.relH(40), Color.WHITE, WinUtil.LIGHT_BLACK, 25, Font.BOLD);
+		GridBagLayoutUtilities.addGB(staticElementsPanel, resultLabel, 1, 1, 4, 1, new Insets(WinUtil.relH(30), 0, WinUtil.relH(10), 0));
 		
 		JSeparator jSeparator = new JSeparator(SwingConstants.HORIZONTAL);
-		WinUtil.configSeparator(jSeparator, (int)(displaySize.getWidth() * 1000/1920), (int)(displaySize.getHeight() * 5/1200), Color.MAGENTA, WinUtil.LIGHT_BLACK);
+		WinUtil.configSeparator(jSeparator, WinUtil.relW(1000),  WinUtil.relH(5), Color.MAGENTA, WinUtil.LIGHT_BLACK);
 		GridBagLayoutUtilities.addGB(staticElementsPanel, jSeparator, 1, 2, 4, 1);		
 	}
 	
 	protected void createLabelsExtends() {
 		
 		germanLabel = new JLabel(languageBundle.getString("miDeutsch"));
-		WinUtil.configLabel(germanLabel, (int)(displaySize.getWidth() * 300/1920), (int)(displaySize.getHeight() * 30/1200), WinUtil.COOL_BLUE, WinUtil.LIGHT_BLACK, 18, Font.BOLD);
-		GridBagLayoutUtilities.addGB(staticElementsPanel, germanLabel, 1, 3, 2, 1, GridBagConstraints.BOTH, 1, 1, new Insets((int)(displaySize.getHeight() * 20/1200), 0, 0, 0));
+		WinUtil.configLabel(germanLabel, WinUtil.relW(300),  WinUtil.relH(30), WinUtil.COOL_BLUE, WinUtil.LIGHT_BLACK, 18, Font.BOLD);
+		GridBagLayoutUtilities.addGB(staticElementsPanel, germanLabel, 1, 3, 2, 1, GridBagConstraints.BOTH, 1, 1, new Insets(WinUtil.relH(20), 0, 0, 0));
 		
 		spanishLabel = new JLabel(languageBundle.getString("miSpanisch"));
-		WinUtil.configLabel(spanishLabel, (int)(displaySize.getWidth() * 300/1920), (int)(displaySize.getHeight() * 30/1200), WinUtil.STRONG_ORANGE, WinUtil.LIGHT_BLACK, 18, Font.BOLD);
-		GridBagLayoutUtilities.addGB(staticElementsPanel, spanishLabel, 3, 3, 2, 1, GridBagConstraints.BOTH, 1, 1, new Insets((int)(displaySize.getHeight() * 20/1200), 0, 0, 0));
+		WinUtil.configLabel(spanishLabel, WinUtil.relW(300),  WinUtil.relH(30), WinUtil.STRONG_ORANGE, WinUtil.LIGHT_BLACK, 18, Font.BOLD);
+		GridBagLayoutUtilities.addGB(staticElementsPanel, spanishLabel, 3, 3, 2, 1, GridBagConstraints.BOTH, 1, 1, new Insets(WinUtil.relH(20), 0, 0, 0));
 	}
 	
 	@Override
@@ -120,7 +120,7 @@ public class TechnicalTermPanelStatic extends MyPanel {
 		
 		dynamicPanel = newDynamicPanel;
 		
-		int staticHeight = (int) (displaySize.getHeight() * staticPanelHeight/1200);
+		int staticHeight = WinUtil.relH(staticPanelHeight);
 		int dynamicHeight = dynamicPanel.getDynamicPanelHeight();
 		
 		contentPanel.setPreferredSize(new Dimension(mainFrameWidth, staticHeight + dynamicHeight));

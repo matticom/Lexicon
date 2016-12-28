@@ -448,6 +448,19 @@ public class TermBOTest {
 		
 		assertThat(expectedArray, is(equalTo(actualArray)));		
 	}
+	
+	@Test
+	public void selectAllTechnicalTermsTest() throws Exception {
+		
+		entitymanager.getTransaction().begin();
+		List<TechnicalTerm> technicalTermList = termBOTest.selectAllTechnicalTerms();
+		entitymanager.getTransaction().commit();
+			
+		String[] expectedArray = new String[]{"Bewehrung", "Armadura", "Bindemittel", "Conglomerante", "Rolladen", null, "Floatglas", "Vidrio flotado"};
+		String[] actualArray = UtilMethods.extractAllTermsNamesFromTermList(technicalTermList);
+		
+		assertThat(expectedArray, is(equalTo(actualArray)));		
+	}
 					
 	@Test
 	public void selectAllTermTranslationsTest() throws Exception {

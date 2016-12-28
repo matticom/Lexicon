@@ -316,6 +316,19 @@ public class TermDAOTest {
 	}
 	
 	@Test
+	public void selectAllTechnicalTermsTest() throws Exception {
+		
+		entitymanager.getTransaction().begin();
+		List<TechnicalTerm> technicalTermList = termDAOTest.selectAllTechnicalTerms();
+		entitymanager.getTransaction().commit();
+			
+		String[] expectedArray = new String[]{"Bewehrung", "Armadura", "Bindemittel", "Conglomerante", "Rolladen", "Persiana", "Floatglas", "Vidrio flotado"};
+		String[] actualArray = UtilMethods.extractAllTermsNamesFromTermList(technicalTermList);
+		
+		assertThat(expectedArray, is(equalTo(actualArray)));		
+	}
+	
+	@Test
 	public void selectSpecialtyByNameTest() throws Exception {
 		
 		Languages de = languageDAOTest.selectLanguageById(1);

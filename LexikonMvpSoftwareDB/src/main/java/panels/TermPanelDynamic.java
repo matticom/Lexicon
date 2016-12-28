@@ -67,9 +67,9 @@ public class TermPanelDynamic extends JPanel implements DynamicPanel {
 		
 		Dimension displaySize = Toolkit.getDefaultToolkit().getScreenSize();
 		numbersOfSpecialties = termList.size();
-		int buttonWidth = (int) (displaySize.getWidth() * 200/1920);
-		int buttonHeight = (int) (displaySize.getHeight() * 30/1200);
-		int inset = (int) (displaySize.getWidth() * 20/1920);
+		int buttonWidth =  WinUtil.relW(200);
+		int buttonHeight = WinUtil.relH(30);
+		int inset =  WinUtil.relW(20);
 		
 		createTermButtons(termList, buttonWidth, buttonHeight);
 		calculateGrid(numbersOfSpecialties, mainFrameWidth/2, inset, buttonWidth, buttonHeight);

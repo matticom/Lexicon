@@ -23,7 +23,7 @@ import utilities.WinUtil;
 public class MenuBar extends JMenuBar implements Updatable {
 
 	private JMenu menuFile, menuEdit, menuView, miChooseLanguage, menuExtras;
-	private JMenuItem miExit, miNew, miHistory;
+	private JMenuItem miExit, miNew, miAssign, miHistory;
 	private JRadioButtonMenuItem miGerman, miSpanish;
 	
 	private ResourceBundle languageBundle;
@@ -48,6 +48,8 @@ public class MenuBar extends JMenuBar implements Updatable {
 										new ImageIcon(this.getClass().getResource("/images/Delete.png")), 't', null);
 		miNew = WinUtil.createMenuItem(menuEdit, "neu", WinUtil.MenuItemType.ITEM_PLAIN, null, languageBundle.getString("miNeu"),
 										new ImageIcon(this.getClass().getResource("/images/New.png")), 'u', null);
+		miAssign = WinUtil.createMenuItem(menuEdit, "zuordnen", WinUtil.MenuItemType.ITEM_PLAIN, null, languageBundle.getString("miZuordnen"),
+				new ImageIcon(this.getClass().getResource("/images/Edit.png")), 'o', null);
 		miChooseLanguage = WinUtil.createSubMenu(menuView, languageBundle.getString("miWaehlSprache"), "chooseLanguage", 'w');
 		miHistory = WinUtil.createMenuItem(menuExtras, "history", WinUtil.MenuItemType.ITEM_PLAIN, null, languageBundle.getString("miHistory"), 
 											new ImageIcon(this.getClass().getResource("/images/Delete.png")), 'h', "Geschichte löschen");
@@ -84,6 +86,7 @@ public class MenuBar extends JMenuBar implements Updatable {
 		menuExtras.setText(languageBundle.getString("menuExtras"));
 		miExit.setText(languageBundle.getString("miBeenden"));
 		miNew.setText(languageBundle.getString("miNeu"));
+		miAssign.setText(languageBundle.getString("miZuordnen"));
 		miChooseLanguage.setText(languageBundle.getString("miWaehlSprache"));
 		miHistory.setText(languageBundle.getString("miHistory"));
 		miGerman.setText(languageBundle.getString("miDeutsch"));
@@ -98,8 +101,12 @@ public class MenuBar extends JMenuBar implements Updatable {
 		miNew.addActionListener(l);
 	}
 	
+	public void setMiAssignActionListener(ActionListener l) {
+		miAssign.addActionListener(l);
+	}
+	
 	public void setMiHistoryActionListener(ActionListener l) {
-		miNew.addActionListener(l);
+		miHistory.addActionListener(l);
 	}
 	
 	public void setMiGermanActionListener(ActionListener l) {

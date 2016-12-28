@@ -76,9 +76,9 @@ public class SearchResultPanelDynamic extends JPanel implements DynamicPanel {
 		this.add(spanishPanel);
 				
 		Dimension displaySize = Toolkit.getDefaultToolkit().getScreenSize();
-		int buttonWidth = (int) (displaySize.getWidth() * 200/1920);
-		int buttonHeight = (int) (displaySize.getHeight() * 30/1200);
-		int inset = (int) (displaySize.getWidth() * 40/1920);
+		int buttonWidth =  WinUtil.relW(200);
+		int buttonHeight =  WinUtil.relH(30);
+		int inset =  WinUtil.relW(40);
 
 		splitAndCreateButtons(technicalTermTranslationList, buttonWidth, buttonHeight);
 		calculateDynamicPanelHeight(buttonHeight, inset);
@@ -186,6 +186,4 @@ public class SearchResultPanelDynamic extends JPanel implements DynamicPanel {
 	public int getDynamicPanelHeight() {
 		return dynamicPanelHeight;
 	}
-	
-	
 }

@@ -59,31 +59,31 @@ public class SpecialtyPanelStatic extends MyPanel {
 		staticElementsPanel = new JPanel();
 		staticElementsPanel.setBackground(WinUtil.LIGHT_BLACK);
 		staticElementsPanel.setLayout(new GridBagLayout());
-		staticElementsPanel.setPreferredSize(new Dimension((int) (mainFrameWidth), (int) (displaySize.getHeight() * 270/1200)));
-		staticElementsPanel.setMinimumSize(new Dimension(displaySize.width, (int) (displaySize.getHeight() * 270/1200)));
-		staticElementsPanel.setMaximumSize(new Dimension(displaySize.width, (int) (displaySize.getHeight() * 270/1200)));
+		staticElementsPanel.setPreferredSize(new Dimension((int) (mainFrameWidth), WinUtil.relH(270)));
+		staticElementsPanel.setMinimumSize(new Dimension(displaySize.width, WinUtil.relH(270)));
+		staticElementsPanel.setMaximumSize(new Dimension(displaySize.width, WinUtil.relH(270)));
 	}
 	
 	private void createLabels() {
 		welcomeLabel = new JLabel(languageBundle.getString("welcomeLbl"));
-		WinUtil.configLabel(welcomeLabel, (int) (displaySize.getWidth() * 800/1920), (int) (displaySize.getHeight() * 40/1200), Color.WHITE, WinUtil.LIGHT_BLACK, 30, Font.BOLD);
-		GridBagLayoutUtilities.addGB(staticElementsPanel, welcomeLabel, 1, 1, 2, 1, new Insets((int) (displaySize.getHeight() * 30/1200), 0, (int) (displaySize.getHeight() * 10/1200), 0));
+		WinUtil.configLabel(welcomeLabel,  WinUtil.relW(800),  WinUtil.relH(40), Color.WHITE, WinUtil.LIGHT_BLACK, 30, Font.BOLD);
+		GridBagLayoutUtilities.addGB(staticElementsPanel, welcomeLabel, 1, 1, 2, 1, new Insets(WinUtil.relH(30), 0, WinUtil.relH(10), 0));
 
 		JSeparator jSeparator = new JSeparator(SwingConstants.HORIZONTAL);
-		WinUtil.configSeparator(jSeparator, (int) (displaySize.getWidth() * 1000/1920), (int) (displaySize.getHeight() * 5/1200), Color.MAGENTA, WinUtil.LIGHT_BLACK);
+		WinUtil.configSeparator(jSeparator, WinUtil.relW(1000),  WinUtil.relH(5), Color.MAGENTA, WinUtil.LIGHT_BLACK);
 		GridBagLayoutUtilities.addGB(staticElementsPanel, jSeparator, 1, 2, 2, 1);
 
 		introductionLabel = new JLabel(languageBundle.getString("introductionLbl"));
-		WinUtil.configLabel(introductionLabel, (int) (displaySize.getWidth() * 1100/1920), (int) (displaySize.getHeight() * 100/1200), WinUtil.ULTRA_LIGHT_GRAY, Color.DARK_GRAY, 20, Font.BOLD);
-		GridBagLayoutUtilities.addGB(staticElementsPanel, introductionLabel, 1, 3, 2, 1, new Insets((int) (displaySize.getHeight() * 10/1200), 0, (int) (displaySize.getHeight() * 20/1200), 0));
+		WinUtil.configLabel(introductionLabel, WinUtil.relW(1100),  WinUtil.relH(100), WinUtil.ULTRA_LIGHT_GRAY, Color.DARK_GRAY, 20, Font.PLAIN);
+		GridBagLayoutUtilities.addGB(staticElementsPanel, introductionLabel, 1, 3, 2, 1, new Insets(WinUtil.relH(10), 0, WinUtil.relH(20), 0));
 		introductionLabel.setBorder(new EmptyBorder(5, 80, 5, 80));
 		
 		specialtyLabelDE = new JLabel(languageBundle.getString("subjectLblDE"));
-		WinUtil.configLabel(specialtyLabelDE, (int)(displaySize.getWidth() * 200/1920), (int)(displaySize.getHeight() * 30/1200), Color.WHITE, WinUtil.LIGHT_BLACK, 18, Font.PLAIN);
+		WinUtil.configLabel(specialtyLabelDE, WinUtil.relW(200),  WinUtil.relH(30), Color.WHITE, WinUtil.LIGHT_BLACK, 18, Font.PLAIN);
 		GridBagLayoutUtilities.addGB(staticElementsPanel, specialtyLabelDE, 1, 4, 1, 1, GridBagConstraints.BOTH, 1, 1, new Insets(0, 0, 0, 0));
 
 		specialtyLabelES = new JLabel(languageBundle.getString("subjectLblES"));
-		WinUtil.configLabel(specialtyLabelES, (int)(displaySize.getWidth() * 200/1920), (int)(displaySize.getHeight() * 30/1200), Color.WHITE, WinUtil.LIGHT_BLACK, 18, Font.PLAIN);
+		WinUtil.configLabel(specialtyLabelES, WinUtil.relW(200),  WinUtil.relH(30), Color.WHITE, WinUtil.LIGHT_BLACK, 18, Font.PLAIN);
 		GridBagLayoutUtilities.addGB(staticElementsPanel, specialtyLabelES, 2, 4, 1, 1, GridBagConstraints.BOTH, 1, 1, new Insets(0, 0, 0, 0));
 	}
 
@@ -115,7 +115,7 @@ public class SpecialtyPanelStatic extends MyPanel {
 		
 		dynamicPanel = newDynamicPanel;
 		
-		int staticHeight = (int) (displaySize.getHeight() * 270/1200);
+		int staticHeight = WinUtil.relH(270);
 		int dynamicHeight = dynamicPanel.getDynamicPanelHeight();
 		
 		contentPanel.setPreferredSize(new Dimension(mainFrameWidth, staticHeight + dynamicHeight));

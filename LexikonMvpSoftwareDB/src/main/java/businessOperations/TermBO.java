@@ -38,17 +38,10 @@ public class TermBO {
 
 		// Sprache durch GUI Combolist auswählbar -> zur Not dort ein Button für
 		// Erstellung einer neuen Sprache
-		Languages language = languageBO.selectLanguageById(languageId); // Sprache
-																		// sollte
-																		// da
-																		// sein
-																		// wegen
-																		// GUI,falls
-																		// nicht:
-																		// wirft
-																		// Exception
+		Languages language = languageBO.selectLanguageById(languageId); 
 		String normalName = PersistenceUtil.convertSpecialChar(name);
 
+		// Sprache sollte da sein wegen GUI,falls nicht: wirft Exception
 		try {
 			selectTechnicalTermByName(normalName, languageId);
 			throw new TechnicalTermAlreadyExists();
@@ -56,19 +49,8 @@ public class TermBO {
 		}
 
 		try {
-			Specialty specialty = selectSpecialtyById(SpecialtyId); // Specialty
-																	// ist immer
-																	// definiert
-																	// durch
-																	// Combolist,
-																	// "leere"
-																	// Specialty
-																	// ist
-																	// specialtyId
-																	// = 1
-																	// (vorher
-																	// in DB
-																	// injizieren)
+			Specialty specialty = selectSpecialtyById(SpecialtyId);
+			// Specialty ist immer definiert durch Combolist, "leere" Specialty ist specialtyId = 1 (vorher in DB injizieren)
 			TechnicalTerm technicalTerm = new TechnicalTerm();
 			technicalTerm.setSpecialty(specialty);
 			Translations translation = new Translations(name, normalName, description, language, technicalTerm);
@@ -220,6 +202,10 @@ public class TermBO {
 	public List<Specialty> selectAllSpecialties() {
 		return termDAO.selectAllSpecialties();
 	}
+	
+	public List<TechnicalTerm> selectAllTechnicalTerms() {
+		return termDAO.selectAllTechnicalTerms();
+	}
 
 	public List<Translations> selectAllTermTranslations(int termId) {
 
@@ -235,10 +221,8 @@ public class TermBO {
 	public List<TechnicalTerm> selectAllTechnicalTermsOfSpecialty(int specialtyId) {
 		Specialty specialty = selectSpecialtyById(specialtyId);
 		return specialty.getTechnicalTermsList();
-		
 	}
 
-	
 	public List<Translations> searchTechnicalTerms(String name) {
 
 		String normalName = PersistenceUtil.convertSpecialChar(name);

@@ -42,7 +42,7 @@ public class HeadBar extends JPanel implements Updatable {
 
 		this.displaySize = displaySize;
 		panelWidth = mainFrameWidth;
-		panelHeight = (int) (displaySize.getHeight() * 0.0833);
+		panelHeight = (int) (WinUtil.relH(100));
 		this.languageBundle = languageBundle;
 		sidePanelWidth = panelWidth/4;
 		this.searchComboBox = searchComboBox;
@@ -65,7 +65,6 @@ public class HeadBar extends JPanel implements Updatable {
 		this.add(leftPanel);
 		this.add(centerPanel);
 		this.add(rightPanel);
-		
 	}
 	
 	private void createPanelArchitecture() {
@@ -79,7 +78,6 @@ public class HeadBar extends JPanel implements Updatable {
 		rightPanel = new JPanel(null);
 		rightPanel.setPreferredSize(new Dimension(sidePanelWidth, panelHeight));
 		rightPanel.setBackground(Color.DARK_GRAY);
-		
 	}
 	
 	private void createGuiElementsOfLeftPanel() {
@@ -93,42 +91,36 @@ public class HeadBar extends JPanel implements Updatable {
 	private void createGuiElementsOfCenterPanel() {
 
 		headDescriptionLabel = new JLabel(languageBundle.getString("headDescriptionLabel"));
-		WinUtil.configStaticLabel(headDescriptionLabel, (int)(sidePanelWidth - displaySize.width*0.1302),
-				 (int)(displaySize.height*0.0083), (int)(displaySize.width*0.2604), (int)(displaySize.height*0.0208), Color.WHITE, Color.DARK_GRAY, 13, Font.BOLD);
+		WinUtil.configStaticLabel(headDescriptionLabel, sidePanelWidth - WinUtil.relW(250), WinUtil.relH(10), WinUtil.relW(500), WinUtil.relH(25), Color.WHITE, Color.DARK_GRAY, 13, Font.BOLD);
 		centerPanel.add(headDescriptionLabel);
 		
 		drawAlphabet(panelWidth, panelHeight);
 		alphabetBackgroundPanel = new JPanel();
-		alphabetBackgroundPanel.setBounds((int)(sidePanelWidth - displaySize.width*0.1354), (int)(displaySize.height*0.0300), (int)(displaySize.width*0.2708), (int)(displaySize.height*0.0233));
+		alphabetBackgroundPanel.setBounds(sidePanelWidth - WinUtil.relW(260), WinUtil.relH(36), WinUtil.relW(520), WinUtil.relH(28));
 		alphabetBackgroundPanel.setBackground(WinUtil.DARKER_GRAY);
 		centerPanel.add(alphabetBackgroundPanel);
 		
 		specialtyButton = new JButton(languageBundle.getString("subjectsBtn"));
-		WinUtil.configStaticButton(specialtyButton, (int)(sidePanelWidth - displaySize.width*0.0521), (int)(displaySize.height*0.0600), 
-									(int)(displaySize.width*0.1042), (int)(displaySize.height*0.0167), BorderFactory.createLineBorder(Color.GRAY), WinUtil.ULTRA_LIGHT_GRAY, Color.DARK_GRAY);
+		WinUtil.configStaticButton(specialtyButton, sidePanelWidth - WinUtil.relW(100), WinUtil.relH(72), WinUtil.relW(200), WinUtil.relH(20), BorderFactory.createLineBorder(Color.GRAY), WinUtil.ULTRA_LIGHT_GRAY, Color.DARK_GRAY);
 		centerPanel.add(specialtyButton);
 	}
 	
 	private void createGuiElementsOfRightPanel() {
 
 		deButton = new JButton("DE");
-		WinUtil.configStaticButton(deButton, (int)(sidePanelWidth - displaySize.width*0.0432), (int)(displaySize.height*0.0083), (int)(displaySize.width*0.0130), (int)(displaySize.height*0.0208), 
-									new EmptyBorder(0, 0, 0, 0), Color.WHITE, Color.DARK_GRAY);
+		WinUtil.configStaticButton(deButton, sidePanelWidth - WinUtil.relW(83), WinUtil.relH(10), WinUtil.relW(25), WinUtil.relH(25), new EmptyBorder(0, 0, 0, 0), Color.WHITE, Color.DARK_GRAY);
 		rightPanel.add(deButton);
 
 		separatorLabel = new JLabel("/");
-		WinUtil.configStaticLabel(separatorLabel, (int)(sidePanelWidth - displaySize.width*0.0276), (int)(displaySize.height*0.0083), (int)(displaySize.width*0.0026), (int)(displaySize.height*0.0208),
-									Color.WHITE, Color.DARK_GRAY, 12, Font.PLAIN);
+		WinUtil.configStaticLabel(separatorLabel, sidePanelWidth - WinUtil.relW(53), WinUtil.relH(10), WinUtil.relW(5), WinUtil.relH(25), Color.WHITE, Color.DARK_GRAY, 12, Font.PLAIN);
 		rightPanel.add(separatorLabel);
 
 		esButton = new JButton("ES");
-		WinUtil.configStaticButton(esButton, (int)(sidePanelWidth - displaySize.width*0.0234), (int)(displaySize.height*0.0083), (int)(displaySize.width*0.0130), (int)(displaySize.height*0.0208), 
-				new EmptyBorder(0, 0, 0, 0), Color.WHITE, Color.DARK_GRAY);
+		WinUtil.configStaticButton(esButton, sidePanelWidth - WinUtil.relW(45), WinUtil.relH(10), WinUtil.relW(25), WinUtil.relH(25), new EmptyBorder(0, 0, 0, 0), Color.WHITE, Color.DARK_GRAY);
 		rightPanel.add(esButton);
 		
 		newTechnicalTermButton = new JButton(languageBundle.getString("newEntryBtn"));
-		WinUtil.configStaticButton(newTechnicalTermButton, (int)(sidePanelWidth - displaySize.width*0.1458), (int)(displaySize.height*0.0417),
-									(int)(displaySize.width*0.1354), (int)(displaySize.height*0.0250), BorderFactory.createLineBorder(Color.BLACK), Color.WHITE, Color.DARK_GRAY);
+		WinUtil.configStaticButton(newTechnicalTermButton, sidePanelWidth - WinUtil.relW(280), WinUtil.relH(50), WinUtil.relW(260), WinUtil.relH(30), BorderFactory.createLineBorder(Color.BLACK), Color.WHITE, Color.DARK_GRAY);
 		rightPanel.add(newTechnicalTermButton);
 	}
 	
@@ -139,8 +131,7 @@ public class HeadBar extends JPanel implements Updatable {
 			int xLetterOffSet = (int) (arrayPosition * 0.0094 * displaySize.width);
 			
 			alphabetButtons[arrayPosition] = new JButton(String.valueOf(letter));
-			WinUtil.configStaticButton(alphabetButtons[arrayPosition], (int)(sidePanelWidth - displaySize.width*0.1219 + xLetterOffSet), (int)(displaySize.height*0.0333), 
-										(int)(displaySize.width*0.0073), (int)(displaySize.height*0.0167), BorderFactory.createLineBorder(Color.GRAY), WinUtil.ULTRA_LIGHT_GRAY, WinUtil.DARKER_GRAY);
+			WinUtil.configStaticButton(alphabetButtons[arrayPosition], sidePanelWidth - WinUtil.relW(234) + xLetterOffSet, WinUtil.relH(40), WinUtil.relW(14), WinUtil.relH(20), BorderFactory.createLineBorder(Color.GRAY), WinUtil.ULTRA_LIGHT_GRAY, WinUtil.DARKER_GRAY);
 			alphabetButtons[arrayPosition].setActionCommand(String.valueOf(letter) + "%");
 			centerPanel.add(alphabetButtons[arrayPosition]);
 		}
@@ -173,17 +164,13 @@ public class HeadBar extends JPanel implements Updatable {
 		int centerPanelHalfWidth = (mainFrameWidth - 2*sidePanelWidth) / 2;
 		centerPanel.setPreferredSize(new Dimension(centerPanelHalfWidth*2, panelHeight));
 		
-		headDescriptionLabel.setBounds((int)(centerPanelHalfWidth - displaySize.width*0.1302),
-				 (int) (displaySize.height*0.0083), (int) (displaySize.width*0.2604), (int) (displaySize.height*0.0208));
-		specialtyButton.setBounds((int) (centerPanelHalfWidth - displaySize.width*0.0521),
-				 (int) (displaySize.height*0.0600), (int) (displaySize.width*0.1042), (int) (displaySize.height*0.0167));
-		alphabetBackgroundPanel.setBounds((int)(centerPanelHalfWidth - displaySize.width*0.1354),
-				 (int) (displaySize.height*0.0300), (int) (displaySize.width*0.2708), (int) (displaySize.height*0.0233));
+		headDescriptionLabel.setBounds(centerPanelHalfWidth - WinUtil.relW(250), WinUtil.relH(10), WinUtil.relW(500), WinUtil.relH(25));
+		specialtyButton.setBounds(centerPanelHalfWidth - WinUtil.relW(100), WinUtil.relH(72), WinUtil.relW(200), WinUtil.relH(20));
+		alphabetBackgroundPanel.setBounds(centerPanelHalfWidth - WinUtil.relW(260), WinUtil.relH(36), WinUtil.relW(520), WinUtil.relH(28));
 		
 		for (int arrayPosition = 0; arrayPosition < 26; arrayPosition++) {
-			int xLetterOffSet = (int) (arrayPosition * 0.0094 * displaySize.width);
-			alphabetButtons[arrayPosition].setBounds((int) (centerPanelHalfWidth - displaySize.width*0.1219 + xLetterOffSet), 
-					(int) (displaySize.height*0.0338), (int) (displaySize.width*0.0073), (int) (displaySize.height*0.0167));
+			int xLetterOffSet = arrayPosition * WinUtil.relW(18);
+			alphabetButtons[arrayPosition].setBounds(centerPanelHalfWidth - WinUtil.relW(234) + xLetterOffSet, WinUtil.relH(40), WinUtil.relW(14), WinUtil.relH(20));
 		}
 	}
 

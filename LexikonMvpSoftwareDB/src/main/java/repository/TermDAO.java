@@ -148,6 +148,19 @@ public class TermDAO {
 
 		return specialtyList;
 	}
+	
+	public List<TechnicalTerm> selectAllTechnicalTerms() {
+
+		CriteriaBuilder criteriaBuilder = entitymanager.getCriteriaBuilder();
+		CriteriaQuery<TechnicalTerm> criteriaQuery = criteriaBuilder.createQuery(TechnicalTerm.class);
+
+		Root<TechnicalTerm> technicalTerm = criteriaQuery.from(TechnicalTerm.class);
+		criteriaQuery.select(technicalTerm);
+
+		List<TechnicalTerm> technicalTermList = entitymanager.createQuery(criteriaQuery).getResultList();
+
+		return technicalTermList;
+	}
 
 	public Specialty selectSpecialtyByName(String normalName, Languages language) throws NoResultException {
 
