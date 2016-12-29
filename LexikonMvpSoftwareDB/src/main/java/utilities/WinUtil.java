@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -411,6 +413,18 @@ public class WinUtil {
 		textArea.setWrapStyleWord(true);
 //		textArea.setPreferredSize(new Dimension(width, height));
 		scrollPane.setPreferredSize(new Dimension(width, height));
+	}
+	
+	public static int getLanguageId(ResourceBundle languageBundle) {
+				
+		final int GERMAN = 1;
+		final int SPANISH = 2;
+		
+		if (languageBundle.getLocale().equals(new Locale("de"))) {
+			return GERMAN;
+		} else {
+			return SPANISH;
+		}
 	}
 
 	

@@ -40,6 +40,7 @@ import org.eclipse.persistence.internal.jpa.EntityManagerImpl;
 import org.junit.Before;
 import org.junit.Test;
 
+import AssignmentWindowComponents.AssignmentTableRowObject;
 import businessOperations.LanguageBO;
 import businessOperations.TermBO;
 import businessOperations.TermBOTest;
@@ -66,6 +67,7 @@ import panels.TechnicalTermPanelStatic;
 import panels.SpecialtyPanelStatic;
 import repository.LanguageDAO;
 import repository.TermDAO;
+import windows.AssignConfirmationWindow;
 import windows.AssignTechnicalTermToSpecialtyWindow;
 import windows.TechnicalTermCreationWindow;
 
@@ -88,6 +90,9 @@ public class HeadBarTest {
 	private static LanguageBO languageBOTest;
 	
 	DialogWindowCreator windowCreator;
+	AssignTechnicalTermToSpecialtyWindow newAssignDialog;
+	
+	AssignmentTableRowObject[] tableRowObjectArray;
 
 
 	int mainFrameWidth;
@@ -136,6 +141,7 @@ public class HeadBarTest {
 		mainFrame.setJMenuBar(menuBar);
 		
 		menuBar.setMiAssignActionListener(e -> openAssignmentDialog(ResourceBundle.getBundle("languageBundles.lexikon", new Locale("es")), termBOTest.selectAllTechnicalTerms()));
+		
 
 		mainFrame.setMinimumSize(new Dimension((int) (displaySize.width * 0.6850), (int) (displaySize.height * 0.3333)));
 		// HeadBar headBar2 = new HeadBar(mainFrameWidth, mainFrameHeight,
@@ -326,6 +332,13 @@ public class HeadBarTest {
 	}
 	
 	public void openAssignmentDialog(ResourceBundle languageBundle, List<TechnicalTerm> technicalTermList) {
-		AssignTechnicalTermToSpecialtyWindow newAssignDialog = (AssignTechnicalTermToSpecialtyWindow)windowCreator.createWindow(DialogWindows.AssignTechnicalTermToSpecialtyWindow, languageBundle, technicalTermList);
+		newAssignDialog = (AssignTechnicalTermToSpecialtyWindow)windowCreator.createWindow(DialogWindows.AssignTechnicalTermToSpecialtyWindow, languageBundle, technicalTermList);
+		newAssignDialog.setChangeButtonActionListener(e -> openAssignConfirmationDialog(ResourceBundle.getBundle("languageBundles.lexikon", new Locale("es")), newAssignDialog.getTableRowObjects()));
 	}
+	
+	public void openAssignConfirmationDialog(ResourceBundle languageBundle, AssignmentTableRowObject[] tableRowObjectArray) {
+		AssignConfirmationWindow newAssignConfirmationDialog = (AssignConfirmationWindow)windowCreator.createWindow(DialogWindows.AssignConfirmationWindow, languageBundle, tableRowObjectArray);
+	}
+	
+	
 }

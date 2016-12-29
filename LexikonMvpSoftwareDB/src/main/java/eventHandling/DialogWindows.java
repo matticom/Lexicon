@@ -1,5 +1,5 @@
 package eventHandling;
 
 public enum DialogWindows {
-	TechnicalTermContentWindow, TechnicalTermCreationWindow, AssignTechnicalTermToSpecialtyWindow
+	TechnicalTermContentWindow, TechnicalTermCreationWindow, AssignTechnicalTermToSpecialtyWindow, AssignConfirmationWindow
 }

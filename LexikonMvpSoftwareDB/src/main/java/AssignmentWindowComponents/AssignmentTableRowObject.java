@@ -1,4 +1,4 @@
-package windows;
+package AssignmentWindowComponents;
 
 public class AssignmentTableRowObject {
 	
@@ -87,4 +87,14 @@ public class AssignmentTableRowObject {
 	public void setSpecialtySpanishName(String specialtySpanishName) {
 		this.specialtySpanishName = specialtySpanishName;
 	}
+
+
+	@Override
+	public String toString() {
+		return "AssignmentTableRowObject [technicalTermId=" + technicalTermId + ", specialtyId=" + specialtyId + ", technicalTermGermanName="
+				+ technicalTermGermanName + ", technicalTermSpanishName=" + technicalTermSpanishName + ", specialtyGermanName=" + specialtyGermanName
+				+ ", specialtySpanishName=" + specialtySpanishName + "]";
+	}
+	
+	
 }

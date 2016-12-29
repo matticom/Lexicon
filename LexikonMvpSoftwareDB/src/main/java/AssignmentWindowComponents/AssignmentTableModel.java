@@ -1,11 +1,13 @@
-package windows;
+package AssignmentWindowComponents;
 
 import java.util.List;
+import java.util.ResourceBundle;
 
 import model.Specialty;
 import model.TechnicalTerm;
 import model.Term;
 import model.Translations;
+import utilities.WinUtil;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -15,22 +17,26 @@ public class AssignmentTableModel extends AbstractTableModel {
 	private final int SPANISH = 2;
 	
 	private List<TechnicalTerm> technicalTermList;
+	private String[] columnNames;
 	private int numberOfRows; 
 	private AssignmentTableRowObject[] tableRowObjectArray; 
 	private int languageId;
 	
+	private ResourceBundle languageBundle;
+	
 		
-	public AssignmentTableModel(List<TechnicalTerm> technicalTermList, int languageId) {
+	public AssignmentTableModel(ResourceBundle languageBundle, List<TechnicalTerm> technicalTermList) {
 		
-		this.languageId = languageId;
+		this.languageId = WinUtil.getLanguageId(languageBundle);
 		this.technicalTermList = technicalTermList;
 		numberOfRows = technicalTermList.size();
+		this.languageBundle = languageBundle;
+		columnNames = new String[]{languageBundle.getString("TermWinTerm"), languageBundle.getString("TermWinSubject")};
 		tableRowObjectArray = new AssignmentTableRowObject[numberOfRows];
-		tableRowObjectArray = convertTechnicalTermListToArray(technicalTermList, tableRowObjectArray);
-		System.out.println("fertig!");
+		tableRowObjectArray = convertTechnicalTermListToArray(technicalTermList);
 	}
 
-	private AssignmentTableRowObject[] convertTechnicalTermListToArray(List<TechnicalTerm> technicalTermList, AssignmentTableRowObject[] tableRowObjectArray) {
+	private AssignmentTableRowObject[] convertTechnicalTermListToArray(List<TechnicalTerm> technicalTermList) {
 				
 		TechnicalTerm technicalTerm;
 		Specialty specialty;
@@ -84,6 +90,11 @@ public class AssignmentTableModel extends AbstractTableModel {
 		}
 	}
 
+	@Override
+	public String getColumnName(int colIndex)
+	{
+		return columnNames[colIndex];
+	}
 	
 	@Override
 	public int getColumnCount() {
@@ -144,6 +155,10 @@ public class AssignmentTableModel extends AbstractTableModel {
 		}
 		
 		fireTableCellUpdated(rowIndex, colIndex);
+	}
+	
+	public AssignmentTableRowObject getAssignmentTableRowObjectAtRow(int row) {
+		return tableRowObjectArray[row];
 	}
 	
 
