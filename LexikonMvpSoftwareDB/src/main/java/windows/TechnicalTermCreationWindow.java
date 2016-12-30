@@ -36,7 +36,7 @@ import utilities.ExtendedListItem;
 import utilities.GridBagLayoutUtilities;
 import utilities.WinUtil;
 
-public class TechnicalTermCreationWindow extends MyWindow {
+public class TechnicalTermCreationWindow extends MyWindow implements SpecialtyTextFieldsCheckable{
 
 	private final double JDIALOG_DISPLAY_RATIO = 0.6;
 	private int panelWidth;
@@ -325,14 +325,25 @@ public class TechnicalTermCreationWindow extends MyWindow {
 		return spanishTextField;
 	}
 
+	@Override
 	public JTextField getGermanSpecialtyInput() {
 		return germanSpecialtyInput;
 	}
 
+	@Override
 	public JTextField getSpanishSpecialtyInput() {
 		return spanishSpecialtyInput;
 	}
+	
+	public JTextArea getGermanTextArea() {
+		return germanTextArea;
+	}
 
+	public JTextArea getSpanishTextArea() {
+		return spanishTextArea;
+	}
+
+	@Override
 	public boolean isNewSpecialtySelected() {
 		return newSpecialtySelected;
 	}

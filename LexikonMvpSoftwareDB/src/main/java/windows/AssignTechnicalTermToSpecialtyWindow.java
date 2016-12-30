@@ -11,6 +11,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
@@ -39,7 +40,7 @@ import model.TechnicalTerm;
 import utilities.GridBagLayoutUtilities;
 import utilities.WinUtil;
 
-public class AssignTechnicalTermToSpecialtyWindow extends MyWindow {
+public class AssignTechnicalTermToSpecialtyWindow extends MyWindow implements SpecialtyTextFieldsCheckable {
 
 	private final double JDIALOG_DISPLAY_RATIO_WIDTH = 0.3;
 	private final double JDIALOG_DISPLAY_RATIO_HEIGHT = 0.7;
@@ -68,6 +69,8 @@ public class AssignTechnicalTermToSpecialtyWindow extends MyWindow {
 	private JTextField spanishSpecialtyInput;
 
 	ChooseSpecialtyComboBox specialtyComboBox;
+	
+	private boolean newSpecialtySelected = false;
 
 	public AssignTechnicalTermToSpecialtyWindow(ResourceBundle languageBundle, List<TechnicalTerm> technicalTermList,
 			ChooseSpecialtyComboBox specialtyComboBox) {
@@ -179,16 +182,16 @@ public class AssignTechnicalTermToSpecialtyWindow extends MyWindow {
 		changeButton.addActionListener(l);
 	}
 
-	public AssignmentTableRowObject[] getTableRowObjects() {
+	public int[] getTechnicalTermIds() {
 
 		int[] selectedRows = technicalTermTable.getSelectedRows();
-		AssignmentTableRowObject[] tableRowObjectArray = new AssignmentTableRowObject[selectedRows.length];
+		int[] technicalTermIdArray = new int[selectedRows.length];
 
 		for (int row = 0; row < selectedRows.length; row++) {
 			int rowIndex = selectedRows[row];
-			tableRowObjectArray[row] = assignmentTableModel.getAssignmentTableRowObjectAtRow(rowIndex);
+			technicalTermIdArray[row] = assignmentTableModel.getAssignmentTableRowObjectAtRow(rowIndex).getTechnicalTermId();
 		}
-		return tableRowObjectArray;
+		return technicalTermIdArray;
 	}
 
 	
@@ -196,6 +199,7 @@ public class AssignTechnicalTermToSpecialtyWindow extends MyWindow {
 
 		if (e.getStateChange() == ItemEvent.SELECTED) {
 
+			newSpecialtySelected = true;
 			specialtyComboBox.setVisible(false);
 			newGermanSpecialtyLabel.setVisible(true);
 			newSpanishSpecialtyLabel.setVisible(true);
@@ -204,6 +208,7 @@ public class AssignTechnicalTermToSpecialtyWindow extends MyWindow {
 		}
 		if (e.getStateChange() == ItemEvent.DESELECTED) {
 
+			newSpecialtySelected = false;
 			specialtyComboBox.setVisible(true);
 			newGermanSpecialtyLabel.setVisible(false);
 			newSpanishSpecialtyLabel.setVisible(false);
@@ -211,4 +216,30 @@ public class AssignTechnicalTermToSpecialtyWindow extends MyWindow {
 			spanishSpecialtyInput.setVisible(false);
 		}
 	}
+
+	public void setTextFieldListener(KeyListener l) {
+		germanSpecialtyInput.addKeyListener(l);
+		spanishSpecialtyInput.addKeyListener(l);
+	}
+	
+	@Override
+	public JTextField getGermanSpecialtyInput() {
+		return germanSpecialtyInput;
+	}
+
+	@Override
+	public JTextField getSpanishSpecialtyInput() {
+		return spanishSpecialtyInput;
+	}
+	
+	@Override
+	public boolean isNewSpecialtySelected() {
+		return newSpecialtySelected;
+	}
+
+	public void refreshAssignmentTableModel(List<TechnicalTerm> technicalTermList) {
+		
+		assignmentTableModel = new AssignmentTableModel(languageBundle, technicalTermList);
+		technicalTermTable.setModel(assignmentTableModel);
+	}	
 }

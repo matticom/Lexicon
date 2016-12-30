@@ -58,6 +58,7 @@ import eventHandling.PanelEventTransferObject;
 import eventHandling.PanelUpdateObjects;
 import exceptions.SpecialtyAlreadyExistsAsTechnicalTerm;
 import exceptions.TechnicalTermAlreadyExistsAsSpecialty;
+import inputChecker.AssignmentDialogChecker;
 import inputChecker.NewTechnicalTermDialogChecker;
 import inputChecker.SearchWordChecker;
 import interactElements.ComboBoxFactory;
@@ -104,6 +105,7 @@ public class HeadBarTest {
 
 	AssignmentTableRowObject[] tableRowObjectArray;
 	NewTechnicalTermDialogChecker newTTChecker;
+	AssignmentDialogChecker assignmentChecker;
 
 	int mainFrameWidth;
 	int mainFrameHeight;
@@ -153,7 +155,8 @@ public class HeadBarTest {
 		List<TechnicalTerm> allTechnicalTermList = termBOTest.selectAllTechnicalTerms();
 
 		SearchWordChecker searchWordChecker = new SearchWordChecker();
-		newTTChecker = new NewTechnicalTermDialogChecker(allSpecialtyList, allTechnicalTermList);
+		newTTChecker = new NewTechnicalTermDialogChecker();
+		assignmentChecker = new AssignmentDialogChecker();
 
 		ComboBoxFactory comboBoxFactory = new ComboBoxFactory();
 		fillHistoryList();
@@ -173,7 +176,7 @@ public class HeadBarTest {
 		MenuBar menuBar = new MenuBar(ResourceBundle.getBundle("languageBundles.lexikon", new Locale("es")));
 		mainFrame.setJMenuBar(menuBar);
 		menuBar.setMiAssignActionListener(e -> openAssignmentDialog(ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")),
-				allTechnicalTermList, assignSpecialtyComboBox));
+				assignSpecialtyComboBox));
 
 		checkLetter();
 		HeadBar headBar = new HeadBar(displaySize, mainFrameWidth, ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")),
@@ -353,30 +356,92 @@ public class HeadBarTest {
 		});
 
 		newTTDialog.setInsertButtonsActionListener(e -> {
-			newTTChecker.checkNewTechnicalTermDialog(newTTDialog, termBOTest);
+			newTTChecker.checkDialog(newTTDialog, termBOTest);
 			if (newTTChecker.isTestPassed()) {
-				saveNewTerm();
+				saveNewTechnicalTerm(languageBundle, germanSpecialtyComboBox, spanishSpecialtyComboBox, newTTDialog);
 			}
 		});
 	}
 
-	private void saveNewTerm() {
-		System.out.println("Alles okay, wird gespeichert!!!!!!!!!!!!!");
+	private void saveNewTechnicalTerm(ResourceBundle languageBundle, ChooseSpecialtyComboBox germanSpecialtyComboBox,
+			ChooseSpecialtyComboBox spanishSpecialtyComboBox, TechnicalTermCreationWindow newTTDialog) {
+		int specialtyId = 0;
+		if (newTTDialog.isNewSpecialtySelected()) {
+			
+			entitymanager.getTransaction().begin();
+			Specialty newSpecialty = termBOTest.createSpecialty(newTTDialog.getGermanSpecialtyInput().getText(), "", 1);
+			entitymanager.getTransaction().commit();
+			
+			specialtyId = newSpecialty.getId();
+			
+			entitymanager.getTransaction().begin();
+			termBOTest.createSpecialtyTranslation(specialtyId, newTTDialog.getSpanishSpecialtyInput().getText(), "", 2);
+			entitymanager.getTransaction().commit();
+		} else {
+			if (WinUtil.getLanguageId(languageBundle) == GERMAN) {
+				specialtyId = germanSpecialtyComboBox.getSelectedListItem().getValueMember();
+				System.out.println("Specialty Id: " + specialtyId);
+			}
+			if (WinUtil.getLanguageId(languageBundle) == SPANISH) {
+				specialtyId = spanishSpecialtyComboBox.getSelectedListItem().getValueMember();
+				System.out.println("Specialty Id: " + specialtyId);
+			}
+		}
+			
+		int technicalTermId;
+		entitymanager.getTransaction().begin();
+		technicalTermId = termBOTest.createTechnicalTerm(newTTDialog.getGermanTextField().getText(), newTTDialog.getGermanTextArea().getText(), 1, specialtyId).getId();
+		entitymanager.getTransaction().commit();
+		
+		entitymanager.getTransaction().begin();
+		termBOTest.createTechnicalTermTranslation(technicalTermId, newTTDialog.getSpanishTextField().getText(), newTTDialog.getSpanishTextArea().getText(), 2);
+		entitymanager.getTransaction().commit();
 	}
 
-	public void openAssignmentDialog(ResourceBundle languageBundle, List<TechnicalTerm> technicalTermList,
-			ChooseSpecialtyComboBox specialtyComboBox) {
+	public void openAssignmentDialog(ResourceBundle languageBundle,	ChooseSpecialtyComboBox specialtyComboBox) {
+		List<TechnicalTerm> technicalTermList = termBOTest.selectAllTechnicalTerms();
 		newAssignDialog = (AssignTechnicalTermToSpecialtyWindow) windowCreator.createWindow(DialogWindows.AssignTechnicalTermToSpecialtyWindow,
 				languageBundle, technicalTermList, specialtyComboBox);
-		newAssignDialog.setChangeButtonActionListener(e -> changeButtonPressed(specialtyComboBox));
+		newAssignDialog.setTextFieldListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				assignmentChecker.keyTypedChecker(e);
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				assignmentChecker.keyPressedChecker(e);
+			}
+		});
+
+		newAssignDialog.setChangeButtonActionListener(e -> {
+			assignmentChecker.checkDialog(newAssignDialog, termBOTest);
+			if (assignmentChecker.isTestPassed()) {
+				changeButtonPressed(specialtyComboBox);
+			}
+		});
 	}
 
 	public void changeButtonPressed(ChooseSpecialtyComboBox specialtyComboBox) {
-		try {
-			System.out.println(specialtyComboBox.getSelectedListItem().getValueMember());
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Es wurde kein Element ausgew‰hlt: " + e.getMessage(), "Fehler", JOptionPane.ERROR_MESSAGE);
-		}
+		
+			int specialtyId;
+			if (newAssignDialog.isNewSpecialtySelected()) {
+				
+				entitymanager.getTransaction().begin();
+				Specialty newSpecialty = termBOTest.createSpecialty(newAssignDialog.getGermanSpecialtyInput().getText(), "", 1);
+				entitymanager.getTransaction().commit();
+				
+				specialtyId = newSpecialty.getId();
+				
+				entitymanager.getTransaction().begin();
+				termBOTest.createSpecialtyTranslation(specialtyId, newAssignDialog.getSpanishSpecialtyInput().getText(), "", 2);
+				entitymanager.getTransaction().commit();
+			} else {
+				specialtyId = specialtyComboBox.getSelectedListItem().getValueMember();
+			}	
+			termBOTest.assignTechnicalTermsToSpecialty(newAssignDialog.getTechnicalTermIds(), specialtyId);
+			newAssignDialog.refreshAssignmentTableModel(termBOTest.selectAllTechnicalTerms());
+			System.out.println("Fertig.... Fenster schlieﬂen");
 	}
 
 }
