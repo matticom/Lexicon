@@ -3,11 +3,14 @@ package windows;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
@@ -15,39 +18,63 @@ import java.util.ResourceBundle;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JScrollBar;
 
 import AssignmentWindowComponents.AssignmentTableModel;
 import AssignmentWindowComponents.AssignmentTableRowObject;
 import AssignmentWindowComponents.TechnicalTermJTable;
+import interactElements.ChooseSpecialtyComboBox;
+import interactElements.MyScrollBarUI;
 import model.TechnicalTerm;
 import utilities.GridBagLayoutUtilities;
 import utilities.WinUtil;
 
 public class AssignTechnicalTermToSpecialtyWindow extends MyWindow {
 
-	private final double JDIALOG_DISPLAY_RATIO = 0.4;
+	private final double JDIALOG_DISPLAY_RATIO_WIDTH = 0.3;
+	private final double JDIALOG_DISPLAY_RATIO_HEIGHT = 0.7;
 	private int panelWidth;
 	private int panelHeight;
-	
+
 	List<TechnicalTerm> technicalTermList;
-	
+
 	private Container contentPane;
 	private JScrollPane scrollPane;
 	private Dimension displaySize;
-	
+
+	private JLabel instructionLabel;
 	private JTable technicalTermTable;
 	private AssignmentTableModel assignmentTableModel;
 	private JButton changeButton;
-		
 
-	public AssignTechnicalTermToSpecialtyWindow(ResourceBundle languageBundle, List<TechnicalTerm> technicalTermList) {
-		super(languageBundle);	
+	private JLabel chooseSpecialtyLabel;
+	private JLabel newSpecialtyLabel;
+	private JCheckBox newSpecialtyCheckBox;
+
+	private JLabel newGermanSpecialtyLabel;
+	private JLabel newSpanishSpecialtyLabel;
+
+	private JTextField germanSpecialtyInput;
+	private JTextField spanishSpecialtyInput;
+
+	ChooseSpecialtyComboBox specialtyComboBox;
+
+	public AssignTechnicalTermToSpecialtyWindow(ResourceBundle languageBundle, List<TechnicalTerm> technicalTermList,
+			ChooseSpecialtyComboBox specialtyComboBox) {
+		super(languageBundle);
 		this.technicalTermList = technicalTermList;
 		contentPane = this.getContentPane();
+		this.specialtyComboBox = specialtyComboBox;
 		initialize();
 	}
 
@@ -55,7 +82,7 @@ public class AssignTechnicalTermToSpecialtyWindow extends MyWindow {
 
 		initializeJDialog();
 		createTable();
-		
+
 		this.setLocationByPlatform(true);
 		this.setVisible(true);
 	}
@@ -67,11 +94,13 @@ public class AssignTechnicalTermToSpecialtyWindow extends MyWindow {
 		contentPane.setLayout(new GridBagLayout());
 
 		displaySize = Toolkit.getDefaultToolkit().getScreenSize();
-		panelWidth = (int) (displaySize.getWidth() * JDIALOG_DISPLAY_RATIO);
-		panelHeight = (int) (displaySize.getHeight() * JDIALOG_DISPLAY_RATIO);
+		panelWidth = (int) (displaySize.getWidth() * JDIALOG_DISPLAY_RATIO_WIDTH);
+		panelHeight = (int) (displaySize.getHeight() * JDIALOG_DISPLAY_RATIO_HEIGHT);
 
-		this.setMinimumSize(new Dimension(displaySize.width / 3, panelHeight));
-		this.setMaximumSize(new Dimension(displaySize.width / 2, displaySize.height));
+		this.setMinimumSize(new Dimension(panelWidth, panelHeight));
+		this.setMaximumSize(new Dimension(displaySize.width, displaySize.height));
+
+		this.setPreferredSize(new Dimension(panelWidth, panelHeight));
 
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.setResizable(true);
@@ -83,51 +112,103 @@ public class AssignTechnicalTermToSpecialtyWindow extends MyWindow {
 		});
 	}
 
-	
-		
 	private void createTable() {
-		
+
 		assignmentTableModel = new AssignmentTableModel(languageBundle, technicalTermList);
 		technicalTermTable = new TechnicalTermJTable(assignmentTableModel);
-		
-		changeButton = new JButton(languageBundle.getString("insertBtn"));
-		WinUtil.configButton(changeButton, WinUtil.relW(180), WinUtil.relH(30), BorderFactory.createLineBorder(WinUtil.GRASS_GREEN),
-				WinUtil.GRASS_GREEN, WinUtil.LIGHT_BLACK);
-		GridBagLayoutUtilities.addGB(contentPane, changeButton, 1, 2, 1, 1, GridBagConstraints.NONE, 0, 1,
-				new Insets(WinUtil.relH(30), 0, WinUtil.relH(30), 0), GridBagConstraints.SOUTH);
-		
-		
-//		technicalTermTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-//		technicalTermTable.setGridColor(WinUtil.LIGHT_BLACK);
-//		technicalTermTable.setIntercellSpacing(new Dimension(0, 0));
-//		technicalTermTable.setShowGrid(false);
-		// Listener nur Anzeige der aktuellen Zeilennummer
-//		technicalTermTable.getSelectionModel().addListSelectionListener(this);
-		// Zum Abfangen der Tasten POS1 und ENDE
-//		technicalTermTable.addKeyListener(this);
-//		// Für Doppelklick
-//		technicalTermTable.addMouseListener(this);
-		
-//		technicalTermTable.setModel();
-		
+
+		instructionLabel = new JLabel(languageBundle.getString("instructionLabel"));
+		WinUtil.configLabel(instructionLabel, WinUtil.relW((int) (panelWidth * 0.9)), WinUtil.relH(30), WinUtil.ULTRA_LIGHT_GRAY, Color.DARK_GRAY, 13,
+				Font.PLAIN);
+		GridBagLayoutUtilities.addGB(contentPane, instructionLabel, 1, 1, 2, 1, new Insets(WinUtil.relH(10), 0, WinUtil.relH(20), 0));
+		instructionLabel.setBorder(new EmptyBorder(5, 5, 5, 5));
+
 		scrollPane = new JScrollPane(technicalTermTable);
-		GridBagLayoutUtilities.addGB(contentPane, scrollPane, 1, 1, 1, 1, GridBagConstraints.BOTH, 1, 1,
-				new Insets(WinUtil.relH(10), WinUtil.relW(30), WinUtil.relH(30), WinUtil.relW(30)));
+		scrollPane.getViewport().setBackground(Color.GRAY);
+		scrollPane.getViewport().setPreferredSize(new Dimension(100, 100));
+		GridBagLayoutUtilities.addGB(contentPane, scrollPane, 1, 2, 2, 1, GridBagConstraints.BOTH, 1, 1,
+				new Insets(WinUtil.relH(10), WinUtil.relW(30), WinUtil.relH(10), WinUtil.relW(30)));
+		JScrollBar scrollbar = new JScrollBar(JScrollBar.VERTICAL);
+		scrollbar.setUI(new MyScrollBarUI());
+		scrollPane.setVerticalScrollBar(scrollbar);
+
+		GridBagLayoutUtilities.addGB(contentPane, specialtyComboBox, 1, 4, 2, 1, GridBagConstraints.HORIZONTAL, 1, 0,
+				new Insets(0, WinUtil.relW(30), WinUtil.relH(10), WinUtil.relW(30)));
+
+		newSpecialtyCheckBox = new JCheckBox(languageBundle.getString("newSpecialty"));
+		WinUtil.configCheckBox(newSpecialtyCheckBox, 400, 20, WinUtil.DARK_WHITE, e -> itemStateChanged(e), SwingConstants.LEFT);
+		GridBagLayoutUtilities.addGB(contentPane, newSpecialtyCheckBox, 1, 3, 2, 1, GridBagConstraints.NONE, 0, 0,
+				new Insets(WinUtil.relH(10), WinUtil.relW(27), WinUtil.relH(10), WinUtil.relW(30)), GridBagConstraints.WEST);
+
+		newGermanSpecialtyLabel = new JLabel(languageBundle.getString("germanSpecialty"));
+		newGermanSpecialtyLabel.setVisible(false);
+		WinUtil.configLabel(newGermanSpecialtyLabel, WinUtil.relW(200), WinUtil.relH(30), WinUtil.ULTRA_LIGHT_GRAY, WinUtil.LIGHT_BLACK, 13,
+				Font.PLAIN);
+		GridBagLayoutUtilities.addGB(contentPane, newGermanSpecialtyLabel, 1, 4, 1, 1, new Insets(WinUtil.relH(0), WinUtil.relW(30), 0, WinUtil.relW(10)));
+
+		newSpanishSpecialtyLabel = new JLabel(languageBundle.getString("spanishSpecialty"));
+		newSpanishSpecialtyLabel.setVisible(false);
+		WinUtil.configLabel(newSpanishSpecialtyLabel, WinUtil.relW(200), WinUtil.relH(30), WinUtil.ULTRA_LIGHT_GRAY, WinUtil.LIGHT_BLACK, 13,
+				Font.PLAIN);
+		GridBagLayoutUtilities.addGB(contentPane, newSpanishSpecialtyLabel, 2, 4, 1, 1, new Insets(WinUtil.relH(0), WinUtil.relW(10), 0, WinUtil.relW(30)));
+
+		germanSpecialtyInput = new JTextField();
+		germanSpecialtyInput.setBackground(WinUtil.DARK_WHITE);
+		germanSpecialtyInput.setPreferredSize(new Dimension(WinUtil.relW(200), WinUtil.relH(30)));
+		germanSpecialtyInput.setMargin(new Insets(0, 3, 0, 0));
+		germanSpecialtyInput.setVisible(false);
+		GridBagLayoutUtilities.addGB(contentPane, germanSpecialtyInput, 1, 5, 1, 1, GridBagConstraints.HORIZONTAL, 1, 0,
+				new Insets(0, WinUtil.relW(30), WinUtil.relH(10), WinUtil.relW(10)));
+
+		spanishSpecialtyInput = new JTextField();
+		spanishSpecialtyInput.setBackground(WinUtil.DARK_WHITE);
+		spanishSpecialtyInput.setPreferredSize(new Dimension(WinUtil.relW(200), WinUtil.relH(30)));
+		spanishSpecialtyInput.setMargin(new Insets(0, 3, 0, 0));
+		spanishSpecialtyInput.setVisible(false);
+		GridBagLayoutUtilities.addGB(contentPane, spanishSpecialtyInput, 2, 5, 1, 1, GridBagConstraints.HORIZONTAL, 1, 0,
+				new Insets(0, WinUtil.relW(10), WinUtil.relH(10), WinUtil.relW(30)));
+
+		changeButton = new JButton(languageBundle.getString("changeButton"));
+		WinUtil.configButton(changeButton, WinUtil.relW(150), WinUtil.relH(30), BorderFactory.createLineBorder(WinUtil.GRASS_GREEN),
+				WinUtil.GRASS_GREEN, WinUtil.LIGHT_BLACK);
+		GridBagLayoutUtilities.addGB(contentPane, changeButton, 1, 6, 2, 1, GridBagConstraints.NONE, 0, 0,
+				new Insets(WinUtil.relH(30), 0, WinUtil.relH(30), 0), GridBagConstraints.SOUTH);
 	}
-	
+
 	public void setChangeButtonActionListener(ActionListener l) {
 		changeButton.addActionListener(l);
 	}
-	
+
 	public AssignmentTableRowObject[] getTableRowObjects() {
-		
+
 		int[] selectedRows = technicalTermTable.getSelectedRows();
 		AssignmentTableRowObject[] tableRowObjectArray = new AssignmentTableRowObject[selectedRows.length];
-		
-		for(int row = 0; row < selectedRows.length; row++) {
+
+		for (int row = 0; row < selectedRows.length; row++) {
 			int rowIndex = selectedRows[row];
 			tableRowObjectArray[row] = assignmentTableModel.getAssignmentTableRowObjectAtRow(rowIndex);
 		}
 		return tableRowObjectArray;
+	}
+
+	
+	public void itemStateChanged(ItemEvent e) {
+
+		if (e.getStateChange() == ItemEvent.SELECTED) {
+
+			specialtyComboBox.setVisible(false);
+			newGermanSpecialtyLabel.setVisible(true);
+			newSpanishSpecialtyLabel.setVisible(true);
+			germanSpecialtyInput.setVisible(true);
+			spanishSpecialtyInput.setVisible(true);
+		}
+		if (e.getStateChange() == ItemEvent.DESELECTED) {
+
+			specialtyComboBox.setVisible(true);
+			newGermanSpecialtyLabel.setVisible(false);
+			newSpanishSpecialtyLabel.setVisible(false);
+			germanSpecialtyInput.setVisible(false);
+			spanishSpecialtyInput.setVisible(false);
+		}
 	}
 }

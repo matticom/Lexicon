@@ -223,7 +223,8 @@ public class HeadBar extends JPanel implements Updatable {
 		for (char letter = 'A'; letter <= 'Z'; letter++) {
 			alphabetButtons[letter - 65].addActionListener(l);
 		}
-
 	}
+	
+	
 
 }

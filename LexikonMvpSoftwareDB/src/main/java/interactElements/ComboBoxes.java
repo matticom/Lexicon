@@ -1,5 +1,5 @@
 package interactElements;
 
 public enum ComboBoxes {
-	SearchComboBox, GermanSpecialtyComboBox, SpanishSpecialtyComboBox
+	SearchComboBox, GermanSpecialtyComboBox, SpanishSpecialtyComboBox, SpecialtyComboBox
 }

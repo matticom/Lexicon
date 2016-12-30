@@ -8,8 +8,10 @@ import javax.persistence.NoResultException;
 import exceptions.LanguageEntryInSpecialtyAlreadyExists;
 import exceptions.LanguageEntryInTechnicalTermAlreadyExists;
 import exceptions.SpecialtyAlreadyExists;
+import exceptions.SpecialtyAlreadyExistsAsTechnicalTerm;
 import exceptions.SpecialtyDoesNotExist;
 import exceptions.TechnicalTermAlreadyExists;
+import exceptions.TechnicalTermAlreadyExistsAsSpecialty;
 import exceptions.TechnicalTermDoesNotExist;
 import exceptions.TermDoesNotExist;
 import exceptions.TranslationDoesNotExist;
@@ -175,13 +177,13 @@ public class TermBO {
 		return termDAO.updateTranslation(translation, newTranslation);
 	}
 
-	public Specialty selectSpecialtyByName(String name, int languageId) throws NoResultException {
+	public Specialty selectSpecialtyByName(String name, int languageId) throws NoResultException, SpecialtyAlreadyExistsAsTechnicalTerm {
 		String normalName = PersistenceUtil.convertSpecialChar(name);
 		Languages language = languageBO.selectLanguageById(languageId);
 		return termDAO.selectSpecialtyByName(normalName, language);
 	}
 
-	public TechnicalTerm selectTechnicalTermByName(String name, int languageId) throws NoResultException {
+	public TechnicalTerm selectTechnicalTermByName(String name, int languageId) throws NoResultException, TechnicalTermAlreadyExistsAsSpecialty {
 		String normalName = PersistenceUtil.convertSpecialChar(name);
 		Languages language = languageBO.selectLanguageById(languageId);
 		return termDAO.selectTechnicalTermByName(normalName, language);

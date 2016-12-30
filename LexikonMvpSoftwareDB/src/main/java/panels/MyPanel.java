@@ -17,6 +17,9 @@ public abstract class MyPanel  extends JScrollPane implements Updatable {
 	protected int mainFrameWidth;
 	protected int mainFrameHeight;
 	
+	protected final int GERMAN = 1;
+	protected final int SPANISH = 2;
+	
 	protected ResourceBundle 	languageBundle;
 	
 	protected Dimension displaySize;

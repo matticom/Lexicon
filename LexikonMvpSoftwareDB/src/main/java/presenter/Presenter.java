@@ -124,10 +124,11 @@ public class Presenter {
 		
 		
 //		headBar = new HeadBar(languageBundle);
-		comboBoxFactory = new ComboBoxFactory();
-		searchComboBox = (SearchComboBox) comboBoxFactory.createComboBox(ComboBoxes.SearchComboBox, history);
-		headBar.add(searchComboBox);
 		SearchWordChecker searchWordChecker = new SearchWordChecker();
+		comboBoxFactory = new ComboBoxFactory();
+		searchComboBox = (SearchComboBox) comboBoxFactory.createComboBox(ComboBoxes.SearchComboBox, history, searchWordChecker);
+		headBar.add(searchComboBox);
+		
 
 		searchComboBox.setSearchComboBoxFocusListener(new FocusAdapter() {
 			@Override
@@ -141,12 +142,12 @@ public class Presenter {
 		searchComboBox.setSearchComboBoxKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				searchWordChecker.keyPressedChecker(e, searchComboBox.getEditor().getEditorComponent());
+				searchWordChecker.keyPressedChecker(e);
 			}
 
 			@Override
 			public void keyTyped(KeyEvent e) {
-				searchWordChecker.keyTypedChecker(e, searchComboBox.getEditor().getEditorComponent());
+				searchWordChecker.keyTypedChecker(e);
 			}
 		});
 

@@ -32,9 +32,6 @@ public class ChooseSpecialtyComboBox extends MyComboBox {
 	private List<Specialty> specialtyList;
 	private ResourceBundle languageBundle;
 
-	private final int GERMAN = 1;
-	private final int SPANISH = 2;
-
 	private int languageId;
 
 	public ChooseSpecialtyComboBox(ResourceBundle languageBundle, List<Specialty> specialtyList, int languageId) {
@@ -54,15 +51,7 @@ public class ChooseSpecialtyComboBox extends MyComboBox {
 		this.getEditor().getEditorComponent().setForeground(WinUtil.ULTRA_DARK_GRAY);
 		((JTextComponent) this.getEditor().getEditorComponent()).setMargin(new Insets(0, 13, 0, 0));
 		fillComboBoxWithSpecialties(specialtyList, 12);
-		((JTextComponent) this.getEditor().getEditorComponent()).setText(languageBundle.getString("newSpecialty"));
-		
-		((JTextComponent) this.getEditor().getEditorComponent()).addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e)
-			{
-				((JTextComponent) ChooseSpecialtyComboBox.this.getEditor().getEditorComponent()).selectAll();
-			}
-		});
+		((JTextComponent) this.getEditor().getEditorComponent()).setEditable(false);
 		
 	}
 
@@ -71,7 +60,7 @@ public class ChooseSpecialtyComboBox extends MyComboBox {
 
 		languageBundle = e.getCurrentLanguageBundle();
 		fillComboBoxWithSpecialties(e.getSpecialtyList(), 12);
-		((JTextComponent) this.getEditor().getEditorComponent()).setText(languageBundle.getString("newSpecialty"));
+//		((JTextComponent) this.getEditor().getEditorComponent()).setText(languageBundle.getString("newSpecialty"));
 	}
 
 	private void fillComboBoxWithSpecialties(List<Specialty> specialtyList, int fontResize) {
@@ -83,16 +72,34 @@ public class ChooseSpecialtyComboBox extends MyComboBox {
 		try {
 			for (int row = 0; row < rows; row++) {
 				specialty = specialtyList.get(row);
-				for (Translations translation : specialty.getTranslationList()) {
-					if (translation.getLanguages().getId() == languageId) {
-						specialtyComboBoxDefaultModel.addElement(new ListItem(row, new ExtendedListItem(translation.getName(), fontResize)));
-					}
+				String firstLanguage = "";
+				String secondLanguage = "";
+				if (languageId == GERMAN) {
+					firstLanguage = selectTermName(specialty, GERMAN);
+					secondLanguage = selectTermName(specialty, SPANISH);
 				}
+				if (languageId == SPANISH) {
+					firstLanguage = selectTermName(specialty, SPANISH);
+					secondLanguage = selectTermName(specialty, GERMAN);
+				}
+				specialtyComboBoxDefaultModel.addElement(new ListItem(specialty.getId(), new ExtendedListItem(firstLanguage, secondLanguage, fontResize)));
 			}
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null, "fillComboBoxWithSpecialties: " + ex.getMessage(), "Fehler", JOptionPane.ERROR_MESSAGE);
 		}
 
+	}
+	
+	private String selectTermName(Specialty specialty, int languageId) {
+		
+		String name = "";
+		
+		for (Translations translation : specialty.getTranslationList()) {
+			if (translation.getLanguages().getId() == languageId) {
+				name = translation.getName();
+			}
+		}
+		return name;
 	}
 
 	public void setSpecialtyComboBoxKeyListener(KeyListener l) {
@@ -101,5 +108,9 @@ public class ChooseSpecialtyComboBox extends MyComboBox {
 
 	public void setSpecialtyComboBoxFocusListener(FocusListener l) {
 		this.getEditor().getEditorComponent().addFocusListener(l);
+	}
+	
+	public ListItem getSelectedListItem() {
+		return (ListItem) specialtyComboBoxDefaultModel.getSelectedItem();
 	}
 }

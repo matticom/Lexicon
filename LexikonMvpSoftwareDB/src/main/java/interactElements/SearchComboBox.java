@@ -3,7 +3,11 @@ package interactElements;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.List;
 import java.util.Locale;
@@ -14,6 +18,7 @@ import javax.swing.text.JTextComponent;
 
 import eventHandling.ComboBoxEventTransferObject;
 import eventHandling.PanelEventTransferObject;
+import inputChecker.SearchWordChecker;
 import model.Specialty;
 import utilities.ExtendedListItem;
 import utilities.ListItem;
@@ -23,10 +28,12 @@ public class SearchComboBox extends MyComboBox {
 
 	private DefaultComboBoxModel<ListItem> searchComboBoxDefaultModel;
 	private List<String> historyList;
+	private SearchWordChecker keyChecker;
 
-	public SearchComboBox(List<String> historyList) {
+	public SearchComboBox(List<String> historyList, SearchWordChecker keyChecker) {
 		
 		this.historyList = historyList;
+		this.keyChecker = keyChecker;
 		initialize();
 	}
 
@@ -39,6 +46,27 @@ public class SearchComboBox extends MyComboBox {
 		this.getEditor().getEditorComponent().setForeground(WinUtil.ULTRA_DARK_GRAY);
 		writeSearchWordsFromDbToHistory(historyList, 12);
 		((JTextComponent) this.getEditor().getEditorComponent()).setText("");
+		
+		((JTextComponent) this.getEditor().getEditorComponent()).addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				((JTextComponent) SearchComboBox.this.getEditor().getEditorComponent()).selectAll();
+			}
+		});
+		
+		((JTextComponent) this.getEditor().getEditorComponent()).addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				keyChecker.keyTypedChecker(e);
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				keyChecker.keyPressedChecker(e);
+			}
+		});
+		
+		
 	}
 	
 	@Override
@@ -56,7 +84,7 @@ public class SearchComboBox extends MyComboBox {
 
 		try {
 			for (int row = 0; row < rows; row++) {
-				searchComboBoxDefaultModel.addElement(new ListItem(row, new ExtendedListItem(historyList.get(row), fontResize)));
+				searchComboBoxDefaultModel.addElement(new ListItem(row, new ExtendedListItem(historyList.get(row), null, fontResize)));
 			}
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null, "getHistoryStrings: " + ex.getMessage(), "Fehler", JOptionPane.ERROR_MESSAGE);

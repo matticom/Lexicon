@@ -10,6 +10,8 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import exceptions.SpecialtyAlreadyExistsAsTechnicalTerm;
+import exceptions.TechnicalTermAlreadyExistsAsSpecialty;
 import model.Languages;
 import model.Languages_;
 import model.Specialty;
@@ -164,13 +166,23 @@ public class TermDAO {
 
 	public Specialty selectSpecialtyByName(String normalName, Languages language) throws NoResultException {
 
-		Specialty specialty = (Specialty) selectTermByName(normalName, language.getName());
+		Specialty specialty;
+		try {
+			specialty = (Specialty) selectTermByName(normalName, language.getName());
+		} catch (ClassCastException e) {
+			throw new SpecialtyAlreadyExistsAsTechnicalTerm();
+		}
 		return specialty;
 	}
 
 	public TechnicalTerm selectTechnicalTermByName(String normalName, Languages language) throws NoResultException {
 
-		TechnicalTerm technicalTerm = (TechnicalTerm) selectTermByName(normalName, language.getName());
+		TechnicalTerm technicalTerm;
+		try {
+			technicalTerm = (TechnicalTerm) selectTermByName(normalName, language.getName());
+		} catch (ClassCastException e) {
+			throw new TechnicalTermAlreadyExistsAsSpecialty();
+		}
 		return technicalTerm;
 	}
 

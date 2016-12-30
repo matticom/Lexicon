@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -414,6 +415,16 @@ public class WinUtil {
 //		textArea.setPreferredSize(new Dimension(width, height));
 		scrollPane.setPreferredSize(new Dimension(width, height));
 	}
+	
+	public static void configCheckBox(JCheckBox checkbox, int width, int height, Color foreground, ItemListener listener, int horizontalAlignment) {
+		checkbox.setPreferredSize(new Dimension(WinUtil.relW(width), WinUtil.relH(height)));
+		checkbox.setOpaque(false);
+		checkbox.addItemListener(listener);
+		checkbox.setForeground(foreground);
+		checkbox.setFocusPainted(false);
+		checkbox.setHorizontalAlignment(horizontalAlignment);
+	}
+	
 	
 	public static int getLanguageId(ResourceBundle languageBundle) {
 				

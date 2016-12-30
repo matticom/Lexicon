@@ -5,6 +5,9 @@ import java.awt.event.KeyEvent;
 
 public interface InputCheckable {
 	
-	public void keyPressedChecker(KeyEvent e, Component source);
-	public void keyTypedChecker(KeyEvent e, Component source);
+	public final int GERMAN = 1;
+	public final int SPANISH = 2;
+	
+	public void keyPressedChecker(KeyEvent e);
+	public void keyTypedChecker(KeyEvent e);
 }
