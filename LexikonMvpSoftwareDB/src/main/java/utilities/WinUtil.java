@@ -29,6 +29,7 @@ public class WinUtil {
 	public static final Color COOL_BLUE = new Color(0, 178, 238);
 	public static final Color STRONG_ORANGE = new Color(255, 140, 0);
 	public static final Color GRASS_GREEN = new Color(127, 255, 0);
+	public static final Color HOT_RED = new Color(193, 27, 23);
 	
 
 	// Verhinder, dass eine Instanz dieser Klasse erstellt werden kann.
@@ -412,17 +413,43 @@ public class WinUtil {
 		textArea.setMargin(new Insets(3, 3, 3, 3));
 		textArea.setLineWrap(true);
 		textArea.setWrapStyleWord(true);
-//		textArea.setPreferredSize(new Dimension(width, height));
 		scrollPane.setPreferredSize(new Dimension(width, height));
 	}
 	
+	public static void configScrollPaneExtended(JScrollPane scrollPane, JTextArea textArea, int width, int height, Color foreground, Color background, Border border, boolean editable) {
+		
+		textArea.setForeground(foreground);
+		textArea.setBackground(background);	
+		textArea.setEditable(editable);
+		textArea.setMargin(new Insets(3, 3, 3, 3));
+		textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);
+		scrollPane.setPreferredSize(new Dimension(width, height));
+		scrollPane.setBorder(border);
+	}
+	
 	public static void configCheckBox(JCheckBox checkbox, int width, int height, Color foreground, ItemListener listener, int horizontalAlignment) {
-		checkbox.setPreferredSize(new Dimension(WinUtil.relW(width), WinUtil.relH(height)));
+		checkbox.setPreferredSize(new Dimension(width, height));
 		checkbox.setOpaque(false);
 		checkbox.addItemListener(listener);
 		checkbox.setForeground(foreground);
 		checkbox.setFocusPainted(false);
 		checkbox.setHorizontalAlignment(horizontalAlignment);
+	}
+	
+	public static void configTextField(JTextField textField, int width, int height, Color background, boolean editable) {
+		textField.setBackground(background);
+		textField.setPreferredSize(new Dimension(width, height));
+		textField.setMargin(new Insets(0, 3, 0, 0));
+		textField.setEditable(editable);
+	}
+	
+	public static void configTextFieldExtended(JTextField textField, int width, int height, Color foreground, Color background, Border border, boolean editable) {
+		textField.setBorder(BorderFactory.createCompoundBorder(border, BorderFactory.createEmptyBorder(0, 3, 0, 0)));
+		textField.setForeground(foreground);
+		textField.setBackground(background);
+		textField.setPreferredSize(new Dimension(width, height));
+		textField.setEditable(editable);
 	}
 	
 	

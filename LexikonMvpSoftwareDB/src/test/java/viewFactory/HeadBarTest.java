@@ -49,6 +49,7 @@ import AssignmentWindowComponents.AssignmentTableRowObject;
 import businessOperations.LanguageBO;
 import businessOperations.TermBO;
 import businessOperations.TermBOTest;
+import dto.TechnicalTermDTO;
 import interactElements.ChooseSpecialtyComboBox;
 import interactElements.ComboBoxCellRenderer;
 import eventHandling.ChosenLanguage;
@@ -78,8 +79,8 @@ import panels.SpecialtyPanelStatic;
 import repository.LanguageDAO;
 import repository.TermDAO;
 import utilities.WinUtil;
-import windows.AssignConfirmationWindow;
 import windows.AssignTechnicalTermToSpecialtyWindow;
+import windows.TechnicalTermContentWindow;
 import windows.TechnicalTermCreationWindow;
 
 public class HeadBarTest {
@@ -99,18 +100,22 @@ public class HeadBarTest {
 	private static LanguageDAO languageDAOTest;
 	private static TermBO termBOTest;
 	private static LanguageBO languageBOTest;
+	
 
-	DialogWindowCreator windowCreator;
-	AssignTechnicalTermToSpecialtyWindow newAssignDialog;
+	private DialogWindowCreator windowCreator;
+	private AssignTechnicalTermToSpecialtyWindow newAssignDialog;
+	private TechnicalTermContentWindow contentTTDialog;
 
-	AssignmentTableRowObject[] tableRowObjectArray;
-	NewTechnicalTermDialogChecker newTTChecker;
-	AssignmentDialogChecker assignmentChecker;
+	private AssignmentTableRowObject[] tableRowObjectArray;
+	private NewTechnicalTermDialogChecker newTTChecker;
+	private AssignmentDialogChecker assignmentChecker;
 
 	int mainFrameWidth;
 	int mainFrameHeight;
-	Dimension displaySize;
+	private Dimension displaySize;
 	private final double MAINFRAME_DISPLAY_RATIO = 0.8;
+	
+	private ResourceBundle 	languageBundle = ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de"));
 
 	private int counter = 0;
 
@@ -184,6 +189,10 @@ public class HeadBarTest {
 		mainFrame.add(headBar, BorderLayout.PAGE_START);
 		headBar.setNewTechnicalTermButtonActionListener(e -> openNewTechnicalTermDialog(
 				ResourceBundle.getBundle("languageBundles.lexikon", new Locale("es")), chooseSpecialtyComboBox, chooseSpecialtyComboBox2));
+		
+		
+		TechnicalTerm contentFloatglas = termBOTest.selectTechnicalTermById(15);
+		headBar.setAlphabetButtonActionListener(e -> openShowTechnicalTermDialog(ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")), contentFloatglas));
 
 		PanelCreator panelCreator = new PanelCreator();
 
@@ -442,6 +451,37 @@ public class HeadBarTest {
 			termBOTest.assignTechnicalTermsToSpecialty(newAssignDialog.getTechnicalTermIds(), specialtyId);
 			newAssignDialog.refreshAssignmentTableModel(termBOTest.selectAllTechnicalTerms());
 			System.out.println("Fertig.... Fenster schließen");
+	}
+	
+	public void openShowTechnicalTermDialog(ResourceBundle languageBundle, TechnicalTerm technicalTerm) {
+		contentTTDialog = (TechnicalTermContentWindow) windowCreator.createWindow(DialogWindows.TechnicalTermContentWindow,
+				languageBundle, technicalTerm);
+		contentTTDialog.setSaveChangesButtonActionListener(e -> saveNewTechnicalTermDescription(contentTTDialog, technicalTerm));
+		
+	}
+	
+	private void saveNewTechnicalTermDescription(TechnicalTermContentWindow contentTTDialog, TechnicalTerm technicalTerm) {
+		if (querySave(contentTTDialog)) {
+			TechnicalTermDTO technicalTermDTO = new TechnicalTermDTO(technicalTerm);
+			termBOTest.updateTranslation(technicalTerm.getId(), technicalTermDTO.getGermanName(), contentTTDialog.getGermanTextAreaText(), GERMAN);
+			termBOTest.updateTranslation(technicalTerm.getId(), technicalTermDTO.getSpanishName(), contentTTDialog.getSpanishTextAreaText(), SPANISH);
+			contentTTDialog.saveChangesEditMode();
+		}
+	}
+	
+	private boolean querySave(TechnicalTermContentWindow contentTTDialog) {
+
+		String[] options = { languageBundle.getString("speichern"), languageBundle.getString("abort") };
+		if (!contentTTDialog.isTextHasChangedInTextAreas()) {
+			return true;
+		}
+		int retValue = JOptionPane.showOptionDialog(contentTTDialog, languageBundle.getString("speichernDaten"), languageBundle.getString("speichernDatenTitle"), JOptionPane.YES_NO_OPTION,
+				JOptionPane.WARNING_MESSAGE, null, options, options[1]);
+	
+		if (retValue == JOptionPane.YES_OPTION) {
+			return true;
+		}
+		return false;
 	}
 
 }

@@ -10,11 +10,6 @@ import windows.TechnicalTermCreationWindow;
 
 public class NewTechnicalTermDialogChecker extends AssignmentDialogChecker {
 
-	
-	public NewTechnicalTermDialogChecker() {
-	
-	}	
-
 	@Override
 	public void checkDialog(SpecialtyTextFieldsCheckable dialog, TermBO termBOTest) {
 

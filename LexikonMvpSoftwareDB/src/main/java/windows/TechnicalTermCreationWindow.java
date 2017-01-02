@@ -36,7 +36,7 @@ import utilities.ExtendedListItem;
 import utilities.GridBagLayoutUtilities;
 import utilities.WinUtil;
 
-public class TechnicalTermCreationWindow extends MyWindow implements SpecialtyTextFieldsCheckable{
+public class TechnicalTermCreationWindow extends MyWindow implements SpecialtyTextFieldsCheckable {
 
 	private final double JDIALOG_DISPLAY_RATIO = 0.6;
 	private int panelWidth;
@@ -74,8 +74,7 @@ public class TechnicalTermCreationWindow extends MyWindow implements SpecialtyTe
 	private int SIDE_WIDTH = 20;
 	private int BOTTOM_HEIGHT = 20;
 
-	public TechnicalTermCreationWindow(ResourceBundle languageBundle, ChooseSpecialtyComboBox germanSpecialtyComboBox,
-			ChooseSpecialtyComboBox spanishSpecialtyComboBox) {
+	public TechnicalTermCreationWindow(ResourceBundle languageBundle, ChooseSpecialtyComboBox germanSpecialtyComboBox, ChooseSpecialtyComboBox spanishSpecialtyComboBox) {
 
 		super(languageBundle);
 		contentPane = this.getContentPane();
@@ -96,23 +95,14 @@ public class TechnicalTermCreationWindow extends MyWindow implements SpecialtyTe
 		createInsertButton();
 		arrangeComboBoxes();
 
-//		insertButton.addActionListener(e -> leseTtext()); // Beispielimplementierung
+		// insertButton.addActionListener(e -> leseTtext()); //
+		// Beispielimplementierung
 
 		configElementsVisiblityAtStart(WinUtil.getLanguageId(languageBundle));
 
 		this.setModal(false);
 		this.setLocationByPlatform(true);
 		this.setVisible(true);
-	}
-
-	private void leseTtext() {
-		System.out.println(((JTextComponent) germanSpecialtyComboBox.getEditor().getEditorComponent()).getText());
-
-		try {
-			System.out.println(germanSpecialtyComboBox.getSelectedListItem().getValueMember());
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Es wurde kein Element ausgewählt: " + e.getMessage(), "Fehler", JOptionPane.ERROR_MESSAGE);
-		}
 	}
 
 	private void initializeJDialog() {
@@ -154,32 +144,22 @@ public class TechnicalTermCreationWindow extends MyWindow implements SpecialtyTe
 	private void createTextFields() {
 
 		germanTextField = new JTextField();
-		germanTextField.setBackground(WinUtil.DARK_WHITE);
-		germanTextField.setPreferredSize(new Dimension(WinUtil.relW(350), WinUtil.relH(30)));
-		germanTextField.setMargin(new Insets(0, 3, 0, 0));
+		WinUtil.configTextField(germanTextField, WinUtil.relW(350), WinUtil.relH(30), WinUtil.DARK_WHITE, true);
 		GridBagLayoutUtilities.addGB(contentPane, germanTextField, 1, 4, 1, 1, GridBagConstraints.HORIZONTAL, 1, 0,
 				new Insets(0, WinUtil.relW(SIDE_WIDTH), WinUtil.relH(10), WinUtil.relW(SIDE_WIDTH)));
 
 		spanishTextField = new JTextField();
-		spanishTextField.setBackground(WinUtil.DARK_WHITE);
-		spanishTextField.setPreferredSize(new Dimension(WinUtil.relW(350), WinUtil.relH(30)));
-		spanishTextField.setMargin(new Insets(0, 3, 0, 0));
+		WinUtil.configTextField(spanishTextField, WinUtil.relW(350), WinUtil.relH(30), WinUtil.DARK_WHITE, true);
 		GridBagLayoutUtilities.addGB(contentPane, spanishTextField, 3, 4, 1, 1, GridBagConstraints.HORIZONTAL, 1, 0,
 				new Insets(0, WinUtil.relW(SIDE_WIDTH), WinUtil.relH(10), WinUtil.relW(SIDE_WIDTH)));
 
 		germanSpecialtyInput = new JTextField();
-		germanSpecialtyInput.setBackground(WinUtil.DARK_WHITE);
-		germanSpecialtyInput.setPreferredSize(new Dimension(WinUtil.relW(200), WinUtil.relH(30)));
-		germanSpecialtyInput.setMargin(new Insets(0, 3, 0, 0));
-		// germanSpecialtyInput.setVisible(false);
+		WinUtil.configTextField(germanSpecialtyInput, WinUtil.relW(200), WinUtil.relH(30), WinUtil.DARK_WHITE, true);
 		GridBagLayoutUtilities.addGB(contentPane, germanSpecialtyInput, 1, 5, 1, 2, GridBagConstraints.HORIZONTAL, 1, 0,
 				new Insets(0, WinUtil.relW(SIDE_WIDTH), WinUtil.relH(10), WinUtil.relW(SIDE_WIDTH)));
 
 		spanishSpecialtyInput = new JTextField();
-		spanishSpecialtyInput.setBackground(WinUtil.DARK_WHITE);
-		spanishSpecialtyInput.setPreferredSize(new Dimension(WinUtil.relW(200), WinUtil.relH(30)));
-		spanishSpecialtyInput.setMargin(new Insets(0, 3, 0, 0));
-		// spanishSpecialtyInput.setVisible(false);
+		WinUtil.configTextField(spanishSpecialtyInput, WinUtil.relW(200), WinUtil.relH(30), WinUtil.DARK_WHITE, true);
 		GridBagLayoutUtilities.addGB(contentPane, spanishSpecialtyInput, 3, 5, 1, 2, GridBagConstraints.HORIZONTAL, 1, 0,
 				new Insets(0, WinUtil.relW(SIDE_WIDTH), WinUtil.relH(10), WinUtil.relW(SIDE_WIDTH)));
 	}
@@ -204,33 +184,28 @@ public class TechnicalTermCreationWindow extends MyWindow implements SpecialtyTe
 	private void createInsertButton() {
 
 		insertButton = new JButton(languageBundle.getString("insertBtn"));
-		WinUtil.configButton(insertButton, WinUtil.relW(180), WinUtil.relH(30), BorderFactory.createLineBorder(WinUtil.GRASS_GREEN),
-				WinUtil.GRASS_GREEN, WinUtil.LIGHT_BLACK);
-		GridBagLayoutUtilities.addGB(contentPane, insertButton, 2, 8, 1, 1, GridBagConstraints.NONE, 0, 1,
-				new Insets(WinUtil.relH(30), 0, WinUtil.relH(BOTTOM_HEIGHT + 30), 0), GridBagConstraints.SOUTH);
+		WinUtil.configButton(insertButton, WinUtil.relW(180), WinUtil.relH(30), BorderFactory.createLineBorder(WinUtil.GRASS_GREEN), WinUtil.GRASS_GREEN, WinUtil.LIGHT_BLACK);
+		GridBagLayoutUtilities.addGB(contentPane, insertButton, 2, 8, 1, 1, GridBagConstraints.NONE, 0, 1, new Insets(WinUtil.relH(30), 0, WinUtil.relH(BOTTOM_HEIGHT + 30), 0),
+				GridBagConstraints.SOUTH);
 	}
 
 	private void createLabels() {
 
 		descriptionLabel = new JLabel(languageBundle.getString("dlgDescriptionLabel"));
 		WinUtil.configLabel(descriptionLabel, WinUtil.relW(600), WinUtil.relH(40), WinUtil.DARK_WHITE, WinUtil.LIGHT_BLACK, 25, Font.BOLD);
-		GridBagLayoutUtilities.addGB(contentPane, descriptionLabel, 1, 1, 3, 1, GridBagConstraints.VERTICAL, 1, 0,
-				new Insets(WinUtil.relH(30), 0, WinUtil.relH(10), 0));
+		GridBagLayoutUtilities.addGB(contentPane, descriptionLabel, 1, 1, 3, 1, GridBagConstraints.VERTICAL, 1, 0, new Insets(WinUtil.relH(30), 0, WinUtil.relH(10), 0));
 
 		germanLabel = new JLabel(languageBundle.getString("miDeutsch"));
 		WinUtil.configLabel(germanLabel, WinUtil.relW(200), WinUtil.relH(25), WinUtil.COOL_BLUE, WinUtil.LIGHT_BLACK, 18, Font.BOLD);
-		GridBagLayoutUtilities.addGB(contentPane, germanLabel, 1, 3, 1, 1, GridBagConstraints.BOTH, 1, 0,
-				new Insets(WinUtil.relH(25), 0, WinUtil.relH(25), 0));
+		GridBagLayoutUtilities.addGB(contentPane, germanLabel, 1, 3, 1, 1, GridBagConstraints.BOTH, 1, 0, new Insets(WinUtil.relH(25), 0, WinUtil.relH(25), 0));
 
 		spanishLabel = new JLabel(languageBundle.getString("miSpanisch"));
 		WinUtil.configLabel(spanishLabel, WinUtil.relW(200), WinUtil.relH(25), WinUtil.STRONG_ORANGE, WinUtil.LIGHT_BLACK, 18, Font.BOLD);
-		GridBagLayoutUtilities.addGB(contentPane, spanishLabel, 3, 3, 1, 1, GridBagConstraints.BOTH, 1, 0,
-				new Insets(WinUtil.relH(25), 0, WinUtil.relH(25), 0));
+		GridBagLayoutUtilities.addGB(contentPane, spanishLabel, 3, 3, 1, 1, GridBagConstraints.BOTH, 1, 0, new Insets(WinUtil.relH(25), 0, WinUtil.relH(25), 0));
 
 		technicalTermLabel = new JLabel(languageBundle.getString("dlgterm"));
 		WinUtil.configLabel(technicalTermLabel, WinUtil.relW(180), WinUtil.relH(25), Color.WHITE, WinUtil.LIGHT_BLACK, 18, Font.BOLD);
-		GridBagLayoutUtilities.addGB(contentPane, technicalTermLabel, 2, 4, 1, 1, GridBagConstraints.BOTH, 0, 0,
-				new Insets(0, 0, WinUtil.relH(10), 0));
+		GridBagLayoutUtilities.addGB(contentPane, technicalTermLabel, 2, 4, 1, 1, GridBagConstraints.BOTH, 0, 0, new Insets(0, 0, WinUtil.relH(10), 0));
 
 		specialtyLabel = new JLabel(languageBundle.getString("dlgsubject"));
 		WinUtil.configLabel(specialtyLabel, WinUtil.relW(180), WinUtil.relH(25), Color.WHITE, WinUtil.LIGHT_BLACK, 18, Font.BOLD);
@@ -251,10 +226,10 @@ public class TechnicalTermCreationWindow extends MyWindow implements SpecialtyTe
 	private void createCheckBox() {
 
 		newSpecialtyCheckBox = new JCheckBox(languageBundle.getString("newSpecialty"));
-		WinUtil.configCheckBox(newSpecialtyCheckBox, 180, 20, WinUtil.ULTRA_LIGHT_GRAY,
-				e -> configElementsVisiblity(WinUtil.getLanguageId(languageBundle), e), SwingConstants.CENTER);
-		GridBagLayoutUtilities.addGB(contentPane, newSpecialtyCheckBox, 2, 6, 1, 1, GridBagConstraints.BOTH, 0, 0,
-				new Insets(0, 0, WinUtil.relH(10), 0), GridBagConstraints.CENTER);
+		WinUtil.configCheckBox(newSpecialtyCheckBox, 180, 20, WinUtil.ULTRA_LIGHT_GRAY, e -> configElementsVisiblity(WinUtil.getLanguageId(languageBundle), e),
+				SwingConstants.CENTER);
+		GridBagLayoutUtilities.addGB(contentPane, newSpecialtyCheckBox, 2, 6, 1, 1, GridBagConstraints.BOTH, 0, 0, new Insets(0, 0, WinUtil.relH(10), 0),
+				GridBagConstraints.CENTER);
 	}
 
 	private void configElementsVisiblity(int languageId, ItemEvent e) {
@@ -334,7 +309,7 @@ public class TechnicalTermCreationWindow extends MyWindow implements SpecialtyTe
 	public JTextField getSpanishSpecialtyInput() {
 		return spanishSpecialtyInput;
 	}
-	
+
 	public JTextArea getGermanTextArea() {
 		return germanTextArea;
 	}

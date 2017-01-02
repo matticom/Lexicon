@@ -47,33 +47,30 @@ public class AssignTechnicalTermToSpecialtyWindow extends MyWindow implements Sp
 	private int panelWidth;
 	private int panelHeight;
 
-	List<TechnicalTerm> technicalTermList;
+	private List<TechnicalTerm> technicalTermList;
 
 	private Container contentPane;
 	private JScrollPane scrollPane;
 	private Dimension displaySize;
 
-	private JLabel instructionLabel;
 	private JTable technicalTermTable;
-	private AssignmentTableModel assignmentTableModel;
 	private JButton changeButton;
-
-	private JLabel chooseSpecialtyLabel;
-	private JLabel newSpecialtyLabel;
 	private JCheckBox newSpecialtyCheckBox;
 
+	private JLabel instructionLabel;
 	private JLabel newGermanSpecialtyLabel;
 	private JLabel newSpanishSpecialtyLabel;
 
 	private JTextField germanSpecialtyInput;
 	private JTextField spanishSpecialtyInput;
 
-	ChooseSpecialtyComboBox specialtyComboBox;
-	
+	private ChooseSpecialtyComboBox specialtyComboBox;
+	private AssignmentTableModel assignmentTableModel;
+
 	private boolean newSpecialtySelected = false;
 
-	public AssignTechnicalTermToSpecialtyWindow(ResourceBundle languageBundle, List<TechnicalTerm> technicalTermList,
-			ChooseSpecialtyComboBox specialtyComboBox) {
+	public AssignTechnicalTermToSpecialtyWindow(ResourceBundle languageBundle, List<TechnicalTerm> technicalTermList, ChooseSpecialtyComboBox specialtyComboBox) {
+		
 		super(languageBundle);
 		this.technicalTermList = technicalTermList;
 		contentPane = this.getContentPane();
@@ -85,6 +82,11 @@ public class AssignTechnicalTermToSpecialtyWindow extends MyWindow implements Sp
 
 		initializeJDialog();
 		createTable();
+		createLabels();
+		createTextFields();
+		createButtons();
+		createScrollPane();
+		arrangeComboBoxes();
 
 		this.setLocationByPlatform(true);
 		this.setVisible(true);
@@ -119,63 +121,71 @@ public class AssignTechnicalTermToSpecialtyWindow extends MyWindow implements Sp
 
 		assignmentTableModel = new AssignmentTableModel(languageBundle, technicalTermList);
 		technicalTermTable = new TechnicalTermJTable(assignmentTableModel);
+	}
 
+	private void createLabels() {
+		
 		instructionLabel = new JLabel(languageBundle.getString("instructionLabel"));
-		WinUtil.configLabel(instructionLabel, WinUtil.relW((int) (panelWidth * 0.9)), WinUtil.relH(30), WinUtil.ULTRA_LIGHT_GRAY, Color.DARK_GRAY, 13,
-				Font.PLAIN);
+		WinUtil.configLabel(instructionLabel, WinUtil.relW((int) (panelWidth * 0.9)), WinUtil.relH(30), WinUtil.ULTRA_LIGHT_GRAY, Color.DARK_GRAY, 13, Font.PLAIN);
 		GridBagLayoutUtilities.addGB(contentPane, instructionLabel, 1, 1, 2, 1, new Insets(WinUtil.relH(10), 0, WinUtil.relH(20), 0));
 		instructionLabel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		scrollPane = new JScrollPane(technicalTermTable);
-		scrollPane.getViewport().setBackground(Color.GRAY);
-		scrollPane.getViewport().setPreferredSize(new Dimension(100, 100));
-		GridBagLayoutUtilities.addGB(contentPane, scrollPane, 1, 2, 2, 1, GridBagConstraints.BOTH, 1, 1,
-				new Insets(WinUtil.relH(10), WinUtil.relW(30), WinUtil.relH(10), WinUtil.relW(30)));
-		JScrollBar scrollbar = new JScrollBar(JScrollBar.VERTICAL);
-		scrollbar.setUI(new MyScrollBarUI());
-		scrollPane.setVerticalScrollBar(scrollbar);
-
-		GridBagLayoutUtilities.addGB(contentPane, specialtyComboBox, 1, 4, 2, 1, GridBagConstraints.HORIZONTAL, 1, 0,
-				new Insets(0, WinUtil.relW(30), WinUtil.relH(10), WinUtil.relW(30)));
-
-		newSpecialtyCheckBox = new JCheckBox(languageBundle.getString("newSpecialty"));
-		WinUtil.configCheckBox(newSpecialtyCheckBox, 400, 20, WinUtil.DARK_WHITE, e -> itemStateChanged(e), SwingConstants.LEFT);
-		GridBagLayoutUtilities.addGB(contentPane, newSpecialtyCheckBox, 1, 3, 2, 1, GridBagConstraints.NONE, 0, 0,
-				new Insets(WinUtil.relH(10), WinUtil.relW(27), WinUtil.relH(10), WinUtil.relW(30)), GridBagConstraints.WEST);
-
 		newGermanSpecialtyLabel = new JLabel(languageBundle.getString("germanSpecialty"));
 		newGermanSpecialtyLabel.setVisible(false);
-		WinUtil.configLabel(newGermanSpecialtyLabel, WinUtil.relW(200), WinUtil.relH(30), WinUtil.ULTRA_LIGHT_GRAY, WinUtil.LIGHT_BLACK, 13,
-				Font.PLAIN);
+		WinUtil.configLabel(newGermanSpecialtyLabel, WinUtil.relW(200), WinUtil.relH(30), WinUtil.ULTRA_LIGHT_GRAY, WinUtil.LIGHT_BLACK, 13, Font.PLAIN);
 		GridBagLayoutUtilities.addGB(contentPane, newGermanSpecialtyLabel, 1, 4, 1, 1, new Insets(WinUtil.relH(0), WinUtil.relW(30), 0, WinUtil.relW(10)));
 
 		newSpanishSpecialtyLabel = new JLabel(languageBundle.getString("spanishSpecialty"));
 		newSpanishSpecialtyLabel.setVisible(false);
-		WinUtil.configLabel(newSpanishSpecialtyLabel, WinUtil.relW(200), WinUtil.relH(30), WinUtil.ULTRA_LIGHT_GRAY, WinUtil.LIGHT_BLACK, 13,
-				Font.PLAIN);
+		WinUtil.configLabel(newSpanishSpecialtyLabel, WinUtil.relW(200), WinUtil.relH(30), WinUtil.ULTRA_LIGHT_GRAY, WinUtil.LIGHT_BLACK, 13, Font.PLAIN);
 		GridBagLayoutUtilities.addGB(contentPane, newSpanishSpecialtyLabel, 2, 4, 1, 1, new Insets(WinUtil.relH(0), WinUtil.relW(10), 0, WinUtil.relW(30)));
+	}
 
+	private void createButtons() {
+		
+		changeButton = new JButton(languageBundle.getString("changeButton"));
+		WinUtil.configButton(changeButton, WinUtil.relW(150), WinUtil.relH(30), BorderFactory.createLineBorder(WinUtil.GRASS_GREEN), WinUtil.GRASS_GREEN, WinUtil.LIGHT_BLACK);
+		GridBagLayoutUtilities.addGB(contentPane, changeButton, 1, 6, 2, 1, GridBagConstraints.NONE, 0, 0, new Insets(WinUtil.relH(30), 0, WinUtil.relH(30), 0),
+				GridBagConstraints.SOUTH);
+		
+		newSpecialtyCheckBox = new JCheckBox(languageBundle.getString("newSpecialty"));
+		WinUtil.configCheckBox(newSpecialtyCheckBox,  WinUtil.relW(400), WinUtil.relH(20), WinUtil.DARK_WHITE, e -> itemStateChanged(e), SwingConstants.LEFT);
+		GridBagLayoutUtilities.addGB(contentPane, newSpecialtyCheckBox, 1, 3, 2, 1, GridBagConstraints.NONE, 0, 0,
+				new Insets(WinUtil.relH(10), WinUtil.relW(27), WinUtil.relH(10), WinUtil.relW(30)), GridBagConstraints.WEST);
+	}	
+	
+	private void createScrollPane() {
+		
+		scrollPane = new JScrollPane(technicalTermTable);
+		scrollPane.getViewport().setBackground(Color.GRAY);
+		scrollPane.getViewport().setPreferredSize(new Dimension(WinUtil.relW(100), WinUtil.relH(100)));
+		GridBagLayoutUtilities.addGB(contentPane, scrollPane, 1, 2, 2, 1, GridBagConstraints.BOTH, 1, 1,
+				new Insets(WinUtil.relH(10), WinUtil.relW(30), WinUtil.relH(10), WinUtil.relW(30)));
+
+		JScrollBar scrollbar = new JScrollBar(JScrollBar.VERTICAL);
+		scrollbar.setUI(new MyScrollBarUI());
+		scrollPane.setVerticalScrollBar(scrollbar);
+	}
+	
+	private void arrangeComboBoxes() {
+		
+		GridBagLayoutUtilities.addGB(contentPane, specialtyComboBox, 1, 4, 2, 1, GridBagConstraints.HORIZONTAL, 1, 0,
+				new Insets(0, WinUtil.relW(30), WinUtil.relH(10), WinUtil.relW(30)));
+	}
+	
+	private void createTextFields() {
+	
 		germanSpecialtyInput = new JTextField();
-		germanSpecialtyInput.setBackground(WinUtil.DARK_WHITE);
-		germanSpecialtyInput.setPreferredSize(new Dimension(WinUtil.relW(200), WinUtil.relH(30)));
-		germanSpecialtyInput.setMargin(new Insets(0, 3, 0, 0));
+		WinUtil.configTextField(germanSpecialtyInput, WinUtil.relW(200), WinUtil.relH(30), WinUtil.DARK_WHITE, true);
 		germanSpecialtyInput.setVisible(false);
 		GridBagLayoutUtilities.addGB(contentPane, germanSpecialtyInput, 1, 5, 1, 1, GridBagConstraints.HORIZONTAL, 1, 0,
 				new Insets(0, WinUtil.relW(30), WinUtil.relH(10), WinUtil.relW(10)));
 
 		spanishSpecialtyInput = new JTextField();
-		spanishSpecialtyInput.setBackground(WinUtil.DARK_WHITE);
-		spanishSpecialtyInput.setPreferredSize(new Dimension(WinUtil.relW(200), WinUtil.relH(30)));
-		spanishSpecialtyInput.setMargin(new Insets(0, 3, 0, 0));
+		WinUtil.configTextField(spanishSpecialtyInput, WinUtil.relW(200), WinUtil.relH(30), WinUtil.DARK_WHITE, true);
 		spanishSpecialtyInput.setVisible(false);
 		GridBagLayoutUtilities.addGB(contentPane, spanishSpecialtyInput, 2, 5, 1, 1, GridBagConstraints.HORIZONTAL, 1, 0,
 				new Insets(0, WinUtil.relW(10), WinUtil.relH(10), WinUtil.relW(30)));
-
-		changeButton = new JButton(languageBundle.getString("changeButton"));
-		WinUtil.configButton(changeButton, WinUtil.relW(150), WinUtil.relH(30), BorderFactory.createLineBorder(WinUtil.GRASS_GREEN),
-				WinUtil.GRASS_GREEN, WinUtil.LIGHT_BLACK);
-		GridBagLayoutUtilities.addGB(contentPane, changeButton, 1, 6, 2, 1, GridBagConstraints.NONE, 0, 0,
-				new Insets(WinUtil.relH(30), 0, WinUtil.relH(30), 0), GridBagConstraints.SOUTH);
 	}
 
 	public void setChangeButtonActionListener(ActionListener l) {
@@ -194,8 +204,7 @@ public class AssignTechnicalTermToSpecialtyWindow extends MyWindow implements Sp
 		return technicalTermIdArray;
 	}
 
-	
-	public void itemStateChanged(ItemEvent e) {
+	private void itemStateChanged(ItemEvent e) {
 
 		if (e.getStateChange() == ItemEvent.SELECTED) {
 
@@ -221,7 +230,7 @@ public class AssignTechnicalTermToSpecialtyWindow extends MyWindow implements Sp
 		germanSpecialtyInput.addKeyListener(l);
 		spanishSpecialtyInput.addKeyListener(l);
 	}
-	
+
 	@Override
 	public JTextField getGermanSpecialtyInput() {
 		return germanSpecialtyInput;
@@ -231,15 +240,15 @@ public class AssignTechnicalTermToSpecialtyWindow extends MyWindow implements Sp
 	public JTextField getSpanishSpecialtyInput() {
 		return spanishSpecialtyInput;
 	}
-	
+
 	@Override
 	public boolean isNewSpecialtySelected() {
 		return newSpecialtySelected;
 	}
 
 	public void refreshAssignmentTableModel(List<TechnicalTerm> technicalTermList) {
-		
+
 		assignmentTableModel = new AssignmentTableModel(languageBundle, technicalTermList);
 		technicalTermTable.setModel(assignmentTableModel);
-	}	
+	}
 }
