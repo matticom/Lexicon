@@ -14,6 +14,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -88,13 +89,13 @@ public class AssignTechnicalTermToSpecialtyWindow extends MyWindow implements Sp
 		createScrollPane();
 		arrangeComboBoxes();
 
-		this.setLocationByPlatform(true);
-		this.setVisible(true);
+		setLocationByPlatform(true);
+		setVisible(true);
 	}
 
 	private void initializeJDialog() {
 
-		this.setTitle(languageBundle.getString("newEntry"));
+		setTitle(languageBundle.getString("newEntry"));
 		contentPane.setBackground(WinUtil.LIGHT_BLACK);
 		contentPane.setLayout(new GridBagLayout());
 
@@ -102,19 +103,13 @@ public class AssignTechnicalTermToSpecialtyWindow extends MyWindow implements Sp
 		panelWidth = (int) (displaySize.getWidth() * JDIALOG_DISPLAY_RATIO_WIDTH);
 		panelHeight = (int) (displaySize.getHeight() * JDIALOG_DISPLAY_RATIO_HEIGHT);
 
-		this.setMinimumSize(new Dimension(panelWidth, panelHeight));
-		this.setMaximumSize(new Dimension(displaySize.width, displaySize.height));
+		setMinimumSize(new Dimension(panelWidth, panelHeight));
+		setMaximumSize(new Dimension(displaySize.width, displaySize.height));
 
-		this.setPreferredSize(new Dimension(panelWidth, panelHeight));
+		setPreferredSize(new Dimension(panelWidth, panelHeight));
 
-		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		this.setResizable(true);
-		this.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				AssignTechnicalTermToSpecialtyWindow.this.dispose();
-			}
-		});
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setResizable(true);
 	}
 
 	private void createTable() {
@@ -250,5 +245,9 @@ public class AssignTechnicalTermToSpecialtyWindow extends MyWindow implements Sp
 
 		assignmentTableModel = new AssignmentTableModel(languageBundle, technicalTermList);
 		technicalTermTable.setModel(assignmentTableModel);
+	}
+	
+	public void setAssignTermWindowListener(WindowListener l) {
+		addWindowListener(l);
 	}
 }

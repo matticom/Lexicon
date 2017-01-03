@@ -27,11 +27,7 @@ public class MenuBar extends JMenuBar implements Updatable {
 	private JRadioButtonMenuItem miGerman, miSpanish;
 	
 	private ResourceBundle languageBundle;
-	
-	double[] esButtonsWidth = new double[]{55, 53, 33, 49, 93, 123, 137, 203, 81, 81};
-	double[] deButtonsWidth = new double[]{41, 75, 55, 49, 91, 117, 133, 129, 85, 87};
-	double[] refButtonWidth = new double[10];
-		
+			
 	public MenuBar(ResourceBundle languageBundle) {
 		
 		this.languageBundle = languageBundle;
@@ -69,10 +65,13 @@ public class MenuBar extends JMenuBar implements Updatable {
 		
 		if (e.getCurrentLanguage() == ChosenLanguage.German) {
 			languageBundle = ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de"));
-			refButtonWidth = deButtonsWidth;
+			((JRadioButtonMenuItem)miGerman).setSelected(true);
+			((JRadioButtonMenuItem)miSpanish).setSelected(false);
+			
 		} else {
 			languageBundle = ResourceBundle.getBundle("languageBundles.lexikon", new Locale("es"));
-			refButtonWidth = esButtonsWidth;
+			((JRadioButtonMenuItem)miGerman).setSelected(false);
+			((JRadioButtonMenuItem)miSpanish).setSelected(true);
 		}
 		changeGuiTextLanguage();
 	}
@@ -119,13 +118,5 @@ public class MenuBar extends JMenuBar implements Updatable {
 	
 	public void setHistoryEnable(boolean state) {
 		miHistory.setEnabled(state);
-	}
-		
-	public void setGermanButtonSelected(boolean state) {
-		((JRadioButtonMenuItem)miGerman).setSelected(state);
-	}
-		
-	public void setSpanishButtonSelected(boolean state) {
-		((JRadioButtonMenuItem)miSpanish).setSelected(state);
 	}
 }

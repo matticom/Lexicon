@@ -37,6 +37,7 @@ public class SearchResultPanelDynamic extends JPanel implements DynamicPanel {
 	
 	private String searchWord;
 	private int dynamicPanelHeight;
+	private boolean isLetterResult;
 	
 	public SearchResultPanelDynamic(int mainFrameWidth, int mainFrameHeight, List<Translations> technicalTermTranslationList, String searchWord) {
 		
@@ -50,8 +51,10 @@ public class SearchResultPanelDynamic extends JPanel implements DynamicPanel {
 
 	private String distinguishBetweenLetterSearchAndNormalSearch(String searchWord) {
 		if (searchWord.charAt(0) == '.') {
+			isLetterResult = true;
 			return String.valueOf(searchWord.charAt(1));
 		} else {
+			isLetterResult = false;
 			return searchWord;
 		}
 	}
@@ -179,10 +182,17 @@ public class SearchResultPanelDynamic extends JPanel implements DynamicPanel {
 		}
 	}
 	
+	@Override
 	public String getSearchWord() {
 		return searchWord;
 	}
+	
+	@Override
+	public boolean isLetterResult() {
+		return isLetterResult;
+	}
 
+	@Override
 	public int getDynamicPanelHeight() {
 		return dynamicPanelHeight;
 	}

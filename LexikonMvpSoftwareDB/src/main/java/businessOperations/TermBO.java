@@ -25,9 +25,6 @@ import utilities.PersistenceUtil;
 
 public class TermBO {
 
-	// Konzept: Id's werden später in Buttons usw integriert -> Id's können
-	// ausgelesen werden und benutzt werden für aktionen
-
 	LanguageBO languageBO;
 	TermDAO termDAO;
 
@@ -38,12 +35,9 @@ public class TermBO {
 
 	public TechnicalTerm createTechnicalTerm(String name, String description, int languageId, int SpecialtyId) {
 
-		// Sprache durch GUI Combolist auswählbar -> zur Not dort ein Button für
-		// Erstellung einer neuen Sprache
 		Languages language = languageBO.selectLanguageById(languageId); 
 		String normalName = PersistenceUtil.convertSpecialChar(name);
 
-		// Sprache sollte da sein wegen GUI,falls nicht: wirft Exception
 		try {
 			selectTechnicalTermByName(normalName, languageId);
 			throw new TechnicalTermAlreadyExists();
@@ -52,7 +46,6 @@ public class TermBO {
 
 		try {
 			Specialty specialty = selectSpecialtyById(SpecialtyId);
-			// Specialty ist immer definiert durch Combolist, "leere" Specialty ist specialtyId = 1 (vorher in DB injizieren)
 			TechnicalTerm technicalTerm = new TechnicalTerm();
 			technicalTerm.setSpecialty(specialty);
 			Translations translation = new Translations(name, normalName, description, language, technicalTerm);
@@ -62,6 +55,8 @@ public class TermBO {
 			throw new SpecialtyDoesNotExist("Specialty kann nicht dem TechnicalTerm zugeordnet werden, da sie nicht in der Datenbank vorhanden ist!");
 		}
 	}
+	
+	
 
 	public Specialty createSpecialty(String name, String description, int languageId) {
 
@@ -281,13 +276,10 @@ public class TermBO {
 
 			if (technicalTerm.getSpecialty() != null) {
 				technicalTerm.getSpecialty().getTechnicalTermsList().remove(technicalTerm);
-				// Testen ob das funktioniert!!!!!!!!!!!!
 			}
 
 			specialty.getTechnicalTermsList().add(technicalTerm);
 			technicalTerm.setSpecialty(specialty);
-			// Es wird das Field Specialty überschrieben auch bei != null
-			// Muss es auf der anderen Seite auch gemacht werden?
 		}
 		return specialty;
 	}

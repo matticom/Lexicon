@@ -14,6 +14,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -94,20 +95,18 @@ public class TechnicalTermCreationWindow extends MyWindow implements SpecialtyTe
 		createTextAreas();
 		createInsertButton();
 		arrangeComboBoxes();
-
-		// insertButton.addActionListener(e -> leseTtext()); //
-		// Beispielimplementierung
-
+		
 		configElementsVisiblityAtStart(WinUtil.getLanguageId(languageBundle));
 
-		this.setModal(false);
-		this.setLocationByPlatform(true);
-		this.setVisible(true);
+		setModal(false);
+		setLocationByPlatform(true);
+		setVisible(true);
 	}
 
 	private void initializeJDialog() {
 
-		this.setTitle(languageBundle.getString("newEntry"));
+		setTitle(languageBundle.getString("newEntry"));
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		contentPane.setBackground(WinUtil.LIGHT_BLACK);
 		contentPane.setLayout(new GridBagLayout());
 
@@ -115,20 +114,13 @@ public class TechnicalTermCreationWindow extends MyWindow implements SpecialtyTe
 		panelWidth = (int) (displaySize.getWidth() * JDIALOG_DISPLAY_RATIO);
 		panelHeight = (int) (displaySize.getHeight() * JDIALOG_DISPLAY_RATIO);
 
-		this.setSize(panelWidth, panelHeight);
+		setSize(panelWidth, panelHeight);
 
-		this.setMinimumSize(new Dimension(panelWidth, panelHeight));
-		this.setMaximumSize(new Dimension(displaySize.width, displaySize.height));
+		setMinimumSize(new Dimension(panelWidth, panelHeight));
+		setMaximumSize(new Dimension(displaySize.width, displaySize.height));
 
-		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		this.setResizable(true);
-		this.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				TechnicalTermCreationWindow.this.dispose();
-			}
-		});
-
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setResizable(true);
 	}
 
 	private void arrangeComboBoxes() {
@@ -321,6 +313,10 @@ public class TechnicalTermCreationWindow extends MyWindow implements SpecialtyTe
 	@Override
 	public boolean isNewSpecialtySelected() {
 		return newSpecialtySelected;
+	}
+	
+	public void setTechnicalTermCreationWindowListener(WindowListener l) {
+		addWindowListener(l);
 	}
 
 }

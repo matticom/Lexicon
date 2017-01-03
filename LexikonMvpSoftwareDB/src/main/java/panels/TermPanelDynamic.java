@@ -145,11 +145,18 @@ public class TermPanelDynamic extends JPanel implements DynamicPanel {
 		}
 	}
 	
-	public int getDynamicPanelHeight() {
-		return dynamicPanelHeight;
-	}
-
+	@Override
 	public String getSearchWord() {
 		return searchWord;
+	}
+	
+	@Override
+	public boolean isLetterResult() {
+		return false;
+	}
+
+	@Override
+	public int getDynamicPanelHeight() {
+		return dynamicPanelHeight;
 	}
 }

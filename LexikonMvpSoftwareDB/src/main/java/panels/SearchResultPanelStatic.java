@@ -19,9 +19,12 @@ public class SearchResultPanelStatic extends TechnicalTermPanelStatic {
 	private JLabel spanishResultTechnicalTerm; 
 	private JLabel spanishResultSpecialty;
 	
+	private boolean isLetterResult;
+	
 	public SearchResultPanelStatic(ResourceBundle languageBundle, double MAINFRAME_DISPLAY_RATIO, DynamicPanel dynamicPanel, String labelTitle, int staticPanelHeight) {
 		
 		super(languageBundle, MAINFRAME_DISPLAY_RATIO, dynamicPanel, labelTitle, staticPanelHeight);
+		isLetterResult = dynamicPanel.isLetterResult();
 	}
 
 	@Override
@@ -60,7 +63,8 @@ public class SearchResultPanelStatic extends TechnicalTermPanelStatic {
 		spanishResultTechnicalTerm.setText(languageBundle.getString("resultsTerm"));
 		spanishResultSpecialty.setText(languageBundle.getString("resultsSubject"));
 	}
-
 	
-	
+	public boolean isLetterResult() {
+		return isLetterResult;
+	}
 }

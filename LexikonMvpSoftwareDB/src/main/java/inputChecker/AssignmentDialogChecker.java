@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import businessOperations.TermBO;
+import businessOperations.TransactionBeginCommit;
 import exceptions.SpecialtyAlreadyExistsAsTechnicalTerm;
 import exceptions.TechnicalTermAlreadyExistsAsSpecialty;
 import model.Specialty;
@@ -51,13 +52,13 @@ public class AssignmentDialogChecker implements InputCheckable {
 		}
 	}
 
-	public void checkDialog(SpecialtyTextFieldsCheckable dialog, TermBO termBOTest) {
+	public void checkDialog(SpecialtyTextFieldsCheckable dialog, TransactionBeginCommit repositoryTA) {
 		
 		testPassed = true;
 		
 		if (dialog.isNewSpecialtySelected()) {
 			checkBlankSpecialtyFields(dialog);
-			checkSpecialties(dialog, termBOTest);
+			checkSpecialties(dialog, repositoryTA);
 		}
 		
 		if (((AssignTechnicalTermToSpecialtyWindow)dialog).getTechnicalTermIds().length == 0) {
@@ -66,10 +67,10 @@ public class AssignmentDialogChecker implements InputCheckable {
 		}
 	}
 
-	protected void checkSpecialties(SpecialtyTextFieldsCheckable dialog, TermBO termBOTest) {
+	protected void checkSpecialties(SpecialtyTextFieldsCheckable dialog, TransactionBeginCommit repositoryTA) {
 
 		try {
-			termBOTest.selectSpecialtyByName(dialog.getGermanSpecialtyInput().getText(), GERMAN);
+			repositoryTA.selectSpecialtyByNameTA(dialog.getGermanSpecialtyInput().getText(), GERMAN);
 			testPassed = false;
 			JOptionPane.showMessageDialog(null, "Fachgebiet bereits vorhanden", "Fehler", JOptionPane.ERROR_MESSAGE);
 			return;
@@ -81,7 +82,7 @@ public class AssignmentDialogChecker implements InputCheckable {
 		}
 
 		try {
-			termBOTest.selectSpecialtyByName(dialog.getSpanishSpecialtyInput().getText(), SPANISH);
+			repositoryTA.selectSpecialtyByNameTA(dialog.getSpanishSpecialtyInput().getText(), SPANISH);
 			testPassed = false;
 			JOptionPane.showMessageDialog(null, "Fachgebiet bereits vorhanden", "Fehler", JOptionPane.ERROR_MESSAGE);
 			return;
