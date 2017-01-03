@@ -99,4 +99,8 @@ public class SearchComboBox extends MyComboBox {
 	public void setSearchComboBoxFocusListener(FocusListener l) {
 		this.getEditor().getEditorComponent().addFocusListener(l);
 	}
+	
+	public String getSearchWord() {
+		return ((JTextComponent) this.getEditor().getEditorComponent()).getText();
+	}
 }

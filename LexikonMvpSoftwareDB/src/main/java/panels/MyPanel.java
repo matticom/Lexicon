@@ -22,14 +22,14 @@ public abstract class MyPanel  extends JScrollPane implements Updatable {
 	
 	protected ResourceBundle 	languageBundle;
 	
-	protected Dimension displaySize;
+	protected Dimension displayResolution;
 	private JScrollBar scrollbar;	
 	
 	public MyPanel(ResourceBundle languageBundle, double MAINFRAME_DISPLAY_RATIO) {
 		
-		this.displaySize = Toolkit.getDefaultToolkit().getScreenSize();
-		mainFrameWidth = (int)(displaySize.getWidth() * MAINFRAME_DISPLAY_RATIO);
-		mainFrameHeight = (int)(displaySize.getHeight() * MAINFRAME_DISPLAY_RATIO);
+		this.displayResolution = Toolkit.getDefaultToolkit().getScreenSize();
+		mainFrameWidth = (int)(displayResolution.getWidth() * MAINFRAME_DISPLAY_RATIO);
+		mainFrameHeight = (int)(displayResolution.getHeight() * MAINFRAME_DISPLAY_RATIO);
 		this.languageBundle = languageBundle;
 		
 		scrollbar = new JScrollBar(ScrollBar.VERTICAL);

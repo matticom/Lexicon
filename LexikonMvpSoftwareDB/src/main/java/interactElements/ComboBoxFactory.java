@@ -40,7 +40,7 @@ public class ComboBoxFactory {
 			myComboBox = new ChooseSpecialtyComboBox(languageBundle, specialtyList, SPANISH);
 		}
 		if (comboBox == ComboBoxes.SpecialtyComboBox) {
-			myComboBox = new ChooseSpecialtyComboBox(languageBundle, specialtyList, WinUtil.getLanguageId(languageBundle));
+			myComboBox = new ChooseSpecialtyComboBox(languageBundle, specialtyList, 0);
 		}
 		
 		return myComboBox;

@@ -66,8 +66,8 @@ public class TechnicalTermPanelStatic extends MyPanel {
 		staticElementsPanel.setBackground(WinUtil.LIGHT_BLACK);
 		staticElementsPanel.setLayout(new GridBagLayout());
 		staticElementsPanel.setPreferredSize(new Dimension(mainFrameWidth, WinUtil.relH(staticPanelHeight)));
-		staticElementsPanel.setMinimumSize(new Dimension(displaySize.width, WinUtil.relH(staticPanelHeight)));
-		staticElementsPanel.setMaximumSize(new Dimension(displaySize.width, WinUtil.relH(staticPanelHeight)));
+		staticElementsPanel.setMinimumSize(new Dimension(displayResolution.width, WinUtil.relH(staticPanelHeight)));
+		staticElementsPanel.setMaximumSize(new Dimension(displayResolution.width, WinUtil.relH(staticPanelHeight)));
 	}
 	
 	private void createLabels() {

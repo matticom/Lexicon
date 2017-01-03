@@ -184,8 +184,8 @@ public class HeadBarTest {
 				assignSpecialtyComboBox));
 
 		checkLetter();
-		HeadBar headBar = new HeadBar(displaySize, mainFrameWidth, ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")),
-				searchComboBox);
+		HeadBar headBar = new HeadBar(MAINFRAME_DISPLAY_RATIO, ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")),
+				searchComboBox, expectedAlphabet);
 		mainFrame.add(headBar, BorderLayout.PAGE_START);
 		headBar.setNewTechnicalTermButtonActionListener(e -> openNewTechnicalTermDialog(
 				ResourceBundle.getBundle("languageBundles.lexikon", new Locale("es")), chooseSpecialtyComboBox, chooseSpecialtyComboBox2));
@@ -227,13 +227,10 @@ public class HeadBarTest {
 			public void componentResized(ComponentEvent e) {
 
 				Component c = e.getComponent();
-				PanelEventTransferObject peto = new PanelEventTransferObject();
-				peto.setMainFrameWidth(c.getWidth());
-				peto.setMainFrameHeight(c.getHeight());
-				peto.setAvailableLetters(expectedAlphabet);
-				peto.setCurrentLanguage(ChosenLanguage.Spanish);
-				peto.setHistoryList(history);
-				peto.setDisplaySize(displaySize);
+				TermPanelDynamic dynamicPanel = new TermPanelDynamic(c.getWidth(), c.getHeight(), termBOTest.selectAllSpecialties());
+				PanelEventTransferObject peto = new PanelEventTransferObject(c.getWidth(), c.getHeight(), history, null, ChosenLanguage.Spanish, expectedAlphabet, null, null, dynamicPanel);
+				
+				
 				// peto.setSpecialtyList(termBOTest.selectAllSpecialties());
 				// if (counter < 9) {
 				// --->
@@ -241,24 +238,26 @@ public class HeadBarTest {
 				// TermPanelDynamic(c.getWidth(), c.getHeight(),
 				// termBOTest.selectAllTechnicalTermsOfSpecialty(3),
 				// "Specialtyname");
-				TermPanelDynamic dynamicPanel = new TermPanelDynamic(c.getWidth(), c.getHeight(), termBOTest.selectAllSpecialties());
+				
 				// SearchResultPanelDynamic dynamicPanel = new
 				// SearchResultPanelDynamic(mainFrameWidth, mainFrameHeight,
 				// termBOTest.searchTechnicalTerms("a%"), "Hallo Suche");
 				// SearchResultPanelDynamic dynamicPanel = new
 				// SearchResultPanelDynamic(mainFrameWidth, mainFrameHeight,
 				// termBOTest.searchTechnicalTerms("A%"), ".A%");
-				peto.setDynamicPanel(dynamicPanel);
+				
 				// }
 
 				if (counter > 9 && counter < 19 || counter > 39 && counter < 49) {
-					peto.setCurrentLanguage(ChosenLanguage.German);
-					peto.setCurrentSpecialty(termBOTest.selectSpecialtyById(6));
-					peto.setCurrentTechnicalTerm(termBOTest.selectTechnicalTermById(19));
+					peto = new PanelEventTransferObject(c.getWidth(), c.getHeight(), history, null, ChosenLanguage.German, expectedAlphabet, 
+							termBOTest.selectSpecialtyById(6), termBOTest.selectTechnicalTermById(19), dynamicPanel);
+					
 				}
 
 				if (counter > 20 && counter < 29 || counter > 49 && counter < 109) {
-					peto.setCurrentSpecialty(termBOTest.selectSpecialtyById(9));
+					peto = new PanelEventTransferObject(c.getWidth(), c.getHeight(), history, null, ChosenLanguage.German, expectedAlphabet, 
+							termBOTest.selectSpecialtyById(9), termBOTest.selectTechnicalTermById(19), dynamicPanel);
+					
 				}
 
 				headBar.updatePanel(peto);
@@ -407,6 +406,7 @@ public class HeadBarTest {
 		entitymanager.getTransaction().commit();
 	}
 
+		
 	public void openAssignmentDialog(ResourceBundle languageBundle,	ChooseSpecialtyComboBox specialtyComboBox) {
 		List<TechnicalTerm> technicalTermList = termBOTest.selectAllTechnicalTerms();
 		newAssignDialog = (AssignTechnicalTermToSpecialtyWindow) windowCreator.createWindow(DialogWindows.AssignTechnicalTermToSpecialtyWindow,
@@ -454,6 +454,7 @@ public class HeadBarTest {
 	}
 	
 	public void openShowTechnicalTermDialog(ResourceBundle languageBundle, TechnicalTerm technicalTerm) {
+		
 		contentTTDialog = (TechnicalTermContentWindow) windowCreator.createWindow(DialogWindows.TechnicalTermContentWindow,
 				languageBundle, technicalTerm);
 		contentTTDialog.setSaveChangesButtonActionListener(e -> saveNewTechnicalTermDescription(contentTTDialog, technicalTerm));

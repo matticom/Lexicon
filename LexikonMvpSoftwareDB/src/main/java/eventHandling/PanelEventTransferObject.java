@@ -1,165 +1,72 @@
 package eventHandling;
 
-import java.awt.Dimension;
 import java.util.List;
-import java.util.ResourceBundle;
-
-import javax.swing.JPanel;
-
-import interactElements.ChooseSpecialtyComboBox;
 import model.Specialty;
 import model.TechnicalTerm;
-import panels.TermPanelDynamic;
-import panels.MyPanel;
+import panels.DynamicPanel;
 
 public class PanelEventTransferObject {
-	
-	MyPanel source;
-	MyPanel destination;
 		
-	int mainFrameWidth;
-	int mainFrameHeight;
-	Dimension displaySize;
+	private int mainFrameWidth;
+	private int mainFrameHeight;
 	
-	List<String> historyList;
-	List<Specialty> specialtyList;
-	ChosenLanguage currentLanguage;
-	boolean[] availableLetters;
-	ResourceBundle currentLanguageBundle;
+	private List<String> historyList;
+	private List<Specialty> specialtyList;
+	private ChosenLanguage currentLanguage;
+	private boolean[] availableLetters;
+		
+	private Specialty currentSpecialty;
+	private TechnicalTerm currentTechnicalTerm;
+		
+	private DynamicPanel dynamicPanel;
 	
-	Specialty currentSpecialty;
-	TechnicalTerm currentTechnicalTerm;
 	
-	ChooseSpecialtyComboBox germanSpecialtyComboBox;
-	ChooseSpecialtyComboBox spanishSpecialtyComboBox;
-	
-	JPanel dynamicPanel;
-	
-
-	
-	public MyPanel getSource() {
-		return source;
-	}
-
-	public void setSource(MyPanel source) {
-		this.source = source;
-	}
-
-	public MyPanel getDestination() {
-		return destination;
-	}
-
-	public void setDestination(MyPanel destination) {
-		this.destination = destination;
+	public PanelEventTransferObject(int mainFrameWidth, int mainFrameHeight, List<String> historyList, List<Specialty> specialtyList, ChosenLanguage currentLanguage,
+			boolean[] availableLetters, Specialty currentSpecialty, TechnicalTerm currentTechnicalTerm, DynamicPanel dynamicPanel) {
+		this.mainFrameWidth = mainFrameWidth;
+		this.mainFrameHeight = mainFrameHeight;
+		this.historyList = historyList;
+		this.specialtyList = specialtyList;
+		this.currentLanguage = currentLanguage;
+		this.availableLetters = availableLetters;
+		this.currentSpecialty = currentSpecialty;
+		this.currentTechnicalTerm = currentTechnicalTerm;
+		this.dynamicPanel = dynamicPanel;
 	}
 
 	public int getMainFrameWidth() {
 		return mainFrameWidth;
 	}
 
-	public void setMainFrameWidth(int mainframeWidth) {
-		this.mainFrameWidth = mainframeWidth;
-	}
-
 	public int getMainFrameHeight() {
 		return mainFrameHeight;
-	}
-
-	public void setMainFrameHeight(int mainframeHeight) {
-		this.mainFrameHeight = mainframeHeight;
-	}
-
-	public Dimension getDisplaySize() {
-		return displaySize;
-	}
-
-	public void setDisplaySize(Dimension displaySize) {
-		this.displaySize = displaySize;
 	}
 
 	public boolean[] getAvailableLetters() {
 		return availableLetters;
 	}
 
-	public void setAvailableLetters(boolean[] availableLetters) {
-		this.availableLetters = availableLetters;
-	}
-	
-	public ResourceBundle getCurrentLanguageBundle() {
-		return currentLanguageBundle;
-	}
-
-	public void setCurrentLanguageBundle(ResourceBundle currentLanguageBundle) {
-		this.currentLanguageBundle = currentLanguageBundle;
-	}
-
 	public ChosenLanguage getCurrentLanguage() {
 		return currentLanguage;
 	}
-
-	public void setCurrentLanguage(ChosenLanguage currentLanguage) {
-		this.currentLanguage = currentLanguage;
-	}
-
+	
 	public List<String> getHistoryList() {
 		return historyList;
-	}
-
-	public void setHistoryList(List<String> historyList) {
-		this.historyList = historyList;
 	}
 
 	public List<Specialty> getSpecialtyList() {
 		return specialtyList;
 	}
 
-	public void setSpecialtyList(List<Specialty> specialtyList) {
-		this.specialtyList = specialtyList;
-	}
-
 	public Specialty getCurrentSpecialty() {
 		return currentSpecialty;
-	}
-
-	public void setCurrentSpecialty(Specialty currentSpecialty) {
-		this.currentSpecialty = currentSpecialty;
 	}
 
 	public TechnicalTerm getCurrentTechnicalTerm() {
 		return currentTechnicalTerm;
 	}
 
-	public void setCurrentTechnicalTerm(TechnicalTerm currentTechnicalTerm) {
-		this.currentTechnicalTerm = currentTechnicalTerm;
-	}
-
-	
-	public ChooseSpecialtyComboBox getGermanSpecialtyComboBox() {
-		return germanSpecialtyComboBox;
-	}
-
-	public void setGermanSpecialtyComboBox(ChooseSpecialtyComboBox germanSpecialtyComboBox) {
-		this.germanSpecialtyComboBox = germanSpecialtyComboBox;
-	}
-
-	public ChooseSpecialtyComboBox getSpanishSpecialtyComboBox() {
-		return spanishSpecialtyComboBox;
-	}
-
-	public void setSpanishSpecialtyComboBox(ChooseSpecialtyComboBox spanishSpecialtyComboBox) {
-		this.spanishSpecialtyComboBox = spanishSpecialtyComboBox;
-	}
-
-	public JPanel getDynamicPanel() {
+	public DynamicPanel getDynamicPanel() {
 		return dynamicPanel;
 	}
-
-	public void setDynamicPanel(JPanel dynamicPanel) {
-		this.dynamicPanel = dynamicPanel;
-	}
-
-	
-	
-
-		
 }

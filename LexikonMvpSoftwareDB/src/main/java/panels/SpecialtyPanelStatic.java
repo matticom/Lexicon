@@ -60,8 +60,8 @@ public class SpecialtyPanelStatic extends MyPanel {
 		staticElementsPanel.setBackground(WinUtil.LIGHT_BLACK);
 		staticElementsPanel.setLayout(new GridBagLayout());
 		staticElementsPanel.setPreferredSize(new Dimension((int) (mainFrameWidth), WinUtil.relH(270)));
-		staticElementsPanel.setMinimumSize(new Dimension(displaySize.width, WinUtil.relH(270)));
-		staticElementsPanel.setMaximumSize(new Dimension(displaySize.width, WinUtil.relH(270)));
+		staticElementsPanel.setMinimumSize(new Dimension(displayResolution.width, WinUtil.relH(270)));
+		staticElementsPanel.setMaximumSize(new Dimension(displayResolution.width, WinUtil.relH(270)));
 	}
 	
 	private void createLabels() {

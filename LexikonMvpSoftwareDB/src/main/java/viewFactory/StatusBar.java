@@ -19,18 +19,22 @@ import javax.swing.border.EtchedBorder;
 import eventHandling.ChosenLanguage;
 import eventHandling.PanelEventTransferObject;
 import eventHandling.Updatable;
+import model.Specialty;
 import model.Translations;
 import utilities.WinUtil;
 
 public class StatusBar extends JPanel implements Updatable {
 
-	private JButton startpageBtn, specialtyBtn, technicalTermBtn;
-	private JLabel specialtyTierLbl, technicalTermTierLbl;
-
-	private String specialtyDE, technicalTermDE;
-
+	private JButton startpageButton;
+	private JButton specialtyButton;
+	private JLabel technicalTermLabel;
+	private JLabel specialtyTierLabel;
+	private JLabel technicalTermTierLabel;
+	private String specialtyDE;
+	private String technicalTermDE;
 	private ResourceBundle languageBundle;
 	private JPanel p1, p2, p3, p4, p5, p6, p7;
+	private Specialty specialty;
 	
 	private int counter = 0;
 	
@@ -56,23 +60,21 @@ public class StatusBar extends JPanel implements Updatable {
 	private void initialize() {
 				
 		// Buttons
-		startpageBtn = new JButton(languageBundle.getString("startpageBtn"));
-		WinUtil.configStaticButton(startpageBtn, 0, 0, 0, 0, new EmptyBorder(0, 5, 0, 5), Color.WHITE, Color.DARK_GRAY);
+		startpageButton = new JButton(languageBundle.getString("startpageBtn"));
+		WinUtil.configStaticButton(startpageButton, 0, 0, 0, 0, new EmptyBorder(0, 5, 0, 5), Color.WHITE, Color.DARK_GRAY);
 		
-		specialtyBtn = new JButton(specialtyDE);
-		WinUtil.configStaticButton(specialtyBtn, 0, 0, 0, 0, new EmptyBorder(0, 5, 0, 5), Color.WHITE, Color.DARK_GRAY);
-		specialtyBtn.setEnabled(false);
-		specialtyBtn.setFocusable(false);
+		specialtyButton = new JButton(specialtyDE);
+		WinUtil.configStaticButton(specialtyButton, 0, 0, 0, 0, new EmptyBorder(0, 5, 0, 5), Color.WHITE, Color.DARK_GRAY);
+		specialtyButton.setEnabled(false);
+		specialtyButton.setFocusable(false);
 		
-		technicalTermBtn = new JButton(technicalTermDE);
-		WinUtil.configStaticButton(technicalTermBtn, 0, 0, 0, 0, new EmptyBorder(0, 5, 0, 5), Color.WHITE, Color.DARK_GRAY);
-		technicalTermBtn.setEnabled(false);
-		technicalTermBtn.setFocusable(false);
+		technicalTermLabel = new JLabel(technicalTermDE);
+		WinUtil.configStaticLabel(technicalTermLabel, 0, 0, 0, 0, Color.WHITE, Color.DARK_GRAY, 12, Font.BOLD);
 		
-		specialtyTierLbl = new JLabel(" >> ");
-		WinUtil.configStaticLabel(specialtyTierLbl, 0, 0, 0, 0, WinUtil.ULTRA_LIGHT_GRAY, Color.DARK_GRAY, 12, Font.PLAIN);
-		technicalTermTierLbl = new JLabel(" >> ");
-		WinUtil.configStaticLabel(technicalTermTierLbl, 0, 0, 0, 0, WinUtil.ULTRA_LIGHT_GRAY, Color.DARK_GRAY, 12, Font.PLAIN);
+		specialtyTierLabel = new JLabel(" >> ");
+		WinUtil.configStaticLabel(specialtyTierLabel, 0, 0, 0, 0, WinUtil.ULTRA_LIGHT_GRAY, Color.DARK_GRAY, 12, Font.BOLD);
+		technicalTermTierLabel = new JLabel(" >> ");
+		WinUtil.configStaticLabel(technicalTermTierLabel, 0, 0, 0, 0, WinUtil.ULTRA_LIGHT_GRAY, Color.DARK_GRAY, 12, Font.BOLD);
 				
 		p1 = new JPanel(new BorderLayout(), true);
 		p1.setPreferredSize(new Dimension(200, 21));
@@ -103,11 +105,11 @@ public class StatusBar extends JPanel implements Updatable {
 		p7.setBackground(Color.DARK_GRAY);
 		
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		p2.add(startpageBtn, BorderLayout.CENTER);
-		p3.add(technicalTermTierLbl, BorderLayout.CENTER);
-		p4.add(specialtyBtn, BorderLayout.CENTER);
-		p5.add(specialtyTierLbl, BorderLayout.CENTER);
-		p6.add(technicalTermBtn, BorderLayout.CENTER);
+		p2.add(startpageButton, BorderLayout.CENTER);
+		p3.add(technicalTermTierLabel, BorderLayout.CENTER);
+		p4.add(specialtyButton, BorderLayout.CENTER);
+		p5.add(specialtyTierLabel, BorderLayout.CENTER);
+		p6.add(technicalTermLabel, BorderLayout.CENTER);
 		
 		this.add(p1);
 		this.add(p2);
@@ -122,23 +124,24 @@ public class StatusBar extends JPanel implements Updatable {
 	public void updatePanel(PanelEventTransferObject e) {
 		
 		int languageId = 0;
+		specialty = e.getCurrentSpecialty();
 		
 		clearPanels();
 		
 		if (e.getCurrentLanguage() == ChosenLanguage.German) {
 			languageBundle = ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de"));
-			startpageBtn.setText(languageBundle.getString("startpageBtn"));
+			startpageButton.setText(languageBundle.getString("startpageBtn"));
 			languageId = 1;			
 		} else {
 			languageBundle = ResourceBundle.getBundle("languageBundles.lexikon", new Locale("es"));
-			startpageBtn.setText(languageBundle.getString("startpageBtn"));
+			startpageButton.setText(languageBundle.getString("startpageBtn"));
 			languageId = 2;	
 		}
 		
 		if (e.getCurrentSpecialty() != null) {
 			for(Translations translation : e.getCurrentSpecialty().getTranslationList()) {
 				if (translation.getLanguages().getId() == languageId) {
-					specialtyBtn.setText(translation.getName());
+					specialtyButton.setText(translation.getName());
 				}
 			}
 		}
@@ -146,7 +149,7 @@ public class StatusBar extends JPanel implements Updatable {
 		if (e.getCurrentTechnicalTerm() != null) {
 			for(Translations translation : e.getCurrentTechnicalTerm().getTranslationList()) {
 				if (translation.getLanguages().getId() == languageId) {
-					technicalTermBtn.setText(translation.getName());
+					technicalTermLabel.setText(translation.getName());
 				}
 			}
 		}
@@ -155,11 +158,13 @@ public class StatusBar extends JPanel implements Updatable {
 		int namePanelWidth = (int)(e.getMainFrameWidth() * 0.220);
 		int separatorPanelWidth = (int)(e.getMainFrameWidth() * 0.019);
 					
-		int panelsHeight = (int) (e.getDisplaySize().getHeight() * 0.0175);
+		int panelsHeight = (int) (WinUtil.relH(21));
 				
 		if (e.getCurrentSpecialty() == null && e.getCurrentTechnicalTerm() == null) {
 			// nur Startbutton
 			spacePanelWidth = (int)(e.getMainFrameWidth() * 0.390);
+			specialtyButton.setEnabled(false);
+			specialtyButton.setFocusable(false);
 			this.add(p1);
 			this.add(p2);
 			this.add(p7);
@@ -168,6 +173,8 @@ public class StatusBar extends JPanel implements Updatable {
 		if (e.getCurrentSpecialty() != null && e.getCurrentTechnicalTerm() == null) {
 			// Specialty Ebene
 			spacePanelWidth = (int)(e.getMainFrameWidth() * 0.270);
+			specialtyButton.setEnabled(true);
+			specialtyButton.setFocusable(true);
 			this.add(p1);
 			this.add(p2);
 			this.add(p3);
@@ -178,6 +185,8 @@ public class StatusBar extends JPanel implements Updatable {
 		if (e.getCurrentSpecialty() != null && e.getCurrentTechnicalTerm() != null) {
 			// alle Ebenen werden angezeigt
 			spacePanelWidth = (int)(e.getMainFrameWidth() * 0.151);
+			specialtyButton.setEnabled(true);
+			specialtyButton.setFocusable(true);
 			this.add(p1);
 			this.add(p2);
 			this.add(p3);
@@ -216,15 +225,14 @@ public class StatusBar extends JPanel implements Updatable {
 	}
 	
 	public void setStatusBarStartpageButtonActionListener(ActionListener l) {
-		startpageBtn.addActionListener(l);
+		startpageButton.addActionListener(l);
 	}
 
 	public void setStatusBarSpecialtyButtonActionListener(ActionListener l) {
-		specialtyBtn.addActionListener(l);
+		specialtyButton.addActionListener(l);
 	}
-
-	public void setStatusBarTechnicalTermButtonActionListener(ActionListener l) {
-		technicalTermBtn.addActionListener(l);
+	
+	public int getCurrentSpecialtyId() {
+		return specialty.getId();
 	}
-
 }

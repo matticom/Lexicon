@@ -3,6 +3,7 @@ package viewFactory;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -27,25 +28,27 @@ public class HeadBar extends JPanel implements Updatable {
 	private JLabel headDescriptionLabel, separatorLabel;
 	private JPanel leftPanel, rightPanel, centerPanel;
 	private JPanel alphabetBackgroundPanel;
-	private JButton specialtyButton, deButton, esButton, newTechnicalTermButton, searchButton;
+	private JButton specialtyButton, newTechnicalTermButton, searchButton;
+	private JButton deButton, esButton;
 	private SearchComboBox searchComboBox;
 
 	private int panelWidth;
 	private int panelHeight;
 	private int sidePanelWidth;
-	private Dimension displaySize;
+	boolean[] alphabet;
 
 	private ResourceBundle languageBundle;
 	
 
-	public HeadBar(Dimension displaySize, int mainFrameWidth, ResourceBundle languageBundle, SearchComboBox searchComboBox) {
+	public HeadBar(double MAINFRAME_DISPLAY_RATIO, ResourceBundle languageBundle, SearchComboBox searchComboBox, boolean[] alphabet) {
 
-		this.displaySize = displaySize;
-		panelWidth = mainFrameWidth;
+		Dimension displayResolution = Toolkit.getDefaultToolkit().getScreenSize();
+		panelWidth = (int) (displayResolution.getWidth() * MAINFRAME_DISPLAY_RATIO);
 		panelHeight = (int) (WinUtil.relH(100));
-		this.languageBundle = languageBundle;
 		sidePanelWidth = panelWidth/4;
+		this.languageBundle = languageBundle;
 		this.searchComboBox = searchComboBox;
+		this.alphabet = alphabet;
 
 		initialize();
 	}
@@ -114,7 +117,7 @@ public class HeadBar extends JPanel implements Updatable {
 		separatorLabel = new JLabel("/");
 		WinUtil.configStaticLabel(separatorLabel, sidePanelWidth - WinUtil.relW(53), WinUtil.relH(10), WinUtil.relW(5), WinUtil.relH(25), Color.WHITE, Color.DARK_GRAY, 12, Font.PLAIN);
 		rightPanel.add(separatorLabel);
-
+		
 		esButton = new JButton("ES");
 		WinUtil.configStaticButton(esButton, sidePanelWidth - WinUtil.relW(45), WinUtil.relH(10), WinUtil.relW(25), WinUtil.relH(25), new EmptyBorder(0, 0, 0, 0), Color.WHITE, Color.DARK_GRAY);
 		rightPanel.add(esButton);
@@ -122,13 +125,14 @@ public class HeadBar extends JPanel implements Updatable {
 		newTechnicalTermButton = new JButton(languageBundle.getString("newEntryBtn"));
 		WinUtil.configStaticButton(newTechnicalTermButton, sidePanelWidth - WinUtil.relW(280), WinUtil.relH(50), WinUtil.relW(260), WinUtil.relH(30), BorderFactory.createLineBorder(Color.BLACK), Color.WHITE, Color.DARK_GRAY);
 		rightPanel.add(newTechnicalTermButton);
+
 	}
 	
 	private void drawAlphabet(int PANEL_WIDTH, int PANEL_HEIGHT) {
 
 		for (char letter = 'A'; letter <= 'Z'; letter++) {
 			int arrayPosition = letter - 65;
-			int xLetterOffSet = (int) (arrayPosition * 0.0094 * displaySize.width);
+			int xLetterOffSet = (int) (arrayPosition * WinUtil.relW(18));
 			
 			alphabetButtons[arrayPosition] = new JButton(String.valueOf(letter));
 			WinUtil.configStaticButton(alphabetButtons[arrayPosition], sidePanelWidth - WinUtil.relW(234) + xLetterOffSet, WinUtil.relH(40), WinUtil.relW(14), WinUtil.relH(20), BorderFactory.createLineBorder(Color.GRAY), WinUtil.ULTRA_LIGHT_GRAY, WinUtil.DARKER_GRAY);
@@ -183,8 +187,7 @@ public class HeadBar extends JPanel implements Updatable {
 	}
 
 	private void checkAvailabilityLetters(boolean[] alphabet) {
-		// Checkt ob es Begriffseinträge mit entsprechenden Anfangsbuchstaben
-		// gibt -> wenn ja: Buchstaben umrahmen
+	
 		for (int arrayPosition = 0; arrayPosition < 26; arrayPosition++) {
 
 			if (alphabet[arrayPosition]) {
@@ -224,7 +227,4 @@ public class HeadBar extends JPanel implements Updatable {
 			alphabetButtons[letter - 65].addActionListener(l);
 		}
 	}
-	
-	
-
 }

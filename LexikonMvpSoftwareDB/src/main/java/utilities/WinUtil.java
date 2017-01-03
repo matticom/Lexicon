@@ -15,6 +15,8 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
+import eventHandling.ChosenLanguage;
+
 public class WinUtil {
 
 	public static enum MenuItemType {
@@ -462,6 +464,15 @@ public class WinUtil {
 			return GERMAN;
 		} else {
 			return SPANISH;
+		}
+	}
+	
+	public static ChosenLanguage getLanguage(ResourceBundle languageBundle) {
+		
+		if (languageBundle.getLocale().equals(new Locale("de"))) {
+			return ChosenLanguage.German;
+		} else {
+			return ChosenLanguage.Spanish;
 		}
 	}
 

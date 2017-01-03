@@ -117,6 +117,15 @@ public class MenuBar extends JMenuBar implements Updatable {
 		miSpanish.addActionListener(l);
 	}
 	
-	
-
+	public void setHistoryEnable(boolean state) {
+		miHistory.setEnabled(state);
+	}
+		
+	public void setGermanButtonSelected(boolean state) {
+		((JRadioButtonMenuItem)miGerman).setSelected(state);
+	}
+		
+	public void setSpanishButtonSelected(boolean state) {
+		((JRadioButtonMenuItem)miSpanish).setSelected(state);
+	}
 }
