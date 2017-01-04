@@ -88,14 +88,14 @@ public class TermPanelDynamic extends JPanel implements DynamicPanel {
 		for (Term term : termList) {
 			for (Translations translation : term.getTranslationList()) {
 				if (translation.getLanguages().getId() == GERMAN) {
-					TermButton TermButton = new TermButton(term.getId(), translation.getId(), GERMAN, translation.getName());
-					WinUtil.configButton(TermButton, buttonWidth, buttonHeight, BorderFactory.createLineBorder(WinUtil.COOL_BLUE), WinUtil.COOL_BLUE, WinUtil.LIGHT_BLACK);
-					TermButtonsDE.add(TermButton);
+					TermButton termButton = new TermButton(term.getId(), translation.getId(), GERMAN, translation.getName());
+					WinUtil.configButton(termButton, buttonWidth, buttonHeight, BorderFactory.createLineBorder(WinUtil.COOL_BLUE), WinUtil.COOL_BLUE, WinUtil.LIGHT_BLACK);
+					TermButtonsDE.add(termButton);
 				}
 				if (translation.getLanguages().getId() == SPANISH) {
-					TermButton TermButton = new TermButton(term.getId(), translation.getId(), SPANISH, translation.getName());
-					WinUtil.configButton(TermButton, buttonWidth, buttonHeight, BorderFactory.createLineBorder(WinUtil.STRONG_ORANGE), WinUtil.STRONG_ORANGE, WinUtil.LIGHT_BLACK);
-					TermButtonsES.add(TermButton);
+					TermButton termButton = new TermButton(term.getId(), translation.getId(), SPANISH, translation.getName());
+					WinUtil.configButton(termButton, buttonWidth, buttonHeight, BorderFactory.createLineBorder(WinUtil.STRONG_ORANGE), WinUtil.STRONG_ORANGE, WinUtil.LIGHT_BLACK);
+					TermButtonsES.add(termButton);
 				}
 			}
 		}
@@ -137,7 +137,7 @@ public class TermPanelDynamic extends JPanel implements DynamicPanel {
 		}
 	}
 	
-	public void setSpecialtiesButtonsActionListener(ActionListener l) {
+	public void setTermsButtonsActionListener(ActionListener l) {
 		
 		for (int i = 0; i < numbersOfSpecialties; i++) {
 			TermButtonsDE.get(i).addActionListener(l);

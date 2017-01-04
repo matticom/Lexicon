@@ -60,8 +60,8 @@ public class SearchResultPanelDynamic extends JPanel implements DynamicPanel {
 	}
 	
 	private void buildUp(int mainFrameWidth, int mainFrameHeight, List<Translations> technicalTermTranslationList) {
-		this.setBackground(WinUtil.LIGHT_BLACK);
-		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		setBackground(WinUtil.LIGHT_BLACK);
+		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		
 		germanPanel = new JPanel();
 		germanPanel.setBackground(WinUtil.LIGHT_BLACK);
@@ -75,8 +75,8 @@ public class SearchResultPanelDynamic extends JPanel implements DynamicPanel {
 		spanishPanel.setPreferredSize(new Dimension(mainFrameWidth/2, 900));
 		spanishPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.LIGHT_GRAY));
 
-		this.add(germanPanel);
-		this.add(spanishPanel);
+		add(germanPanel);
+		add(spanishPanel);
 				
 		Dimension displaySize = Toolkit.getDefaultToolkit().getScreenSize();
 		int buttonWidth =  WinUtil.relW(200);
@@ -87,9 +87,9 @@ public class SearchResultPanelDynamic extends JPanel implements DynamicPanel {
 		calculateDynamicPanelHeight(buttonHeight, inset);
 		arrangeButtons(inset);
 		
-		this.setPreferredSize(new Dimension(mainFrameWidth, dynamicPanelHeight));
-		this.setMinimumSize(new Dimension(0, dynamicPanelHeight));
-		this.setMaximumSize(new Dimension((int) displaySize.getWidth(), dynamicPanelHeight));
+		setPreferredSize(new Dimension(mainFrameWidth, dynamicPanelHeight));
+		setMinimumSize(new Dimension(0, dynamicPanelHeight));
+		setMaximumSize(new Dimension((int) displaySize.getWidth(), dynamicPanelHeight));
 	}
 
 	private void splitAndCreateButtons(List<Translations> technicalTermTranslationList, int buttonWidth, int buttonHeight) {
@@ -169,16 +169,16 @@ public class SearchResultPanelDynamic extends JPanel implements DynamicPanel {
 		}
 	}
 	
-	public void setSpecialtiesButtonsActionListener(ActionListener l) {
-		
-		for (int i = 0; i < specialtyButtonsDE.size(); i++) {
-			specialtyButtonsDE.get(i).addActionListener(l);
-			specialtyButtonsES.get(i).addActionListener(l);
-		}
+	public void setSearchResultTermsButtonsActionListener(ActionListener l) {
 		
 		for (int i = 0; i < technicalTermButtonsDE.size(); i++) {
 			technicalTermButtonsDE.get(i).addActionListener(l);
+			specialtyButtonsDE.get(i).addActionListener(l);
+		}
+		
+		for (int i = 0; i < technicalTermButtonsES.size(); i++) {
 			technicalTermButtonsES.get(i).addActionListener(l);
+			specialtyButtonsES.get(i).addActionListener(l);
 		}
 	}
 	

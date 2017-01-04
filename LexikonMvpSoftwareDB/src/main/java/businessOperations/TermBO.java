@@ -188,8 +188,8 @@ public class TermBO {
 		return termDAO.selectSpecialtyById(specialtyId);
 	}
 
-	public TechnicalTerm selectTechnicalTermById(int specialtyId) throws NoResultException {
-		return termDAO.selectTechnicalTermById(specialtyId);
+	public TechnicalTerm selectTechnicalTermById(int technicalTermId) throws NoResultException {
+		return termDAO.selectTechnicalTermById(technicalTermId);
 	}
 
 	public Term selectTermById(int termId) throws NoResultException {

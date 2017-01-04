@@ -74,9 +74,9 @@ public class SpecialtyPanelStatic extends MyPanel {
 		GridBagLayoutUtilities.addGB(staticElementsPanel, jSeparator, 1, 2, 2, 1);
 
 		introductionLabel = new JLabel(languageBundle.getString("introductionLbl"));
-		WinUtil.configLabel(introductionLabel, WinUtil.relW(1100),  WinUtil.relH(100), WinUtil.ULTRA_LIGHT_GRAY, Color.DARK_GRAY, 20, Font.PLAIN);
+		WinUtil.configLabel(introductionLabel, WinUtil.relW(1200),  WinUtil.relH(100), WinUtil.ULTRA_LIGHT_GRAY, Color.DARK_GRAY, 20, Font.PLAIN);
 		GridBagLayoutUtilities.addGB(staticElementsPanel, introductionLabel, 1, 3, 2, 1, new Insets(WinUtil.relH(10), 0, WinUtil.relH(20), 0));
-		introductionLabel.setBorder(new EmptyBorder(5, 80, 5, 80));
+		introductionLabel.setBorder(new EmptyBorder(5, 40, 5, 40));
 		
 		specialtyLabelDE = new JLabel(languageBundle.getString("subjectLblDE"));
 		WinUtil.configLabel(specialtyLabelDE, WinUtil.relW(200),  WinUtil.relH(30), Color.WHITE, WinUtil.LIGHT_BLACK, 18, Font.PLAIN);

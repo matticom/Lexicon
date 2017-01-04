@@ -13,6 +13,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.ResourceBundle;
 
 import javax.swing.BorderFactory;
@@ -104,14 +105,14 @@ public class TechnicalTermContentWindow extends MyWindow {
 		fillFields();
 		configElementsVisiblity();
 
-		this.setModal(false);
-		this.setLocationByPlatform(true);
-		this.setVisible(true);
+		setModal(false);
+		setLocationByPlatform(true);
+		setVisible(true);
 	}
 
 	private void initializeJDialog() {
 
-		this.setTitle(languageBundle.getString("newEntry"));
+		setTitle(languageBundle.getString("newEntry"));
 		contentPane.setBackground(WinUtil.LIGHT_BLACK);
 		contentPane.setLayout(new GridBagLayout());
 
@@ -119,20 +120,13 @@ public class TechnicalTermContentWindow extends MyWindow {
 		panelWidth = (int) (displaySize.getWidth() * JDIALOG_DISPLAY_RATIO);
 		panelHeight = (int) (displaySize.getHeight() * JDIALOG_DISPLAY_RATIO);
 
-		this.setSize(panelWidth, panelHeight);
+		setSize(panelWidth, panelHeight);
 
-		this.setMinimumSize(new Dimension(panelWidth, panelHeight));
-		this.setMaximumSize(new Dimension(displaySize.width, displaySize.height));
+		setMinimumSize(new Dimension(panelWidth, panelHeight));
+		setMaximumSize(new Dimension(displaySize.width, displaySize.height));
 
-		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		this.setResizable(true);
-		this.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				TechnicalTermContentWindow.this.dispose();
-			}
-		});
-
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setResizable(true);
 	}
 
 	private void createTextFields() {
@@ -315,10 +309,6 @@ public class TechnicalTermContentWindow extends MyWindow {
 		saveChangesButton.addActionListener(l);
 	}
 
-	public void setTextFieldListener(KeyListener l) {
-
-	}
-
 	public boolean isTextHasChangedInTextAreas() {
 		return textHasChangedInTextAreas;
 	}
@@ -329,6 +319,10 @@ public class TechnicalTermContentWindow extends MyWindow {
 
 	public String getSpanishTextAreaText() {
 		return spanishTextArea.getText();
+	}
+	
+	public void setContentWindowListener(WindowListener l) {
+		addWindowListener(l);
 	}
 
 	public class changeWatching implements DocumentListener {

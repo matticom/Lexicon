@@ -49,6 +49,7 @@ import AssignmentWindowComponents.AssignmentTableRowObject;
 import businessOperations.LanguageBO;
 import businessOperations.TermBO;
 import businessOperations.TermBOTest;
+import businessOperations.TransactionBeginCommit;
 import dto.TechnicalTermDTO;
 import interactElements.ChooseSpecialtyComboBox;
 import interactElements.ComboBoxCellRenderer;
@@ -76,6 +77,7 @@ import panels.SearchResultPanelDynamic;
 import panels.SearchResultPanelStatic;
 import panels.TechnicalTermPanelStatic;
 import panels.SpecialtyPanelStatic;
+import repository.HistoryDAO;
 import repository.LanguageDAO;
 import repository.TermDAO;
 import utilities.WinUtil;
@@ -100,6 +102,7 @@ public class HeadBarTest {
 	private static LanguageDAO languageDAOTest;
 	private static TermBO termBOTest;
 	private static LanguageBO languageBOTest;
+	private TransactionBeginCommit repositoryTA;
 	
 
 	private DialogWindowCreator windowCreator;
@@ -264,6 +267,7 @@ public class HeadBarTest {
 				// headBar2.updatePanel(peto);
 				searchComboBox.updatePanel(peto);
 				menuBar.updatePanel(peto);
+				System.out.println("Statusbar wird aktualissssiiiiiieert");
 				statusBar.updatePanel(peto);
 				// --->
 				// technicalTermPanel.updatePanel(peto);
@@ -305,6 +309,8 @@ public class HeadBarTest {
 		languageDAOTest = new LanguageDAO(entitymanager);
 		languageBOTest = new LanguageBO(languageDAOTest);
 		termBOTest = new TermBO(languageBOTest, termDAOTest);
+		HistoryDAO historyDAO = new HistoryDAO(entitymanager);
+		repositoryTA = new TransactionBeginCommit(entitymanager, termBOTest, historyDAO);
 
 		try {
 			DatabaseOperation.CLEAN_INSERT.execute(mDBUnitConnection, startDataset);
@@ -364,7 +370,7 @@ public class HeadBarTest {
 		});
 
 		newTTDialog.setInsertButtonsActionListener(e -> {
-			newTTChecker.checkDialog(newTTDialog, termBOTest);
+			newTTChecker.checkDialog(newTTDialog, repositoryTA);
 			if (newTTChecker.isTestPassed()) {
 				saveNewTechnicalTerm(languageBundle, germanSpecialtyComboBox, spanishSpecialtyComboBox, newTTDialog);
 			}
@@ -424,7 +430,7 @@ public class HeadBarTest {
 		});
 
 		newAssignDialog.setChangeButtonActionListener(e -> {
-			assignmentChecker.checkDialog(newAssignDialog, termBOTest);
+			assignmentChecker.checkDialog(newAssignDialog, repositoryTA);
 			if (assignmentChecker.isTestPassed()) {
 				changeButtonPressed(specialtyComboBox);
 			}

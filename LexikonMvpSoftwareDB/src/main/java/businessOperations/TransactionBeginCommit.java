@@ -58,6 +58,13 @@ public class TransactionBeginCommit {
 		return specialty;
 	}
 	
+	public TechnicalTerm selectTechnicalTermByIdTA(int technicalTermId) {
+		entityTransaction.begin();
+		TechnicalTerm technicalTerm = repositoryService.selectTechnicalTermById(technicalTermId);
+		entityTransaction.commit();
+		return technicalTerm;
+	}
+	
 	public Specialty createSpecialtyTA(String name, String description, int languageId) {
 		entityTransaction.begin();
 		Specialty specialty = repositoryService.createSpecialty(name, description, languageId);
@@ -98,6 +105,13 @@ public class TransactionBeginCommit {
 		Specialty specialty = repositoryService.assignTechnicalTermsToSpecialty(technicalTermIds, specialtyId);
 		entityTransaction.commit();
 		return specialty;
+	}
+	
+	public Translations updateTranslationTA(int termId, String newName, String newDescription, int languageId) {
+		entityTransaction.begin();
+		Translations translation = repositoryService.updateTranslation(termId, newName, newDescription, languageId);
+		entityTransaction.commit();
+		return translation;
 	}
 	
 	

@@ -9,30 +9,35 @@ public class TermButton extends JButton {
 	private int languageId;
 	
 
-	public TermButton(int specialtyId, int tranlationId, int languageId, String specialtyName) {
+	public TermButton(int termId, int tranlationId, int languageId, String specialtyName) {
 		
-		this.termId = specialtyId;
+		this.termId = termId;
 		this.tranlationId = tranlationId;
 		this.languageId = languageId;
 		this.setText(specialtyName);
 	}
 	
 	
-	public int getSpecialtyId() {
+	public int getTermId() {
 		return termId;
 	}
-	public void setSpecialtyId(int specialtyId) {
-		this.termId = specialtyId;
+	
+	public void setTermId(int termId) {
+		this.termId = termId;
 	}
+
 	public int getTranlationId() {
 		return tranlationId;
 	}
+	
 	public void setTranlationId(int tranlationId) {
 		this.tranlationId = tranlationId;
 	}
+	
 	public int getLanguageId() {
 		return languageId;
 	}
+	
 	public void setLanguageId(int languageId) {
 		this.languageId = languageId;
 	}
