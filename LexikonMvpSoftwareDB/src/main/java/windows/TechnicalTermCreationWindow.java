@@ -25,6 +25,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
@@ -34,6 +35,7 @@ import javax.swing.text.JTextComponent;
 
 import eventHandling.PanelEventTransferObject;
 import interactElements.ChooseSpecialtyComboBox;
+import interactElements.MyScrollBarUI;
 import utilities.ExtendedListItem;
 import utilities.GridBagLayoutUtilities;
 import utilities.WinUtil;
@@ -98,7 +100,7 @@ public class TechnicalTermCreationWindow extends MyWindow implements SpecialtyTe
 		arrangeComboBoxes();
 		
 		configElementsVisiblityAtStart(WinUtil.getLanguageId(languageBundle));
-
+		
 		setModal(false);
 		setLocationByPlatform(true);
 		setVisible(true);
@@ -162,6 +164,7 @@ public class TechnicalTermCreationWindow extends MyWindow implements SpecialtyTe
 		germanTextArea = new JTextArea();
 		germanTextArea.setBackground(WinUtil.DARK_WHITE);
 		germanScrollPane = new JScrollPane(germanTextArea);
+		germanScrollPane.getVerticalScrollBar().setUI(new MyScrollBarUI());
 		WinUtil.configScrollPane(germanScrollPane, germanTextArea, WinUtil.relW(350), WinUtil.relH(360));
 		GridBagLayoutUtilities.addGB(contentPane, germanScrollPane, 1, 7, 1, 2, GridBagConstraints.BOTH, 1, 1,
 				new Insets(0, WinUtil.relW(SIDE_WIDTH), WinUtil.relH(BOTTOM_HEIGHT), WinUtil.relW(SIDE_WIDTH)));
@@ -169,6 +172,7 @@ public class TechnicalTermCreationWindow extends MyWindow implements SpecialtyTe
 		spanishTextArea = new JTextArea();
 		spanishTextArea.setBackground(WinUtil.DARK_WHITE);
 		spanishScrollPane = new JScrollPane(spanishTextArea);
+		spanishScrollPane.getVerticalScrollBar().setUI(new MyScrollBarUI());
 		WinUtil.configScrollPane(spanishScrollPane, spanishTextArea, WinUtil.relW(350), WinUtil.relH(360));
 		GridBagLayoutUtilities.addGB(contentPane, spanishScrollPane, 3, 7, 1, 2, GridBagConstraints.BOTH, 1, 1,
 				new Insets(0, WinUtil.relW(SIDE_WIDTH), WinUtil.relH(BOTTOM_HEIGHT), WinUtil.relW(SIDE_WIDTH)));

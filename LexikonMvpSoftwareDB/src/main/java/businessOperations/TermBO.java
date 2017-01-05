@@ -251,11 +251,6 @@ public class TermBO {
 		return alphabet;
 	}
 
-	public List<Translations> selectLetter(String letter) {
-
-		return termDAO.selectLetter(letter);
-	}
-
 	public Specialty assignTechnicalTermsToSpecialty(int[] technicalTermIds, int specialtyId) {
 
 		Specialty specialty;

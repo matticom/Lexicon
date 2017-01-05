@@ -379,18 +379,6 @@ public class TermDAOTest {
 		assertThat("Conglomerante", is(equalTo(termList.get(2).getName())));
 	}
 	
-	@Test
-	public void selectLetterTest() throws Exception {
-						
-		entitymanager.getTransaction().begin();
-		List<Translations> termList = termDAOTest.selectLetter("F");
-		entitymanager.getTransaction().commit();
-			
-		assertThat(3, is(equalTo(termList.size())));	
-		assertThat("Fassade", is(equalTo(termList.get(0).getName())));	
-		assertThat("Fachada", is(equalTo(termList.get(1).getName())));
-		assertThat("Floatglas", is(equalTo(termList.get(2).getName())));
-	}
 		
 	@After
 	public void cleanTesting() {

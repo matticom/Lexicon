@@ -203,9 +203,9 @@ public class HeadBarTest {
 				termBOTest.selectAllTechnicalTermsOfSpecialty(3), "SpecialtyName", e -> {});
 		TermPanelDynamic specialtyDynamicPanel = new TermPanelDynamic(mainFrameWidth, mainFrameHeight, allSpecialtyList, e -> {});
 		SearchResultPanelDynamic searchDynamicPanel = new SearchResultPanelDynamic(mainFrameWidth, mainFrameHeight,
-				termBOTest.searchTechnicalTerms("a%"), "Hallo Suche");
+				termBOTest.searchTechnicalTerms("a%"), "Hallo Suche", null);
 		SearchResultPanelDynamic letterDynamicPanel = new SearchResultPanelDynamic(mainFrameWidth, mainFrameHeight,
-				termBOTest.searchTechnicalTerms("A%"), ".A%");
+				termBOTest.searchTechnicalTerms("A%"), ".A%", null);
 
 		TechnicalTermPanelStatic technicalTermPanel = (TechnicalTermPanelStatic) panelCreator.createPanel(StaticPanels.TechnicalTermPanel,
 				ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")), MAINFRAME_DISPLAY_RATIO, technicalTermDynamicPanel);
@@ -343,7 +343,7 @@ public class HeadBarTest {
 
 	private void fillHistoryList() {
 		// als Test: es werden alle TechnicalTerms mit F in die Liste gefüllt
-		List<Translations> translationList = termBOTest.selectLetter("f");
+		List<Translations> translationList = termBOTest.searchTechnicalTerms("f%");
 		history = new ArrayList<String>();
 
 		for (Translations translation : translationList) {

@@ -22,8 +22,7 @@ public abstract class MyPanel  extends JScrollPane implements Updatable {
 	
 	protected ResourceBundle 	languageBundle;
 	
-	protected Dimension displayResolution;
-	private JScrollBar scrollbar;	
+	protected Dimension displayResolution;	
 	
 	public MyPanel(ResourceBundle languageBundle, double MAINFRAME_DISPLAY_RATIO) {
 		
@@ -32,7 +31,7 @@ public abstract class MyPanel  extends JScrollPane implements Updatable {
 		mainFrameHeight = (int)(displayResolution.getHeight() * MAINFRAME_DISPLAY_RATIO);
 		this.languageBundle = languageBundle;
 		
-		scrollbar = new JScrollBar(ScrollBar.VERTICAL);
+		JScrollBar scrollbar = new JScrollBar(ScrollBar.VERTICAL);
 		scrollbar.setUI(new MyScrollBarUI());
 		this.setVerticalScrollBar(scrollbar);
 		

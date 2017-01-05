@@ -18,7 +18,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -39,6 +41,7 @@ import org.dbunit.database.DatabaseConfig;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.eclipse.persistence.internal.jpa.EntityManagerImpl;
@@ -163,9 +166,6 @@ public class Presenter {
 		
 		peto = createPetoForNonPanelChanges();
 		updateComponents(peto);
-//		
-//		specialtyDynamicPanel.setTermsButtonsActionListener(e -> {System.out.println("Ich wurde gedr¸ckt");});
-//		specialtyDynamicPanel.getOneTermButton().setText("blablub");
 
 		mainFrame.setVisible(true);
 	}
@@ -185,7 +185,7 @@ public class Presenter {
 		try {
 			mDBUnitConnection = new DatabaseConnection(connection);
 			mDBUnitConnection.getConfig().setProperty(DatabaseConfig.FEATURE_ALLOW_EMPTY_FIELDS, true);
-			startDataset = new FlatXmlDataSetBuilder().build(new File("./src/test/resources/XML/Term/testSet_EntireDB.xml"));
+			startDataset = new FlatXmlDataSetBuilder().build(new File("./src/main/resources/DatenbankContent.xml"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -196,7 +196,6 @@ public class Presenter {
 		TermBO repositoryService = new TermBO(languageBOService, termDAOService);
 		HistoryDAO historyListService = new HistoryDAO(entitymanager);
 		repositoryTA = new TransactionBeginCommit(entitymanager, repositoryService, historyListService);
-		
 
 		try {
 			DatabaseOperation.CLEAN_INSERT.execute(mDBUnitConnection, startDataset);
@@ -204,6 +203,26 @@ public class Presenter {
 
 			e.printStackTrace();
 		}
+	}
+	
+	private void closeAndStoreDataBase() {
+		
+		try {
+			IDataSet fullDataSet = mDBUnitConnection.createDataSet();
+			FlatXmlDataSet.write(fullDataSet, new FileOutputStream("./src/main/resources/DatenbankContent.xml"));
+			
+		} catch (Exception e) {
+			System.out.println("Es wurde eine Exception beim speichern der Datenbank geworfen: "+ e.getMessage());
+			e.printStackTrace();
+		}
+		try {
+			mDBUnitConnection.close();
+		} catch (SQLException e) {
+			System.out.println("Es wurde eine Exception beim Schlieﬂen der IDataConnection geworfen: "+ e.getMessage());
+			e.printStackTrace();
+		}
+		entitymanager.close();
+		emfactory.close();
 	}
 
 	private void initializeAppSettings() {
@@ -221,7 +240,6 @@ public class Presenter {
 
 	private void initializeFactories() {
 
-		
 		comboBoxFactory = new ComboBoxFactory();
 		staticPanelCreator = new StaticPanelCreator();
 		dynamicPanelCreator = new DynamicPanelCreator();
@@ -320,7 +338,6 @@ public class Presenter {
 		headBar.setDeButtonActionListener(e -> changeToGerman());
 		headBar.setEsButtonActionListener(e -> changeToSpanish());
 		headBar.setNewTechnicalTermButtonActionListener(e -> openNewTechnicalTermDialog(languageBundle, chooseSpecialtyComboBoxGerman, chooseSpecialtyComboBoxSpanish));
-		// nach ende der methode neues peto um komponenten zu aktualisieren
 		register(headBar);
 	}
 
@@ -348,7 +365,6 @@ public class Presenter {
 				mainFrameHeight = c.getHeight();
 				peto = createPetoForNonPanelChanges();
 				updateComponents(peto);
-				System.out.println("haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 			}
 		});
 		mainFrame.setMainFrameWindowListener(new WindowAdapter() {
@@ -385,6 +401,8 @@ public class Presenter {
 			}
 		}
 		
+		currentSpecialty = null;
+		currentTechnicalTerm = null;
 		searchWord = newSearchWord;
 		if (newSearchResult) {
 
@@ -398,8 +416,6 @@ public class Presenter {
 			}
 			updateComponents(peto);
 		}
-		currentSpecialty = null;
-		currentTechnicalTerm = null;
 	}
 
 	private void openLetterResult(ActionEvent e) {
@@ -416,7 +432,9 @@ public class Presenter {
 				}
 			}
 		}
-
+		
+		currentSpecialty = null;
+		currentTechnicalTerm = null;
 		searchWord = newSearchWord;
 		if (newLetterResult) {
 
@@ -430,8 +448,6 @@ public class Presenter {
 			}
 			updateComponents(peto);
 		}
-		currentSpecialty = null;
-		currentTechnicalTerm = null;
 	}
 
 	private void deleteHistory() {
@@ -464,6 +480,8 @@ public class Presenter {
 			panelChangeIsNeeded = false;
 		}
 		
+		currentSpecialty = null;
+		currentTechnicalTerm = null;
 		if (panelChangeIsNeeded) {
 
 			specialtyDynamicPanel = dynamicPanelCreator.createPanel(DynamicPanels.SpecialtyPanel, specialtyDynamicPanel, specialtyActionListener, mainFrameWidth, mainFrameHeight, 
@@ -474,18 +492,17 @@ public class Presenter {
 			changePanelInCenterContainer(specialtyPanel);
 			updateComponents(peto);
 		}
-		currentSpecialty = null;
-		currentTechnicalTerm = null;
 	}
 
 	private void openTechnicalTermResult(int specialtyId) {
 
 		boolean panelChangeIsNeeded = true;
-		if (currentCenterPanel instanceof TechnicalTermPanelStatic) {
+		if (currentCenterPanel instanceof TechnicalTermPanelStatic && !(currentCenterPanel instanceof SearchResultPanelStatic)) {
 			panelChangeIsNeeded = false;
 		}
 
 		currentSpecialty = repositoryTA.selectSpecialtyByIdTA(specialtyId);
+		currentTechnicalTerm = null;
 
 		if (panelChangeIsNeeded) {
 
@@ -497,7 +514,6 @@ public class Presenter {
 			changePanelInCenterContainer(technicalTermPanel);
 			updateComponents(peto);
 		}
-		currentTechnicalTerm = null;
 	}
 
 	public void openNewTechnicalTermDialog(ResourceBundle languageBundle, ChooseSpecialtyComboBox germanSpecialtyComboBox, ChooseSpecialtyComboBox spanishSpecialtyComboBox) {
@@ -552,11 +568,9 @@ public class Presenter {
 		} else {
 			if (WinUtil.getLanguageId(languageBundle) == GERMAN) {
 				specialtyId = germanSpecialtyComboBox.getSelectedListItem().getValueMember();
-				System.out.println("Specialty Id: " + specialtyId);
 			}
 			if (WinUtil.getLanguageId(languageBundle) == SPANISH) {
 				specialtyId = spanishSpecialtyComboBox.getSelectedListItem().getValueMember();
-				System.out.println("Specialty Id: " + specialtyId);
 			}
 		}
 
@@ -616,7 +630,6 @@ public class Presenter {
 		}
 		repositoryTA.assignTechnicalTermsToSpecialtyTA(newAssignDialog.getTechnicalTermIds(), specialtyId);
 		newAssignDialog.refreshAssignmentTableModel(repositoryTA.selectAllTechnicalTermsTA());
-		System.out.println("Fertig.... Fenster schlieﬂen");
 	}
 	
 	public void openShowTechnicalTermContentDialog(ResourceBundle languageBundle, ActionEvent event) {
@@ -637,14 +650,13 @@ public class Presenter {
 			public void windowClosing(WindowEvent e) {
 				contentTTDialog.dispose();
 				currentTechnicalTerm = null;
-				if (!(currentCenterPanel.equals(technicalTermDynamicPanel))) {
+				if (!(currentCenterPanel instanceof TechnicalTermPanelStatic && !(currentCenterPanel instanceof SearchResultPanelStatic))) {
 					currentSpecialty = null;
 				}
 				peto = createPetoForNonPanelChanges();
 				updateComponents(peto);
 			}
 		});
-		
 	}
 	
 	private void saveNewTechnicalTermDescription(TechnicalTermContentWindow contentTTDialog, TechnicalTerm technicalTerm) {
@@ -686,7 +698,7 @@ public class Presenter {
 	}
 
 	private void changePanelInCenterContainer(MyPanel panel) {
-		unregister(currentCenterPanel); // (Updatable) cast?
+		unregister(currentCenterPanel);
 		register(panel);
 		centerContainer.remove(currentCenterPanel);
 		currentCenterPanel = panel;
@@ -752,6 +764,7 @@ public class Presenter {
 	private void closeApplication() {
 //		if (queryExit()) {
 			mainFrame.dispose();
+			closeAndStoreDataBase();
 			System.exit(0);
 //		}
 	}
@@ -770,7 +783,6 @@ public class Presenter {
 	class SpecialtyActionListener implements ActionListener	{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("Hilfe!!!!!!!!!!!!!!!!!!!");
 			openTechnicalTermResult(((TermButton)e.getSource()).getTermId());
 		}
 	}

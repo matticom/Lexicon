@@ -494,19 +494,6 @@ public class TermBOTest {
 		assertThat("Conglomerante", is(equalTo(technicalTermTranslationList.get(0).getNormalName())));	
 	}
 	
-	
-	@Test
-	public void selectLetterTest() throws Exception {
-						
-		entitymanager.getTransaction().begin();
-		List<Translations> termList = termBOTest.selectLetter("F");
-		entitymanager.getTransaction().commit();
-			
-		assertThat(2, is(equalTo(termList.size())));	
-		assertThat("Fassade", is(equalTo(termList.get(0).getName())));	
-		assertThat("Floatglas", is(equalTo(termList.get(1).getName())));
-	}
-	
 	@Test
 	public void checkLetterTest() throws Exception {
 		
@@ -518,7 +505,6 @@ public class TermBOTest {
 		expectedAlphabet[1] = true;
 		expectedAlphabet[2] = true;
 		expectedAlphabet[5] = true;
-		expectedAlphabet[7] = true;
 		expectedAlphabet[17] = true;
 		expectedAlphabet[21] = true;
 				

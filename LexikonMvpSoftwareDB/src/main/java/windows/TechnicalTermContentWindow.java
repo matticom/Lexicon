@@ -22,10 +22,12 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -34,6 +36,7 @@ import javax.swing.text.JTextComponent;
 import dto.TechnicalTermDTO;
 import eventHandling.PanelEventTransferObject;
 import interactElements.ChooseSpecialtyComboBox;
+import interactElements.MyScrollBarUI;
 import model.Specialty;
 import model.TechnicalTerm;
 import utilities.ExtendedListItem;
@@ -104,7 +107,7 @@ public class TechnicalTermContentWindow extends MyWindow {
 		createButtons();
 		fillFields();
 		configElementsVisiblity();
-
+	
 		setModal(false);
 		setLocationByPlatform(true);
 		setVisible(true);
@@ -161,6 +164,7 @@ public class TechnicalTermContentWindow extends MyWindow {
 		germanTextArea = new JTextArea();
 		germanTextArea.getDocument().addDocumentListener(new changeWatching());
 		germanScrollPane = new JScrollPane(germanTextArea);
+		germanScrollPane.getVerticalScrollBar().setUI(new MyScrollBarUI());
 		WinUtil.configScrollPaneExtended(germanScrollPane, germanTextArea, WinUtil.relW(350), WinUtil.relH(360), WinUtil.DARK_WHITE, WinUtil.LIGHT_BLACK,
 				BorderFactory.createLineBorder(Color.BLACK), false);
 		GridBagLayoutUtilities.addGB(contentPane, germanScrollPane, 1, 6, 1, 3, GridBagConstraints.BOTH, 1, 1,
@@ -169,6 +173,7 @@ public class TechnicalTermContentWindow extends MyWindow {
 		spanishTextArea = new JTextArea();
 		spanishTextArea.getDocument().addDocumentListener(new changeWatching());
 		spanishScrollPane = new JScrollPane(spanishTextArea);
+		spanishScrollPane.getVerticalScrollBar().setUI(new MyScrollBarUI());
 		WinUtil.configScrollPaneExtended(spanishScrollPane, spanishTextArea, WinUtil.relW(350), WinUtil.relH(360), WinUtil.DARK_WHITE, WinUtil.LIGHT_BLACK,
 				BorderFactory.createLineBorder(Color.BLACK), false);
 		GridBagLayoutUtilities.addGB(contentPane, spanishScrollPane, 3, 6, 1, 3, GridBagConstraints.BOTH, 1, 1,

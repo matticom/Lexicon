@@ -89,6 +89,7 @@ public class AssignTechnicalTermToSpecialtyWindow extends MyWindow implements Sp
 		createScrollPane();
 		arrangeComboBoxes();
 
+		newSpecialtyDeselected();
 		setLocationByPlatform(true);
 		setVisible(true);
 	}
@@ -154,12 +155,9 @@ public class AssignTechnicalTermToSpecialtyWindow extends MyWindow implements Sp
 		scrollPane = new JScrollPane(technicalTermTable);
 		scrollPane.getViewport().setBackground(Color.GRAY);
 		scrollPane.getViewport().setPreferredSize(new Dimension(WinUtil.relW(100), WinUtil.relH(100)));
+		scrollPane.getVerticalScrollBar().setUI(new MyScrollBarUI());
 		GridBagLayoutUtilities.addGB(contentPane, scrollPane, 1, 2, 2, 1, GridBagConstraints.BOTH, 1, 1,
 				new Insets(WinUtil.relH(10), WinUtil.relW(30), WinUtil.relH(10), WinUtil.relW(30)));
-
-		JScrollBar scrollbar = new JScrollBar(JScrollBar.VERTICAL);
-		scrollbar.setUI(new MyScrollBarUI());
-		scrollPane.setVerticalScrollBar(scrollbar);
 	}
 	
 	private void arrangeComboBoxes() {
@@ -202,23 +200,29 @@ public class AssignTechnicalTermToSpecialtyWindow extends MyWindow implements Sp
 	private void itemStateChanged(ItemEvent e) {
 
 		if (e.getStateChange() == ItemEvent.SELECTED) {
-
-			newSpecialtySelected = true;
-			specialtyComboBox.setVisible(false);
-			newGermanSpecialtyLabel.setVisible(true);
-			newSpanishSpecialtyLabel.setVisible(true);
-			germanSpecialtyInput.setVisible(true);
-			spanishSpecialtyInput.setVisible(true);
+			newSpecialtySelected();
 		}
 		if (e.getStateChange() == ItemEvent.DESELECTED) {
-
-			newSpecialtySelected = false;
-			specialtyComboBox.setVisible(true);
-			newGermanSpecialtyLabel.setVisible(false);
-			newSpanishSpecialtyLabel.setVisible(false);
-			germanSpecialtyInput.setVisible(false);
-			spanishSpecialtyInput.setVisible(false);
+			newSpecialtyDeselected();
 		}
+	}
+	
+	private void newSpecialtySelected() {
+		newSpecialtySelected = true;
+		specialtyComboBox.setVisible(false);
+		newGermanSpecialtyLabel.setVisible(true);
+		newSpanishSpecialtyLabel.setVisible(true);
+		germanSpecialtyInput.setVisible(true);
+		spanishSpecialtyInput.setVisible(true);
+	}
+	
+	private void newSpecialtyDeselected() {
+		newSpecialtySelected = false;
+		specialtyComboBox.setVisible(true);
+		newGermanSpecialtyLabel.setVisible(false);
+		newSpanishSpecialtyLabel.setVisible(false);
+		germanSpecialtyInput.setVisible(false);
+		spanishSpecialtyInput.setVisible(false);
 	}
 
 	public void setTextFieldListener(KeyListener l) {

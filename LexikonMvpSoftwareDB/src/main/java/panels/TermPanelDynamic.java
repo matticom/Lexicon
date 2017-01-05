@@ -39,7 +39,7 @@ public class TermPanelDynamic extends JPanel implements DynamicPanel {
 		TermButtonsES = new ArrayList<TermButton>();
 		searchWord = null;
 		buildUp(mainFrameWidth, mainFrameHeight, termList);
-		 setTermsButtonsActionListenerTest(actionListener);
+		setTermsButtonsActionListener(actionListener);
 	}
 
 	public TermPanelDynamic(int mainFrameWidth, int mainFrameHeight, List<? extends Term> termList, String searchWord, ActionListener actionListener) {
@@ -56,15 +56,11 @@ public class TermPanelDynamic extends JPanel implements DynamicPanel {
 		germanTermPanel = new JPanel();
 		germanTermPanel.setBackground(WinUtil.LIGHT_BLACK);
 		germanTermPanel.setLayout(new GridBagLayout());
-		// germanTermPanel.setPreferredSize(new Dimension(mainFrameWidth/2,
-		// 900));
 		germanTermPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.LIGHT_GRAY));
 
 		spanishTermPanel = new JPanel();
 		spanishTermPanel.setBackground(WinUtil.LIGHT_BLACK);
 		spanishTermPanel.setLayout(new GridBagLayout());
-		// spanishTermPanel.setPreferredSize(new Dimension(mainFrameWidth/2,
-		// 900));
 		spanishTermPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.LIGHT_GRAY));
 
 		this.add(germanTermPanel);
@@ -150,30 +146,11 @@ public class TermPanelDynamic extends JPanel implements DynamicPanel {
 		return TermButtonsDE.get(0);
 	}
 	
-	public void setTermsButtonsActionListenerTest(ActionListener l) {
+	public void setTermsButtonsActionListener(ActionListener l) {
 
 		for (int i = 0; i < numbersOfSpecialties; i++) {
 			TermButtonsDE.get(i).addActionListener(l);
 			TermButtonsES.get(i).addActionListener(l);
-		}
-	}
-
-	public void setTermsButtonsActionListener(ActionListener l, int counter) {
-
-		if (searchWord == null) {
-			TermButtonsDE.get(2).setText(String.valueOf(counter));
-		}
-		for (int i = 0; i < numbersOfSpecialties; i++) {
-			TermButtonsDE.get(i).addActionListener(l);
-			TermButtonsES.get(i).addActionListener(l);
-		}
-	}
-
-	public void removeActionListenerFromTermButtons(ActionListener l) {
-
-		for (int i = 0; i < numbersOfSpecialties; i++) {
-			TermButtonsDE.get(i).removeActionListener(l);
-			TermButtonsES.get(i).removeActionListener(l);
 		}
 	}
 

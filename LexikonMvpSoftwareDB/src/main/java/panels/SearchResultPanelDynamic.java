@@ -39,7 +39,7 @@ public class SearchResultPanelDynamic extends JPanel implements DynamicPanel {
 	private int dynamicPanelHeight;
 	private boolean isLetterResult;
 
-	public SearchResultPanelDynamic(int mainFrameWidth, int mainFrameHeight, List<Translations> technicalTermTranslationList, String searchWord) {
+	public SearchResultPanelDynamic(int mainFrameWidth, int mainFrameHeight, List<Translations> technicalTermTranslationList, String searchWord, ActionListener actionListener) {
 
 		this.searchWord = distinguishBetweenLetterSearchAndNormalSearch(searchWord);
 		specialtyButtonsDE = new ArrayList<SpecialtyButton>();
@@ -47,6 +47,7 @@ public class SearchResultPanelDynamic extends JPanel implements DynamicPanel {
 		technicalTermButtonsDE = new ArrayList<TechnicalTermButton>();
 		technicalTermButtonsES = new ArrayList<TechnicalTermButton>();
 		buildUp(mainFrameWidth, mainFrameHeight, technicalTermTranslationList);
+		setSearchResultTermsButtonsActionListener(actionListener);
 	}
 
 	private String distinguishBetweenLetterSearchAndNormalSearch(String searchWord) {
@@ -185,19 +186,6 @@ public class SearchResultPanelDynamic extends JPanel implements DynamicPanel {
 		for (int i = 0; i < technicalTermButtonsES.size(); i++) {
 			technicalTermButtonsES.get(i).addActionListener(l);
 			specialtyButtonsES.get(i).addActionListener(l);
-		}
-	}
-
-	public void removeActionListenerFromSearchResultTermButtons(ActionListener l) {
-
-		for (int i = 0; i < technicalTermButtonsDE.size(); i++) {
-			technicalTermButtonsDE.get(i).removeActionListener(l);
-			specialtyButtonsDE.get(i).removeActionListener(l);
-		}
-
-		for (int i = 0; i < technicalTermButtonsES.size(); i++) {
-			technicalTermButtonsES.get(i).removeActionListener(l);
-			specialtyButtonsES.get(i).removeActionListener(l);
 		}
 	}
 
