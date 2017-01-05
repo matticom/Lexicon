@@ -242,7 +242,7 @@ public class TermBO {
 		String strLetter = null;
 		for (char letter = 'A'; letter <= 'Z'; letter++) {
 			strLetter = String.valueOf(letter);
-			if (termDAO.selectLetter(strLetter).isEmpty()) {
+			if (searchTechnicalTerms(strLetter + "%").isEmpty()) {
 				alphabet[letter - 65] = false;
 			} else {
 				alphabet[letter - 65] = true;

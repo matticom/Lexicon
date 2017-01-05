@@ -148,6 +148,7 @@ public class HeadBar extends JPanel implements Updatable {
 		changeComponentsSizeOnResize(e.getMainFrameWidth(), e.getMainFrameHeight());
 		changeGuiTextLanguage();
 		checkAvailabilityLetters(e.getAvailableLetters());
+		repaint();
 	}
 
 	private void setLanguage(ChosenLanguage currentLanguage) {

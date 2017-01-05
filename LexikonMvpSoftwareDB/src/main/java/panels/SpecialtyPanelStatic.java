@@ -123,5 +123,7 @@ public class SpecialtyPanelStatic extends MyPanel {
 	
 		contentPanel.add(staticElementsPanel);
 		contentPanel.add(dynamicPanel);
+		validate();
+		repaint();
 	}
 }

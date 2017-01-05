@@ -14,20 +14,23 @@ public class NewTechnicalTermDialogChecker extends AssignmentDialogChecker {
 	@Override
 	public void checkDialog(SpecialtyTextFieldsCheckable dialog, TransactionBeginCommit repositoryTA) {
 
-		TechnicalTermCreationWindow newTTDialog = (TechnicalTermCreationWindow)dialog;
+		TechnicalTermCreationWindow newTTDialog = (TechnicalTermCreationWindow) dialog;
 		testPassed = true;
 		if (newTTDialog.isNewSpecialtySelected()) {
 			checkBlankSpecialtyFields(newTTDialog);
 			checkBlankTechnicalTermFields(newTTDialog);
-			checkSpecialties(newTTDialog, repositoryTA);
-			checkTechnicalTerms(newTTDialog, repositoryTA);
+			if (testPassed == true) {
+				checkSpecialties(newTTDialog, repositoryTA);
+				checkTechnicalTerms(newTTDialog, repositoryTA);
+			}
 		} else {
-			checkTechnicalTerms(newTTDialog, repositoryTA);
 			checkBlankTechnicalTermFields(newTTDialog);
+			if (testPassed == true) {
+				checkTechnicalTerms(newTTDialog, repositoryTA);
+			}
 		}
 	}
 
-	
 	private void checkTechnicalTerms(TechnicalTermCreationWindow newTTDialog, TransactionBeginCommit repositoryTA) {
 		try {
 			repositoryTA.selectTechnicalTermByNameTA(newTTDialog.getGermanTextField().getText(), GERMAN);

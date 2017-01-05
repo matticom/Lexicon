@@ -25,6 +25,9 @@ import utilities.WinUtil;
 
 public class StatusBar extends JPanel implements Updatable {
 
+	private final int GERMAN = 1;
+	private final int SPANISH = 2;
+	
 	private JButton startpageButton;
 	private JButton specialtyButton;
 	private JLabel technicalTermLabel;
@@ -131,11 +134,11 @@ public class StatusBar extends JPanel implements Updatable {
 		if (e.getCurrentLanguage() == ChosenLanguage.German) {
 			languageBundle = ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de"));
 			startpageButton.setText(languageBundle.getString("startpageBtn"));
-			languageId = 1;			
+			languageId = GERMAN;
 		} else {
 			languageBundle = ResourceBundle.getBundle("languageBundles.lexikon", new Locale("es"));
 			startpageButton.setText(languageBundle.getString("startpageBtn"));
-			languageId = 2;	
+			languageId = SPANISH;
 		}
 		
 		if (e.getCurrentSpecialty() != null) {
@@ -197,7 +200,8 @@ public class StatusBar extends JPanel implements Updatable {
 		}
 		
 		setPreferredSize(spacePanelWidth, namePanelWidth, separatorPanelWidth, panelsHeight);
-	
+		repaint();
+		
 		System.out.println("Statusbar counter: "+ counter);
 		counter++;
 	}

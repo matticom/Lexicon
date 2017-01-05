@@ -1,5 +1,5 @@
 package eventHandling;
 
-public enum PanelUpdateObjects {
+public enum StaticPanels {
 	SpecialtyPanel, TechnicalTermPanel, SearchResultPanel, LetterResultPanel
 }

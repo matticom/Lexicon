@@ -11,6 +11,7 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -317,6 +318,16 @@ public class TechnicalTermCreationWindow extends MyWindow implements SpecialtyTe
 	
 	public void setTechnicalTermCreationWindowListener(WindowListener l) {
 		addWindowListener(l);
+	}
+	
+	public void removeItemListenerFromComboBoxes() {
+		
+		for (ItemListener itemListener : germanSpecialtyComboBox.getItemListeners()) {
+			germanSpecialtyComboBox.removeItemListener(itemListener);
+		}
+		for (ItemListener itemListener : spanishSpecialtyComboBox.getItemListeners()) {
+			spanishSpecialtyComboBox.removeItemListener(itemListener);
+		}
 	}
 
 }

@@ -117,16 +117,16 @@ public class TransactionBeginCommit {
 	
 	
 	public Specialty selectSpecialtyByNameTA(String name, int languageId) {
-		entityTransaction.begin();
+//		entityTransaction.begin();
 		Specialty specialty = repositoryService.selectSpecialtyByName(name, languageId);
-		entityTransaction.commit();
+//		entityTransaction.commit();
 		return specialty;
 	}
 
 	public TechnicalTerm selectTechnicalTermByNameTA(String name, int languageId) {
-		entityTransaction.begin();
+//		entityTransaction.begin();
 		TechnicalTerm technicalTerm = repositoryService.selectTechnicalTermByName(name, languageId);
-		entityTransaction.commit();
+//		entityTransaction.commit();
 		return technicalTerm;
 	}
 
@@ -142,5 +142,12 @@ public class TransactionBeginCommit {
 		List<History> historyList = historyService.selectAllWords();
 		entityTransaction.commit();
 		return historyList;
+	}
+	
+	public History insertWordTA(String word) {
+		entityTransaction.begin();
+		History historyEntry = historyService.insertWord(word);
+		entityTransaction.commit();
+		return historyEntry;
 	}
 }

@@ -57,7 +57,7 @@ import eventHandling.ChosenLanguage;
 import eventHandling.ComboBoxEventTransferObject;
 import eventHandling.DialogWindows;
 import eventHandling.PanelEventTransferObject;
-import eventHandling.PanelUpdateObjects;
+import eventHandling.StaticPanels;
 import exceptions.SpecialtyAlreadyExistsAsTechnicalTerm;
 import exceptions.TechnicalTermAlreadyExistsAsSpecialty;
 import inputChecker.AssignmentDialogChecker;
@@ -197,23 +197,23 @@ public class HeadBarTest {
 		TechnicalTerm contentFloatglas = termBOTest.selectTechnicalTermById(15);
 		headBar.setAlphabetButtonActionListener(e -> openShowTechnicalTermDialog(ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")), contentFloatglas));
 
-		PanelCreator panelCreator = new PanelCreator();
+		StaticPanelCreator panelCreator = new StaticPanelCreator();
 
 		TermPanelDynamic technicalTermDynamicPanel = new TermPanelDynamic(mainFrameWidth, mainFrameHeight,
-				termBOTest.selectAllTechnicalTermsOfSpecialty(3), "SpecialtyName");
-		TermPanelDynamic specialtyDynamicPanel = new TermPanelDynamic(mainFrameWidth, mainFrameHeight, allSpecialtyList);
+				termBOTest.selectAllTechnicalTermsOfSpecialty(3), "SpecialtyName", e -> {});
+		TermPanelDynamic specialtyDynamicPanel = new TermPanelDynamic(mainFrameWidth, mainFrameHeight, allSpecialtyList, e -> {});
 		SearchResultPanelDynamic searchDynamicPanel = new SearchResultPanelDynamic(mainFrameWidth, mainFrameHeight,
 				termBOTest.searchTechnicalTerms("a%"), "Hallo Suche");
 		SearchResultPanelDynamic letterDynamicPanel = new SearchResultPanelDynamic(mainFrameWidth, mainFrameHeight,
 				termBOTest.searchTechnicalTerms("A%"), ".A%");
 
-		TechnicalTermPanelStatic technicalTermPanel = (TechnicalTermPanelStatic) panelCreator.createPanel(PanelUpdateObjects.TechnicalTermPanel,
+		TechnicalTermPanelStatic technicalTermPanel = (TechnicalTermPanelStatic) panelCreator.createPanel(StaticPanels.TechnicalTermPanel,
 				ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")), MAINFRAME_DISPLAY_RATIO, technicalTermDynamicPanel);
-		SpecialtyPanelStatic specialtyPanel = (SpecialtyPanelStatic) panelCreator.createPanel(PanelUpdateObjects.SpecialtyPanel,
+		SpecialtyPanelStatic specialtyPanel = (SpecialtyPanelStatic) panelCreator.createPanel(StaticPanels.SpecialtyPanel,
 				ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")), MAINFRAME_DISPLAY_RATIO, specialtyDynamicPanel);
-		SearchResultPanelStatic searchPanel = (SearchResultPanelStatic) panelCreator.createPanel(PanelUpdateObjects.SearchResultPanel,
+		SearchResultPanelStatic searchPanel = (SearchResultPanelStatic) panelCreator.createPanel(StaticPanels.SearchResultPanel,
 				ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")), MAINFRAME_DISPLAY_RATIO, searchDynamicPanel);
-		SearchResultPanelStatic letterPanel = (SearchResultPanelStatic) panelCreator.createPanel(PanelUpdateObjects.LetterResultPanel,
+		SearchResultPanelStatic letterPanel = (SearchResultPanelStatic) panelCreator.createPanel(StaticPanels.LetterResultPanel,
 				ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de")), MAINFRAME_DISPLAY_RATIO, letterDynamicPanel);
 
 		windowCreator = new DialogWindowCreator();
@@ -230,7 +230,7 @@ public class HeadBarTest {
 			public void componentResized(ComponentEvent e) {
 
 				Component c = e.getComponent();
-				TermPanelDynamic dynamicPanel = new TermPanelDynamic(c.getWidth(), c.getHeight(), termBOTest.selectAllSpecialties());
+				TermPanelDynamic dynamicPanel = new TermPanelDynamic(c.getWidth(), c.getHeight(), termBOTest.selectAllSpecialties(), event -> {});
 				PanelEventTransferObject peto = new PanelEventTransferObject(c.getWidth(), c.getHeight(), history, null, ChosenLanguage.Spanish, expectedAlphabet, null, null, dynamicPanel);
 				
 				

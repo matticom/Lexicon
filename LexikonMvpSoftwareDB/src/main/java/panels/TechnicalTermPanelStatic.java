@@ -99,9 +99,9 @@ public class TechnicalTermPanelStatic extends MyPanel {
 		} else {
 			languageBundle = ResourceBundle.getBundle("languageBundles.lexikon", new Locale("es"));
 		}
+		resizePanelStructur((DynamicPanel)e.getDynamicPanel(), e.getMainFrameWidth());	
 		changeLanguage();
 		changeLanguageExtends();
-		resizePanelStructur((DynamicPanel)e.getDynamicPanel(), e.getMainFrameWidth());	
 	}
 	
 	private void changeLanguage() {
@@ -128,5 +128,7 @@ public class TechnicalTermPanelStatic extends MyPanel {
 	
 		contentPanel.add(staticElementsPanel);
 		contentPanel.add((JPanel)dynamicPanel);
+		validate();
+		repaint();
 	}
 }

@@ -74,6 +74,7 @@ public class MenuBar extends JMenuBar implements Updatable {
 			((JRadioButtonMenuItem)miSpanish).setSelected(true);
 		}
 		changeGuiTextLanguage();
+		repaint();
 	}
 	
 	
