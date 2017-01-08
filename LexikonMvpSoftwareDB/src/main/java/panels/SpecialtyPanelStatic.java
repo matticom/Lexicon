@@ -20,10 +20,11 @@ import javax.swing.border.EmptyBorder;
 import interactElements.MyScrollBarUI;
 import eventHandling.ChosenLanguage;
 import eventHandling.PanelEventTransferObject;
+import eventHandling.StaticPanels;
 import utilities.GridBagLayoutUtilities;
 import utilities.WinUtil;
 
-public class SpecialtyPanelStatic extends MyPanel {
+public class SpecialtyPanelStatic extends StaticPanel {
 
 	private JPanel contentPanel;
 	private JPanel staticElementsPanel;
@@ -32,9 +33,9 @@ public class SpecialtyPanelStatic extends MyPanel {
 	private TermPanelDynamic dynamicPanel;
 
 	
-	public SpecialtyPanelStatic(ResourceBundle languageBundle, double MAINFRAME_DISPLAY_RATIO, TermPanelDynamic dynamicPanel) {
+	public SpecialtyPanelStatic(ResourceBundle languageBundle, double MAINFRAME_DISPLAY_RATIO, TermPanelDynamic dynamicPanel, StaticPanels staticPanel) {
 
-		super(languageBundle, MAINFRAME_DISPLAY_RATIO);
+		super(languageBundle, MAINFRAME_DISPLAY_RATIO, staticPanel);
 		this.dynamicPanel = dynamicPanel;
 		initialize();
 	}

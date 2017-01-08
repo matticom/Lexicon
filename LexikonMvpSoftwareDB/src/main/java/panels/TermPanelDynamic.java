@@ -16,35 +16,34 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
+import eventHandling.DynamicPanels;
 import interactElements.TermButton;
 import model.Term;
 import model.Translations;
 import utilities.GridBagLayoutUtilities;
 import utilities.WinUtil;
 
-public class TermPanelDynamic extends JPanel implements DynamicPanel {
+public class TermPanelDynamic extends DynamicPanel {
 
-	private JPanel germanTermPanel, spanishTermPanel;
 	private int gridX, gridY;
 	private ArrayList<TermButton> TermButtonsDE;
 	private ArrayList<TermButton> TermButtonsES;
 	private int numbersOfSpecialties;
 
-	private int dynamicPanelHeight;
-	private String searchWord;
 
-	public TermPanelDynamic(int mainFrameWidth, int mainFrameHeight, List<? extends Term> termList, ActionListener actionListener) {
+	public TermPanelDynamic(int mainFrameWidth, int mainFrameHeight, List<? extends Term> termList, ActionListener actionListener, DynamicPanels dynamicPanel) {
 
+		super(dynamicPanel);
+		searchWord = null;
 		TermButtonsDE = new ArrayList<TermButton>();
 		TermButtonsES = new ArrayList<TermButton>();
-		searchWord = null;
 		buildUp(mainFrameWidth, mainFrameHeight, termList);
 		setTermsButtonsActionListener(actionListener);
 	}
 
-	public TermPanelDynamic(int mainFrameWidth, int mainFrameHeight, List<? extends Term> termList, String searchWord, ActionListener actionListener) {
+	public TermPanelDynamic(int mainFrameWidth, int mainFrameHeight, List<? extends Term> termList, String searchWord, ActionListener actionListener, DynamicPanels dynamicPanel) {
 
-		this(mainFrameWidth, mainFrameHeight, termList, actionListener);
+		this(mainFrameWidth, mainFrameHeight, termList, actionListener, dynamicPanel);
 		this.searchWord = searchWord;
 	}
 
@@ -53,18 +52,18 @@ public class TermPanelDynamic extends JPanel implements DynamicPanel {
 		this.setBackground(WinUtil.LIGHT_BLACK);
 		this.setLayout(new GridLayout(1, 2));
 
-		germanTermPanel = new JPanel();
-		germanTermPanel.setBackground(WinUtil.LIGHT_BLACK);
-		germanTermPanel.setLayout(new GridBagLayout());
-		germanTermPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.LIGHT_GRAY));
+		germanPanel = new JPanel();
+		germanPanel.setBackground(WinUtil.LIGHT_BLACK);
+		germanPanel.setLayout(new GridBagLayout());
+		germanPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.LIGHT_GRAY));
 
-		spanishTermPanel = new JPanel();
-		spanishTermPanel.setBackground(WinUtil.LIGHT_BLACK);
-		spanishTermPanel.setLayout(new GridBagLayout());
-		spanishTermPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.LIGHT_GRAY));
+		spanishPanel = new JPanel();
+		spanishPanel.setBackground(WinUtil.LIGHT_BLACK);
+		spanishPanel.setLayout(new GridBagLayout());
+		spanishPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.LIGHT_GRAY));
 
-		this.add(germanTermPanel);
-		this.add(spanishTermPanel);
+		this.add(germanPanel);
+		this.add(spanishPanel);
 
 		Dimension displaySize = Toolkit.getDefaultToolkit().getScreenSize();
 		numbersOfSpecialties = termList.size();
@@ -125,8 +124,8 @@ public class TermPanelDynamic extends JPanel implements DynamicPanel {
 				weightY = 1;
 			}
 
-			GridBagLayoutUtilities.addGB(germanTermPanel, TermButtonsDE.get(i), posX, posY, 0, weightY, GridBagConstraints.NORTH, new Insets(inset, inset, inset, inset));
-			GridBagLayoutUtilities.addGB(spanishTermPanel, TermButtonsES.get(i), posX, posY, 0, weightY, GridBagConstraints.NORTH, new Insets(inset, inset, inset, inset));
+			GridBagLayoutUtilities.addGB(germanPanel, TermButtonsDE.get(i), posX, posY, 0, weightY, GridBagConstraints.NORTH, new Insets(inset, inset, inset, inset));
+			GridBagLayoutUtilities.addGB(spanishPanel, TermButtonsES.get(i), posX, posY, 0, weightY, GridBagConstraints.NORTH, new Insets(inset, inset, inset, inset));
 			posX++;
 
 			if (posX > gridX) {

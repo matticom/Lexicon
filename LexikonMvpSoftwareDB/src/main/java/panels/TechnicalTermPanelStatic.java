@@ -18,10 +18,11 @@ import javax.swing.SwingConstants;
 
 import eventHandling.ChosenLanguage;
 import eventHandling.PanelEventTransferObject;
+import eventHandling.StaticPanels;
 import utilities.GridBagLayoutUtilities;
 import utilities.WinUtil;
 
-public class TechnicalTermPanelStatic extends MyPanel {
+public class TechnicalTermPanelStatic extends StaticPanel {
 	
 	private JPanel contentPanel;
 	protected JPanel staticElementsPanel;
@@ -35,9 +36,9 @@ public class TechnicalTermPanelStatic extends MyPanel {
 	private DynamicPanel dynamicPanel;
 	
 	
-	public TechnicalTermPanelStatic(ResourceBundle languageBundle, double MAINFRAME_DISPLAY_RATIO, DynamicPanel dynamicPanel, String labelTitle, int staticPanelHeight) {
+	public TechnicalTermPanelStatic(ResourceBundle languageBundle, double MAINFRAME_DISPLAY_RATIO, DynamicPanel dynamicPanel, String labelTitle, int staticPanelHeight, StaticPanels staticPanel) {
 
-		super(languageBundle, MAINFRAME_DISPLAY_RATIO);
+		super(languageBundle, MAINFRAME_DISPLAY_RATIO, staticPanel);
 		this.labelTitle = labelTitle;
 		this.dynamicPanel = dynamicPanel;
 		this.staticPanelHeight = staticPanelHeight;

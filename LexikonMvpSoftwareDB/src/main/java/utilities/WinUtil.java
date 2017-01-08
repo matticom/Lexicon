@@ -1,9 +1,7 @@
 package utilities;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
@@ -13,7 +11,6 @@ import java.util.ResourceBundle;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 
 import eventHandling.ChosenLanguage;
 
@@ -68,6 +65,7 @@ public class WinUtil {
 		menu = new JMenu();
 		menu.setText(menuText);
 		menu.setName(menuName);
+		menu.setForeground(DARK_WHITE);
 
 		// Optionales Tastaturkürzen hinzufügen
 		if (shortKey > 0)
@@ -128,7 +126,7 @@ public class WinUtil {
 
 		// Name des Menüeintrags
 		menuItem.setName(miName);
-
+		
 		// Menü Text hinzufügen
 		menuItem.setText(miText);
 

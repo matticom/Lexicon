@@ -4,7 +4,7 @@ import java.util.ResourceBundle;
 import eventHandling.StaticPanels;
 import panels.TermPanelDynamic;
 import panels.DynamicPanel;
-import panels.MyPanel;
+import panels.StaticPanel;
 import panels.SearchResultPanelDynamic;
 import panels.SearchResultPanelStatic;
 import panels.TechnicalTermPanelStatic;
@@ -18,28 +18,28 @@ public class StaticPanelCreator {
 	private final int SEARCH_RESULT_HEIGHT = 200;
 	private final int TECHNICALTERM_RESULT_HEIGHT = 170;
 	
-	public MyPanel createPanel(StaticPanels panel, ResourceBundle languageBundle, double MAINFRAME_DISPLAY_RATIO, DynamicPanel dynamicPanel) {
+	public StaticPanel createPanel(StaticPanels panelType, ResourceBundle languageBundle, double MAINFRAME_DISPLAY_RATIO, DynamicPanel dynamicPanel) {
 		
-		MyPanel myPanel = panelFactory(panel, languageBundle, MAINFRAME_DISPLAY_RATIO, dynamicPanel);
-		return myPanel;
+		StaticPanel staticPanel = panelFactory(panelType, languageBundle, MAINFRAME_DISPLAY_RATIO, dynamicPanel);
+		return staticPanel;
 	}
 	
-	protected MyPanel panelFactory(StaticPanels panel, ResourceBundle languageBundle, double MAINFRAME_DISPLAY_RATIO, DynamicPanel dynamicPanel) {
+	protected StaticPanel panelFactory(StaticPanels panelType, ResourceBundle languageBundle, double MAINFRAME_DISPLAY_RATIO, DynamicPanel dynamicPanel) {
 		
-		MyPanel myPanel = null;
+		StaticPanel staticPanel = null;
 				
-		if (panel == StaticPanels.LetterResultPanel) {
-			myPanel = new SearchResultPanelStatic(languageBundle, MAINFRAME_DISPLAY_RATIO, (SearchResultPanelDynamic)dynamicPanel, LETTER_RESULT_TITLE, SEARCH_RESULT_HEIGHT);
+		if (panelType == StaticPanels.LetterResultPanel) {
+			staticPanel = new SearchResultPanelStatic(languageBundle, MAINFRAME_DISPLAY_RATIO, (SearchResultPanelDynamic)dynamicPanel, LETTER_RESULT_TITLE, SEARCH_RESULT_HEIGHT, panelType);
 		}
-		if (panel == StaticPanels.SearchResultPanel) {
-			myPanel = new SearchResultPanelStatic(languageBundle, MAINFRAME_DISPLAY_RATIO, (SearchResultPanelDynamic)dynamicPanel, SEARCH_RESULT_TITLE, SEARCH_RESULT_HEIGHT);
+		if (panelType == StaticPanels.SearchResultPanel) {
+			staticPanel = new SearchResultPanelStatic(languageBundle, MAINFRAME_DISPLAY_RATIO, (SearchResultPanelDynamic)dynamicPanel, SEARCH_RESULT_TITLE, SEARCH_RESULT_HEIGHT, panelType);
 		}
-		if (panel == StaticPanels.SpecialtyPanel) {
-			myPanel = new SpecialtyPanelStatic(languageBundle, MAINFRAME_DISPLAY_RATIO, (TermPanelDynamic)dynamicPanel);
+		if (panelType == StaticPanels.SpecialtyPanel) {
+			staticPanel = new SpecialtyPanelStatic(languageBundle, MAINFRAME_DISPLAY_RATIO, (TermPanelDynamic)dynamicPanel, panelType);
 		}
-		if (panel == StaticPanels.TechnicalTermPanel) {
-			myPanel = new TechnicalTermPanelStatic(languageBundle, MAINFRAME_DISPLAY_RATIO, (TermPanelDynamic)dynamicPanel, TECHNICALTERM_RESULT_TITLE, TECHNICALTERM_RESULT_HEIGHT);
+		if (panelType == StaticPanels.TechnicalTermPanel) {
+			staticPanel = new TechnicalTermPanelStatic(languageBundle, MAINFRAME_DISPLAY_RATIO, (TermPanelDynamic)dynamicPanel, TECHNICALTERM_RESULT_TITLE, TECHNICALTERM_RESULT_HEIGHT, panelType);
 		}
-		return myPanel;
+		return staticPanel;
 	}
 }

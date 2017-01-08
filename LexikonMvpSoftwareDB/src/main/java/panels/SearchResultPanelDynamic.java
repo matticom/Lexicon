@@ -15,6 +15,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import eventHandling.DynamicPanels;
 import interactElements.SpecialtyButton;
 import interactElements.TechnicalTermButton;
 import model.Specialty;
@@ -23,25 +24,19 @@ import model.Translations;
 import utilities.GridBagLayoutUtilities;
 import utilities.WinUtil;
 
-public class SearchResultPanelDynamic extends JPanel implements DynamicPanel {
-
-	private JPanel germanPanel, spanishPanel;
+public class SearchResultPanelDynamic extends DynamicPanel {
 
 	private ArrayList<SpecialtyButton> specialtyButtonsDE;
 	private ArrayList<SpecialtyButton> specialtyButtonsES;
 	private ArrayList<TechnicalTermButton> technicalTermButtonsDE;
 	private ArrayList<TechnicalTermButton> technicalTermButtonsES;
 
-	private final int GERMAN = 1;
-	private final int SPANISH = 2;
-
-	private String searchWord;
-	private int dynamicPanelHeight;
 	private boolean isLetterResult;
 
-	public SearchResultPanelDynamic(int mainFrameWidth, int mainFrameHeight, List<Translations> technicalTermTranslationList, String searchWord, ActionListener actionListener) {
+	public SearchResultPanelDynamic(int mainFrameWidth, int mainFrameHeight, List<Translations> technicalTermTranslationList, String searchWord, ActionListener actionListener, DynamicPanels dynamicPanel) {
 
-		this.searchWord = distinguishBetweenLetterSearchAndNormalSearch(searchWord);
+		super(dynamicPanel);
+		distinguishBetweenLetterSearchAndNormalSearch(searchWord);
 		specialtyButtonsDE = new ArrayList<SpecialtyButton>();
 		specialtyButtonsES = new ArrayList<SpecialtyButton>();
 		technicalTermButtonsDE = new ArrayList<TechnicalTermButton>();

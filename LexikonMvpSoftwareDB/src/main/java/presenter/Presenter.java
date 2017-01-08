@@ -5,14 +5,11 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.KeyboardFocusManager;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
@@ -31,10 +28,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButtonMenuItem;
 import javax.swing.ListCellRenderer;
-import javax.swing.SwingUtilities;
-import javax.swing.text.JTextComponent;
 
 import org.apache.derby.tools.ij;
 import org.dbunit.database.DatabaseConfig;
@@ -59,7 +53,6 @@ import businessOperations.TermBO;
 import businessOperations.TermBOTest;
 import businessOperations.TransactionBeginCommit;
 import dto.TechnicalTermDTO;
-import eventHandling.ChosenLanguage;
 import eventHandling.DialogWindows;
 import eventHandling.DynamicPanels;
 import eventHandling.PanelEventTransferObject;
@@ -81,8 +74,7 @@ import model.TechnicalTerm;
 import model.Translations;
 import panels.TechnicalTermPanelStatic;
 import panels.TermPanelDynamic;
-import panels.DynamicPanel;
-import panels.MyPanel;
+import panels.StaticPanel;
 import panels.SearchResultPanelDynamic;
 import panels.SearchResultPanelStatic;
 import panels.SpecialtyPanelStatic;
@@ -114,7 +106,7 @@ public class Presenter {
 	private ChooseSpecialtyComboBox chooseSpecialtyComboBoxGerman;
 	private ChooseSpecialtyComboBox chooseSpecialtyComboBoxSpanish;
 	private ChooseSpecialtyComboBox assignSpecialtyComboBox;
-	
+
 	private SpecialtyActionListener specialtyActionListener;
 	private SearchActionListener searchActionListener;
 	private TechnicalTermActionListener technicalTermActionListener;
@@ -149,7 +141,7 @@ public class Presenter {
 	private String searchWord;
 
 	private PanelEventTransferObject peto;
-	private MyPanel currentCenterPanel;
+	private StaticPanel currentCenterPanel;
 	private Container centerContainer;
 
 	public Presenter() {
@@ -163,7 +155,7 @@ public class Presenter {
 		initializeContentPanePanels();
 		initializeMainFrameComponents();
 		initializeMainFrame();
-		
+
 		peto = createPetoForNonPanelChanges();
 		updateComponents(peto);
 
@@ -204,21 +196,21 @@ public class Presenter {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void closeAndStoreDataBase() {
-		
+
 		try {
 			IDataSet fullDataSet = mDBUnitConnection.createDataSet();
 			FlatXmlDataSet.write(fullDataSet, new FileOutputStream("./src/main/resources/DatenbankContent.xml"));
-			
+
 		} catch (Exception e) {
-			System.out.println("Es wurde eine Exception beim speichern der Datenbank geworfen: "+ e.getMessage());
+			System.out.println("Es wurde eine Exception beim speichern der Datenbank geworfen: " + e.getMessage());
 			e.printStackTrace();
 		}
 		try {
 			mDBUnitConnection.close();
 		} catch (SQLException e) {
-			System.out.println("Es wurde eine Exception beim Schlieﬂen der IDataConnection geworfen: "+ e.getMessage());
+			System.out.println("Es wurde eine Exception beim Schlieﬂen der IDataConnection geworfen: " + e.getMessage());
 			e.printStackTrace();
 		}
 		entitymanager.close();
@@ -267,9 +259,9 @@ public class Presenter {
 
 		register(searchComboBox);
 	}
-	
+
 	private void initializeActionListener() {
-		
+
 		specialtyActionListener = new SpecialtyActionListener();
 		searchActionListener = new SearchActionListener();
 		technicalTermActionListener = new TechnicalTermActionListener();
@@ -283,16 +275,16 @@ public class Presenter {
 
 	private void initializeDynamicPanels() {
 
-		technicalTermDynamicPanel = dynamicPanelCreator.createPanel(DynamicPanels.TechnicalTermPanel, null, technicalTermActionListener, mainFrameWidth, mainFrameHeight, 
+		technicalTermDynamicPanel = dynamicPanelCreator.createPanel(DynamicPanels.TechnicalTermPanel, null, technicalTermActionListener, mainFrameWidth, mainFrameHeight,
 				"SpecialtyName", repositoryTA.selectAllTechnicalTermsOfSpecialtyTA(3));
-			
-		specialtyDynamicPanel = dynamicPanelCreator.createPanel(DynamicPanels.SpecialtyPanel, null, specialtyActionListener, mainFrameWidth, mainFrameHeight, 
+
+		specialtyDynamicPanel = dynamicPanelCreator.createPanel(DynamicPanels.SpecialtyPanel, null, specialtyActionListener, mainFrameWidth, mainFrameHeight,
 				repositoryTA.selectAllSpecialtiesTA());
-				
-		searchDynamicPanel = dynamicPanelCreator.createPanel(DynamicPanels.SearchResultPanel, null, searchActionListener, mainFrameWidth, mainFrameHeight, 
+
+		searchDynamicPanel = dynamicPanelCreator.createPanel(DynamicPanels.SearchResultPanel, null, searchActionListener, mainFrameWidth, mainFrameHeight,
 				repositoryTA.searchTechnicalTermsTA("a%"), "Hallo Suche");
-				
-		letterDynamicPanel = dynamicPanelCreator.createPanel(DynamicPanels.LetterResultPanel, null, searchActionListener, mainFrameWidth, mainFrameHeight, 
+
+		letterDynamicPanel = dynamicPanelCreator.createPanel(DynamicPanels.LetterResultPanel, null, searchActionListener, mainFrameWidth, mainFrameHeight,
 				repositoryTA.searchTechnicalTermsTA("A%"), ".A%");
 	}
 
@@ -302,9 +294,9 @@ public class Presenter {
 				technicalTermDynamicPanel);
 		specialtyPanel = (SpecialtyPanelStatic) staticPanelCreator.createPanel(StaticPanels.SpecialtyPanel, languageBundle, MAINFRAME_DISPLAY_RATIO, specialtyDynamicPanel);
 		searchPanel = (SearchResultPanelStatic) staticPanelCreator.createPanel(StaticPanels.SearchResultPanel, languageBundle, MAINFRAME_DISPLAY_RATIO, searchDynamicPanel);
-		
+
 		letterPanel = (SearchResultPanelStatic) staticPanelCreator.createPanel(StaticPanels.LetterResultPanel, languageBundle, MAINFRAME_DISPLAY_RATIO, letterDynamicPanel);
-		
+
 		register(specialtyPanel);
 		currentCenterPanel = specialtyPanel;
 		centerContainer.add(currentCenterPanel);
@@ -352,7 +344,6 @@ public class Presenter {
 	private void initializeMainFrame() {
 
 		mainFrame = new MainFrame(MAINFRAME_DISPLAY_RATIO, languageBundle);
-
 		mainFrame.setJMenuBar(menuBar);
 		mainFrame.add(headBar, BorderLayout.PAGE_START);
 		mainFrame.add(centerContainer, BorderLayout.CENTER);
@@ -377,15 +368,15 @@ public class Presenter {
 	}
 
 	private void decideButtonIdentity(ActionEvent e) {
-		
-		int termId = ((TermButton)e.getSource()).getTermId();
+
+		int termId = ((TermButton) e.getSource()).getTermId();
 		if (e.getSource() instanceof SpecialtyButton) {
 			openTechnicalTermResult(termId);
 		} else {
 			openShowTechnicalTermContentDialog(languageBundle, e);
 		}
 	}
-	
+
 	private void openSearchResult(String newSearchWord) {
 
 		repositoryTA.insertWordTA(newSearchWord);
@@ -400,17 +391,17 @@ public class Presenter {
 				}
 			}
 		}
-		
+
 		currentSpecialty = null;
 		currentTechnicalTerm = null;
 		searchWord = newSearchWord;
 		if (newSearchResult) {
 
-			searchDynamicPanel = dynamicPanelCreator.createPanel(DynamicPanels.SearchResultPanel, searchDynamicPanel, searchActionListener, mainFrameWidth, mainFrameHeight, 
+			searchDynamicPanel = dynamicPanelCreator.createPanel(DynamicPanels.SearchResultPanel, searchDynamicPanel, searchActionListener, mainFrameWidth, mainFrameHeight,
 					repositoryTA.searchTechnicalTermsTA(searchWord), searchWord);
-			peto = new PanelEventTransferObject(mainFrameWidth, mainFrameHeight, getHistoryListFromDB(), repositoryTA.selectAllSpecialtiesTA(),
-					WinUtil.getLanguage(languageBundle), repositoryTA.checkLetterTA(), currentSpecialty, currentTechnicalTerm, searchDynamicPanel);
-						
+			peto = new PanelEventTransferObject(mainFrameWidth, mainFrameHeight, getHistoryListFromDB(), repositoryTA.selectAllSpecialtiesTA(), WinUtil.getLanguage(languageBundle),
+					repositoryTA.checkLetterTA(), currentSpecialty, currentTechnicalTerm, searchDynamicPanel);
+
 			if (panelChangeIsNeeded) {
 				changePanelInCenterContainer(searchPanel);
 			}
@@ -432,16 +423,16 @@ public class Presenter {
 				}
 			}
 		}
-		
+
 		currentSpecialty = null;
 		currentTechnicalTerm = null;
 		searchWord = newSearchWord;
 		if (newLetterResult) {
 
-			letterDynamicPanel = dynamicPanelCreator.createPanel(DynamicPanels.LetterResultPanel, letterDynamicPanel, searchActionListener, mainFrameWidth, mainFrameHeight, 
+			letterDynamicPanel = dynamicPanelCreator.createPanel(DynamicPanels.LetterResultPanel, letterDynamicPanel, searchActionListener, mainFrameWidth, mainFrameHeight,
 					repositoryTA.searchTechnicalTermsTA(searchWord), "." + searchWord);
-			peto = new PanelEventTransferObject(mainFrameWidth, mainFrameHeight, getHistoryListFromDB(), repositoryTA.selectAllSpecialtiesTA(),
-					WinUtil.getLanguage(languageBundle), repositoryTA.checkLetterTA(), currentSpecialty, currentTechnicalTerm, letterDynamicPanel);
+			peto = new PanelEventTransferObject(mainFrameWidth, mainFrameHeight, getHistoryListFromDB(), repositoryTA.selectAllSpecialtiesTA(), WinUtil.getLanguage(languageBundle),
+					repositoryTA.checkLetterTA(), currentSpecialty, currentTechnicalTerm, letterDynamicPanel);
 
 			if (panelChangeIsNeeded) {
 				changePanelInCenterContainer(letterPanel);
@@ -479,15 +470,15 @@ public class Presenter {
 		if (currentCenterPanel instanceof SpecialtyPanelStatic) {
 			panelChangeIsNeeded = false;
 		}
-		
+
 		currentSpecialty = null;
 		currentTechnicalTerm = null;
 		if (panelChangeIsNeeded) {
 
-			specialtyDynamicPanel = dynamicPanelCreator.createPanel(DynamicPanels.SpecialtyPanel, specialtyDynamicPanel, specialtyActionListener, mainFrameWidth, mainFrameHeight, 
+			specialtyDynamicPanel = dynamicPanelCreator.createPanel(DynamicPanels.SpecialtyPanel, specialtyDynamicPanel, specialtyActionListener, mainFrameWidth, mainFrameHeight,
 					repositoryTA.selectAllSpecialtiesTA());
-			peto = new PanelEventTransferObject(mainFrameWidth, mainFrameHeight, getHistoryListFromDB(), repositoryTA.selectAllSpecialtiesTA(),
-					WinUtil.getLanguage(languageBundle), repositoryTA.checkLetterTA(), currentSpecialty, currentTechnicalTerm, specialtyDynamicPanel);
+			peto = new PanelEventTransferObject(mainFrameWidth, mainFrameHeight, getHistoryListFromDB(), repositoryTA.selectAllSpecialtiesTA(), WinUtil.getLanguage(languageBundle),
+					repositoryTA.checkLetterTA(), currentSpecialty, currentTechnicalTerm, specialtyDynamicPanel);
 
 			changePanelInCenterContainer(specialtyPanel);
 			updateComponents(peto);
@@ -506,10 +497,10 @@ public class Presenter {
 
 		if (panelChangeIsNeeded) {
 
-			technicalTermDynamicPanel = dynamicPanelCreator.createPanel(DynamicPanels.TechnicalTermPanel, technicalTermDynamicPanel, technicalTermActionListener, mainFrameWidth, mainFrameHeight, 
-					getSpecialtyName(currentSpecialty), repositoryTA.selectAllTechnicalTermsOfSpecialtyTA(specialtyId));
-			peto = new PanelEventTransferObject(mainFrameWidth, mainFrameHeight, getHistoryListFromDB(), repositoryTA.selectAllSpecialtiesTA(),
-					WinUtil.getLanguage(languageBundle), repositoryTA.checkLetterTA(), currentSpecialty, currentTechnicalTerm, technicalTermDynamicPanel);
+			technicalTermDynamicPanel = dynamicPanelCreator.createPanel(DynamicPanels.TechnicalTermPanel, technicalTermDynamicPanel, technicalTermActionListener, mainFrameWidth,
+					mainFrameHeight, getSpecialtyName(currentSpecialty), repositoryTA.selectAllTechnicalTermsOfSpecialtyTA(specialtyId));
+			peto = new PanelEventTransferObject(mainFrameWidth, mainFrameHeight, getHistoryListFromDB(), repositoryTA.selectAllSpecialtiesTA(), WinUtil.getLanguage(languageBundle),
+					repositoryTA.checkLetterTA(), currentSpecialty, currentTechnicalTerm, technicalTermDynamicPanel);
 
 			changePanelInCenterContainer(technicalTermPanel);
 			updateComponents(peto);
@@ -522,7 +513,7 @@ public class Presenter {
 		register(chooseSpecialtyComboBoxSpanish);
 		peto = createPetoForNonPanelChanges();
 		updateComponents(peto);
-		
+
 		TechnicalTermCreationWindow newTTDialog = (TechnicalTermCreationWindow) windowCreator.createWindow(DialogWindows.TechnicalTermCreationWindow, languageBundle,
 				germanSpecialtyComboBox, spanishSpecialtyComboBox);
 		newTTDialog.setTextFieldListener(new KeyAdapter() {
@@ -564,7 +555,7 @@ public class Presenter {
 			Specialty newSpecialty = repositoryTA.createSpecialtyTA(newTTDialog.getGermanSpecialtyInput().getText(), "", GERMAN);
 			specialtyId = newSpecialty.getId();
 			repositoryTA.createSpecialtyTranslationTA(specialtyId, newTTDialog.getSpanishSpecialtyInput().getText(), "", SPANISH);
-			
+
 		} else {
 			if (WinUtil.getLanguageId(languageBundle) == GERMAN) {
 				specialtyId = germanSpecialtyComboBox.getSelectedListItem().getValueMember();
@@ -580,11 +571,11 @@ public class Presenter {
 	}
 
 	public void openAssignmentDialog(ResourceBundle languageBundle, ChooseSpecialtyComboBox specialtyComboBox) {
-		
+
 		register(assignSpecialtyComboBox);
 		peto = createPetoForNonPanelChanges();
 		updateComponents(peto);
-		
+
 		List<TechnicalTerm> technicalTermList = repositoryTA.selectAllTechnicalTermsTA();
 		AssignTechnicalTermToSpecialtyWindow newAssignDialog = (AssignTechnicalTermToSpecialtyWindow) windowCreator.createWindow(DialogWindows.AssignTechnicalTermToSpecialtyWindow,
 				languageBundle, technicalTermList, specialtyComboBox);
@@ -606,7 +597,7 @@ public class Presenter {
 				changeButtonPressed(specialtyComboBox, newAssignDialog);
 			}
 		});
-		
+
 		newAssignDialog.setAssignTermWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -631,19 +622,19 @@ public class Presenter {
 		repositoryTA.assignTechnicalTermsToSpecialtyTA(newAssignDialog.getTechnicalTermIds(), specialtyId);
 		newAssignDialog.refreshAssignmentTableModel(repositoryTA.selectAllTechnicalTermsTA());
 	}
-	
+
 	public void openShowTechnicalTermContentDialog(ResourceBundle languageBundle, ActionEvent event) {
-		
-		int technicalTermId = ((TermButton)event.getSource()).getTermId();
+
+		int technicalTermId = ((TermButton) event.getSource()).getTermId();
 		TechnicalTerm technicalTerm = repositoryTA.selectTechnicalTermByIdTA(technicalTermId);
-		
+
 		currentSpecialty = repositoryTA.selectSpecialtyByIdTA(technicalTerm.getSpecialty().getId());
 		currentTechnicalTerm = technicalTerm;
 		peto = createPetoForNonPanelChanges();
 		updateComponents(peto);
-				
-		TechnicalTermContentWindow contentTTDialog = (TechnicalTermContentWindow) windowCreator.createWindow(DialogWindows.TechnicalTermContentWindow,
-				languageBundle, technicalTerm);
+
+		TechnicalTermContentWindow contentTTDialog = (TechnicalTermContentWindow) windowCreator.createWindow(DialogWindows.TechnicalTermContentWindow, languageBundle,
+				technicalTerm);
 		contentTTDialog.setSaveChangesButtonActionListener(e -> saveNewTechnicalTermDescription(contentTTDialog, technicalTerm));
 		contentTTDialog.setContentWindowListener(new WindowAdapter() {
 			@Override
@@ -658,7 +649,7 @@ public class Presenter {
 			}
 		});
 	}
-	
+
 	private void saveNewTechnicalTermDescription(TechnicalTermContentWindow contentTTDialog, TechnicalTerm technicalTerm) {
 		if (querySave(contentTTDialog)) {
 			TechnicalTermDTO technicalTermDTO = new TechnicalTermDTO(technicalTerm);
@@ -667,16 +658,16 @@ public class Presenter {
 			contentTTDialog.saveChangesEditMode();
 		}
 	}
-	
+
 	private boolean querySave(TechnicalTermContentWindow contentTTDialog) {
 
 		String[] options = { languageBundle.getString("speichern"), languageBundle.getString("abort") };
 		if (!contentTTDialog.isTextHasChangedInTextAreas()) {
 			return true;
 		}
-		int retValue = JOptionPane.showOptionDialog(contentTTDialog, languageBundle.getString("speichernDaten"), languageBundle.getString("speichernDatenTitle"), JOptionPane.YES_NO_OPTION,
-				JOptionPane.WARNING_MESSAGE, null, options, options[1]);
-	
+		int retValue = JOptionPane.showOptionDialog(contentTTDialog, languageBundle.getString("speichernDaten"), languageBundle.getString("speichernDatenTitle"),
+				JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[1]);
+
 		if (retValue == JOptionPane.YES_OPTION) {
 			return true;
 		}
@@ -697,7 +688,7 @@ public class Presenter {
 		}
 	}
 
-	private void changePanelInCenterContainer(MyPanel panel) {
+	private void changePanelInCenterContainer(StaticPanel panel) {
 		unregister(currentCenterPanel);
 		register(panel);
 		centerContainer.remove(currentCenterPanel);
@@ -729,44 +720,44 @@ public class Presenter {
 	}
 
 	private PanelEventTransferObject createPetoForNonPanelChanges() {
-			
+
 		if (currentCenterPanel instanceof SpecialtyPanelStatic) {
-			specialtyDynamicPanel = dynamicPanelCreator.createPanel(DynamicPanels.SpecialtyPanel, specialtyDynamicPanel, specialtyActionListener, mainFrameWidth, mainFrameHeight, 
+			specialtyDynamicPanel = dynamicPanelCreator.createPanel(DynamicPanels.SpecialtyPanel, specialtyDynamicPanel, specialtyActionListener, mainFrameWidth, mainFrameHeight,
 					repositoryTA.selectAllSpecialtiesTA());
 			return new PanelEventTransferObject(mainFrameWidth, mainFrameHeight, getHistoryListFromDB(), repositoryTA.selectAllSpecialtiesTA(), WinUtil.getLanguage(languageBundle),
 					repositoryTA.checkLetterTA(), currentSpecialty, currentTechnicalTerm, specialtyDynamicPanel);
-		}	
-			
+		}
+
 		if (currentCenterPanel instanceof SearchResultPanelStatic) {
-			
+
 			if (((SearchResultPanelStatic) currentCenterPanel).isLetterResult()) {
-				
-				letterDynamicPanel = dynamicPanelCreator.createPanel(DynamicPanels.LetterResultPanel, letterDynamicPanel, searchActionListener, mainFrameWidth, mainFrameHeight, 
+
+				letterDynamicPanel = dynamicPanelCreator.createPanel(DynamicPanels.LetterResultPanel, letterDynamicPanel, searchActionListener, mainFrameWidth, mainFrameHeight,
 						repositoryTA.searchTechnicalTermsTA(searchWord), "." + searchWord);
-				return new PanelEventTransferObject(mainFrameWidth, mainFrameHeight, getHistoryListFromDB(), repositoryTA.selectAllSpecialtiesTA(), WinUtil.getLanguage(languageBundle),
-						repositoryTA.checkLetterTA(), currentSpecialty, currentTechnicalTerm, letterDynamicPanel);
-				
+				return new PanelEventTransferObject(mainFrameWidth, mainFrameHeight, getHistoryListFromDB(), repositoryTA.selectAllSpecialtiesTA(),
+						WinUtil.getLanguage(languageBundle), repositoryTA.checkLetterTA(), currentSpecialty, currentTechnicalTerm, letterDynamicPanel);
+
 			} else {
-				searchDynamicPanel = dynamicPanelCreator.createPanel(DynamicPanels.SearchResultPanel, searchDynamicPanel, searchActionListener, mainFrameWidth, mainFrameHeight, 
+				searchDynamicPanel = dynamicPanelCreator.createPanel(DynamicPanels.SearchResultPanel, searchDynamicPanel, searchActionListener, mainFrameWidth, mainFrameHeight,
 						repositoryTA.searchTechnicalTermsTA(searchWord), searchWord);
-				return new PanelEventTransferObject(mainFrameWidth, mainFrameHeight, getHistoryListFromDB(), repositoryTA.selectAllSpecialtiesTA(), WinUtil.getLanguage(languageBundle),
-						repositoryTA.checkLetterTA(), currentSpecialty, currentTechnicalTerm, searchDynamicPanel);
+				return new PanelEventTransferObject(mainFrameWidth, mainFrameHeight, getHistoryListFromDB(), repositoryTA.selectAllSpecialtiesTA(),
+						WinUtil.getLanguage(languageBundle), repositoryTA.checkLetterTA(), currentSpecialty, currentTechnicalTerm, searchDynamicPanel);
 			}
-			
+
 		} else {
-			technicalTermDynamicPanel = dynamicPanelCreator.createPanel(DynamicPanels.TechnicalTermPanel, technicalTermDynamicPanel, technicalTermActionListener, mainFrameWidth, mainFrameHeight, 
-					getSpecialtyName(currentSpecialty), repositoryTA.selectAllTechnicalTermsOfSpecialtyTA(currentSpecialty.getId()));
+			technicalTermDynamicPanel = dynamicPanelCreator.createPanel(DynamicPanels.TechnicalTermPanel, technicalTermDynamicPanel, technicalTermActionListener, mainFrameWidth,
+					mainFrameHeight, getSpecialtyName(currentSpecialty), repositoryTA.selectAllTechnicalTermsOfSpecialtyTA(currentSpecialty.getId()));
 			return new PanelEventTransferObject(mainFrameWidth, mainFrameHeight, getHistoryListFromDB(), repositoryTA.selectAllSpecialtiesTA(), WinUtil.getLanguage(languageBundle),
 					repositoryTA.checkLetterTA(), currentSpecialty, currentTechnicalTerm, technicalTermDynamicPanel);
 		}
 	}
 
 	private void closeApplication() {
-//		if (queryExit()) {
-			mainFrame.dispose();
-			closeAndStoreDataBase();
-			System.exit(0);
-//		}
+		// if (queryExit()) {
+		mainFrame.dispose();
+		closeAndStoreDataBase();
+		System.exit(0);
+		// }
 	}
 
 	private boolean queryExit() {
@@ -779,28 +770,28 @@ public class Presenter {
 		}
 		return false;
 	}
-	
-	class SpecialtyActionListener implements ActionListener	{
+
+	class SpecialtyActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			openTechnicalTermResult(((TermButton)e.getSource()).getTermId());
+			openTechnicalTermResult(((TermButton) e.getSource()).getTermId());
 		}
 	}
-	
+
 	class SearchActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			decideButtonIdentity(e);
 		}
 	}
-	
-	class TechnicalTermActionListener implements ActionListener	{
+
+	class TechnicalTermActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			openShowTechnicalTermContentDialog(languageBundle, e);
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		Presenter presenter = new Presenter();
 	}

@@ -14,6 +14,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
+import javax.swing.border.EmptyBorder;
 
 import eventHandling.ChosenLanguage;
 import eventHandling.PanelEventTransferObject;
@@ -35,7 +36,8 @@ public class MenuBar extends JMenuBar implements Updatable {
 	}
 	
 	public void initialize() {
-		
+		this.setBackground(WinUtil.LIGHT_BLACK);
+		this.setBorder(new EmptyBorder(0,0,0,0));
 		menuFile = WinUtil.createMenu(this, languageBundle.getString("menuDatei"), "datei", 'a');
 		menuEdit = WinUtil.createMenu(this, languageBundle.getString("menuBearbeiten"), "bearbeiten", 'e');
 		menuView = WinUtil.createMenu(this, languageBundle.getString("menuAnsicht"), "ansicht", 'n');

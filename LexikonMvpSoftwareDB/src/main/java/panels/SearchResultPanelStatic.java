@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 
+import eventHandling.StaticPanels;
 import utilities.GridBagLayoutUtilities;
 import utilities.WinUtil;
 
@@ -21,9 +22,9 @@ public class SearchResultPanelStatic extends TechnicalTermPanelStatic {
 	
 	private boolean isLetterResult;
 	
-	public SearchResultPanelStatic(ResourceBundle languageBundle, double MAINFRAME_DISPLAY_RATIO, DynamicPanel dynamicPanel, String labelTitle, int staticPanelHeight) {
+	public SearchResultPanelStatic(ResourceBundle languageBundle, double MAINFRAME_DISPLAY_RATIO, DynamicPanel dynamicPanel, String labelTitle, int staticPanelHeight, StaticPanels staticPanel) {
 		
-		super(languageBundle, MAINFRAME_DISPLAY_RATIO, dynamicPanel, labelTitle, staticPanelHeight);
+		super(languageBundle, MAINFRAME_DISPLAY_RATIO, dynamicPanel, labelTitle, staticPanelHeight, staticPanel);
 		isLetterResult = dynamicPanel.isLetterResult();
 	}
 
