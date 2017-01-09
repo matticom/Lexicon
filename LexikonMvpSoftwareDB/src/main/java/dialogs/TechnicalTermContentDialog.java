@@ -1,4 +1,4 @@
-package windows;
+package dialogs;
 
 import java.awt.Color;
 import java.awt.Container;
@@ -9,33 +9,31 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowListener;
+import java.awt.event.WindowAdapter;
 import java.util.ResourceBundle;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import dto.TechnicalTermDTO;
 import enums.DialogWindows;
 import interactElements.MyScrollBarUI;
+import interactElements.SourceButton;
 import model.TechnicalTerm;
 import utilities.GridBagLayoutUtilities;
 import utilities.Queries;
 import utilities.WinUtil;
 
-public class TechnicalTermContentWindow extends DialogWindow {
+public class TechnicalTermContentDialog extends Dialog {
 
 	private final double JDIALOG_DISPLAY_RATIO = 0.6;
 	private int panelWidth;
@@ -53,7 +51,7 @@ public class TechnicalTermContentWindow extends DialogWindow {
 
 	private JButton editButton;
 	private JButton abortEditButton;
-	private JButton saveChangesButton;
+	private SourceButton saveChangesButton;
 
 	private JTextField germanTechnicalTermTextField;
 	private JTextField spanishTechnicalTermTextField;
@@ -76,14 +74,19 @@ public class TechnicalTermContentWindow extends DialogWindow {
 
 	private int SIDE_WIDTH = 20;
 	private int BOTTOM_HEIGHT = 20;
+	
+	private WindowAdapter windowAdapter;
+	private ActionListener actionListener;
 
-	public TechnicalTermContentWindow(ResourceBundle languageBundle, TechnicalTerm technicalTerm, DialogWindows dialogWindowType) {
+	public TechnicalTermContentDialog(ResourceBundle languageBundle, TechnicalTerm technicalTerm, DialogWindows dialogWindowType, WindowAdapter windowAdapter, ActionListener actionListener) {
 
 		super(languageBundle, dialogWindowType);
 		contentPane = this.getContentPane();
 		technicalTermDTO = new TechnicalTermDTO(technicalTerm);
 		editMode = false;
 		textHasChangedInTextAreas = false;
+		this.windowAdapter = windowAdapter;
+		this.actionListener = actionListener;
 		initialize();
 	}
 
@@ -98,7 +101,7 @@ public class TechnicalTermContentWindow extends DialogWindow {
 		fillFields();
 		configElementsVisiblity();
 
-		setModal(false);
+		setModal(true);
 		setLocationByPlatform(true);
 		textHasChangedInTextAreas = false;
 		setVisible(true);
@@ -118,7 +121,9 @@ public class TechnicalTermContentWindow extends DialogWindow {
 
 		setMinimumSize(new Dimension(panelWidth, panelHeight));
 		setMaximumSize(new Dimension(displaySize.width, displaySize.height));
-
+		
+		addWindowListener(windowAdapter);
+		
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setResizable(true);
 	}
@@ -179,7 +184,7 @@ public class TechnicalTermContentWindow extends DialogWindow {
 		GridBagLayoutUtilities.addGB(contentPane, abortEditButton, 2, 7, 1, 1, GridBagConstraints.NONE, 0, 1, new Insets(WinUtil.relH(30), 0, WinUtil.relH(20), 0),
 				GridBagConstraints.SOUTH);
 
-		saveChangesButton = new JButton(languageBundle.getString("saveChanges"));
+		saveChangesButton = new SourceButton(languageBundle.getString("saveChanges"), this, actionListener);
 		WinUtil.configButton(saveChangesButton, WinUtil.relW(180), WinUtil.relH(30), BorderFactory.createLineBorder(WinUtil.GRASS_GREEN), WinUtil.GRASS_GREEN, WinUtil.LIGHT_BLACK);
 		GridBagLayoutUtilities.addGB(contentPane, saveChangesButton, 2, 8, 1, 1, GridBagConstraints.NONE, 0, 0, new Insets(0, 0, WinUtil.relH(BOTTOM_HEIGHT + 30), 0),
 				GridBagConstraints.SOUTH);
@@ -285,10 +290,6 @@ public class TechnicalTermContentWindow extends DialogWindow {
 		}
 	}
 
-	public void setSaveChangesButtonActionListener(ActionListener l) {
-		saveChangesButton.addActionListener(l);
-	}
-
 	public boolean isTextHasChangedInTextAreas() {
 		return textHasChangedInTextAreas;
 	}
@@ -299,10 +300,6 @@ public class TechnicalTermContentWindow extends DialogWindow {
 
 	public String getSpanishTextAreaText() {
 		return spanishTextArea.getText();
-	}
-
-	public void setContentWindowListener(WindowListener l) {
-		addWindowListener(l);
 	}
 
 	public class changeWatching implements DocumentListener {

@@ -1,4 +1,4 @@
-package windows;
+package dialogs;
 
 import java.awt.Color;
 import java.awt.Container;
@@ -11,12 +11,11 @@ import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.KeyListener;
-import java.awt.event.WindowListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.WindowAdapter;
 import java.util.ResourceBundle;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -29,11 +28,12 @@ import javax.swing.SwingConstants;
 import enums.DialogWindows;
 import interactElements.ChooseSpecialtyComboBox;
 import interactElements.MyScrollBarUI;
+import interactElements.SourceButton;
 import utilities.ExtendedListItem;
 import utilities.GridBagLayoutUtilities;
 import utilities.WinUtil;
 
-public class TechnicalTermCreationWindow extends DialogWindow implements SpecialtyTextFieldsCheckable {
+public class TechnicalTermCreationDialog extends Dialog implements SpecialtyTextFieldsCheckable {
 
 	private final double JDIALOG_DISPLAY_RATIO = 0.6;
 	private int panelWidth;
@@ -48,7 +48,7 @@ public class TechnicalTermCreationWindow extends DialogWindow implements Special
 	private JLabel specialtyLabel;
 	private JLabel contentLabel;
 
-	private JButton insertButton;
+	private SourceButton insertButton;
 
 	private JTextField germanTextField;
 	private JTextField spanishTextField;
@@ -70,13 +70,21 @@ public class TechnicalTermCreationWindow extends DialogWindow implements Special
 
 	private int SIDE_WIDTH = 20;
 	private int BOTTOM_HEIGHT = 20;
+	
+	private ActionListener actionListener;
+	private KeyAdapter keyAdapter;
+	private WindowAdapter windowAdapter;
 
-	public TechnicalTermCreationWindow(ResourceBundle languageBundle, ChooseSpecialtyComboBox germanSpecialtyComboBox, ChooseSpecialtyComboBox spanishSpecialtyComboBox, DialogWindows dialogWindowType) {
+	public TechnicalTermCreationDialog(ResourceBundle languageBundle, ChooseSpecialtyComboBox germanSpecialtyComboBox, ChooseSpecialtyComboBox spanishSpecialtyComboBox, 
+			DialogWindows dialogWindowType, WindowAdapter windowAdapter, ActionListener actionListener, KeyAdapter keyAdapter) {
 
 		super(languageBundle, dialogWindowType);
 		contentPane = this.getContentPane();
 		this.germanSpecialtyComboBox = germanSpecialtyComboBox;
 		this.spanishSpecialtyComboBox = spanishSpecialtyComboBox;
+		this.windowAdapter = windowAdapter;
+		this.actionListener = actionListener;
+		this.keyAdapter = keyAdapter;
 		initialize();
 	}
 
@@ -94,7 +102,7 @@ public class TechnicalTermCreationWindow extends DialogWindow implements Special
 		
 		configElementsVisiblityAtStart(WinUtil.getLanguageId(languageBundle));
 		
-		setModal(false);
+		setModal(true);
 		setLocationByPlatform(true);
 		setVisible(true);
 	}
@@ -117,6 +125,8 @@ public class TechnicalTermCreationWindow extends DialogWindow implements Special
 
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setResizable(true);
+		
+		addWindowListener(windowAdapter);
 	}
 
 	private void arrangeComboBoxes() {
@@ -135,21 +145,25 @@ public class TechnicalTermCreationWindow extends DialogWindow implements Special
 		WinUtil.configTextField(germanTextField, WinUtil.relW(350), WinUtil.relH(30), WinUtil.DARK_WHITE, true);
 		GridBagLayoutUtilities.addGB(contentPane, germanTextField, 1, 4, 1, 1, GridBagConstraints.HORIZONTAL, 1, 0,
 				new Insets(0, WinUtil.relW(SIDE_WIDTH), WinUtil.relH(10), WinUtil.relW(SIDE_WIDTH)));
+		germanTextField.addKeyListener(keyAdapter);
 
 		spanishTextField = new JTextField();
 		WinUtil.configTextField(spanishTextField, WinUtil.relW(350), WinUtil.relH(30), WinUtil.DARK_WHITE, true);
 		GridBagLayoutUtilities.addGB(contentPane, spanishTextField, 3, 4, 1, 1, GridBagConstraints.HORIZONTAL, 1, 0,
 				new Insets(0, WinUtil.relW(SIDE_WIDTH), WinUtil.relH(10), WinUtil.relW(SIDE_WIDTH)));
+		spanishTextField.addKeyListener(keyAdapter);
 
 		germanSpecialtyInput = new JTextField();
 		WinUtil.configTextField(germanSpecialtyInput, WinUtil.relW(200), WinUtil.relH(30), WinUtil.DARK_WHITE, true);
 		GridBagLayoutUtilities.addGB(contentPane, germanSpecialtyInput, 1, 5, 1, 2, GridBagConstraints.HORIZONTAL, 1, 0,
 				new Insets(0, WinUtil.relW(SIDE_WIDTH), WinUtil.relH(10), WinUtil.relW(SIDE_WIDTH)));
+		germanSpecialtyInput.addKeyListener(keyAdapter);
 
 		spanishSpecialtyInput = new JTextField();
 		WinUtil.configTextField(spanishSpecialtyInput, WinUtil.relW(200), WinUtil.relH(30), WinUtil.DARK_WHITE, true);
 		GridBagLayoutUtilities.addGB(contentPane, spanishSpecialtyInput, 3, 5, 1, 2, GridBagConstraints.HORIZONTAL, 1, 0,
 				new Insets(0, WinUtil.relW(SIDE_WIDTH), WinUtil.relH(10), WinUtil.relW(SIDE_WIDTH)));
+		spanishSpecialtyInput.addKeyListener(keyAdapter);
 	}
 
 	private void createTextAreas() {
@@ -173,7 +187,7 @@ public class TechnicalTermCreationWindow extends DialogWindow implements Special
 
 	private void createInsertButton() {
 
-		insertButton = new JButton(languageBundle.getString("insertBtn"));
+		insertButton = new SourceButton(languageBundle.getString("insertBtn"), this, actionListener);
 		WinUtil.configButton(insertButton, WinUtil.relW(180), WinUtil.relH(30), BorderFactory.createLineBorder(WinUtil.GRASS_GREEN), WinUtil.GRASS_GREEN, WinUtil.LIGHT_BLACK);
 		GridBagLayoutUtilities.addGB(contentPane, insertButton, 2, 8, 1, 1, GridBagConstraints.NONE, 0, 1, new Insets(WinUtil.relH(30), 0, WinUtil.relH(BOTTOM_HEIGHT + 30), 0),
 				GridBagConstraints.SOUTH);
@@ -271,17 +285,6 @@ public class TechnicalTermCreationWindow extends DialogWindow implements Special
 		}
 	}
 
-	public void setInsertButtonsActionListener(ActionListener l) {
-		insertButton.addActionListener(l);
-	}
-
-	public void setTextFieldListener(KeyListener l) {
-		germanTextField.addKeyListener(l);
-		spanishTextField.addKeyListener(l);
-		germanSpecialtyInput.addKeyListener(l);
-		spanishSpecialtyInput.addKeyListener(l);
-	}
-
 	public JTextField getGermanTextField() {
 		return germanTextField;
 	}
@@ -312,11 +315,7 @@ public class TechnicalTermCreationWindow extends DialogWindow implements Special
 	public boolean isNewSpecialtySelected() {
 		return newSpecialtySelected;
 	}
-	
-	public void setTechnicalTermCreationWindowListener(WindowListener l) {
-		addWindowListener(l);
-	}
-	
+		
 	public void removeItemListenerFromComboBoxes() {
 		
 		for (ItemListener itemListener : germanSpecialtyComboBox.getItemListeners()) {

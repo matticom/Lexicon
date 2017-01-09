@@ -1,4 +1,4 @@
-package AssignmentWindowComponents;
+package assignmentWindowComponents;
 
 import java.util.List;
 import java.util.ResourceBundle;

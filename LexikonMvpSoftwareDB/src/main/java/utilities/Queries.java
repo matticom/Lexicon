@@ -99,4 +99,34 @@ public class Queries {
 		}
 		return false;
 	}
+	
+	
+	public static boolean queryCreateNewTT(ResourceBundle languageBundle, JDialog parent) {
+
+		String[] options = { languageBundle.getString("speichernDatenTitle"), languageBundle.getString("abort") };
+		
+		Object paneBG = UIManager.get("OptionPane.background");
+	    Object panelBG = UIManager.get("Panel.background");
+	    Object buttonBG = UIManager.get("Button.background");
+	    Object buttonFG = UIManager.get("Button.foreground");
+	    
+	    UIManager.put("OptionPane.background", WinUtil.LIGHT_BLACK);
+	    UIManager.put("Panel.background", WinUtil.LIGHT_BLACK);
+	    UIManager.put("Button.background", WinUtil.LIGHT_BLACK);
+	    UIManager.put("Button.foreground", WinUtil.DARK_WHITE);
+		
+		int retValue = JOptionPane.showOptionDialog(parent, languageBundle.getString("saveNewTTQuestion"), languageBundle.getString("newTTtitle"), JOptionPane.YES_NO_OPTION,
+				JOptionPane.WARNING_MESSAGE, null, options, options[1]);
+		
+		UIManager.put("OptionPane.background", paneBG);
+	    UIManager.put("Panel.background", panelBG);
+	    UIManager.put("Button.background", buttonBG);
+	    UIManager.put("Button.foreground", buttonFG);
+		
+		if (retValue == JOptionPane.YES_OPTION) {
+			return true;
+		}
+		return false;
+	}
+	
 }

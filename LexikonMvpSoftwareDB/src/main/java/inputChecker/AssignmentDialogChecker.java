@@ -11,14 +11,14 @@ import javax.swing.JTextField;
 
 import businessOperations.TermBO;
 import businessOperations.TransactionBeginCommit;
+import dialogs.AssignmentDialog;
+import dialogs.Dialog;
+import dialogs.SpecialtyTextFieldsCheckable;
+import dialogs.TechnicalTermCreationDialog;
 import exceptions.SpecialtyAlreadyExistsAsTechnicalTerm;
 import exceptions.TechnicalTermAlreadyExistsAsSpecialty;
 import model.Specialty;
 import model.TechnicalTerm;
-import windows.AssignTechnicalTermToSpecialtyWindow;
-import windows.DialogWindow;
-import windows.TechnicalTermCreationWindow;
-import windows.SpecialtyTextFieldsCheckable;
 
 public class AssignmentDialogChecker implements InputCheckable {
 
@@ -60,7 +60,7 @@ public class AssignmentDialogChecker implements InputCheckable {
 			checkSpecialties(dialog, repositoryTA);
 		}
 		
-		if (((AssignTechnicalTermToSpecialtyWindow)dialog).getTechnicalTermIds().length == 0) {
+		if (((AssignmentDialog)dialog).getTechnicalTermIds().length == 0) {
 			JOptionPane.showMessageDialog(null, "Es wurde kein Element der Liste ausgewählt", "Fehler", JOptionPane.ERROR_MESSAGE);
 			testPassed = false;
 		}

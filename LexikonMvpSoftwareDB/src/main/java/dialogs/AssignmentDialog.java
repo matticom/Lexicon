@@ -1,4 +1,4 @@
-package windows;
+package dialogs;
 
 import java.awt.Color;
 import java.awt.Container;
@@ -10,13 +10,12 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.WindowListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.WindowAdapter;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -26,16 +25,17 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import AssignmentWindowComponents.AssignmentTableModel;
-import AssignmentWindowComponents.TechnicalTermJTable;
+import assignmentWindowComponents.AssignmentTableModel;
+import assignmentWindowComponents.TechnicalTermJTable;
 import enums.DialogWindows;
 import interactElements.ChooseSpecialtyComboBox;
 import interactElements.MyScrollBarUI;
+import interactElements.SourceButton;
 import model.TechnicalTerm;
 import utilities.GridBagLayoutUtilities;
 import utilities.WinUtil;
 
-public class AssignTechnicalTermToSpecialtyWindow extends DialogWindow implements SpecialtyTextFieldsCheckable {
+public class AssignmentDialog extends Dialog implements SpecialtyTextFieldsCheckable {
 
 	private final double JDIALOG_DISPLAY_RATIO_WIDTH = 0.3;
 	private final double JDIALOG_DISPLAY_RATIO_HEIGHT = 0.7;
@@ -49,7 +49,7 @@ public class AssignTechnicalTermToSpecialtyWindow extends DialogWindow implement
 	private Dimension displaySize;
 
 	private JTable technicalTermTable;
-	private JButton changeButton;
+	private SourceButton changeButton;
 	private JCheckBox newSpecialtyCheckBox;
 
 	private JLabel instructionLabel;
@@ -63,13 +63,22 @@ public class AssignTechnicalTermToSpecialtyWindow extends DialogWindow implement
 	private AssignmentTableModel assignmentTableModel;
 
 	private boolean newSpecialtySelected = false;
+	
+	private ActionListener actionListener;
+	private KeyAdapter keyAdapter;
+	private WindowAdapter windowAdapter;
+	 
 
-	public AssignTechnicalTermToSpecialtyWindow(ResourceBundle languageBundle, List<TechnicalTerm> technicalTermList, ChooseSpecialtyComboBox specialtyComboBox, DialogWindows dialogWindowType) {
+	public AssignmentDialog(ResourceBundle languageBundle, List<TechnicalTerm> technicalTermList, ChooseSpecialtyComboBox specialtyComboBox, 
+			DialogWindows dialogWindowType, WindowAdapter windowAdapter, ActionListener actionListener, KeyAdapter keyAdapter) {
 		
 		super(languageBundle, dialogWindowType);
 		this.technicalTermList = technicalTermList;
 		contentPane = this.getContentPane();
 		this.specialtyComboBox = specialtyComboBox;
+		this.windowAdapter = windowAdapter;
+		this.actionListener = actionListener;
+		this.keyAdapter = keyAdapter;
 		initialize();
 	}
 
@@ -82,8 +91,9 @@ public class AssignTechnicalTermToSpecialtyWindow extends DialogWindow implement
 		createButtons();
 		createScrollPane();
 		arrangeComboBoxes();
-
+		
 		newSpecialtyDeselected();
+		setModal(true);
 		setLocationByPlatform(true);
 		setVisible(true);
 	}
@@ -105,6 +115,8 @@ public class AssignTechnicalTermToSpecialtyWindow extends DialogWindow implement
 
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setResizable(true);
+		
+		addWindowListener(windowAdapter);
 	}
 
 	private void createTable() {
@@ -116,7 +128,7 @@ public class AssignTechnicalTermToSpecialtyWindow extends DialogWindow implement
 	private void createLabels() {
 		
 		instructionLabel = new JLabel(languageBundle.getString("instructionLabel"));
-		WinUtil.configLabel(instructionLabel, WinUtil.relW((int) (panelWidth * 0.9)), WinUtil.relH(30), WinUtil.ULTRA_LIGHT_GRAY, Color.DARK_GRAY, 13, Font.PLAIN);
+		WinUtil.configLabel(instructionLabel, (int) (panelWidth * 0.9), WinUtil.relH(30), WinUtil.ULTRA_LIGHT_GRAY, Color.DARK_GRAY, 13, Font.PLAIN);
 		GridBagLayoutUtilities.addGB(contentPane, instructionLabel, 1, 1, 2, 1, new Insets(WinUtil.relH(10), 0, WinUtil.relH(20), 0));
 		instructionLabel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -133,7 +145,7 @@ public class AssignTechnicalTermToSpecialtyWindow extends DialogWindow implement
 
 	private void createButtons() {
 		
-		changeButton = new JButton(languageBundle.getString("changeButton"));
+		changeButton = new SourceButton(languageBundle.getString("changeButton"), this, actionListener);
 		WinUtil.configButton(changeButton, WinUtil.relW(150), WinUtil.relH(30), BorderFactory.createLineBorder(WinUtil.GRASS_GREEN), WinUtil.GRASS_GREEN, WinUtil.LIGHT_BLACK);
 		GridBagLayoutUtilities.addGB(contentPane, changeButton, 1, 6, 2, 1, GridBagConstraints.NONE, 0, 0, new Insets(WinUtil.relH(30), 0, WinUtil.relH(30), 0),
 				GridBagConstraints.SOUTH);
@@ -167,12 +179,14 @@ public class AssignTechnicalTermToSpecialtyWindow extends DialogWindow implement
 		germanSpecialtyInput.setVisible(false);
 		GridBagLayoutUtilities.addGB(contentPane, germanSpecialtyInput, 1, 5, 1, 1, GridBagConstraints.HORIZONTAL, 1, 0,
 				new Insets(0, WinUtil.relW(30), WinUtil.relH(10), WinUtil.relW(10)));
+		germanSpecialtyInput.addKeyListener(keyAdapter);
 
 		spanishSpecialtyInput = new JTextField();
 		WinUtil.configTextField(spanishSpecialtyInput, WinUtil.relW(200), WinUtil.relH(30), WinUtil.DARK_WHITE, true);
 		spanishSpecialtyInput.setVisible(false);
 		GridBagLayoutUtilities.addGB(contentPane, spanishSpecialtyInput, 2, 5, 1, 1, GridBagConstraints.HORIZONTAL, 1, 0,
 				new Insets(0, WinUtil.relW(10), WinUtil.relH(10), WinUtil.relW(30)));
+		spanishSpecialtyInput.addKeyListener(keyAdapter);
 	}
 
 	public void setChangeButtonActionListener(ActionListener l) {
@@ -219,11 +233,6 @@ public class AssignTechnicalTermToSpecialtyWindow extends DialogWindow implement
 		spanishSpecialtyInput.setVisible(false);
 	}
 
-	public void setTextFieldListener(KeyListener l) {
-		germanSpecialtyInput.addKeyListener(l);
-		spanishSpecialtyInput.addKeyListener(l);
-	}
-
 	@Override
 	public JTextField getGermanSpecialtyInput() {
 		return germanSpecialtyInput;
@@ -243,9 +252,5 @@ public class AssignTechnicalTermToSpecialtyWindow extends DialogWindow implement
 
 		assignmentTableModel = new AssignmentTableModel(languageBundle, technicalTermList);
 		technicalTermTable.setModel(assignmentTableModel);
-	}
-	
-	public void setAssignTermWindowListener(WindowListener l) {
-		addWindowListener(l);
 	}
 }

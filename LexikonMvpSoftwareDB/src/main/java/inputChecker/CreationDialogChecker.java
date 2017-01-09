@@ -5,16 +5,16 @@ import javax.swing.JOptionPane;
 
 import businessOperations.TermBO;
 import businessOperations.TransactionBeginCommit;
+import dialogs.SpecialtyTextFieldsCheckable;
+import dialogs.TechnicalTermCreationDialog;
 import exceptions.TechnicalTermAlreadyExistsAsSpecialty;
-import windows.SpecialtyTextFieldsCheckable;
-import windows.TechnicalTermCreationWindow;
 
-public class NewTechnicalTermDialogChecker extends AssignmentDialogChecker {
+public class CreationDialogChecker extends AssignmentDialogChecker {
 
 	@Override
 	public void checkDialog(SpecialtyTextFieldsCheckable dialog, TransactionBeginCommit repositoryTA) {
 
-		TechnicalTermCreationWindow newTTDialog = (TechnicalTermCreationWindow) dialog;
+		TechnicalTermCreationDialog newTTDialog = (TechnicalTermCreationDialog) dialog;
 		testPassed = true;
 		if (newTTDialog.isNewSpecialtySelected()) {
 			checkBlankSpecialtyFields(newTTDialog);
@@ -31,7 +31,7 @@ public class NewTechnicalTermDialogChecker extends AssignmentDialogChecker {
 		}
 	}
 
-	private void checkTechnicalTerms(TechnicalTermCreationWindow newTTDialog, TransactionBeginCommit repositoryTA) {
+	private void checkTechnicalTerms(TechnicalTermCreationDialog newTTDialog, TransactionBeginCommit repositoryTA) {
 		try {
 			repositoryTA.selectTechnicalTermByName(newTTDialog.getGermanTextField().getText(), GERMAN);
 			testPassed = false;
@@ -57,7 +57,7 @@ public class NewTechnicalTermDialogChecker extends AssignmentDialogChecker {
 		}
 	}
 
-	private void checkBlankTechnicalTermFields(TechnicalTermCreationWindow newTTDialog) {
+	private void checkBlankTechnicalTermFields(TechnicalTermCreationDialog newTTDialog) {
 		if (newTTDialog.getGermanTextField().getText().equals("") || newTTDialog.getSpanishTextField().getText().equals("")) {
 			JOptionPane.showMessageDialog(null, "Die Begriffsfelder dürfen nicht leer bleiben", "Fehler", JOptionPane.ERROR_MESSAGE);
 			testPassed = false;

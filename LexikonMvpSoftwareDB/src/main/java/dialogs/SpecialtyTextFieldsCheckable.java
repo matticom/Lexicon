@@ -1,4 +1,4 @@
-package windows;
+package dialogs;
 
 import javax.swing.JTextField;
 

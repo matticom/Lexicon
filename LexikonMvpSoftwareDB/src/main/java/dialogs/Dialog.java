@@ -1,4 +1,4 @@
-package windows;
+package dialogs;
 
 import java.util.ResourceBundle;
 
@@ -6,7 +6,7 @@ import javax.swing.JDialog;
 
 import enums.DialogWindows;
 
-public abstract class DialogWindow extends JDialog {
+public abstract class Dialog extends JDialog {
 
 	protected ResourceBundle 	languageBundle;
 	protected final int GERMAN = 1;
@@ -14,7 +14,7 @@ public abstract class DialogWindow extends JDialog {
 	
 	protected DialogWindows dialogWindowType;
 		
-	public DialogWindow(ResourceBundle languageBundle, DialogWindows dialogWindowType) {
+	public Dialog(ResourceBundle languageBundle, DialogWindows dialogWindowType) {
 
 		this.languageBundle = languageBundle;
 		this.dialogWindowType = dialogWindowType;

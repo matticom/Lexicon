@@ -33,7 +33,7 @@ public class SearchResultPanelDynamic extends DynamicPanel {
 	public SearchResultPanelDynamic(int mainFrameWidth, int mainFrameHeight, List<Translations> technicalTermTranslationList, String searchWord, ActionListener actionListener, DynamicPanels dynamicPanel) {
 
 		super(dynamicPanel);
-		distinguishBetweenLetterSearchAndNormalSearch(searchWord);
+		this.searchWord = distinguishBetweenLetterSearchAndNormalSearch(searchWord);
 		specialtyButtonsDE = new ArrayList<SpecialtyButton>();
 		specialtyButtonsES = new ArrayList<SpecialtyButton>();
 		technicalTermButtonsDE = new ArrayList<TechnicalTermButton>();
