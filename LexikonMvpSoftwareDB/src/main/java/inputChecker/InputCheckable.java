@@ -1,6 +1,5 @@
 package inputChecker;
 
-import java.awt.Component;
 import java.awt.event.KeyEvent;
 
 public interface InputCheckable {

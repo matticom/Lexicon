@@ -21,7 +21,6 @@ public class HistoryDAO {
 		this.entitymanager = entitymanager;
 	}
 
-	
 
 	public EntityManager getEntitymanager() {
 		

@@ -1,7 +1,8 @@
 package viewFactory;
 
 import java.util.ResourceBundle;
-import eventHandling.StaticPanels;
+
+import enums.StaticPanels;
 import panels.TermPanelDynamic;
 import panels.DynamicPanel;
 import panels.StaticPanel;

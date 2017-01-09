@@ -23,91 +23,91 @@ public class TransactionBeginCommit {
 		this.historyService = historyService;
 	}
 	
-	public List<Specialty> selectAllSpecialtiesTA() {
+	public List<Specialty> selectAllSpecialties() {
 		entityTransaction.begin();
 		List<Specialty> specialtyList = repositoryService.selectAllSpecialties();
 		entityTransaction.commit();
 		return specialtyList;
 	}
 	
-	public List<TechnicalTerm> selectAllTechnicalTermsOfSpecialtyTA(int specialtyId) {
+	public List<TechnicalTerm> selectAllTechnicalTermsOfSpecialty(int specialtyId) {
 		entityTransaction.begin();
 		List<TechnicalTerm> technicalTermList = repositoryService.selectAllTechnicalTermsOfSpecialty(specialtyId);
 		entityTransaction.commit();
 		return technicalTermList;
 	}
 	
-	public boolean[] checkLetterTA() {
+	public boolean[] checkLetter() {
 		entityTransaction.begin();
 		boolean[] alphabet = repositoryService.checkLetter();
 		entityTransaction.commit();
 		return alphabet;
 	}
 	
-	public List<Translations> searchTechnicalTermsTA(String name) {
+	public List<Translations> searchTechnicalTerms(String name) {
 		entityTransaction.begin();
 		List<Translations> translationList = repositoryService.searchTechnicalTerms(name);
 		entityTransaction.commit();
 		return translationList;
 	}
 
-	public Specialty selectSpecialtyByIdTA(int specialtyId) {
+	public Specialty selectSpecialtyById(int specialtyId) {
 		entityTransaction.begin();
 		Specialty specialty = repositoryService.selectSpecialtyById(specialtyId);
 		entityTransaction.commit();
 		return specialty;
 	}
 	
-	public TechnicalTerm selectTechnicalTermByIdTA(int technicalTermId) {
+	public TechnicalTerm selectTechnicalTermById(int technicalTermId) {
 		entityTransaction.begin();
 		TechnicalTerm technicalTerm = repositoryService.selectTechnicalTermById(technicalTermId);
 		entityTransaction.commit();
 		return technicalTerm;
 	}
 	
-	public Specialty createSpecialtyTA(String name, String description, int languageId) {
+	public Specialty createSpecialty(String name, String description, int languageId) {
 		entityTransaction.begin();
 		Specialty specialty = repositoryService.createSpecialty(name, description, languageId);
 		entityTransaction.commit();
 		return specialty;
 	}
 
-	public Translations createSpecialtyTranslationTA(int specialtyId, String newName, String newDescription, int languageId) {
+	public Translations createSpecialtyTranslation(int specialtyId, String newName, String newDescription, int languageId) {
 		entityTransaction.begin();
 		Translations translation = repositoryService.createSpecialtyTranslation(specialtyId, newName, newDescription, languageId);
 		entityTransaction.commit();
 		return translation;
 	}
 	
-	public TechnicalTerm createTechnicalTermTA(String name, String description, int languageId, int specialtyId) {
+	public TechnicalTerm createTechnicalTerm(String name, String description, int languageId, int specialtyId) {
 		entityTransaction.begin();
 		TechnicalTerm technicalTerm = repositoryService.createTechnicalTerm(name, description, languageId, specialtyId);
 		entityTransaction.commit();
 		return technicalTerm;
 	}
 	
-	public Translations createTechnicalTermTranslationTA(int technicalTermId, String newName, String newDescription, int languageId) {
+	public Translations createTechnicalTermTranslation(int technicalTermId, String newName, String newDescription, int languageId) {
 		entityTransaction.begin();
 		Translations translation = repositoryService.createTechnicalTermTranslation(technicalTermId, newName, newDescription, languageId);
 		entityTransaction.commit();
 		return translation;
 	}
 	
-	public List<TechnicalTerm> selectAllTechnicalTermsTA() {
+	public List<TechnicalTerm> selectAllTechnicalTerms() {
 		entityTransaction.begin();
 		List<TechnicalTerm> technicalTermList = repositoryService.selectAllTechnicalTerms();
 		entityTransaction.commit();
 		return technicalTermList;
 	}
 	
-	public Specialty assignTechnicalTermsToSpecialtyTA(int[] technicalTermIds, int specialtyId) {
+	public Specialty assignTechnicalTermsToSpecialty(int[] technicalTermIds, int specialtyId) {
 		entityTransaction.begin();
 		Specialty specialty = repositoryService.assignTechnicalTermsToSpecialty(technicalTermIds, specialtyId);
 		entityTransaction.commit();
 		return specialty;
 	}
 	
-	public Translations updateTranslationTA(int termId, String newName, String newDescription, int languageId) {
+	public Translations updateTranslation(int termId, String newName, String newDescription, int languageId) {
 		entityTransaction.begin();
 		Translations translation = repositoryService.updateTranslation(termId, newName, newDescription, languageId);
 		entityTransaction.commit();
@@ -115,36 +115,33 @@ public class TransactionBeginCommit {
 	}
 	
 	
-	
-	public Specialty selectSpecialtyByNameTA(String name, int languageId) {
-//		entityTransaction.begin();
+	public Specialty selectSpecialtyByName(String name, int languageId) {
+
 		Specialty specialty = repositoryService.selectSpecialtyByName(name, languageId);
-//		entityTransaction.commit();
 		return specialty;
 	}
 
-	public TechnicalTerm selectTechnicalTermByNameTA(String name, int languageId) {
-//		entityTransaction.begin();
+	public TechnicalTerm selectTechnicalTermByName(String name, int languageId) {
+
 		TechnicalTerm technicalTerm = repositoryService.selectTechnicalTermByName(name, languageId);
-//		entityTransaction.commit();
 		return technicalTerm;
 	}
 
 
-	public void deleteAllWordsTA() {
+	public void deleteAllWords() {
 		entityTransaction.begin();
 		historyService.deleteAllWords();
 		entityTransaction.commit();
 	}
 	
-	public List<History> selectAllWordsTA() {
+	public List<History> selectAllWords() {
 		entityTransaction.begin();
 		List<History> historyList = historyService.selectAllWords();
 		entityTransaction.commit();
 		return historyList;
 	}
 	
-	public History insertWordTA(String word) {
+	public History insertWord(String word) {
 		entityTransaction.begin();
 		History historyEntry = historyService.insertWord(word);
 		entityTransaction.commit();

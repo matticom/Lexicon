@@ -12,15 +12,13 @@ import java.util.ResourceBundle;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JSeparator;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-import interactElements.MyScrollBarUI;
-import eventHandling.ChosenLanguage;
+
+import enums.ChosenLanguage;
+import enums.StaticPanels;
 import eventHandling.PanelEventTransferObject;
-import eventHandling.StaticPanels;
 import utilities.GridBagLayoutUtilities;
 import utilities.WinUtil;
 
@@ -32,7 +30,6 @@ public class SpecialtyPanelStatic extends StaticPanel {
 
 	private TermPanelDynamic dynamicPanel;
 
-	
 	public SpecialtyPanelStatic(ResourceBundle languageBundle, double MAINFRAME_DISPLAY_RATIO, TermPanelDynamic dynamicPanel, StaticPanels staticPanel) {
 
 		super(languageBundle, MAINFRAME_DISPLAY_RATIO, staticPanel);
@@ -48,7 +45,7 @@ public class SpecialtyPanelStatic extends StaticPanel {
 		contentPanel.add(staticElementsPanel);
 		contentPanel.add(dynamicPanel);
 
-		this.getViewport().add(contentPanel);
+		getViewport().add(contentPanel);
 	}
 	
 	private void initializePanels() {

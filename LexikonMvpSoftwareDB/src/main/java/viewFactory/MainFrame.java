@@ -9,7 +9,7 @@ import java.util.ResourceBundle;
 
 import javax.swing.JFrame;
 
-import eventHandling.ChosenLanguage;
+import enums.ChosenLanguage;
 import eventHandling.PanelEventTransferObject;
 import eventHandling.Updatable;
 import utilities.WinUtil;

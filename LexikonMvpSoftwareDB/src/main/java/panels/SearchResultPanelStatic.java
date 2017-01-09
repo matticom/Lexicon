@@ -5,11 +5,9 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.util.ResourceBundle;
-
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 
-import eventHandling.StaticPanels;
+import enums.StaticPanels;
 import utilities.GridBagLayoutUtilities;
 import utilities.WinUtil;
 
@@ -20,12 +18,9 @@ public class SearchResultPanelStatic extends TechnicalTermPanelStatic {
 	private JLabel spanishResultTechnicalTerm; 
 	private JLabel spanishResultSpecialty;
 	
-	private boolean isLetterResult;
-	
 	public SearchResultPanelStatic(ResourceBundle languageBundle, double MAINFRAME_DISPLAY_RATIO, DynamicPanel dynamicPanel, String labelTitle, int staticPanelHeight, StaticPanels staticPanel) {
 		
 		super(languageBundle, MAINFRAME_DISPLAY_RATIO, dynamicPanel, labelTitle, staticPanelHeight, staticPanel);
-		isLetterResult = dynamicPanel.isLetterResult();
 	}
 
 	@Override
@@ -63,9 +58,5 @@ public class SearchResultPanelStatic extends TechnicalTermPanelStatic {
 		germanResultSpecialty.setText(languageBundle.getString("resultsSubject"));
 		spanishResultTechnicalTerm.setText(languageBundle.getString("resultsTerm"));
 		spanishResultSpecialty.setText(languageBundle.getString("resultsSubject"));
-	}
-	
-	public boolean isLetterResult() {
-		return isLetterResult;
 	}
 }

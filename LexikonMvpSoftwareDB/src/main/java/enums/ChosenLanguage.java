@@ -1,4 +1,4 @@
-package eventHandling;
+package enums;
 
 public enum ChosenLanguage {
 	German, Spanish

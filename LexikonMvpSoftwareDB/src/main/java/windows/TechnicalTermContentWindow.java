@@ -9,41 +9,33 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.ResourceBundle;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.text.JTextComponent;
 
 import dto.TechnicalTermDTO;
-import eventHandling.PanelEventTransferObject;
-import interactElements.ChooseSpecialtyComboBox;
+import enums.DialogWindows;
 import interactElements.MyScrollBarUI;
-import model.Specialty;
 import model.TechnicalTerm;
-import utilities.ExtendedListItem;
 import utilities.GridBagLayoutUtilities;
+import utilities.Queries;
 import utilities.WinUtil;
 
-public class TechnicalTermContentWindow extends MyWindow {
+public class TechnicalTermContentWindow extends DialogWindow {
 
 	private final double JDIALOG_DISPLAY_RATIO = 0.6;
 	private int panelWidth;
@@ -77,7 +69,6 @@ public class TechnicalTermContentWindow extends MyWindow {
 	private JScrollPane germanScrollPane;
 	private JScrollPane spanishScrollPane;
 
-	private TechnicalTerm technicalTerm;
 	private TechnicalTermDTO technicalTermDTO;
 
 	private boolean editMode;
@@ -86,11 +77,10 @@ public class TechnicalTermContentWindow extends MyWindow {
 	private int SIDE_WIDTH = 20;
 	private int BOTTOM_HEIGHT = 20;
 
-	public TechnicalTermContentWindow(ResourceBundle languageBundle, TechnicalTerm technicalTerm) {
+	public TechnicalTermContentWindow(ResourceBundle languageBundle, TechnicalTerm technicalTerm, DialogWindows dialogWindowType) {
 
-		super(languageBundle);
+		super(languageBundle, dialogWindowType);
 		contentPane = this.getContentPane();
-		this.technicalTerm = technicalTerm;
 		technicalTermDTO = new TechnicalTermDTO(technicalTerm);
 		editMode = false;
 		textHasChangedInTextAreas = false;
@@ -107,9 +97,10 @@ public class TechnicalTermContentWindow extends MyWindow {
 		createButtons();
 		fillFields();
 		configElementsVisiblity();
-	
+
 		setModal(false);
 		setLocationByPlatform(true);
+		textHasChangedInTextAreas = false;
 		setVisible(true);
 	}
 
@@ -285,29 +276,13 @@ public class TechnicalTermContentWindow extends MyWindow {
 
 	private void abortEditMode() {
 
-		if (queryAbortEdit()) {
+		if (Queries.queryAbortEditContentDialog(languageBundle, textHasChangedInTextAreas, this)) {
 			editMode = false;
 			germanTextArea.setText(tempGermanTextAreaText);
 			spanishTextArea.setText(tempSpanishTextAreaText);
 			configElementsVisiblity();
 			textHasChangedInTextAreas = false;
 		}
-	}
-
-	private boolean queryAbortEdit() {
-
-		String[] options = { languageBundle.getString("close"), languageBundle.getString("abort") };
-
-		if (!textHasChangedInTextAreas) {
-			return true;
-		}
-		int retValue = JOptionPane.showOptionDialog(this, languageBundle.getString("queryEdit"), languageBundle.getString("queryExitTitle"), JOptionPane.YES_NO_OPTION,
-				JOptionPane.WARNING_MESSAGE, null, options, options[1]);
-
-		if (retValue == JOptionPane.YES_OPTION) {
-			return true;
-		}
-		return false;
 	}
 
 	public void setSaveChangesButtonActionListener(ActionListener l) {
@@ -325,7 +300,7 @@ public class TechnicalTermContentWindow extends MyWindow {
 	public String getSpanishTextAreaText() {
 		return spanishTextArea.getText();
 	}
-	
+
 	public void setContentWindowListener(WindowListener l) {
 		addWindowListener(l);
 	}

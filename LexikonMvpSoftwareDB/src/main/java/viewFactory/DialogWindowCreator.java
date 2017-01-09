@@ -3,57 +3,57 @@ package viewFactory;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import eventHandling.DialogWindows;
+import enums.DialogWindows;
 import interactElements.ChooseSpecialtyComboBox;
 import model.TechnicalTerm;
 import windows.AssignTechnicalTermToSpecialtyWindow;
-import windows.MyWindow;
+import windows.DialogWindow;
 import windows.TechnicalTermContentWindow;
 import windows.TechnicalTermCreationWindow;
 
 public class DialogWindowCreator {
 
-	public MyWindow createWindow(DialogWindows window, ResourceBundle languageBundle) {
+	public DialogWindow createWindow(DialogWindows dialogWindowType, ResourceBundle languageBundle) {
 
-		MyWindow myWindow = windowFactory(window, languageBundle, null, null, null, null, null);
-		return myWindow;
+		DialogWindow dialogWindow = windowFactory(dialogWindowType, languageBundle, null, null, null, null, null);
+		return dialogWindow;
 	}
 	
-	public MyWindow createWindow(DialogWindows window, ResourceBundle languageBundle, TechnicalTerm technicalTerm) {
+	public DialogWindow createWindow(DialogWindows dialogWindowType, ResourceBundle languageBundle, TechnicalTerm technicalTerm) {
 
-		MyWindow myWindow = windowFactory(window, languageBundle, null, null, null, null, technicalTerm);
-		return myWindow;
+		DialogWindow dialogWindow = windowFactory(dialogWindowType, languageBundle, null, null, null, null, technicalTerm);
+		return dialogWindow;
 	}
 
-	public MyWindow createWindow(DialogWindows window, ResourceBundle languageBundle, List<TechnicalTerm> technicalTermList, ChooseSpecialtyComboBox specialtyComboBox) {
+	public DialogWindow createWindow(DialogWindows dialogWindowType, ResourceBundle languageBundle, List<TechnicalTerm> technicalTermList, ChooseSpecialtyComboBox specialtyComboBox) {
 
-		MyWindow myWindow = windowFactory(window, languageBundle, null, null, technicalTermList, specialtyComboBox, null);
-		return myWindow;
+		DialogWindow dialogWindow = windowFactory(dialogWindowType, languageBundle, null, null, technicalTermList, specialtyComboBox, null);
+		return dialogWindow;
 	}
 		
 
-	public MyWindow createWindow(DialogWindows window, ResourceBundle languageBundle, ChooseSpecialtyComboBox germanSpecialtyComboBox,
+	public DialogWindow createWindow(DialogWindows dialogWindowType, ResourceBundle languageBundle, ChooseSpecialtyComboBox germanSpecialtyComboBox,
 			ChooseSpecialtyComboBox spanishSpecialtyComboBox) {
 
-		MyWindow myWindow = windowFactory(window, languageBundle, germanSpecialtyComboBox, spanishSpecialtyComboBox, null, null, null);
-		return myWindow;
+		DialogWindow dialogWindow = windowFactory(dialogWindowType, languageBundle, germanSpecialtyComboBox, spanishSpecialtyComboBox, null, null, null);
+		return dialogWindow;
 	}
 
-	protected MyWindow windowFactory(DialogWindows window, ResourceBundle languageBundle, ChooseSpecialtyComboBox germanSpecialtyComboBox,
+	protected DialogWindow windowFactory(DialogWindows dialogWindowType, ResourceBundle languageBundle, ChooseSpecialtyComboBox germanSpecialtyComboBox,
 			ChooseSpecialtyComboBox spanishSpecialtyComboBox, List<TechnicalTerm> technicalTermList, ChooseSpecialtyComboBox specialtyComboBox, TechnicalTerm technicalTerm) {
 
-		MyWindow myWindow = null;
+		DialogWindow dialogWindow = null;
 
-		if (window == DialogWindows.AssignTechnicalTermToSpecialtyWindow) {
-			myWindow = new AssignTechnicalTermToSpecialtyWindow(languageBundle, technicalTermList, specialtyComboBox);
+		if (dialogWindowType == DialogWindows.AssignTechnicalTermToSpecialtyWindow) {
+			dialogWindow = new AssignTechnicalTermToSpecialtyWindow(languageBundle, technicalTermList, specialtyComboBox, dialogWindowType);
 		}
-		if (window == DialogWindows.TechnicalTermContentWindow) {
-			myWindow = new TechnicalTermContentWindow(languageBundle, technicalTerm);
+		if (dialogWindowType == DialogWindows.TechnicalTermContentWindow) {
+			dialogWindow = new TechnicalTermContentWindow(languageBundle, technicalTerm, dialogWindowType);
 		}
-		if (window == DialogWindows.TechnicalTermCreationWindow) {
-			myWindow = new TechnicalTermCreationWindow(languageBundle, germanSpecialtyComboBox, spanishSpecialtyComboBox);
+		if (dialogWindowType == DialogWindows.TechnicalTermCreationWindow) {
+			dialogWindow = new TechnicalTermCreationWindow(languageBundle, germanSpecialtyComboBox, spanishSpecialtyComboBox, dialogWindowType);
 		}
 
-		return myWindow;
+		return dialogWindow;
 	}
 }

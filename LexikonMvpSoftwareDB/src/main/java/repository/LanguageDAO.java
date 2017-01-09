@@ -3,24 +3,14 @@ package repository;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.swing.JOptionPane;
 
-import exceptions.LanguageAlreadyExists;
 import model.Languages;
 import model.Languages_;
-import model.Translations;
-import model.Translations_;
-
-// Probleme: Umlaute/ Groﬂ- und Kleinschreibung egal
 
 public class LanguageDAO {
 
@@ -33,7 +23,6 @@ public class LanguageDAO {
 		this.entitymanager = entitymanager;
 	}
 
-	
 
 	public EntityManager getEntitymanager() {
 		return entitymanager;
@@ -43,7 +32,6 @@ public class LanguageDAO {
 		this.entitymanager = entitymanager;
 	}
 
-	
 	
 	public Languages insertLanguage(Languages language) {
 
@@ -73,9 +61,6 @@ public class LanguageDAO {
 
 	public Languages selectLanguageByName(String name) throws NoResultException {
 
-//		Query query = entitymanager.createQuery("Select lang from Languages lang " + "where lang.name LIKE '" + name + "'");
-//		Languages lang = (Languages) query.getSingleResult();
-		
 		CriteriaBuilder criteriaBuilder = entitymanager.getCriteriaBuilder();
 		CriteriaQuery<Languages> criteriaQuery = criteriaBuilder.createQuery(Languages.class);
 				
@@ -87,14 +72,10 @@ public class LanguageDAO {
         Languages languageResult = entitymanager.createQuery(criteriaQuery).getSingleResult();
         
         return languageResult;
-		
 	}
 	
 	public List<Languages> selectAllLanguages() {
 
-//		Query query = entitymanager.createQuery("Select lang from Languages lang");
-//		List<Languages> langList = query.getResultList();
-		
 		CriteriaBuilder criteriaBuilder = entitymanager.getCriteriaBuilder();
 		CriteriaQuery<Languages> criteriaQuery = criteriaBuilder.createQuery(Languages.class);
 				
@@ -104,7 +85,6 @@ public class LanguageDAO {
 		List<Languages> languageList = entitymanager.createQuery(criteriaQuery).getResultList();
 						
 		return languageList;
-		
 	}
 
 }

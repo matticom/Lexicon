@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
-import eventHandling.ChosenLanguage;
+import enums.ChosenLanguage;
 import eventHandling.PanelEventTransferObject;
 import eventHandling.Updatable;
 import model.Specialty;

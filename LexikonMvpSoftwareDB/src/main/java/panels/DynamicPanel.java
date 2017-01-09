@@ -2,7 +2,7 @@ package panels;
 
 import javax.swing.JPanel;
 
-import eventHandling.DynamicPanels;
+import enums.DynamicPanels;
 
 public abstract class DynamicPanel extends JPanel{
 
@@ -14,14 +14,17 @@ public abstract class DynamicPanel extends JPanel{
 			
 	protected JPanel germanPanel, spanishPanel;
 	
-	protected DynamicPanels dynamicPanel;
+	protected DynamicPanels dynamicPanelType;
 	
 	
-	public DynamicPanel(DynamicPanels dynamicPanel) {
-		this.dynamicPanel = dynamicPanel;
+	public DynamicPanel(DynamicPanels dynamicPanelType) {
+		this.dynamicPanelType = dynamicPanelType;
 	}
 	
 	public abstract int getDynamicPanelHeight();
 	public abstract String getSearchWord();
-	public abstract boolean isLetterResult();
+
+	public DynamicPanels getDynamicPanelType() {
+		return dynamicPanelType;
+	}
 }

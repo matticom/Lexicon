@@ -8,15 +8,13 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
-import eventHandling.DynamicPanels;
+import enums.DynamicPanels;
 import interactElements.TermButton;
 import model.Term;
 import model.Translations;
@@ -49,8 +47,8 @@ public class TermPanelDynamic extends DynamicPanel {
 
 	private void buildUp(int mainFrameWidth, int mainFrameHeight, List<? extends Term> termList) {
 
-		this.setBackground(WinUtil.LIGHT_BLACK);
-		this.setLayout(new GridLayout(1, 2));
+		setBackground(WinUtil.LIGHT_BLACK);
+		setLayout(new GridLayout(1, 2));
 
 		germanPanel = new JPanel();
 		germanPanel.setBackground(WinUtil.LIGHT_BLACK);
@@ -62,8 +60,8 @@ public class TermPanelDynamic extends DynamicPanel {
 		spanishPanel.setLayout(new GridBagLayout());
 		spanishPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.LIGHT_GRAY));
 
-		this.add(germanPanel);
-		this.add(spanishPanel);
+		add(germanPanel);
+		add(spanishPanel);
 
 		Dimension displaySize = Toolkit.getDefaultToolkit().getScreenSize();
 		numbersOfSpecialties = termList.size();
@@ -75,9 +73,9 @@ public class TermPanelDynamic extends DynamicPanel {
 		calculateGrid(numbersOfSpecialties, mainFrameWidth / 2, inset, buttonWidth, buttonHeight);
 		arrangeTermButton(numbersOfSpecialties, inset);
 
-		this.setPreferredSize(new Dimension(mainFrameWidth, dynamicPanelHeight));
-		this.setMinimumSize(new Dimension(0, dynamicPanelHeight));
-		this.setMaximumSize(new Dimension((int) displaySize.getWidth(), dynamicPanelHeight));
+		setPreferredSize(new Dimension(mainFrameWidth, dynamicPanelHeight));
+		setMinimumSize(new Dimension(0, dynamicPanelHeight));
+		setMaximumSize(new Dimension((int) displaySize.getWidth(), dynamicPanelHeight));
 	}
 
 	private void createTermButtons(List<? extends Term> termList, int buttonWidth, int buttonHeight) {
@@ -156,11 +154,6 @@ public class TermPanelDynamic extends DynamicPanel {
 	@Override
 	public String getSearchWord() {
 		return searchWord;
-	}
-
-	@Override
-	public boolean isLetterResult() {
-		return false;
 	}
 
 	@Override

@@ -12,7 +12,7 @@ import java.util.ResourceBundle;
 import javax.swing.*;
 import javax.swing.border.Border;
 
-import eventHandling.ChosenLanguage;
+import enums.ChosenLanguage;
 
 public class WinUtil {
 

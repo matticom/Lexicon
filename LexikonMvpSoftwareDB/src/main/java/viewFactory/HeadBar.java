@@ -16,8 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import enums.ChosenLanguage;
 import utilities.WinUtil;
-import eventHandling.ChosenLanguage;
 import eventHandling.PanelEventTransferObject;
 import eventHandling.Updatable;
 import interactElements.SearchComboBox;

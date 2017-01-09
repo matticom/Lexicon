@@ -16,7 +16,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.border.EmptyBorder;
 
-import eventHandling.ChosenLanguage;
+import enums.ChosenLanguage;
 import eventHandling.PanelEventTransferObject;
 import eventHandling.Updatable;
 import utilities.WinUtil;

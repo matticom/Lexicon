@@ -23,9 +23,6 @@ import utilities.PersistenceUtil;
 
 public class TermDAO {
 
-	
-	// Konzept: Id's werden später in Buttons usw integriert -> Id's können ausgelesen werden und benutzt werden für aktionen
-	
 	private EntityManager entitymanager;
 
 	public TermDAO() {
@@ -60,10 +57,8 @@ public class TermDAO {
 
 	public TechnicalTerm insertNewTechnicalTerm(TechnicalTerm technicalTerm) {
 
-		// muss vorher schon eine Specialty bekommen
 		entitymanager.persist(technicalTerm);
 		return technicalTerm;
-
 	}
 
 	public Translations insertTechnicalTermTranslation(TechnicalTerm technicalTerm, Translations translation) {
@@ -74,24 +69,18 @@ public class TermDAO {
 
 		entitymanager.persist(translation);
 		return translation;
-
-		// Specialty immer null bei new Translation -> beziehung schon gesetzt
-		// bei Erzeugung oder extern durch entsprechende Befehle
-
 	}
 
 	public void deleteSpecialty(Specialty specialty) {
 
 		removeSpecialtyForeignKeyOutOfTechnicalTerms(specialty);
 		entitymanager.remove(specialty);
-
 	}
 
 	public void deleteTechnicalTerm(TechnicalTerm technicalTerm) {
 
 		removeTechnicalTermForeignKeyOutOfSpecialty(technicalTerm);
 		entitymanager.remove(technicalTerm);
-
 	}
 
 	public void deleteTranslation(Translations translation) {
@@ -103,8 +92,6 @@ public class TermDAO {
 
 	public Translations updateTranslation(Translations translation, Translations newTranslation) {
 
-		// Aus Angaben in der Maske wird ein neues Translation-Objekt gemacht
-		// (beinhaltet auch die nicht-aktualisierten Inhalte)
 		translation.setName(newTranslation.getName());
 		translation.setNormalName(PersistenceUtil.convertSpecialChar(newTranslation.getName()));
 		translation.setDescription(newTranslation.getDescription());
@@ -213,13 +200,6 @@ public class TermDAO {
 		criteriaQuery.select(translation).where(whereFilter);
 
 		Translations translationResult = entitymanager.createQuery(criteriaQuery).getSingleResult();
-		//
-		// Query query = entitymanager.createQuery("Select translation FROM
-		// Translations translation JOIN translation.languages language "
-		// + "where translation.name LIKE '" + name + "' and language.name like
-		// '" + lang + "'");
-		//
-		// Translations translation = (Translations) query.getSingleResult();
 
 		return translationResult;
 	}

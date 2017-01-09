@@ -1,48 +1,38 @@
 package interactElements;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Insets;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.List;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
-import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.text.JTextComponent;
-import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
 
-import eventHandling.ChosenLanguage;
+import enums.ChosenLanguage;
+import enums.ComboBoxes;
+
 import eventHandling.PanelEventTransferObject;
 import model.Specialty;
 import model.Translations;
 import utilities.ExtendedListItem;
 import utilities.ListItem;
 import utilities.WinUtil;
-import windows.TechnicalTermCreationWindow;
 
-public class ChooseSpecialtyComboBox extends MyComboBox {
+public class ChooseSpecialtyComboBox extends ComboBox {
 
 	private DefaultComboBoxModel<ListItem> specialtyComboBoxDefaultModel;
 	private List<Specialty> specialtyList;
-	private ResourceBundle languageBundle;
 
 	private final int LANGUAGE_UNSIGNED = 0;
 	private boolean isAssignComboBox;
 	private int languageId;
 
-	public ChooseSpecialtyComboBox(ResourceBundle languageBundle, List<Specialty> specialtyList, int languageId) {
+	public ChooseSpecialtyComboBox(ResourceBundle languageBundle, List<Specialty> specialtyList, int languageId, ComboBoxes comboBoxType) {
 
-		this.languageBundle = languageBundle;
+		super(comboBoxType);
 		this.specialtyList = specialtyList;
 
 		if (languageId == LANGUAGE_UNSIGNED) {

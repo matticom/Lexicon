@@ -16,7 +16,7 @@ import exceptions.TechnicalTermAlreadyExistsAsSpecialty;
 import model.Specialty;
 import model.TechnicalTerm;
 import windows.AssignTechnicalTermToSpecialtyWindow;
-import windows.MyWindow;
+import windows.DialogWindow;
 import windows.TechnicalTermCreationWindow;
 import windows.SpecialtyTextFieldsCheckable;
 
@@ -40,8 +40,7 @@ public class AssignmentDialogChecker implements InputCheckable {
 	@Override
 	public void keyTypedChecker(KeyEvent e) {
 
-		if (Character.isISOControl(e.getKeyChar())) {// Ignoriert
-														// Steuerkommandos
+		if (Character.isISOControl(e.getKeyChar())) {// Ignoriert Steuerkommandos
 			return;
 		}
 
@@ -70,7 +69,7 @@ public class AssignmentDialogChecker implements InputCheckable {
 	protected void checkSpecialties(SpecialtyTextFieldsCheckable dialog, TransactionBeginCommit repositoryTA) {
 
 		try {
-			repositoryTA.selectSpecialtyByNameTA(dialog.getGermanSpecialtyInput().getText(), GERMAN);
+			repositoryTA.selectSpecialtyByName(dialog.getGermanSpecialtyInput().getText(), GERMAN);
 			testPassed = false;
 			JOptionPane.showMessageDialog(null, "Fachgebiet bereits vorhanden", "Fehler", JOptionPane.ERROR_MESSAGE);
 			return;
@@ -82,7 +81,7 @@ public class AssignmentDialogChecker implements InputCheckable {
 		}
 
 		try {
-			repositoryTA.selectSpecialtyByNameTA(dialog.getSpanishSpecialtyInput().getText(), SPANISH);
+			repositoryTA.selectSpecialtyByName(dialog.getSpanishSpecialtyInput().getText(), SPANISH);
 			testPassed = false;
 			JOptionPane.showMessageDialog(null, "Fachgebiet bereits vorhanden", "Fehler", JOptionPane.ERROR_MESSAGE);
 			return;

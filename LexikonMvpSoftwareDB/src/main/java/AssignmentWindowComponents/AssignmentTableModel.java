@@ -16,21 +16,15 @@ public class AssignmentTableModel extends AbstractTableModel {
 	private final int GERMAN = 1;
 	private final int SPANISH = 2;
 	
-	private List<TechnicalTerm> technicalTermList;
 	private String[] columnNames;
 	private int numberOfRows; 
 	private AssignmentTableRowObject[] tableRowObjectArray; 
 	private int languageId;
-	
-	private ResourceBundle languageBundle;
-	
 		
 	public AssignmentTableModel(ResourceBundle languageBundle, List<TechnicalTerm> technicalTermList) {
 		
 		this.languageId = WinUtil.getLanguageId(languageBundle);
-		this.technicalTermList = technicalTermList;
 		numberOfRows = technicalTermList.size();
-		this.languageBundle = languageBundle;
 		columnNames = new String[]{languageBundle.getString("TermWinTerm"), languageBundle.getString("TermWinSubject")};
 		tableRowObjectArray = new AssignmentTableRowObject[numberOfRows];
 		tableRowObjectArray = convertTechnicalTermListToArray(technicalTermList);
@@ -153,13 +147,10 @@ public class AssignmentTableModel extends AbstractTableModel {
 				tableRowObjectArray[rowIndex].setSpecialtySpanishName((String)value);
 			}
 		}
-		
 		fireTableCellUpdated(rowIndex, colIndex);
 	}
 	
 	public AssignmentTableRowObject getAssignmentTableRowObjectAtRow(int row) {
 		return tableRowObjectArray[row];
 	}
-	
-
 }

@@ -12,59 +12,42 @@ import javax.swing.ListCellRenderer;
 import utilities.ExtendedListItem;
 import utilities.ListItem;
 
+public class ComboBoxCellRenderer implements ListCellRenderer<Object> {
 
-public class ComboBoxCellRenderer implements ListCellRenderer<Object>
-{
-	
 	private DefaultListCellRenderer defaultRenderer;
-	
-	public ComboBoxCellRenderer()
-	{
+
+	public ComboBoxCellRenderer() {
 		defaultRenderer = new DefaultListCellRenderer();
 	}
-	
+
 	@Override
-	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus)
-	{
-		
+	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 		Color newForeground = list.getForeground();
 		String newText = null;
 		ListItem listItem;
 		ExtendedListItem cboItem;
-		
+
 		JLabel itemLabel = (JLabel) defaultRenderer.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
-		if (value instanceof ListItem)
-		{
-			listItem = (ListItem)value;
-			
-			if (listItem.getDisplayMember() instanceof ExtendedListItem)
-			{
-				cboItem = (ExtendedListItem)listItem.getDisplayMember();
-				
-				// Aufbereiten der der Daten aus dem ComboBoxItem 
-				itemLabel.setFont(list.getFont().deriveFont(Font.BOLD, cboItem.getFontsize()));   
+		if (value instanceof ListItem) {
+			listItem = (ListItem) value;
+
+			if (listItem.getDisplayMember() instanceof ExtendedListItem) {
+				cboItem = (ExtendedListItem) listItem.getDisplayMember();
+				itemLabel.setFont(list.getFont().deriveFont(Font.BOLD, cboItem.getFontsize()));
 				newText = cboItem.getItemText();
 			}
-		}
-		else
-		{
+		} else {
 			itemLabel.setFont(list.getFont());
 			newText = value.toString();
 		}
-		
-		// Setzen der Werte für die Anzeige
-		
-		if (!isSelected)
-		{
+
+		if (!isSelected) {
 			itemLabel.setForeground(newForeground);
 		}
-				
+
 		itemLabel.setText(newText);
-				
-		// Rückgabe des modifizierten Eintrags
 		return itemLabel;
 	}
-
 
 }

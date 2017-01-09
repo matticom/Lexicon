@@ -7,45 +7,37 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Languages
-{
+public class Languages {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="LANGUAGES_ID")
+	@Column(name = "LANGUAGES_ID")
 	private int id;
-	
-	@Column(name="LANGUAGES_NAME")
-	private String name;
-	
 
-	public Languages(String name)
-	{
+	@Column(name = "LANGUAGES_NAME")
+	private String name;
+
+	public Languages(String name) {
 		this();
 		this.name = name;
 	}
-	
-	public Languages()
-	{
-		
+
+	public Languages() {
+
 	}
-	
-	public String getName()
-	{
+
+	public String getName() {
 		return name;
 	}
 
-	public void setName(String name)
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	public int getId()
-	{
+	public int getId() {
 		return id;
 	}
 
-	public void setId(int id)
-	{
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -59,6 +51,5 @@ public class Languages
 	public String toString() {
 		return getName().toString();
 	}
-	
-	
+
 }

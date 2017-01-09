@@ -1,7 +1,6 @@
 package windows;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -13,10 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.swing.BorderFactory;
@@ -24,23 +20,20 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.text.JTextComponent;
 
-import eventHandling.PanelEventTransferObject;
+import enums.DialogWindows;
 import interactElements.ChooseSpecialtyComboBox;
 import interactElements.MyScrollBarUI;
 import utilities.ExtendedListItem;
 import utilities.GridBagLayoutUtilities;
 import utilities.WinUtil;
 
-public class TechnicalTermCreationWindow extends MyWindow implements SpecialtyTextFieldsCheckable {
+public class TechnicalTermCreationWindow extends DialogWindow implements SpecialtyTextFieldsCheckable {
 
 	private final double JDIALOG_DISPLAY_RATIO = 0.6;
 	private int panelWidth;
@@ -78,9 +71,9 @@ public class TechnicalTermCreationWindow extends MyWindow implements SpecialtyTe
 	private int SIDE_WIDTH = 20;
 	private int BOTTOM_HEIGHT = 20;
 
-	public TechnicalTermCreationWindow(ResourceBundle languageBundle, ChooseSpecialtyComboBox germanSpecialtyComboBox, ChooseSpecialtyComboBox spanishSpecialtyComboBox) {
+	public TechnicalTermCreationWindow(ResourceBundle languageBundle, ChooseSpecialtyComboBox germanSpecialtyComboBox, ChooseSpecialtyComboBox spanishSpecialtyComboBox, DialogWindows dialogWindowType) {
 
-		super(languageBundle);
+		super(languageBundle, dialogWindowType);
 		contentPane = this.getContentPane();
 		this.germanSpecialtyComboBox = germanSpecialtyComboBox;
 		this.spanishSpecialtyComboBox = spanishSpecialtyComboBox;

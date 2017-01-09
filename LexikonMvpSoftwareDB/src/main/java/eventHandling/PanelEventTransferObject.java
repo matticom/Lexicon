@@ -1,6 +1,8 @@
 package eventHandling;
 
 import java.util.List;
+
+import enums.ChosenLanguage;
 import model.Specialty;
 import model.TechnicalTerm;
 import panels.DynamicPanel;

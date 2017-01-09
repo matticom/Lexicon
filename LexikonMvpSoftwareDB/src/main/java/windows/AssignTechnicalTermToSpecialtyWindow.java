@@ -10,10 +10,7 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.KeyListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -23,25 +20,22 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JScrollBar;
 
 import AssignmentWindowComponents.AssignmentTableModel;
-import AssignmentWindowComponents.AssignmentTableRowObject;
 import AssignmentWindowComponents.TechnicalTermJTable;
+import enums.DialogWindows;
 import interactElements.ChooseSpecialtyComboBox;
 import interactElements.MyScrollBarUI;
 import model.TechnicalTerm;
 import utilities.GridBagLayoutUtilities;
 import utilities.WinUtil;
 
-public class AssignTechnicalTermToSpecialtyWindow extends MyWindow implements SpecialtyTextFieldsCheckable {
+public class AssignTechnicalTermToSpecialtyWindow extends DialogWindow implements SpecialtyTextFieldsCheckable {
 
 	private final double JDIALOG_DISPLAY_RATIO_WIDTH = 0.3;
 	private final double JDIALOG_DISPLAY_RATIO_HEIGHT = 0.7;
@@ -70,9 +64,9 @@ public class AssignTechnicalTermToSpecialtyWindow extends MyWindow implements Sp
 
 	private boolean newSpecialtySelected = false;
 
-	public AssignTechnicalTermToSpecialtyWindow(ResourceBundle languageBundle, List<TechnicalTerm> technicalTermList, ChooseSpecialtyComboBox specialtyComboBox) {
+	public AssignTechnicalTermToSpecialtyWindow(ResourceBundle languageBundle, List<TechnicalTerm> technicalTermList, ChooseSpecialtyComboBox specialtyComboBox, DialogWindows dialogWindowType) {
 		
-		super(languageBundle);
+		super(languageBundle, dialogWindowType);
 		this.technicalTermList = technicalTermList;
 		contentPane = this.getContentPane();
 		this.specialtyComboBox = specialtyComboBox;

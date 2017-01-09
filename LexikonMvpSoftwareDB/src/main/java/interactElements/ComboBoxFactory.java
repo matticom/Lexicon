@@ -3,6 +3,7 @@ package interactElements;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import enums.ComboBoxes;
 import inputChecker.SearchWordChecker;
 import model.Specialty;
 import utilities.WinUtil;
@@ -12,37 +13,37 @@ public class ComboBoxFactory {
 	private final int GERMAN = 1;
 	private final int SPANISH = 2;
 	
-	public MyComboBox createComboBox(ComboBoxes comboBox, ResourceBundle languageBundle, List<Specialty> specialtyList) {
+	public ComboBox createComboBox(ComboBoxes comboBoxType, ResourceBundle languageBundle, List<Specialty> specialtyList) {
 		
-		MyComboBox myComboBox = comboBoxFactory(comboBox, languageBundle, specialtyList, null, null);
+		ComboBox comboBox = comboBoxFactory(comboBoxType, languageBundle, specialtyList, null, null);
 
-		return myComboBox;
+		return comboBox;
 	}
 	
-	public MyComboBox createComboBox(ComboBoxes comboBox, List<String> historyList, SearchWordChecker keyChecker) {
+	public ComboBox createComboBox(ComboBoxes comboBoxType, List<String> historyList, SearchWordChecker keyChecker) {
 		
-		MyComboBox myComboBox = comboBoxFactory(comboBox, null, null, historyList, keyChecker);
+		ComboBox comboBox = comboBoxFactory(comboBoxType, null, null, historyList, keyChecker);
 
-		return myComboBox;
+		return comboBox;
 	}
 	
-	protected MyComboBox comboBoxFactory(ComboBoxes comboBox, ResourceBundle languageBundle, List<Specialty> specialtyList, List<String> historyList, SearchWordChecker keyChecker) {
+	protected ComboBox comboBoxFactory(ComboBoxes comboBoxType, ResourceBundle languageBundle, List<Specialty> specialtyList, List<String> historyList, SearchWordChecker keyChecker) {
 		
-		MyComboBox myComboBox = null;
+		ComboBox comboBox = null;
 		
-		if (comboBox == ComboBoxes.SearchComboBox) {
-			myComboBox = new SearchComboBox(historyList, keyChecker);
+		if (comboBoxType == ComboBoxes.SearchComboBox) {
+			comboBox = new SearchComboBox(historyList, keyChecker, comboBoxType);
 		}
-		if (comboBox == ComboBoxes.GermanSpecialtyComboBox) {
-			myComboBox = new ChooseSpecialtyComboBox(languageBundle, specialtyList, GERMAN);
+		if (comboBoxType == ComboBoxes.GermanSpecialtyComboBox) {
+			comboBox = new ChooseSpecialtyComboBox(languageBundle, specialtyList, GERMAN, comboBoxType);
 		}
-		if (comboBox == ComboBoxes.SpanishSpecialtyComboBox) {
-			myComboBox = new ChooseSpecialtyComboBox(languageBundle, specialtyList, SPANISH);
+		if (comboBoxType == ComboBoxes.SpanishSpecialtyComboBox) {
+			comboBox = new ChooseSpecialtyComboBox(languageBundle, specialtyList, SPANISH, comboBoxType);
 		}
-		if (comboBox == ComboBoxes.SpecialtyComboBox) {
-			myComboBox = new ChooseSpecialtyComboBox(languageBundle, specialtyList, 0);
+		if (comboBoxType == ComboBoxes.SpecialtyComboBox) {
+			comboBox = new ChooseSpecialtyComboBox(languageBundle, specialtyList, 0, comboBoxType);
 		}
 		
-		return myComboBox;
+		return comboBox;
 	}
 }

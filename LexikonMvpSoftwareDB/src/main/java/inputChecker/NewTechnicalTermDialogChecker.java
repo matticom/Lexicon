@@ -33,7 +33,7 @@ public class NewTechnicalTermDialogChecker extends AssignmentDialogChecker {
 
 	private void checkTechnicalTerms(TechnicalTermCreationWindow newTTDialog, TransactionBeginCommit repositoryTA) {
 		try {
-			repositoryTA.selectTechnicalTermByNameTA(newTTDialog.getGermanTextField().getText(), GERMAN);
+			repositoryTA.selectTechnicalTermByName(newTTDialog.getGermanTextField().getText(), GERMAN);
 			testPassed = false;
 			JOptionPane.showMessageDialog(null, "Begriff bereits vorhanden", "Fehler", JOptionPane.ERROR_MESSAGE);
 			return;
@@ -45,7 +45,7 @@ public class NewTechnicalTermDialogChecker extends AssignmentDialogChecker {
 		}
 
 		try {
-			repositoryTA.selectTechnicalTermByNameTA(newTTDialog.getSpanishTextField().getText(), SPANISH);
+			repositoryTA.selectTechnicalTermByName(newTTDialog.getSpanishTextField().getText(), SPANISH);
 			testPassed = false;
 			JOptionPane.showMessageDialog(null, "Begriff bereits vorhanden", "Fehler", JOptionPane.ERROR_MESSAGE);
 			return;

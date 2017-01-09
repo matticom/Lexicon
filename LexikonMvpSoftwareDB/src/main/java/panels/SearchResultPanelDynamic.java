@@ -13,9 +13,8 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
-import eventHandling.DynamicPanels;
+import enums.DynamicPanels;
 import interactElements.SpecialtyButton;
 import interactElements.TechnicalTermButton;
 import model.Specialty;
@@ -31,8 +30,6 @@ public class SearchResultPanelDynamic extends DynamicPanel {
 	private ArrayList<TechnicalTermButton> technicalTermButtonsDE;
 	private ArrayList<TechnicalTermButton> technicalTermButtonsES;
 
-	private boolean isLetterResult;
-
 	public SearchResultPanelDynamic(int mainFrameWidth, int mainFrameHeight, List<Translations> technicalTermTranslationList, String searchWord, ActionListener actionListener, DynamicPanels dynamicPanel) {
 
 		super(dynamicPanel);
@@ -47,10 +44,8 @@ public class SearchResultPanelDynamic extends DynamicPanel {
 
 	private String distinguishBetweenLetterSearchAndNormalSearch(String searchWord) {
 		if (searchWord.charAt(0) == '.') {
-			isLetterResult = true;
 			return String.valueOf(searchWord.charAt(1));
 		} else {
-			isLetterResult = false;
 			return searchWord;
 		}
 	}
@@ -187,11 +182,6 @@ public class SearchResultPanelDynamic extends DynamicPanel {
 	@Override
 	public String getSearchWord() {
 		return searchWord;
-	}
-
-	@Override
-	public boolean isLetterResult() {
-		return isLetterResult;
 	}
 
 	@Override

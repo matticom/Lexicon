@@ -10,7 +10,6 @@ public class AssignmentTableRowObject {
 	private String specialtySpanishName;
 	
 	
-	
 	public AssignmentTableRowObject(int technicalTermId, int specialtyId) {
 		this.technicalTermId = technicalTermId;
 		this.specialtyId = specialtyId;

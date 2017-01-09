@@ -3,7 +3,7 @@ package viewFactory;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import eventHandling.DynamicPanels;
+import enums.DynamicPanels;
 import model.Specialty;
 import model.TechnicalTerm;
 import model.Translations;
