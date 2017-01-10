@@ -25,9 +25,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import assignmentWindowComponents.AssignmentTableModel;
-import assignmentWindowComponents.TechnicalTermJTable;
-import enums.DialogWindows;
+import assignmentDialogComponents.AssignmentTableModel;
+import assignmentDialogComponents.TechnicalTermJTable;
+import enums.Dialogs;
+import inputChecker.SpecialtyTextFieldsCheckable;
 import interactElements.ChooseSpecialtyComboBox;
 import interactElements.MyScrollBarUI;
 import interactElements.SourceButton;
@@ -70,7 +71,7 @@ public class AssignmentDialog extends Dialog implements SpecialtyTextFieldsCheck
 	 
 
 	public AssignmentDialog(ResourceBundle languageBundle, List<TechnicalTerm> technicalTermList, ChooseSpecialtyComboBox specialtyComboBox, 
-			DialogWindows dialogWindowType, WindowAdapter windowAdapter, ActionListener actionListener, KeyAdapter keyAdapter) {
+			Dialogs dialogWindowType, WindowAdapter windowAdapter, ActionListener actionListener, KeyAdapter keyAdapter) {
 		
 		super(languageBundle, dialogWindowType);
 		this.technicalTermList = technicalTermList;
@@ -100,7 +101,7 @@ public class AssignmentDialog extends Dialog implements SpecialtyTextFieldsCheck
 
 	private void initializeJDialog() {
 
-		setTitle(languageBundle.getString("newEntry"));
+		setTitle(languageBundle.getString("changeButton"));
 		contentPane.setBackground(WinUtil.LIGHT_BLACK);
 		contentPane.setLayout(new GridBagLayout());
 

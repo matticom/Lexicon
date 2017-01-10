@@ -37,7 +37,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import assignmentWindowComponents.AssignmentTableModel;
+import assignmentDialogComponents.AssignmentTableModel;
 import businessOperations.LanguageBO;
 import businessOperations.TermBO;
 import dataTransferObjects.TranslationDataset;

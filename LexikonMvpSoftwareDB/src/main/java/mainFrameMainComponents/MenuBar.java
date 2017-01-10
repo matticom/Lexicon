@@ -1,13 +1,9 @@
-package viewFactory;
+package mainFrameMainComponents;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JMenu;
@@ -16,7 +12,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.border.EmptyBorder;
 
-import enums.ChosenLanguage;
+import enums.Language;
 import eventHandling.PanelEventTransferObject;
 import eventHandling.Updatable;
 import utilities.WinUtil;
@@ -65,7 +61,7 @@ public class MenuBar extends JMenuBar implements Updatable {
 	@Override
 	public void updatePanel(PanelEventTransferObject e) {
 		
-		if (e.getCurrentLanguage() == ChosenLanguage.German) {
+		if (e.getCurrentLanguage() == Language.GERMAN) {
 			languageBundle = ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de"));
 			((JRadioButtonMenuItem)miGerman).setSelected(true);
 			((JRadioButtonMenuItem)miSpanish).setSelected(false);

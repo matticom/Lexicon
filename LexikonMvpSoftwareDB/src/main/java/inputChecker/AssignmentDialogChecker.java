@@ -13,7 +13,6 @@ import businessOperations.TermBO;
 import businessOperations.TransactionBeginCommit;
 import dialogs.AssignmentDialog;
 import dialogs.Dialog;
-import dialogs.SpecialtyTextFieldsCheckable;
 import dialogs.TechnicalTermCreationDialog;
 import exceptions.SpecialtyAlreadyExistsAsTechnicalTerm;
 import exceptions.TechnicalTermAlreadyExistsAsSpecialty;

@@ -1,5 +1,5 @@
 package enums;
 
 public enum StaticPanels {
-	SpecialtyPanel, TechnicalTermPanel, SearchResultPanel, LetterResultPanel
+	SPECIALTY_PANEL, TECHNICAL_TERM_PANEL, SEARCH_RESULT_PANEL, LETTER_RESULT_PANEL
 }

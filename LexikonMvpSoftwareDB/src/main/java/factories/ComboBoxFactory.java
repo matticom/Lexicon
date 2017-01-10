@@ -1,10 +1,13 @@
-package interactElements;
+package factories;
 
 import java.util.List;
 import java.util.ResourceBundle;
 
 import enums.ComboBoxes;
 import inputChecker.SearchWordChecker;
+import interactElements.ChooseSpecialtyComboBox;
+import interactElements.ComboBox;
+import interactElements.SearchComboBox;
 import model.Specialty;
 import utilities.WinUtil;
 
@@ -31,16 +34,16 @@ public class ComboBoxFactory {
 		
 		ComboBox comboBox = null;
 		
-		if (comboBoxType == ComboBoxes.SearchComboBox) {
+		if (comboBoxType == ComboBoxes.SEARCH_COMBOBOX) {
 			comboBox = new SearchComboBox(historyList, keyChecker, comboBoxType);
 		}
-		if (comboBoxType == ComboBoxes.GermanSpecialtyComboBox) {
+		if (comboBoxType == ComboBoxes.GERMAN_SPECIALTY_COMBOBOX) {
 			comboBox = new ChooseSpecialtyComboBox(languageBundle, specialtyList, GERMAN, comboBoxType);
 		}
-		if (comboBoxType == ComboBoxes.SpanishSpecialtyComboBox) {
+		if (comboBoxType == ComboBoxes.SPANISH_SPECIALTY_COMBOBOX) {
 			comboBox = new ChooseSpecialtyComboBox(languageBundle, specialtyList, SPANISH, comboBoxType);
 		}
-		if (comboBoxType == ComboBoxes.SpecialtyComboBox) {
+		if (comboBoxType == ComboBoxes.SPECIALTY_COMBOBOX) {
 			comboBox = new ChooseSpecialtyComboBox(languageBundle, specialtyList, 0, comboBoxType);
 		}
 		

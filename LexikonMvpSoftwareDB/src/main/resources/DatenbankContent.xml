@@ -1,12 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
   <HISTORY HISTORY_ID="90" HISTORY_WORD="erstes Wort"/>
-  <HISTORY HISTORY_ID="101" HISTORY_WORD="%ung"/>
-  <HISTORY HISTORY_ID="151" HISTORY_WORD="%ung"/>
-  <HISTORY HISTORY_ID="301" HISTORY_WORD="%ung"/>
+  <HISTORY HISTORY_ID="101" HISTORY_WORD="%"/>
+  <HISTORY HISTORY_ID="102" HISTORY_WORD="%"/>
   <LANGUAGES LANGUAGES_ID="1" LANGUAGES_NAME="Deutsch"/>
   <LANGUAGES LANGUAGES_ID="2" LANGUAGES_NAME="Spanisch"/>
-  <SEQUENCE SEQ_NAME="SEQ_GEN" SEQ_COUNT="400"/>
+  <SEQUENCE SEQ_NAME="SEQ_GEN" SEQ_COUNT="150"/>
   <SPECIALTY TERM_ID="3"/>
   <SPECIALTY TERM_ID="4"/>
   <SPECIALTY TERM_ID="5"/>
@@ -37,9 +36,6 @@
   <TECHNICALTERM TERM_ID="29" SPECIALTY_TERM_ID="10"/>
   <TECHNICALTERM TERM_ID="30" SPECIALTY_TERM_ID="10"/>
   <TECHNICALTERM TERM_ID="31" SPECIALTY_TERM_ID="11"/>
-  <TECHNICALTERM TERM_ID="201" SPECIALTY_TERM_ID="3"/>
-  <TECHNICALTERM TERM_ID="251" SPECIALTY_TERM_ID="3"/>
-  <TECHNICALTERM TERM_ID="351" SPECIALTY_TERM_ID="3"/>
   <TRANSLATIONS TRANSLATIONS_ID="32" TRANSLATIONS_DESCRIPTION="Specialty" TRANSLATIONS_NAME="Beton" TRANSLATIONS_NORMALNAME="Beton" TERM_TERM_ID="3" LANGUAGES_LANGUAGES_ID="1"/>
   <TRANSLATIONS TRANSLATIONS_ID="33" TRANSLATIONS_DESCRIPTION="Specialty" TRANSLATIONS_NAME="Fassade" TRANSLATIONS_NORMALNAME="Fassade" TERM_TERM_ID="4" LANGUAGES_LANGUAGES_ID="1"/>
   <TRANSLATIONS TRANSLATIONS_ID="34" TRANSLATIONS_DESCRIPTION="Specialty" TRANSLATIONS_NAME="Fenster und Türen" TRANSLATIONS_NORMALNAME="Fenster und Tueren" TERM_TERM_ID="5" LANGUAGES_LANGUAGES_ID="1"/>
@@ -60,7 +56,7 @@
   <TRANSLATIONS TRANSLATIONS_ID="48" TRANSLATIONS_DESCRIPTION="Especialidad" TRANSLATIONS_NAME="Escaleras" TRANSLATIONS_NORMALNAME="Escaleras" TERM_TERM_ID="10" LANGUAGES_LANGUAGES_ID="2"/>
   <TRANSLATIONS TRANSLATIONS_ID="49" TRANSLATIONS_DESCRIPTION="Especialidad" TRANSLATIONS_NAME="Licencia de obra" TRANSLATIONS_NORMALNAME="Licencia de obra" TERM_TERM_ID="11" LANGUAGES_LANGUAGES_ID="2"/>
   <TRANSLATIONS TRANSLATIONS_ID="93" TRANSLATIONS_DESCRIPTION="Specialty" TRANSLATIONS_NAME="Terminos sin especialidad" TRANSLATIONS_NORMALNAME="Terminos sin especialidad" TERM_TERM_ID="91" LANGUAGES_LANGUAGES_ID="2"/>
-  <TRANSLATIONS TRANSLATIONS_ID="50" TRANSLATIONS_DESCRIPTION="Als Bewehrung bezeichnet man Stahl - oder Fasern, die in den Beton eingelegt sind und Zugkräfte aufnehmen können. Zur Verlegung der Bewehrung wird ein Bewehrungsplan erstellt. Die Bewehrung kann sowohl zur Aufnahme von Zugkräften Zugkräften Als Bewehrung bezeichnet man Stahl - oder Fasern, die in den Beton eingelegt sind und Zugkräfte aufnehmen können. Zur Verlegung der Bewehrung wird ein Bewehrungsplan erstellt. Die Bewehrung kann sowohl zur Aufnahme von Zugkräften Zugkräften." TRANSLATIONS_NAME="Bewehrung" TRANSLATIONS_NORMALNAME="Bewehrung" TERM_TERM_ID="12" LANGUAGES_LANGUAGES_ID="1"/>
+  <TRANSLATIONS TRANSLATIONS_ID="50" TRANSLATIONS_DESCRIPTION="Als Bewehrung bezeichnet man Stahl - oder Fasern, die in den Beton eingelegt sind und Zugkräfte aufnehmen können. Zur Verlegung der Bewehrung wird ein Bewehrungsplan erstellt. Die Bewehrung kann sowohl zur Aufnahme von Zugkräften Zugkräften Als Bewehrung bezeichnet man Stahl - oder Fasern, die in den Beton eingelegt sind und Zugkräfte aufnehmen können. Zur Verlegung der Bewehrung wird ein Bewehrungsplan erstellt. Die Bewehrung kann sowohl zur Aufnahme von Zugkräften Zugkräften" TRANSLATIONS_NAME="Bewehrung" TRANSLATIONS_NORMALNAME="Bewehrung" TERM_TERM_ID="12" LANGUAGES_LANGUAGES_ID="1"/>
   <TRANSLATIONS TRANSLATIONS_ID="51" TRANSLATIONS_DESCRIPTION="Bindemittel sind im plastischen Zustand verarbeitbare anorganische oder organische Substanzen, die im Laufe einer bestimmten Zeit erhärten und dabei andere Stoffe fest miteinander verbinden." TRANSLATIONS_NAME="Bindemittel" TRANSLATIONS_NORMALNAME="Bindemittel" TERM_TERM_ID="13" LANGUAGES_LANGUAGES_ID="1"/>
   <TRANSLATIONS TRANSLATIONS_ID="52" TRANSLATIONS_DESCRIPTION="Rollläden werden als Einbruchschutz und bedingt auch als Schall-, Sonnen-, Blend- bzw. Sichtschutz eingesetzt. Als Hauptfunktion sind Rollläden sicherheitstechnische Eigenschaften zuzuordnen. Im Hinblick auf die wesentlich verbesserten Wärmeschutzverglasungen hat der Rollladen als temporärer Wärmeschutz in der Nacht an Bedeutung verloren.  Als außen liegender Sonnenschutz ist ein Rollladen sehr wirkungsvoll. Der diffuse Eintrag von Tageslicht jedoch wird bei vielen Produkten fast ausgeschlossen. In der Funktion als Sicht- und Blendschutz wirkt sich ebenfalls der geringe Tageslichteinfall zu Ungunsten der Betriebskosten durch erhöhten Energiebedarf aus. Es werden jedoch inzwischen auch Produkte mit einem guten Tageslichteinfall angeboten." TRANSLATIONS_NAME="Rolladen" TRANSLATIONS_NORMALNAME="Rolladen" TERM_TERM_ID="14" LANGUAGES_LANGUAGES_ID="1"/>
   <TRANSLATIONS TRANSLATIONS_ID="53" TRANSLATIONS_DESCRIPTION="Floatglas ist das heute am meisten verwendete Glas. Es besteht aus Siliciumoxid, Calciumoxid, Natriumoxid, Magnesiumoxid und Aluminiumoxid (nach: EN 572 Glas im Bauwesen - Basiserzeugnisse aus Kalk-Natronsilicatglas). Glasdicken von 2 - 25 mm können im Floatglasverfahren hergestellt werden. Floatglas kann durch Aufbringen verschiedener Beschichtungen oder durch Einfärbungen in seinen optischen Qualitäten stark manipuliert werden." TRANSLATIONS_NAME="Floatglas" TRANSLATIONS_NORMALNAME="Floatglas" TERM_TERM_ID="15" LANGUAGES_LANGUAGES_ID="1"/>
@@ -100,10 +96,4 @@
   <TRANSLATIONS TRANSLATIONS_ID="87" TRANSLATIONS_DESCRIPTION="Las escaleras deben poder subirse manteniendo el ritmo para evitar caídas. Para ello, su pendiente ha de ser constante.  Es decir, la razón geométrica entre la profundidad de sus peldaños (llamada huella) y la altura de éstos (llamada contrahuella, tabica o peralte) debe ser constante." TRANSLATIONS_NAME="Huella" TRANSLATIONS_NORMALNAME="Huella" TERM_TERM_ID="29" LANGUAGES_LANGUAGES_ID="2"/>
   <TRANSLATIONS TRANSLATIONS_ID="88" TRANSLATIONS_DESCRIPTION="" TRANSLATIONS_NAME="Huejo" TRANSLATIONS_NORMALNAME="Huejo" TERM_TERM_ID="30" LANGUAGES_LANGUAGES_ID="2"/>
   <TRANSLATIONS TRANSLATIONS_ID="89" TRANSLATIONS_DESCRIPTION="La ocupación es la relación entre el volumen de las edificaciones de una parcela y el area de la pareclo y se da en m3 por m2 de parcela." TRANSLATIONS_NAME="Ocupación" TRANSLATIONS_NORMALNAME="Ocupacion" TERM_TERM_ID="31" LANGUAGES_LANGUAGES_ID="2"/>
-  <TRANSLATIONS TRANSLATIONS_ID="202" TRANSLATIONS_DESCRIPTION="dds" TRANSLATIONS_NAME="Test" TRANSLATIONS_NORMALNAME="Test" TERM_TERM_ID="201" LANGUAGES_LANGUAGES_ID="1"/>
-  <TRANSLATIONS TRANSLATIONS_ID="203" TRANSLATIONS_DESCRIPTION="sdsds" TRANSLATIONS_NAME="TestSpa" TRANSLATIONS_NORMALNAME="TestSpa" TERM_TERM_ID="201" LANGUAGES_LANGUAGES_ID="2"/>
-  <TRANSLATIONS TRANSLATIONS_ID="252" TRANSLATIONS_DESCRIPTION="ddfsdf" TRANSLATIONS_NAME="testaaa" TRANSLATIONS_NORMALNAME="testaaa" TERM_TERM_ID="251" LANGUAGES_LANGUAGES_ID="1"/>
-  <TRANSLATIONS TRANSLATIONS_ID="253" TRANSLATIONS_DESCRIPTION="sdfsdfsd" TRANSLATIONS_NAME="ett" TRANSLATIONS_NORMALNAME="ett" TERM_TERM_ID="251" LANGUAGES_LANGUAGES_ID="2"/>
-  <TRANSLATIONS TRANSLATIONS_ID="352" TRANSLATIONS_DESCRIPTION="sdfdsf" TRANSLATIONS_NAME="teeee" TRANSLATIONS_NORMALNAME="teeee" TERM_TERM_ID="351" LANGUAGES_LANGUAGES_ID="1"/>
-  <TRANSLATIONS TRANSLATIONS_ID="353" TRANSLATIONS_DESCRIPTION="sdfsdf" TRANSLATIONS_NAME="eeeee" TRANSLATIONS_NORMALNAME="eeeee" TERM_TERM_ID="351" LANGUAGES_LANGUAGES_ID="2"/>
 </dataset>

@@ -1,6 +1,7 @@
 package interactElements;
 
 import java.awt.Color;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -11,7 +12,12 @@ import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.ListCellRenderer;
 import javax.swing.text.JTextComponent;
+
+import org.apache.derby.tools.sysinfo;
+
+import javax.swing.JTextField;
 
 import enums.ComboBoxes;
 import eventHandling.PanelEventTransferObject;
@@ -35,6 +41,9 @@ public class SearchComboBox extends ComboBox {
 	}
 
 	private void initialize() {
+		
+		ListCellRenderer<Object> fontSizeRenderer = new ComboBoxCellRenderer();
+		setRenderer(fontSizeRenderer);
 		searchComboBoxDefaultModel = new DefaultComboBoxModel<ListItem>();
 		setModel(searchComboBoxDefaultModel);
 		setBounds(WinUtil.relW(20), WinUtil.relH(22), WinUtil.relW(260), WinUtil.relH(25));
@@ -89,12 +98,8 @@ public class SearchComboBox extends ComboBox {
 
 	}
 	
-	public void setSearchComboBoxKeyListener(KeyListener l) {
-		getEditor().getEditorComponent().addKeyListener(l);
-	}
-
-	public void setSearchComboBoxFocusListener(FocusListener l) {
-		getEditor().getEditorComponent().addFocusListener(l);
+	public void setSearchComboBoxActionListener(ActionListener l) {
+		((JTextField) getEditor().getEditorComponent()).addActionListener(l);
 	}
 	
 	public String getSearchWord() {

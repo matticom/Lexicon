@@ -1,4 +1,4 @@
-package assignmentWindowComponents;
+package assignmentDialogComponents;
 
 public class AssignmentTableRowObject {
 	

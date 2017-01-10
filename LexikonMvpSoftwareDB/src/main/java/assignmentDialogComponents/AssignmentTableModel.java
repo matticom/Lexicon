@@ -1,4 +1,4 @@
-package assignmentWindowComponents;
+package assignmentDialogComponents;
 
 import java.util.List;
 import java.util.ResourceBundle;

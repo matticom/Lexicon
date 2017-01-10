@@ -1,4 +1,4 @@
-package assignmentWindowComponents;
+package assignmentDialogComponents;
 
 import java.awt.Color;
 import java.awt.Component;

@@ -1,4 +1,4 @@
-package dialogs;
+package inputChecker;
 
 import javax.swing.JTextField;
 

@@ -1,4 +1,4 @@
-package viewFactory;
+package mainFrameMainComponents;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
-import enums.ChosenLanguage;
+import enums.Language;
 import eventHandling.PanelEventTransferObject;
 import eventHandling.Updatable;
 import model.Specialty;
@@ -40,18 +40,7 @@ public class StatusBar extends JPanel implements Updatable {
 	private Specialty specialty;
 	
 	private int counter = 0;
-	
-	/**
-	 * <li><b><i>StatusBar</i></b> <br>
-	 * <br>
-	 * public StatusBar(ResourceBundle languageBundle)<br>
-	 * <br>
-	 * Konstruktor für Statusbar<br>
-	 * <br>
-	 * 
-	 * @param languageBundle
-	 *            - Referenz auf ResourceBundle
-	 */
+		
 	public StatusBar(ResourceBundle languageBundle) {
 		
 		this.languageBundle = languageBundle;
@@ -62,7 +51,6 @@ public class StatusBar extends JPanel implements Updatable {
 
 	private void initialize() {
 				
-		// Buttons
 		startpageButton = new JButton(languageBundle.getString("startpageBtn"));
 		WinUtil.configStaticButton(startpageButton, 0, 0, 0, 0, new EmptyBorder(0, 5, 0, 5), Color.WHITE, Color.DARK_GRAY);
 		
@@ -131,7 +119,7 @@ public class StatusBar extends JPanel implements Updatable {
 		
 		clearPanels();
 		
-		if (e.getCurrentLanguage() == ChosenLanguage.German) {
+		if (e.getCurrentLanguage() == Language.GERMAN) {
 			languageBundle = ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de"));
 			startpageButton.setText(languageBundle.getString("startpageBtn"));
 			languageId = GERMAN;

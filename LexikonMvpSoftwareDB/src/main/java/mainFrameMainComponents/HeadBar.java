@@ -1,4 +1,4 @@
-package viewFactory;
+package mainFrameMainComponents;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,10 +13,9 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import enums.ChosenLanguage;
+import enums.Language;
 import utilities.WinUtil;
 import eventHandling.PanelEventTransferObject;
 import eventHandling.Updatable;
@@ -151,9 +150,9 @@ public class HeadBar extends JPanel implements Updatable {
 		repaint();
 	}
 
-	private void setLanguage(ChosenLanguage currentLanguage) {
+	private void setLanguage(Language currentLanguage) {
 		
-		if (currentLanguage == ChosenLanguage.German) {
+		if (currentLanguage == Language.GERMAN) {
 			deButton.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 			esButton.setBorder( new EmptyBorder(0, 0, 0, 0));
 			languageBundle = ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de"));

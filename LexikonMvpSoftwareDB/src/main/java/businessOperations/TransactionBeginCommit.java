@@ -128,20 +128,20 @@ public class TransactionBeginCommit {
 	}
 
 
-	public void deleteAllWords() {
+	public void deleteHistory() {
 		entityTransaction.begin();
 		historyService.deleteAllWords();
 		entityTransaction.commit();
 	}
 	
-	public List<History> selectAllWords() {
+	public List<History> getAllSearchWordsFromHistory() {
 		entityTransaction.begin();
 		List<History> historyList = historyService.selectAllWords();
 		entityTransaction.commit();
 		return historyList;
 	}
 	
-	public History insertWord(String word) {
+	public History insertSearchWordToHistoryList(String word) {
 		entityTransaction.begin();
 		History historyEntry = historyService.insertWord(word);
 		entityTransaction.commit();

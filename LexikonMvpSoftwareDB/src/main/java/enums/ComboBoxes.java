@@ -1,5 +1,5 @@
 package enums;
 
 public enum ComboBoxes {
-	SearchComboBox, GermanSpecialtyComboBox, SpanishSpecialtyComboBox, SpecialtyComboBox
+	SEARCH_COMBOBOX, GERMAN_SPECIALTY_COMBOBOX, SPANISH_SPECIALTY_COMBOBOX, SPECIALTY_COMBOBOX
 }

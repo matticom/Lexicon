@@ -1,4 +1,4 @@
-package viewFactory;
+package mainFrameMainComponents;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -9,7 +9,7 @@ import java.util.ResourceBundle;
 
 import javax.swing.JFrame;
 
-import enums.ChosenLanguage;
+import enums.Language;
 import eventHandling.PanelEventTransferObject;
 import eventHandling.Updatable;
 import utilities.WinUtil;
@@ -42,7 +42,7 @@ public class MainFrame extends JFrame implements Updatable {
 	@Override
 	public void updatePanel(PanelEventTransferObject e) {
 		
-		if (e.getCurrentLanguage() == ChosenLanguage.German) {
+		if (e.getCurrentLanguage() == Language.GERMAN) {
 			languageBundle = ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de"));
 		} else {
 			languageBundle = ResourceBundle.getBundle("languageBundles.lexikon", new Locale("es"));

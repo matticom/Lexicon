@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
-import enums.ChosenLanguage;
+import enums.Language;
 import enums.StaticPanels;
 import eventHandling.PanelEventTransferObject;
 import utilities.GridBagLayoutUtilities;
@@ -94,7 +94,7 @@ public class TechnicalTermPanelStatic extends StaticPanel {
 	@Override
 	public void updatePanel(PanelEventTransferObject e) {
 
-		if (e.getCurrentLanguage() == ChosenLanguage.German) {
+		if (e.getCurrentLanguage() == Language.GERMAN) {
 			languageBundle = ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de"));
 		} else {
 			languageBundle = ResourceBundle.getBundle("languageBundles.lexikon", new Locale("es"));

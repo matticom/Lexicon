@@ -12,7 +12,7 @@ import java.util.ResourceBundle;
 import javax.swing.*;
 import javax.swing.border.Border;
 
-import enums.ChosenLanguage;
+import enums.Language;
 
 public class WinUtil {
 
@@ -229,17 +229,7 @@ public class WinUtil {
 	 */
 	public static JButton createButton(String buttonText, int x, int y, int width, int height, Border border, Color background,
 			ActionListener actionListener, String btnName, String btnToolTip, boolean setOpaque, boolean setFocusPainted, Color foreground) {
-
-		// Weitere Formatierungen
-		//
-		// String fontFamily = this.getContentPane().getFont().getFamily();
-		// int fontStyle = Font.PLAIN;
-		// int fontSize = this.getContentPane().getFont().getSize();
-		// int newSize = 0;
-
-		// BorderFactory.createLineBorder(Color.BLACK)
-		// new EmptyBorder(0, 5, 0, 5)
-
+		
 		JButton btn = new JButton(buttonText);
 
 		if (x != 0 && y != 0 && width != 0 && height != 0)
@@ -298,40 +288,7 @@ public class WinUtil {
 		button.setBounds(x, y, width, height);
 	}
 
-	/**
-	 * <li><b><i>createLabel</i></b> <br>
-	 * <br>
-	 * public JLabel createLabel(String LblText, int x, int y, int width, int
-	 * height, Border border, Color background,<br>
-	 * &nbsp String lblName, String lblToolTip, Color foreground) <br>
-	 * <br>
-	 * Erstellt einen Button. <br>
-	 * <br>
-	 * 
-	 * @param LblText
-	 *            - Beschriftung des Labels
-	 * @param x
-	 *            - Optionale x-Koordinate des Setzpunktes <b>0</b>.
-	 * @param y
-	 *            - Optionale y-Koordinate des Setzpunktes <b>0</b>.
-	 * @param width
-	 *            - Optionale Breite des Labels <b>0</b>.
-	 * @param height
-	 *            - Optionale Höhe des Labels <b>0</b>.
-	 * @param border
-	 *            - Optionale Umrahmung des Labels <b>null</b>.
-	 * @param background
-	 *            - Optionale Setzt Hintergrundfarbe <b>null</b>.
-	 * @param shortKey
-	 *            - Optionale Hintergrundfarbe des Labels <b>null</b>.
-	 * @param lblName
-	 *            - Name des Labels
-	 * @param lblToolTip
-	 *            - ToolTip des Labels
-	 * @param foreground
-	 *            - Optionale Setzt Schriftfarbe <b>null</b>.
-	 * @return - JLabel.
-	 */
+	
 	public static JLabel createLabel(String LblText, int x, int y, int width, int height, Border border, Color background, String lblName,
 			String lblToolTip, Color foreground) {
 
@@ -417,7 +374,6 @@ public class WinUtil {
 	}
 	
 	public static void configScrollPaneExtended(JScrollPane scrollPane, JTextArea textArea, int width, int height, Color foreground, Color background, Border border, boolean editable) {
-		
 		textArea.setForeground(foreground);
 		textArea.setBackground(background);	
 		textArea.setEditable(editable);
@@ -465,12 +421,12 @@ public class WinUtil {
 		}
 	}
 	
-	public static ChosenLanguage getLanguage(ResourceBundle languageBundle) {
+	public static Language getLanguage(ResourceBundle languageBundle) {
 		
 		if (languageBundle.getLocale().equals(new Locale("de"))) {
-			return ChosenLanguage.German;
+			return Language.GERMAN;
 		} else {
-			return ChosenLanguage.Spanish;
+			return Language.SPANISH;
 		}
 	}
 

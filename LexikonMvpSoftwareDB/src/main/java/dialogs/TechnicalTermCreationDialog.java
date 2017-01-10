@@ -25,7 +25,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import enums.DialogWindows;
+import enums.Dialogs;
+import inputChecker.SpecialtyTextFieldsCheckable;
 import interactElements.ChooseSpecialtyComboBox;
 import interactElements.MyScrollBarUI;
 import interactElements.SourceButton;
@@ -76,7 +77,7 @@ public class TechnicalTermCreationDialog extends Dialog implements SpecialtyText
 	private WindowAdapter windowAdapter;
 
 	public TechnicalTermCreationDialog(ResourceBundle languageBundle, ChooseSpecialtyComboBox germanSpecialtyComboBox, ChooseSpecialtyComboBox spanishSpecialtyComboBox, 
-			DialogWindows dialogWindowType, WindowAdapter windowAdapter, ActionListener actionListener, KeyAdapter keyAdapter) {
+			Dialogs dialogWindowType, WindowAdapter windowAdapter, ActionListener actionListener, KeyAdapter keyAdapter) {
 
 		super(languageBundle, dialogWindowType);
 		contentPane = this.getContentPane();

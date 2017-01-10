@@ -1,4 +1,4 @@
-package viewFactory;
+package factories;
 
 import java.util.ResourceBundle;
 
@@ -11,7 +11,7 @@ import panels.SearchResultPanelStatic;
 import panels.TechnicalTermPanelStatic;
 import panels.SpecialtyPanelStatic;
 
-public class StaticPanelCreator {
+public class StaticPanelFactory {
 		
 	private final String SEARCH_RESULT_TITLE = "resultsLbl";
 	private final String LETTER_RESULT_TITLE = "resultsLblLetter";
@@ -29,16 +29,16 @@ public class StaticPanelCreator {
 		
 		StaticPanel staticPanel = null;
 				
-		if (panelType == StaticPanels.LetterResultPanel) {
+		if (panelType == StaticPanels.LETTER_RESULT_PANEL) {
 			staticPanel = new SearchResultPanelStatic(languageBundle, MAINFRAME_DISPLAY_RATIO, (SearchResultPanelDynamic)dynamicPanel, LETTER_RESULT_TITLE, SEARCH_RESULT_HEIGHT, panelType);
 		}
-		if (panelType == StaticPanels.SearchResultPanel) {
+		if (panelType == StaticPanels.SEARCH_RESULT_PANEL) {
 			staticPanel = new SearchResultPanelStatic(languageBundle, MAINFRAME_DISPLAY_RATIO, (SearchResultPanelDynamic)dynamicPanel, SEARCH_RESULT_TITLE, SEARCH_RESULT_HEIGHT, panelType);
 		}
-		if (panelType == StaticPanels.SpecialtyPanel) {
+		if (panelType == StaticPanels.SPECIALTY_PANEL) {
 			staticPanel = new SpecialtyPanelStatic(languageBundle, MAINFRAME_DISPLAY_RATIO, (TermPanelDynamic)dynamicPanel, panelType);
 		}
-		if (panelType == StaticPanels.TechnicalTermPanel) {
+		if (panelType == StaticPanels.TECHNICAL_TERM_PANEL) {
 			staticPanel = new TechnicalTermPanelStatic(languageBundle, MAINFRAME_DISPLAY_RATIO, (TermPanelDynamic)dynamicPanel, TECHNICALTERM_RESULT_TITLE, TECHNICALTERM_RESULT_HEIGHT, panelType);
 		}
 		return staticPanel;

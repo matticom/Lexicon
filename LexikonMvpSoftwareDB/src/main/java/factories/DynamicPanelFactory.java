@@ -1,4 +1,4 @@
-package viewFactory;
+package factories;
 
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -11,7 +11,7 @@ import panels.TermPanelDynamic;
 import panels.DynamicPanel;
 import panels.SearchResultPanelDynamic;
 
-public class DynamicPanelCreator {
+public class DynamicPanelFactory {
 	
 	public SearchResultPanelDynamic createPanel(DynamicPanels panelType, DynamicPanel currentPanel, ActionListener actionListener, int mainFrameWidth, int mainFrameHeight,
 			List<Translations> translationList, String searchWord) {
@@ -41,16 +41,16 @@ public class DynamicPanelCreator {
 
 		DynamicPanel dynamicPanel = null;
 
-		if (panelType == DynamicPanels.LetterResultPanel) {
+		if (panelType == DynamicPanels.LETTER_RESULT_PANEL) {
 			dynamicPanel = new SearchResultPanelDynamic(mainFrameWidth, mainFrameHeight, translationList, title, actionListener, panelType);
 		}
-		if (panelType == DynamicPanels.SearchResultPanel) {
+		if (panelType == DynamicPanels.SEARCH_RESULT_PANEL) {
 			dynamicPanel = new SearchResultPanelDynamic(mainFrameWidth, mainFrameHeight, translationList, title, actionListener, panelType);
 		}
-		if (panelType == DynamicPanels.SpecialtyPanel) {
+		if (panelType == DynamicPanels.SPECIALTY_PANEL) {
 			dynamicPanel = new TermPanelDynamic(mainFrameWidth, mainFrameHeight, specialtyList, actionListener, panelType);
 		}
-		if (panelType == DynamicPanels.TechnicalTermPanel) {
+		if (panelType == DynamicPanels.TECHNICAL_TERM_PANEL) {
 			dynamicPanel = new TermPanelDynamic(mainFrameWidth, mainFrameHeight, technicalTermList, title, actionListener, panelType);
 		}
 		return dynamicPanel;

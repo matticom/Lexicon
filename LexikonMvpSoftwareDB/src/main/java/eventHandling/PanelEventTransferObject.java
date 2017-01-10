@@ -2,7 +2,7 @@ package eventHandling;
 
 import java.util.List;
 
-import enums.ChosenLanguage;
+import enums.Language;
 import model.Specialty;
 import model.TechnicalTerm;
 import panels.DynamicPanel;
@@ -14,7 +14,7 @@ public class PanelEventTransferObject {
 	
 	private List<String> historyList;
 	private List<Specialty> specialtyList;
-	private ChosenLanguage currentLanguage;
+	private Language currentLanguage;
 	private boolean[] availableLetters;
 		
 	private Specialty currentSpecialty;
@@ -23,7 +23,7 @@ public class PanelEventTransferObject {
 	private DynamicPanel dynamicPanel;
 	
 	
-	public PanelEventTransferObject(int mainFrameWidth, int mainFrameHeight, List<String> historyList, List<Specialty> specialtyList, ChosenLanguage currentLanguage,
+	public PanelEventTransferObject(int mainFrameWidth, int mainFrameHeight, List<String> historyList, List<Specialty> specialtyList, Language currentLanguage,
 			boolean[] availableLetters, Specialty currentSpecialty, TechnicalTerm currentTechnicalTerm, DynamicPanel dynamicPanel) {
 		this.mainFrameWidth = mainFrameWidth;
 		this.mainFrameHeight = mainFrameHeight;
@@ -48,7 +48,7 @@ public class PanelEventTransferObject {
 		return availableLetters;
 	}
 
-	public ChosenLanguage getCurrentLanguage() {
+	public Language getCurrentLanguage() {
 		return currentLanguage;
 	}
 	

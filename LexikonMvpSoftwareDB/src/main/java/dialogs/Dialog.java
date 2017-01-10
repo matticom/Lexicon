@@ -4,7 +4,7 @@ import java.util.ResourceBundle;
 
 import javax.swing.JDialog;
 
-import enums.DialogWindows;
+import enums.Dialogs;
 
 public abstract class Dialog extends JDialog {
 
@@ -12,15 +12,15 @@ public abstract class Dialog extends JDialog {
 	protected final int GERMAN = 1;
 	protected final int SPANISH = 2;
 	
-	protected DialogWindows dialogWindowType;
+	protected Dialogs dialogWindowType;
 		
-	public Dialog(ResourceBundle languageBundle, DialogWindows dialogWindowType) {
+	public Dialog(ResourceBundle languageBundle, Dialogs dialogWindowType) {
 
 		this.languageBundle = languageBundle;
 		this.dialogWindowType = dialogWindowType;
 	}
 
-	public DialogWindows getDialogWindowType() {
+	public Dialogs getDialogWindowType() {
 		return dialogWindowType;
 	}
 }

@@ -25,7 +25,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import dto.TechnicalTermDTO;
-import enums.DialogWindows;
+import enums.Dialogs;
 import interactElements.MyScrollBarUI;
 import interactElements.SourceButton;
 import model.TechnicalTerm;
@@ -78,7 +78,7 @@ public class TechnicalTermContentDialog extends Dialog {
 	private WindowAdapter windowAdapter;
 	private ActionListener actionListener;
 
-	public TechnicalTermContentDialog(ResourceBundle languageBundle, TechnicalTerm technicalTerm, DialogWindows dialogWindowType, WindowAdapter windowAdapter, ActionListener actionListener) {
+	public TechnicalTermContentDialog(ResourceBundle languageBundle, TechnicalTerm technicalTerm, Dialogs dialogWindowType, WindowAdapter windowAdapter, ActionListener actionListener) {
 
 		super(languageBundle, dialogWindowType);
 		contentPane = this.getContentPane();
@@ -109,7 +109,7 @@ public class TechnicalTermContentDialog extends Dialog {
 
 	private void initializeJDialog() {
 
-		setTitle(languageBundle.getString("newEntry"));
+		setTitle(languageBundle.getString("TermWinDescriptionLabel"));
 		contentPane.setBackground(WinUtil.LIGHT_BLACK);
 		contentPane.setLayout(new GridBagLayout());
 

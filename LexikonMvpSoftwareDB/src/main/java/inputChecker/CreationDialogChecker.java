@@ -5,7 +5,6 @@ import javax.swing.JOptionPane;
 
 import businessOperations.TermBO;
 import businessOperations.TransactionBeginCommit;
-import dialogs.SpecialtyTextFieldsCheckable;
 import dialogs.TechnicalTermCreationDialog;
 import exceptions.TechnicalTermAlreadyExistsAsSpecialty;
 

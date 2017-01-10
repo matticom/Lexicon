@@ -11,7 +11,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.text.JTextComponent;
 
-import enums.ChosenLanguage;
+import enums.Language;
 import enums.ComboBoxes;
 
 import eventHandling.PanelEventTransferObject;
@@ -63,7 +63,7 @@ public class ChooseSpecialtyComboBox extends ComboBox {
 	public void updatePanel(PanelEventTransferObject e) {
 
 		if (isAssignComboBox) {
-			if (e.getCurrentLanguage() == ChosenLanguage.German) {
+			if (e.getCurrentLanguage() == Language.GERMAN) {
 				languageId = GERMAN;
 			} else {
 				languageId = SPANISH;
