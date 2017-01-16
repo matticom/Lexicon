@@ -117,7 +117,7 @@ public class TermBOTest {
 	}
 	
 	@Test
-	public void createTechnicalTermTest() throws Exception {
+	public void testCreateTechnicalTerm() throws Exception {
 						
 		entitymanager.getTransaction().begin();
 		termBOTest.createTechnicalTerm("Flüssigbeton", "flüssig", 1, 3);
@@ -137,7 +137,7 @@ public class TermBOTest {
 	}
 	
 	@Test(expected = TechnicalTermAlreadyExists.class)
-	public void createTechnicalTerm_TechnicalTermAlreadyExistsTest() throws Exception {
+	public void testCreateTechnicalTerm_TechnicalTermAlreadyExists() throws Exception {
 						
 		entitymanager.getTransaction().begin();
 		termBOTest.createTechnicalTerm("Bindemittel", "flüssig", 1, 3);
@@ -145,7 +145,7 @@ public class TermBOTest {
 	}
 	
 	@Test(expected = SpecialtyDoesNotExist.class)
-	public void createTechnicalTerm_SpecialtyDoesNotExistTest() throws Exception {
+	public void testCreateTechnicalTerm_SpecialtyDoesNotExist() throws Exception {
 						
 		entitymanager.getTransaction().begin();
 		termBOTest.createTechnicalTerm("Flüssigbeton", "flüssig", 1, 200);
@@ -153,7 +153,7 @@ public class TermBOTest {
 	}
 	
 	@Test
-	public void createSpecialtyTest() throws Exception {
+	public void testCreateSpecialty() throws Exception {
 		
 		entitymanager.getTransaction().begin();
 		termBOTest.createSpecialty("Werkzeuge", "zum Arbeiten", 1);
@@ -170,7 +170,7 @@ public class TermBOTest {
 	}
 	
 	@Test(expected = SpecialtyAlreadyExists.class)
-	public void createSpecialty_SpecialtyAlreadyExistsTest() throws Exception {
+	public void testCreateSpecialty_SpecialtyAlreadyExists() throws Exception {
 						
 		entitymanager.getTransaction().begin();
 		termBOTest.createSpecialty("Beton", "zum Arbeiten", 1);
@@ -178,7 +178,7 @@ public class TermBOTest {
 	}
 	
 	@Test
-	public void createTechnicalTermTranslationTest() throws Exception {
+	public void testCreateTechnicalTermTranslation() throws Exception {
 		
 		entitymanager.getTransaction().begin();
 		termBOTest.createTechnicalTermTranslation(14, "SpaRolladen", "SpaZum Schutz der Fenster", 2);
@@ -197,7 +197,7 @@ public class TermBOTest {
 	}
 	
 	@Test(expected = TechnicalTermDoesNotExist.class)
-	public void createTechnicalTermTranslation_TechnicalTermDoesNotExistTest() throws Exception {
+	public void testCreateTechnicalTermTranslation_TechnicalTermDoesNotExist() throws Exception {
 						
 		entitymanager.getTransaction().begin();
 		termBOTest.createTechnicalTermTranslation(100, "SpaRolladen", "SpaZum Schutz der Fenster", 2);
@@ -205,7 +205,7 @@ public class TermBOTest {
 	}
 	
 	@Test(expected = LanguageEntryInTechnicalTermAlreadyExists.class)
-	public void createTechnicalTermTranslation_LanguageEntryInTechnicalTermAlreadyExistsTest() throws Exception {
+	public void testCreateTechnicalTermTranslation_LanguageEntryInTechnicalTermAlreadyExists() throws Exception {
 						
 		entitymanager.getTransaction().begin();
 		termBOTest.createTechnicalTermTranslation(13, "Conglomerante", "SpaZum fest werden", 2);
@@ -213,7 +213,7 @@ public class TermBOTest {
 	}
 	
 	@Test
-	public void createSpecialtyTranslationTest() throws Exception {
+	public void testCreateSpecialtyTranslation() throws Exception {
 		
 		entitymanager.getTransaction().begin();
 		termBOTest.createSpecialtyTranslation(4, "SpaFassade", "SpaFront", 2);
@@ -230,7 +230,7 @@ public class TermBOTest {
 	}
 	
 	@Test(expected = SpecialtyDoesNotExist.class)
-	public void createSpecialtyTranslation_SpecialtyDoesNotExistTest() throws Exception {
+	public void testCreateSpecialtyTranslation_SpecialtyDoesNotExist() throws Exception {
 						
 		entitymanager.getTransaction().begin();
 		termBOTest.createSpecialtyTranslation(400, "SpaFassade", "SpaFront", 2);
@@ -238,7 +238,7 @@ public class TermBOTest {
 	}
 	
 	@Test(expected = LanguageEntryInSpecialtyAlreadyExists.class)
-	public void createSpecialtyTranslation_LanguageEntryInSpecialtyAlreadyExistsTest() throws Exception {
+	public void testCreateSpecialtyTranslation_LanguageEntryInSpecialtyAlreadyExists() throws Exception {
 						
 		entitymanager.getTransaction().begin();
 		termBOTest.createSpecialtyTranslation(3, "SpaBeton", "SpaZum bauen", 2);
@@ -246,7 +246,7 @@ public class TermBOTest {
 	}
 	
 	@Test
-	public void deleteSpecialtyTest() throws Exception {
+	public void testDeleteSpecialty() throws Exception {
 		
 		entitymanager.getTransaction().begin();
 		termBOTest.deleteSpecialty(3);
@@ -265,7 +265,7 @@ public class TermBOTest {
 	}
 	
 	@Test(expected = SpecialtyDoesNotExist.class)
-	public void deleteSpecialty_SpecialtyDoesNotExistTest() throws Exception {
+	public void testDeleteSpecialty_SpecialtyDoesNotExist() throws Exception {
 						
 		entitymanager.getTransaction().begin();
 		termBOTest.deleteSpecialty(300);
@@ -273,7 +273,7 @@ public class TermBOTest {
 	}
 	
 	@Test
-	public void deleteTechnicalTermTest() throws Exception {
+	public void testDeleteTechnicalTerm() throws Exception {
 		
 		entitymanager.getTransaction().begin();
 		termBOTest.deleteTechnicalTerm(12);
@@ -292,7 +292,7 @@ public class TermBOTest {
 	}
 	
 	@Test(expected = TechnicalTermDoesNotExist.class)
-	public void deleteTechnicalTerm_TechnicalTermDoesNotExistTest() throws Exception {
+	public void testDeleteTechnicalTerm_TechnicalTermDoesNotExist() throws Exception {
 						
 		entitymanager.getTransaction().begin();
 		termBOTest.deleteTechnicalTerm(120);
@@ -300,7 +300,7 @@ public class TermBOTest {
 	}
 
 	@Test
-	public void deleteTranslationTest() throws Exception {
+	public void testDeleteTranslation() throws Exception {
 		
 		entitymanager.getTransaction().begin();
 		termBOTest.deleteTranslation(3, 1);
@@ -316,7 +316,7 @@ public class TermBOTest {
 	}
 	
 	@Test(expected = TermDoesNotExist.class)
-	public void deleteTranslation_TermDoesNotExistTest() throws Exception {
+	public void testDeleteTranslation_TermDoesNotExist() throws Exception {
 						
 		entitymanager.getTransaction().begin();
 		termBOTest.deleteTranslation(300, 1);
@@ -324,7 +324,7 @@ public class TermBOTest {
 	}
 		
 	@Test
-	public void updateTranslationTest() throws Exception {
+	public void testUpdateTranslation() throws Exception {
 			
 		entitymanager.getTransaction().begin();
 		termBOTest.updateTranslation(3, "Beton updated", "description updated", 1);
@@ -340,7 +340,7 @@ public class TermBOTest {
 	}
 	
 	@Test(expected = TermDoesNotExist.class)
-	public void updateTranslation_TermDoesNotExistTest() throws Exception {
+	public void testUpdateTranslation_TermDoesNotExist() throws Exception {
 						
 		entitymanager.getTransaction().begin();
 		termBOTest.updateTranslation(300, "Beton updated", "description updated", 1);
@@ -348,7 +348,7 @@ public class TermBOTest {
 	}
 	
 	@Test
-	public void selectSpecialtyByNameTest() throws Exception {
+	public void testSelectSpecialtyByName() throws Exception {
 		
 		entitymanager.getTransaction().begin();
 		Specialty betonSpecialty = termBOTest.selectSpecialtyByName("Beton", 1);
@@ -359,7 +359,7 @@ public class TermBOTest {
 	}
 	
 	@Test(expected = NoResultException.class)
-	public void selectSpecialtyByName_NoResultExceptionTest() {
+	public void testSelectSpecialtyByName_NoResultException() {
 
 		entitymanager.getTransaction().begin();
 		Specialty betonSpecialty = termBOTest.selectSpecialtyByName("Hammer", 1);
@@ -367,7 +367,7 @@ public class TermBOTest {
 	}
 	
 	@Test(expected = LanguageDoesNotExist.class)
-	public void selectSpecialtyByName_LanguageDoesNotExistTest() {
+	public void testSelectSpecialtyByName_LanguageDoesNotExist() {
 
 		entitymanager.getTransaction().begin();
 		Specialty betonSpecialty = termBOTest.selectSpecialtyByName("Beton", 3);
@@ -375,7 +375,7 @@ public class TermBOTest {
 	}
 	
 	@Test
-	public void selectTechnicalTermByNameTest() throws Exception {
+	public void testSelectTechnicalTermByName() throws Exception {
 		
 		entitymanager.getTransaction().begin();
 		TechnicalTerm bindemittel = termBOTest.selectTechnicalTermByName("Bindemittel", 1);
@@ -386,7 +386,7 @@ public class TermBOTest {
 	}
 	
 	@Test(expected = NoResultException.class)
-	public void selectTechnicalTermByName_NoResultExceptionTest() {
+	public void testSelectTechnicalTermByName_NoResultException() {
 
 		entitymanager.getTransaction().begin();
 		TechnicalTerm bindemittel = termBOTest.selectTechnicalTermByName("Fenster", 1);
@@ -394,7 +394,7 @@ public class TermBOTest {
 	}
 	
 	@Test(expected = LanguageDoesNotExist.class)
-	public void selectTechnicalTermByName_LanguageDoesNotExistTest() {
+	public void testSelectTechnicalTermByName_LanguageDoesNotExist() {
 
 		entitymanager.getTransaction().begin();
 		TechnicalTerm bindemittel = termBOTest.selectTechnicalTermByName("Bindemittel", 4);
@@ -402,7 +402,7 @@ public class TermBOTest {
 	}
 	
 	@Test(expected = NoResultException.class)
-	public void selectSpecialtyById_NoResultExceptionTest() {
+	public void testSelectSpecialtyById_NoResultException() {
 
 		entitymanager.getTransaction().begin();
 		Specialty noSuchSpecialty = termBOTest.selectSpecialtyById(220);
@@ -410,7 +410,7 @@ public class TermBOTest {
 	}
 	
 	@Test(expected = NoResultException.class)
-	public void selectTechnicalTermById_NoResultExceptionTest() {
+	public void testSelectTechnicalTermById_NoResultException() {
 
 		entitymanager.getTransaction().begin();
 		TechnicalTerm noSuchTechnicalTerm = termBOTest.selectTechnicalTermById(220);
@@ -418,7 +418,7 @@ public class TermBOTest {
 	}
 	
 	@Test
-	public void selectTermById() {
+	public void testSelectTermById() {
 
 		entitymanager.getTransaction().begin();
 		Term bindemittel = termBOTest.selectTermById(13);
@@ -429,7 +429,7 @@ public class TermBOTest {
 	}
 	
 	@Test(expected = NoResultException.class)
-	public void selectTermById_NoResultExceptionTest() {
+	public void testSelectTermById_NoResultException() {
 
 		entitymanager.getTransaction().begin();
 		Term noSuchTerm = termBOTest.selectTermById(220);
@@ -437,7 +437,7 @@ public class TermBOTest {
 	}
 	
 	@Test
-	public void selectAllSpecialtiesTest() throws Exception {
+	public void testSelectAllSpecialties() throws Exception {
 		
 		entitymanager.getTransaction().begin();
 		List<Specialty> specialtyList = termBOTest.selectAllSpecialties();
@@ -450,7 +450,7 @@ public class TermBOTest {
 	}
 	
 	@Test
-	public void selectAllTechnicalTermsTest() throws Exception {
+	public void testSelectAllTechnicalTerms() throws Exception {
 		
 		entitymanager.getTransaction().begin();
 		List<TechnicalTerm> technicalTermList = termBOTest.selectAllTechnicalTerms();
@@ -463,7 +463,7 @@ public class TermBOTest {
 	}
 					
 	@Test
-	public void selectAllTermTranslationsTest() throws Exception {
+	public void testSelectAllTermTranslations() throws Exception {
 		
 		Specialty beton = termDAOTest.selectSpecialtyById(3);
 		entitymanager.getTransaction().begin();
@@ -477,7 +477,7 @@ public class TermBOTest {
 	}
 	
 	@Test(expected = TermDoesNotExist.class)
-	public void selectAllTermTranslations_TermDoesNotExistTest() throws Exception {
+	public void testSelectAllTermTranslations_TermDoesNotExist() throws Exception {
 						
 		entitymanager.getTransaction().begin();
 		List<Translations> termList = termBOTest.selectAllTermTranslations(300);
@@ -485,7 +485,7 @@ public class TermBOTest {
 	}
 	
 	@Test
-	public void searchTechnicalTermsTest() throws Exception {
+	public void testSearchTechnicalTerms() throws Exception {
 		entitymanager.getTransaction().begin();
 		List<Translations> technicalTermTranslationList = termBOTest.searchTechnicalTerms("%on%");
 		entitymanager.getTransaction().commit();
@@ -495,7 +495,7 @@ public class TermBOTest {
 	}
 	
 	@Test
-	public void checkLetterTest() throws Exception {
+	public void testCheckLetter() throws Exception {
 		
 		boolean[] expectedAlphabet = new boolean[26];
 		for(boolean letter: expectedAlphabet) {
@@ -516,7 +516,7 @@ public class TermBOTest {
 	}
 	
 	@Test
-	public void assignTechnicalTermsToSpecialtyTest() throws Exception {
+	public void testAssignTechnicalTermsToSpecialty() throws Exception {
 		
 		Specialty specialtyBefore = termDAOTest.selectSpecialtyById(3);
 		Specialty specialtyAfter = termDAOTest.selectSpecialtyById(4);

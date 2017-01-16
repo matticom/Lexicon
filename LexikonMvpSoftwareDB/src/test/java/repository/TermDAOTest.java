@@ -97,7 +97,7 @@ public class TermDAOTest {
 	}
 	
 	@Test
-	public void insertNewSpecialtyTest() throws Exception {
+	public void testInsertNewSpecialty() throws Exception {
 		
 		Languages de = languageDAOTest.selectLanguageById(1);
 		Specialty werkzeuge = new Specialty();		
@@ -119,7 +119,7 @@ public class TermDAOTest {
 	}
 	
 	@Test
-	public void insertSpecialtyTranslationTest() throws Exception {
+	public void testInsertSpecialtyTranslation() throws Exception {
 		
 		Languages es = languageDAOTest.selectLanguageById(2);
 		Specialty beton = termDAOTest.selectSpecialtyById(3);
@@ -141,7 +141,7 @@ public class TermDAOTest {
 	}
 	
 	@Test
-	public void insertNewTechnicalTermTest() throws Exception {
+	public void testInsertNewTechnicalTerm() throws Exception {
 		
 		Languages de = languageDAOTest.selectLanguageById(1);
 		Specialty betonSpecialty = termDAOTest.selectSpecialtyById(3);
@@ -168,7 +168,7 @@ public class TermDAOTest {
 	}
 	
 	@Test
-	public void insertTechnicalTermTranslationTest() throws Exception {
+	public void testInsertTechnicalTermTranslation() throws Exception {
 		
 		Languages es = languageDAOTest.selectLanguageById(2);
 		TechnicalTerm rolladen = termDAOTest.selectTechnicalTermById(14);
@@ -192,7 +192,7 @@ public class TermDAOTest {
 	}
 	
 	@Test
-	public void deleteSpecialtyTest() throws Exception {
+	public void testDeleteSpecialty() throws Exception {
 		
 		Specialty betonSpecialty = termDAOTest.selectSpecialtyById(3);
 		
@@ -213,7 +213,7 @@ public class TermDAOTest {
 	}
 	
 	@Test
-	public void deleteTechnicalTermTest() throws Exception {
+	public void testDeleteTechnicalTerm() throws Exception {
 			
 		TechnicalTerm bewehrung = termDAOTest.selectTechnicalTermById(12);
 		
@@ -234,7 +234,7 @@ public class TermDAOTest {
 	}
 
 	@Test
-	public void deleteTranslationTest() throws Exception {
+	public void testDeleteTranslation() throws Exception {
 		
 		Specialty betonSpecialty = termDAOTest.selectSpecialtyById(3);
 		Translations translation = betonSpecialty.getTranslationList().get(0);
@@ -253,7 +253,7 @@ public class TermDAOTest {
 	}
 		
 	@Test
-	public void updateTranslationTest() throws Exception {
+	public void testUpdateTranslation() throws Exception {
 		
 		Languages de = languageDAOTest.selectLanguageById(1);
 		Specialty beton = termDAOTest.selectSpecialtyById(3);
@@ -274,19 +274,19 @@ public class TermDAOTest {
 	}
 	
 	@Test(expected = NoResultException.class)
-	public void selectSpecialtyById_NoResultExceptionTest() {
+	public void testSelectSpecialtyById_NoResultException() {
 
 		Specialty noSuchSpecialty = termDAOTest.selectSpecialtyById(220);
 	}
 	
 	@Test(expected = NoResultException.class)
-	public void selectTechnicalTermById_NoResultExceptionTest() {
+	public void testSelectTechnicalTermById_NoResultException() {
 
 		TechnicalTerm noSuchTechnicalTerm = termDAOTest.selectTechnicalTermById(220);
 	}
 	
 	@Test
-	public void selectTermByIdTest() {
+	public void testSelectTermById() {
 
 		entitymanager.getTransaction().begin();
 		Term bindemittel = termDAOTest.selectTermById(13);
@@ -297,13 +297,13 @@ public class TermDAOTest {
 	}
 	
 	@Test(expected = NoResultException.class)
-	public void selectTermById_NoResultExceptionTest() {
+	public void testSelectTermById_NoResultException() {
 
 		Term noSuchTerm = termDAOTest.selectTermById(220);
 	}
 	
 	@Test
-	public void selectAllSpecialtiesTest() throws Exception {
+	public void testSelectAllSpecialties() throws Exception {
 		
 		entitymanager.getTransaction().begin();
 		List<Specialty> specialtyList = termDAOTest.selectAllSpecialties();
@@ -316,7 +316,7 @@ public class TermDAOTest {
 	}
 	
 	@Test
-	public void selectAllTechnicalTermsTest() throws Exception {
+	public void testSelectAllTechnicalTerms() throws Exception {
 		
 		entitymanager.getTransaction().begin();
 		List<TechnicalTerm> technicalTermList = termDAOTest.selectAllTechnicalTerms();
@@ -329,7 +329,7 @@ public class TermDAOTest {
 	}
 	
 	@Test
-	public void selectSpecialtyByNameTest() throws Exception {
+	public void testSelectSpecialtyByName() throws Exception {
 		
 		Languages de = languageDAOTest.selectLanguageById(1);
 		entitymanager.getTransaction().begin();
@@ -341,7 +341,7 @@ public class TermDAOTest {
 	}
 	
 	@Test
-	public void selectTechnicalTermByNameTest() throws Exception {
+	public void testSelectTechnicalTermByName() throws Exception {
 		
 		Languages de = languageDAOTest.selectLanguageById(1);
 		entitymanager.getTransaction().begin();
@@ -353,7 +353,7 @@ public class TermDAOTest {
 	}
 				
 	@Test
-	public void selectAllTermTranslationsTest() throws Exception {
+	public void testSelectAllTermTranslations() throws Exception {
 		
 		Specialty beton = termDAOTest.selectSpecialtyById(3);
 		
@@ -367,7 +367,7 @@ public class TermDAOTest {
 	}
 	
 	@Test
-	public void selectTranslationsTest() throws Exception {
+	public void testSelectTranslations() throws Exception {
 		
 		entitymanager.getTransaction().begin();
 		List<Translations> termList = termDAOTest.selectTranslations("%on%");

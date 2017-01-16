@@ -45,6 +45,7 @@ public class LanguageBOTest {
 
 	private static EntityManagerFactory emfactory;
 	private static EntityManager entitymanager;
+	private static Connection connection;
 
 	private static LanguageBO languageBOTest;
 	private static LanguageDAO languageDAOTest;
@@ -58,7 +59,7 @@ public class LanguageBOTest {
 
 		emfactory = Persistence.createEntityManagerFactory("Eclipselink_JPA_Derby");
 		entitymanager = emfactory.createEntityManager();
-		Connection connection = ((EntityManagerImpl) (entitymanager.getDelegate())).getServerSession().getAccessor().getConnection();
+		connection = ((EntityManagerImpl) (entitymanager.getDelegate())).getServerSession().getAccessor().getConnection();
 
 		try {
 			ij.runScript(connection, LanguageBOTest.class.getResourceAsStream("/Lexicon_Database_Schema_Derby.sql"), "UTF-8", System.out, "UTF-8"); // nicht ("./Lex...
@@ -88,7 +89,7 @@ public class LanguageBOTest {
 	}
 
 	@Test
-	public void createLanguageTest() throws Exception {
+	public void testCreateLanguage() throws Exception {
 
 		entitymanager.getTransaction().begin();
 		languageBOTest.createLanguage("Englisch");
@@ -104,7 +105,7 @@ public class LanguageBOTest {
 	}
 	
 	@Test(expected = LanguageAlreadyExists.class)
-	public void createLanguage_LanguageAlreadyExistsTest() {
+	public void testCreateLanguage_LanguageAlreadyExists() {
 
 		entitymanager.getTransaction().begin();
 		languageBOTest.createLanguage("Deutsch");
@@ -112,7 +113,7 @@ public class LanguageBOTest {
 	}
 	
 	@Test
-	public void deleteLanguageTest() throws Exception {
+	public void testDeleteLanguage() throws Exception {
 				
 		entitymanager.getTransaction().begin();
 		languageBOTest.deleteLanguage(1);
@@ -128,7 +129,7 @@ public class LanguageBOTest {
 	}
 	
 	@Test(expected = LanguageDoesNotExist.class)
-	public void deleteLanguage_LanguageDoesNotExistTest() {
+	public void testDeleteLanguage_LanguageDoesNotExist() {
 
 		entitymanager.getTransaction().begin();
 		languageBOTest.deleteLanguage(100);
@@ -137,7 +138,7 @@ public class LanguageBOTest {
 	
 
 	@Test
-	public void updateLanguageTest() throws Exception {
+	public void testUpdateLanguage() throws Exception {
 		
 		entitymanager.getTransaction().begin();
 		languageBOTest.updateLanguage(1, "Englisch");
@@ -153,7 +154,7 @@ public class LanguageBOTest {
 	}
 	
 	@Test(expected = LanguageAlreadyExists.class)
-	public void updateLanguage_LanguageAlreadyExistsTest() throws Exception {
+	public void testUpdateLanguage_LanguageAlreadyExists() throws Exception {
 		
 		entitymanager.getTransaction().begin();
 		languageBOTest.updateLanguage(1, "Spanisch");
@@ -161,7 +162,7 @@ public class LanguageBOTest {
 	}
 	
 	@Test(expected = LanguageDoesNotExist.class)
-	public void updateLanguage_LanguageDoesNotExistTest() throws Exception {
+	public void testUpdateLanguage_LanguageDoesNotExist() throws Exception {
 		
 		entitymanager.getTransaction().begin();
 		languageBOTest.updateLanguage(6, "Englisch");
@@ -169,7 +170,7 @@ public class LanguageBOTest {
 	}
 
 	@Test
-	public void selectLanguageByIdTest() throws Exception {
+	public void testSelectLanguageById() throws Exception {
 
 		entitymanager.getTransaction().begin();
 		Languages actualLanguage = languageBOTest.selectLanguageById(1);
@@ -179,7 +180,7 @@ public class LanguageBOTest {
 	}
 	
 	@Test(expected = LanguageDoesNotExist.class)
-	public void selectLanguageById_LanguageDoesNotExistTest() throws Exception {
+	public void testSelectLanguageById_LanguageDoesNotExist() throws Exception {
 
 		entitymanager.getTransaction().begin();
 		Languages actualLanguage = languageBOTest.selectLanguageById(100);
@@ -187,7 +188,7 @@ public class LanguageBOTest {
 	}
 	
 	@Test
-	public void selectLanguageByNameTest() throws Exception {
+	public void testSelectLanguageByName() throws Exception {
 
 		entitymanager.getTransaction().begin();
 		Languages actualLanguage = languageBOTest.selectLanguageByName("Deutsch");
@@ -197,7 +198,7 @@ public class LanguageBOTest {
 	}
 
 	@Test(expected = LanguageDoesNotExist.class)
-	public void selectLanguageByName_LanguageDoesNotExistTest() {
+	public void testSelectLanguageByName_LanguageDoesNotExist() {
 
 		entitymanager.getTransaction().begin();
 		Languages actualLanguage = languageBOTest.selectLanguageByName("Japanisch");
@@ -205,7 +206,7 @@ public class LanguageBOTest {
 	}
 		
 	@Test
-	public void selectAllLanguageTest() throws Exception {
+	public void testSelectAllLanguage() throws Exception {
 
 		entitymanager.getTransaction().begin();
 		List<Languages> languageList = languageBOTest.selectAllLanguage();

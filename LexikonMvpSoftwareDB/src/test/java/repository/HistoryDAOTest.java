@@ -86,7 +86,7 @@ public class HistoryDAOTest {
 	}
 
 	@Test
-	public void insertWordTest() throws Exception {
+	public void testInsertWord() throws Exception {
 
 		entitymanager.getTransaction().begin();
 		historyDAOTest.insertWord("letztes Wort");
@@ -102,7 +102,7 @@ public class HistoryDAOTest {
 	}
 	
 	@Test
-	public void deleteAllTest() throws Exception {
+	public void testDeleteAll() throws Exception {
 
 		entitymanager.getTransaction().begin();
 		historyDAOTest.deleteAllWords();
@@ -118,7 +118,7 @@ public class HistoryDAOTest {
 	}
 	
 	@Test
-	public void selectAllWordsTest() throws Exception {
+	public void testSelectAllWords() throws Exception {
 
 		entitymanager.getTransaction().begin();
 		List<History> historyList = historyDAOTest.selectAllWords();

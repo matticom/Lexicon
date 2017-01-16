@@ -33,12 +33,13 @@ import util.UtilMethods;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class LanguageDaoTest {
+public class LanguageDAOTest {
 
 	public static final Logger log = LoggerFactory.getLogger("LanguageDaoTest.class");
 
 	private static IDatabaseConnection mDBUnitConnection;
 	private static IDataSet startDataset;
+	private static Connection connection;
 
 	private static EntityManagerFactory emfactory;
 	private static EntityManager entitymanager;
@@ -54,10 +55,10 @@ public class LanguageDaoTest {
 
 		emfactory = Persistence.createEntityManagerFactory("Eclipselink_JPA_Derby");
 		entitymanager = emfactory.createEntityManager();
-		Connection connection = ((EntityManagerImpl) (entitymanager.getDelegate())).getServerSession().getAccessor().getConnection();
+		connection = ((EntityManagerImpl) (entitymanager.getDelegate())).getServerSession().getAccessor().getConnection();
 
 		try {
-			ij.runScript(connection, LanguageDaoTest.class.getResourceAsStream("/Lexicon_Database_Schema_Derby.sql"), "UTF-8", System.out, "UTF-8"); // nicht ("./Lex...
+			ij.runScript(connection, LanguageDAOTest.class.getResourceAsStream("/Lexicon_Database_Schema_Derby.sql"), "UTF-8", System.out, "UTF-8"); // nicht ("./Lex...
 		} catch (Exception e) {
 			log.error("Exception bei Derby Runscript: " + e.getMessage());
 			e.printStackTrace();
@@ -83,7 +84,7 @@ public class LanguageDaoTest {
 	}
 
 	@Test
-	public void insertLanguageTest() throws Exception {
+	public void testInsertLanguage() throws Exception {
 
 		Languages eng = new Languages("Englisch");
 		
@@ -101,7 +102,7 @@ public class LanguageDaoTest {
 	}
 
 	@Test
-	public void deleteLanguageTest() throws Exception {
+	public void testDeleteLanguage() throws Exception {
 
 		Languages de = languageDAOTest.selectLanguageById(1);
 		
@@ -119,7 +120,7 @@ public class LanguageDaoTest {
 	}
 
 	@Test
-	public void updateLanguageTest() throws Exception {
+	public void testUpdateLanguage() throws Exception {
 
 		Languages de = languageDAOTest.selectLanguageById(1);
 		Languages eng = new Languages("Englisch");
@@ -138,7 +139,7 @@ public class LanguageDaoTest {
 	}
 
 	@Test
-	public void selectLanguageByIdTest() throws Exception {
+	public void testSelectLanguageById() throws Exception {
 
 		entitymanager.getTransaction().begin();
 		Languages actualLanguage = languageDAOTest.selectLanguageById(1);
@@ -148,7 +149,7 @@ public class LanguageDaoTest {
 	}
 	
 	@Test(expected = NoResultException.class)
-	public void selectLanguageById_NoResultExceptionTest() throws Exception {
+	public void testSelectLanguageById_NoResultException() throws Exception {
 
 		entitymanager.getTransaction().begin();
 		Languages actualLanguage = languageDAOTest.selectLanguageById(100);
@@ -156,7 +157,7 @@ public class LanguageDaoTest {
 	}
 	
 	@Test
-	public void selectLanguageByNameTest() throws Exception {
+	public void testSelectLanguageByName() throws Exception {
 
 		entitymanager.getTransaction().begin();
 		Languages actualLanguage = languageDAOTest.selectLanguageByName("Deutsch");
@@ -166,7 +167,7 @@ public class LanguageDaoTest {
 	}
 
 	@Test(expected = NoResultException.class)
-	public void selectLanguageByName_NoResultExceptionTest() {
+	public void testSelectLanguageByName_NoResultException() {
 
 		entitymanager.getTransaction().begin();
 		Languages actualLanguage = null;
@@ -182,7 +183,7 @@ public class LanguageDaoTest {
 	}
 		
 	@Test
-	public void selectAllLanguageTest() throws Exception {
+	public void testSelectAllLanguage() throws Exception {
 
 		entitymanager.getTransaction().begin();
 		List<Languages> languageList = languageDAOTest.selectAllLanguages();
