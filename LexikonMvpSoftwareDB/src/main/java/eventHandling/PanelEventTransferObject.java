@@ -71,4 +71,10 @@ public class PanelEventTransferObject {
 	public DynamicPanel getDynamicPanel() {
 		return dynamicPanel;
 	}
+
+	public void resizeEvent(DynamicPanel dynamicPanel, int mainFrameWidth, int mainFrameHeight) {
+		this.dynamicPanel = dynamicPanel;
+		this.mainFrameWidth = mainFrameWidth;
+		this.mainFrameHeight = mainFrameHeight;
+	}
 }

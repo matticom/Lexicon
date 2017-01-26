@@ -74,7 +74,7 @@ public class TermPanelDynamic extends DynamicPanel {
 		arrangeTermButton(numbersOfSpecialties, inset);
 
 		setPreferredSize(new Dimension(mainFrameWidth, dynamicPanelHeight));
-		setMinimumSize(new Dimension(0, dynamicPanelHeight));
+		setMinimumSize(new Dimension(mainFrameWidth, dynamicPanelHeight));
 		setMaximumSize(new Dimension((int) displaySize.getWidth(), dynamicPanelHeight));
 	}
 
@@ -101,7 +101,7 @@ public class TermPanelDynamic extends DynamicPanel {
 
 	private void calculateGrid(int numbersOfButtons, int panelWidth, int inset, int buttonWidth, int buttonHeight) {
 
-		gridX = panelWidth / (buttonWidth + 2 * inset);
+		gridX = panelWidth / (buttonWidth + 2 * inset + 3);
 		gridY = numbersOfButtons / gridX;
 
 		if (numbersOfButtons % gridX != 0) {
