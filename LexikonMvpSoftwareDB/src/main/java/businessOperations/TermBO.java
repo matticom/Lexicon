@@ -56,8 +56,6 @@ public class TermBO {
 		}
 	}
 	
-	
-
 	public Specialty createSpecialty(String name, String description, int languageId) {
 
 		Languages language = languageBO.selectLanguageById(languageId);

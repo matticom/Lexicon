@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Thu Jan 26 18:54:00 CET 2017:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0159-dbe9-a720-000005113a40 
+Mon May 15 17:28:48 CEST 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-015c-0cb9-e506-000005160a60 
 on database directory memory:C:\eclipse\LexiconDB with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
 Loaded from file:/C:/Users/Matti/.m2/repository/org/apache/derby/derby/10.12.1.1/derby-10.12.1.1.jar
 java.vendor=Oracle Corporation

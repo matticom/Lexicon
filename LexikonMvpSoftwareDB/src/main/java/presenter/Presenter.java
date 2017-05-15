@@ -15,7 +15,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -33,6 +35,7 @@ import org.apache.derby.tools.ij;
 import org.dbunit.database.DatabaseConfig;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
+import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
@@ -148,7 +151,7 @@ public class Presenter {
 	
 	private LatestDynamicPanelDependencies latestDynamicPanelDependencies;
 
-	public Presenter() {
+	public Presenter() throws DataSetException, FileNotFoundException, SQLException, IOException {
 
 		initializeDataBase();
 		initializeAppSettings();
@@ -201,22 +204,10 @@ public class Presenter {
 		}
 	}
 
-	private void closeAndStoreDataBase() {
-
-		try {
-			IDataSet fullDataSet = mDBUnitConnection.createDataSet();
-			FlatXmlDataSet.write(fullDataSet, new FileOutputStream("./src/main/resources/DatenbankContent.xml"));
-
-		} catch (Exception e) {
-			System.out.println("Es wurde eine Exception beim speichern der Datenbank geworfen: " + e.getMessage());
-			e.printStackTrace();
-		}
-		try {
-			mDBUnitConnection.close();
-		} catch (SQLException e) {
-			System.out.println("Es wurde eine Exception beim Schließen der IDataConnection geworfen: " + e.getMessage());
-			e.printStackTrace();
-		}
+	private void closeAndStoreDataBase() throws SQLException, DataSetException, FileNotFoundException, IOException {
+		IDataSet fullDataSet = mDBUnitConnection.createDataSet();
+		FlatXmlDataSet.write(fullDataSet, new FileOutputStream("./src/main/resources/DatenbankContent.xml"));
+		mDBUnitConnection.close();
 		entitymanager.close();
 		emfactory.close();
 	}
@@ -319,7 +310,13 @@ public class Presenter {
 	private void initializeMenuBar() {
 
 		menuBar = new MenuBar(languageBundle);
-		menuBar.setMiExitActionListener(e -> closeApplication());
+		menuBar.setMiExitActionListener(e -> {
+			try {
+				closeApplication();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		});
 		menuBar.setMiNewActionListener(e -> openTechnicalTermCreationDialog(languageBundle, chooseSpecialtyComboBoxGerman, chooseSpecialtyComboBoxSpanish));
 		menuBar.setMiAssignActionListener(e -> openAssignmentDialog(languageBundle, assignSpecialtyComboBox));
 		menuBar.setMiHistoryActionListener(e -> deleteHistory());
@@ -365,7 +362,11 @@ public class Presenter {
 		mainFrame.setMainFrameWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				closeApplication();
+				try {
+					closeApplication();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
 			}
 		});
 		register(mainFrame);
@@ -873,7 +874,7 @@ public class Presenter {
 		}
 	}
 
-	private void closeApplication() {
+	private void closeApplication() throws DataSetException, FileNotFoundException, SQLException, IOException {
 
 		if (Queries.queryExit(languageBundle, mainFrame)) {
 			mainFrame.dispose();
@@ -882,7 +883,7 @@ public class Presenter {
 		}
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws DataSetException, FileNotFoundException, SQLException, IOException {
 		new Presenter();
 	}
 }
