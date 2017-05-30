@@ -199,7 +199,6 @@ public class Presenter {
 		try {
 			DatabaseOperation.CLEAN_INSERT.execute(mDBUnitConnection, startDataset);
 		} catch (Exception e) {
-
 			e.printStackTrace();
 		}
 	}
