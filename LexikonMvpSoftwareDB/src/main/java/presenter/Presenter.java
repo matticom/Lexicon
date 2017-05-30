@@ -212,7 +212,6 @@ public class Presenter {
 	}
 
 	private void initializeAppSettings() {
-
 		languageBundle = ResourceBundle.getBundle("languageBundles.lexikon", new Locale("de"));
 		Dimension displayResolution = Toolkit.getDefaultToolkit().getScreenSize();
 		mainFrameWidth = (int) (displayResolution.getWidth() * MAINFRAME_DISPLAY_RATIO);
@@ -226,7 +225,6 @@ public class Presenter {
 	}
 
 	private void initializeFactories() {
-
 		comboBoxFactory = new ComboBoxFactory();
 		staticPanelFactory = new StaticPanelFactory();
 		dynamicPanelFactory = new DynamicPanelFactory();
@@ -234,14 +232,12 @@ public class Presenter {
 	}
 
 	private void initializeInputChecker() {
-
 		searchWordChecker = new SearchWordChecker();
 		creationDialogChecker = new CreationDialogChecker();
 		assignmentDialogChecker = new AssignmentDialogChecker();
 	}
 
 	private void initializeComboBoxes() {
-
 		searchComboBox = (SearchComboBox) comboBoxFactory.createComboBox(ComboBoxes.SEARCH_COMBOBOX, getHistoryListFromDB(), searchWordChecker);
 		searchComboBox.setSearchComboBoxActionListener(e -> openSearchResultPanel(searchComboBox.getSearchWord()));
 		chooseSpecialtyComboBoxGerman = (ChooseSpecialtyComboBox) comboBoxFactory.createComboBox(ComboBoxes.GERMAN_SPECIALTY_COMBOBOX, languageBundle,
@@ -254,20 +250,17 @@ public class Presenter {
 	}
 
 	private void initializeActionListener() {
-
 		specialtyActionListener = new SpecialtyActionListener();
 		searchActionListener = new SearchActionListener();
 		technicalTermActionListener = new TechnicalTermActionListener();
 	}
 
 	private void initializeContentPanePanels() {
-
 		initializeDynamicPanels();
 		initializeStaticPanels();
 	}
 
 	private void initializeDynamicPanels() {
-
 		technicalTermDynamicPanel = dynamicPanelFactory.createPanel(DynamicPanels.TECHNICAL_TERM_PANEL, null, technicalTermActionListener, mainFrameWidth, mainFrameHeight,
 				"SpecialtyName", repositoryTA.selectAllTechnicalTermsOfSpecialty(3));
 
